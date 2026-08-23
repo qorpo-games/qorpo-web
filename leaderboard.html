@@ -3,12 +3,12 @@
 <title>QORPO Community Points — Leaderboard</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="QORPO Community Points — Leaderboard">
-<meta property="og:description" content="Every staked $QORPO is one Community Point. ETH + BNB combined, ranked live on-chain.">
+<meta property="og:description" content="Earn daily Community Points by your QORPO Power level. ETH + BNB combined, ranked on-chain.">
 <meta property="og:image" content="https://new.qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QORPO Community Points — Leaderboard">
 <meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
-<meta name="description" content="The $QORPO Community Points leaderboard. Every staked $QORPO is one Community Point — no multipliers. Ranked live, on-chain, on Ethereum & BNB Chain.">
+<meta name="description" content="The $QORPO Community Points leaderboard. Earn daily Community Points by your QORPO Power level. ETH + BNB combined, ranked on-chain.">
 <link rel="canonical" href="https://www.qorpo.world/community-points">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
@@ -222,7 +222,7 @@
   </section>
 
   <section class="wrap herobelow" id="board-top">
-    <p class="lead">Every <b>$QORPO</b> you stake is one <b>Community Point</b> — <b>no multipliers</b>, no tricks. Your <b>Ethereum</b> and <b>BNB Chain</b> stakes are added together into <b>one combined pool</b>. The more you stake, the higher you rank. This board is read <b>live from the chain</b>.</p>
+    <p class="lead">Stake <b>$QORPO</b> and earn <b>Community Points every day</b> by your <b>QORPO&nbsp;Power level</b> — the more you stake, the higher your level and the more you earn daily. Your <b>Ethereum</b> and <b>BNB&nbsp;Chain</b> stakes are added together into <b>one combined pool</b>, counted from the day you started.</p>
 
     <div class="toolrow">
       <div class="seg" aria-label="Combined pool">
@@ -233,10 +233,10 @@
     <div class="asof" id="asof"></div>
 
     <div class="statrow">
-      <div class="statcard"><b id="stTotal">—</b><span>Community Points staked</span></div>
+      <div class="statcard"><b id="stTotal">—</b><span>Community Points / day</span></div>
       <div class="statcard"><b id="stHolders">—</b><span>Ranked stakers</span></div>
-      <div class="statcard"><b id="stTop">—</b><span>Top holder share</span></div>
-      <div class="statcard"><b id="stYou">—</b><span>Your points</span></div>
+      <div class="statcard"><b id="stTop">—</b><span>Top share (daily)</span></div>
+      <div class="statcard"><b id="stYou">—</b><span>Your points / day</span></div>
     </div>
   </section>
 
@@ -252,7 +252,7 @@
 
     <section class="sec" style="padding-top:1.2rem">
       <div class="board" id="board">
-        <div class="thead"><span>Rank</span><span>Wallet</span><span class="r-pts">Community Points</span><span class="r-shr">Share</span></div>
+        <div class="thead"><span>Rank</span><span>Wallet</span><span class="r-pts">Community Points / day</span><span class="r-shr">Share</span></div>
         <div id="rows"><div class="state" id="state"><span class="spin"></span>Reading the chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Starting…</div></div></div>
       </div>
     </section>
@@ -264,7 +264,7 @@
         <div class="rule">
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
           <h3>Tokens = points</h3>
-          <p>1 staked $QORPO = 1 Community Point. That's the whole formula — <b style="color:#fff">no multipliers</b>, no weightings, no hidden math. Your rank is your stake.</p>
+          <p>Your stake sets your <b style="color:#fff">level</b> (see the staking table), and each level earns a fixed band of <b style="color:#fff">Community Points per day</b>. Points accrue <b style="color:#fff">every day you stay staked</b> and add up over time — counted from the day you first staked.</p>
         </div>
         <div class="rule">
           <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
@@ -278,7 +278,7 @@
         </div>
       </div>
       <div class="note" id="loyaltyNote">
-        <b>Live standing vs. loyalty points.</b> This board shows your <b>current staking power</b> straight from the chain. Separately, we're building <b>loyalty Community Points</b> that accrue daily and <b>stay with you even after you unstake</b> — that history is tracked off-chain and will appear here once the points service is live.
+        <b>Current rate vs. lifetime total.</b> Right now this board shows each wallet's <b>current daily Community Points rate</b> and level, read live from the chain. Your <b>lifetime total</b> — every point earned each day since you first staked, kept even after you unstake — is being backfilled from the day the staking contract went live, and will show here once the points service is switched on.
       </div>
     </section>
 
@@ -506,18 +506,37 @@
     }finally{ scanning=false; $('refreshBtn').disabled=false; }
   }
 
+  /* ---------- QORPO Power tiers: staked -> Daily Community Points (official table) ---------- */
+  var TIERS=[
+    {min:100,    max:1000,    apy:0,  pMin:1,    pMax:10},
+    {min:1001,   max:5000,    apy:0,  pMin:10,   pMax:50},
+    {min:5001,   max:15000,   apy:0,  pMin:50,   pMax:150},
+    {min:15001,  max:50000,   apy:15, pMin:150,  pMax:500},
+    {min:50001,  max:500000,  apy:20, pMin:500,  pMax:5000},
+    {min:500001, max:Infinity,apy:30, pMin:5000, pMax:5000}
+  ];
+  function tierOf(amt){for(var i=0;i<TIERS.length;i++){if(amt>=TIERS[i].min&&amt<=TIERS[i].max)return i;}return -1;}
+  function dailyPoints(amt){
+    var i=tierOf(amt); if(i<0)return 0; var t=TIERS[i];
+    if(t.max===Infinity){var l5=TIERS[4],slope=(l5.pMax-l5.pMin)/(l5.max-l5.min);return t.pMin+(amt-t.min)*slope;}
+    return t.pMin+(amt-t.min)/(t.max-t.min)*(t.pMax-t.pMin);
+  }
+  function humanAmt(bi){try{return parseFloat(ethers.formatUnits(bi,18))||0;}catch(e){return 0;}}
+  function ptsShort(n){if(n>=1e6)return (n/1e6).toFixed(2)+'M';if(n>=1e3)return (n/1e3).toFixed(1)+'K';return (Math.round(n*10)/10).toLocaleString('en-US');}
+  function lvltag(lvl){return lvl>0?'<span class="lvltag" style="font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;padding:.08rem .34rem;border-radius:.35rem;background:rgba(224,81,199,.16);color:#ffbdec;margin-left:.35rem;vertical-align:middle">L'+lvl+'</span>':'';}
   function ctag(txt,ttl){return '<span class="ctag" title="'+ttl+'" style="font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;padding:.08rem .3rem;border-radius:.35rem;border:1px solid rgba(255,255,255,.18);color:var(--faint,#8a8aa0);margin-left:.35rem;vertical-align:middle">'+txt+'</span>';}
   function chainTags(r){var t='';if(r.eth&&r.eth>0n)t+=ctag('ETH','Ethereum stake: '+fmtPts(r.eth)+' CP');if(r.bnb&&r.bnb>0n)t+=ctag('BNB','BNB Chain stake: '+fmtPts(r.bnb)+' CP');return t;}
-  function rowHTML(r,rk,isYou,total){
-    var share=total>0n?(Math.round(Number(r.pts*10000n/total))/100):0;
+  function rowHTML(r,rk,isYou,totalDaily){
+    var amt=humanAmt(r.pts), dp=dailyPoints(amt), lvl=tierOf(amt)+1;
+    var share=totalDaily>0?(Math.round(dp/totalDaily*10000)/100):0;
     var medal=rk<=3?'<span class="medal m'+rk+'">'+rk+'</span>':'<span style="width:1.7rem;text-align:center">'+rk+'</span>';
     return '<div class="trow'+(isYou?' you':'')+'">'+
       '<span class="rank">'+medal+'</span>'+
       '<span class="addr"><span class="ava" style="'+blockie(r.a)+'"></span>'+
         '<a href="https://etherscan.io/address/'+r.a+'" target="_blank" rel="noopener">'+short(r.a)+'</a>'+
-        chainTags(r)+
+        lvltag(lvl)+chainTags(r)+
         (isYou?'<span class="youtag">You</span>':'')+'</span>'+
-      '<span class="r-pts tnum">'+fmtPts(r.pts)+'<small>CP</small></span>'+
+      '<span class="r-pts tnum">'+ptsShort(dp)+'<small>CP/day</small></span>'+
       '<span class="r-shr tnum">'+share+'%</span>'+
     '</div>';
   }
@@ -525,21 +544,25 @@
     var b=board;
     var asof=$('asof');
     if(!b){ asof.textContent=''; return; }
-    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · Ethereum + BNB Chain (combined)';
+    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · Ethereum + BNB Chain (combined) · showing current daily rate';
+    // total daily Community Points emitted across all stakers (current rate)
+    var totalDaily=0; b.rows.forEach(function(r){totalDaily+=dailyPoints(humanAmt(r.pts));});
+    var topDaily=b.rows.length?dailyPoints(humanAmt(b.rows[0].pts)):0;
     // stats
-    $('stTotal').textContent=fmtShort(b.total);
+    $('stTotal').textContent=ptsShort(totalDaily);
     $('stHolders').textContent=b.rows.length.toLocaleString();
-    $('stTop').textContent=(b.rows.length&&b.total>0n)?(Math.round(Number(b.rows[0].pts*10000n/b.total))/100)+'%':'—';
+    $('stTop').textContent=(b.rows.length&&totalDaily>0)?(Math.round(topDaily/totalDaily*10000)/100)+'%':'—';
     var la=account?account.toLowerCase():null;
-    var myPts=(la&&myStake!=null)?myStake:(la?findPts(b,la):null);
-    $('stYou').textContent=(myPts!=null&&myPts>0n)?fmtShort(myPts):(account?'0':'—');
+    var myAmt=(la&&myStake!=null)?humanAmt(myStake):(la?humanAmt(findPts(b,la)||0n):0);
+    var myDaily=dailyPoints(myAmt), myLvl=tierOf(myAmt)+1;
+    $('stYou').textContent=(myDaily>0)?ptsShort(myDaily):(account?'0':'—');
     // your-rank card
     if(account){
       var rank=findRank(b,la);
       $('youcard').style.display='flex';
-      if(myPts!=null&&myPts>0n){
+      if(myDaily>0){
         $('youRank').textContent=rank>0?('#'+rank+' of '+b.rows.length):'Unranked';
-        $('youSub').textContent=fmtPts(myPts)+' Community Points · ETH + BNB combined';
+        $('youSub').textContent=ptsShort(myDaily)+' Community Points / day · Level '+myLvl+' · ETH + BNB combined';
       }else{
         $('youRank').textContent='Not staking yet';
         $('youSub').textContent='Stake $QORPO to appear on the board.';
@@ -550,10 +573,10 @@
     var SHOW=100, html='';
     for(var i=0;i<b.rows.length&&i<SHOW;i++){
       var r=b.rows[i], rk=i+1, isYou=(la&&r.a===la);
-      html+=rowHTML(r,rk,isYou,b.total);
+      html+=rowHTML(r,rk,isYou,totalDaily);
     }
     if(la&&findRank(b,la)>SHOW){ var rr=findRank(b,la),rw=b.rows[rr-1];
-      html+=rowHTML(rw,rr,true,b.total);
+      html+=rowHTML(rw,rr,true,totalDaily);
     }
     $('rows').innerHTML=html;
   }

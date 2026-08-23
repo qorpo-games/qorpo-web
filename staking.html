@@ -8,7 +8,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QORPO Staking">
 <meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
-<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn Community Points 1:1 (no multipliers) and APY up to 30% on Ethereum & BNB Chain.">
+<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn daily Community Points by your QORPO Power level and APY up to 30% on Ethereum & BNB Chain.">
 <link rel="canonical" href="https://www.qorpo.world/qorpo-staking">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
@@ -154,6 +154,7 @@
   .tierstable th{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.02)}
   .tierstable td{font-family:var(--mono);color:#d9d9e6;font-variant-numeric:tabular-nums}
   .tierstable td.spins{color:#fff;font-weight:700}
+  .tierstable td.pts{color:#fff;font-weight:700}
   .tierstable td.apy em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
   .tierstable tr.on{background:rgba(224,81,199,.12)}
   .tierstable tr.on td:first-child{box-shadow:inset 3px 0 0 var(--mag)}
@@ -311,7 +312,7 @@
 
   <!-- INTRO (moved below the hero render) -->
   <section class="hero-intro wrap">
-    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Earn <b>Community Points</b> 1:1 (no multipliers), or lock for <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
+    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Earn <b>daily Community Points</b> by your QORPO&nbsp;Power level, or lock for <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
     <div class="cta-row">
       <button class="btn btn-primary" id="heroConnect"><span class="diamond"></span><span id="heroConnectTxt">Connect &amp; stake</span></button>
       <a class="btn btn-glass" href="#how">How it works</a>
@@ -336,14 +337,14 @@
         <span class="pk">Holder · locked · fixed term</span>
         <h3>Holder</h3>
         <div class="big">Earn <em>Community Points + up to 30% APY</em></div>
-        <p>Lock $QORPO for a fixed term — earn Community Points 1:1 <b>plus</b> a set APY, paid straight from the on-chain contract.</p>
+        <p>Lock $QORPO for a fixed term — earn <b>daily Community Points</b> by your level <b>plus</b> a set APY, paid straight from the on-chain contract.</p>
       </button>
       <button data-pool="noapy" class="poolcard" type="button">
         <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
         <span class="pk">Trader · flexible · no lock</span>
         <h3>Trader</h3>
         <div class="big">Earn <em>Community Points</em></div>
-        <p>Stake with no lock — earn Community Points 1:1, no multipliers. Unstake any time.</p>
+        <p>Stake with no lock — earn <b>daily Community Points</b> by your level. Unstake any time.</p>
       </button>
     </div>
 
@@ -406,7 +407,7 @@
     <h2 class="bigh">Your daily spins</h2>
     <p class="lead" style="margin-top:.8rem">The more $QORPO you stake, the more <b style="color:#fff">free daily spins</b> you get in the <a href="spin.html" style="color:var(--pink)">Spin</a> game — every spin can win vouchers, NFTs or airdrop entries. Spins are valid 24h.</p>
     <div class="tiers"><div class="tw"><table class="tierstable" id="tiersTable">
-      <thead><tr><th>Level</th><th>$QORPO staked</th><th>Daily spins</th><th>APY</th></tr></thead>
+      <thead><tr><th>Level</th><th>$QORPO staked</th><th>Daily Community Points 💎</th><th>APY</th><th>Daily spins</th></tr></thead>
       <tbody id="tiersBody"></tbody>
     </table></div></div>
   </section>
@@ -415,7 +416,7 @@
   <section class="sec wrap reveal" id="earn">
     <p class="kicker">What you earn</p>
     <h2 class="bigh">Two rewards, one simple rule</h2>
-    <p class="lead" style="margin-top:.8rem">Staking earns you <b style="color:#fff">Community Points</b> — and the amount is simply how much you stake. <b style="color:#fff">No multipliers.</b> Lock in the APY pool and you also earn extra $QORPO on top.</p>
+    <p class="lead" style="margin-top:.8rem">Staking earns you <b style="color:#fff">Community Points every day</b> — the more you stake, the higher your level and the more points you earn daily (see the table above). Lock in the APY pool and you also earn extra $QORPO on top.</p>
     <div class="earn">
       <div class="e">
         <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
@@ -449,7 +450,7 @@
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
         <h3>Two ways to earn</h3>
-        <p>The <b>Holder</b> pool pays a fixed rate for a locked term. The <b>Trader</b> pool is flexible with no lock. Both earn Community Points 1:1 — no multipliers.</p>
+        <p>The <b>Holder</b> pool pays a fixed rate for a locked term. The <b>Trader</b> pool is flexible with no lock. Both earn <b>daily Community Points</b> by your staking level.</p>
       </div>
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -692,7 +693,8 @@
   function openConfirm(amount){
     pendingAmount=amount;
     var rows='', warn='', good='';
-    var pts=fmt(amount)+' Community Points';
+    var _amtNum=0;try{_amtNum=parseFloat(ethers.formatUnits(amount,18))||0;}catch(e){}
+    var pts=ptsFmt(dailyPoints(_amtNum))+' Community Points/day';
     if(pool==='apy'){
       var ti=tierByIdx(tier)||{apy:0,duration:0};
       var unlock=ti.duration>0?nowSec()+ti.duration:0;
@@ -702,16 +704,16 @@
       rows+=crow('APY rate',ti.apy+'% per year');
       rows+=crow('Lock',ti.duration>0?daysOf(ti.duration):'—');
       if(unlock)rows+=crow('Unlocks','<em>'+fmtDate(unlock)+'</em>');
-      rows+=crow('Community Points',pts+' <span style="color:var(--faint)">(1:1)</span>');
-      good='<b>You earn two things:</b> '+pts+' (no multipliers) — plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
+      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'—')+')</span>');
+      good='<b>You earn two things:</b> '+pts+', accruing daily by your level — plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
       warn='<b>Locked until '+(unlock?fmtDate(unlock):'the term ends')+'.</b> Exiting early isn’t a normal unstake — it uses the contract’s emergency withdrawal, which <b>forfeits the APY bonus</b> and applies an on-chain <b>early-exit penalty<span id="cmPen"></span></b> to your principal. Hold to the unlock date to withdraw your full stake <b>plus</b> rewards.';
     }else{
       rows+=crow('Pool','Trader · flexible');
       rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
       rows+=crow('Lock','None — unstake any time');
       rows+=crow('APY','None (bonus is APY-pool only)');
-      rows+=crow('Community Points',pts+' <span style="color:var(--faint)">(1:1)</span>');
-      good='<b>You earn '+pts+'</b> — 1:1 with no multipliers, and you can unstake whenever you like.';
+      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'—')+')</span>');
+      good='<b>You earn '+pts+'</b>, accruing daily for as long as you stay staked — and you can unstake whenever you like.';
     }
     $('cmRows').innerHTML=rows;
     $('cmGood').innerHTML=good;
@@ -779,22 +781,35 @@
   $('chainSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;chainId=parseInt(b.dataset.chain);syncChainSeg();refresh();});
   $('maxBtn').addEventListener('click',function(){if(window._bal)$('amt').value=ethers.formatUnits(window._bal,18);updateSpinCalc();});
 
-  // ---- daily-spin tiers (staking power -> free daily spins) ----
+  // ---- QORPO Power tiers (staked -> Daily Diamond Points, APY, free daily spins) ----
+  // Matches the official "QORPO Power · Staking · Rewards" table.
   var SPIN_TIERS=[
-    {min:100,     max:1000,     spins:1,  apy:0},
-    {min:1001,    max:5000,     spins:2,  apy:0},
-    {min:5001,    max:15000,    spins:3,  apy:0},
-    {min:15001,   max:50000,    spins:4,  apy:15},
-    {min:50001,   max:500000,   spins:5,  apy:30},
-    {min:500001,  max:Infinity, spins:10, apy:30}
+    {min:100,     max:1000,     spins:1,  apy:0,  pMin:1,    pMax:10},
+    {min:1001,    max:5000,     spins:2,  apy:0,  pMin:10,   pMax:50},
+    {min:5001,    max:15000,    spins:3,  apy:0,  pMin:50,   pMax:150},
+    {min:15001,   max:50000,    spins:4,  apy:15, pMin:150,  pMax:500},
+    {min:50001,   max:500000,   spins:5,  apy:20, pMin:500,  pMax:5000},
+    {min:500001,  max:Infinity, spins:10, apy:30, pMin:5000, pMax:5000}
   ];
   function nfmt(n){return n>=1e6?(n/1e6).toLocaleString('en-US',{maximumFractionDigits:1})+'M':n.toLocaleString('en-US');}
   function tierOf(amt){for(var i=0;i<SPIN_TIERS.length;i++){if(amt>=SPIN_TIERS[i].min&&amt<=SPIN_TIERS[i].max)return i;}return -1;}
+  // Daily Diamond Points earned per day at a given staked amount (piecewise-linear inside each level).
+  function dailyPoints(amt){
+    var i=tierOf(amt); if(i<0)return 0;
+    var t=SPIN_TIERS[i];
+    if(t.max===Infinity){ // L6: open-ended, continue at L5's marginal per-token rate
+      var l5=SPIN_TIERS[4], slope=(l5.pMax-l5.pMin)/(l5.max-l5.min);
+      return t.pMin+(amt-t.min)*slope;
+    }
+    return t.pMin+(amt-t.min)/(t.max-t.min)*(t.pMax-t.pMin);
+  }
+  function ptsFmt(n){return n>=1000?Math.round(n).toLocaleString('en-US'):(Math.round(n*10)/10).toLocaleString('en-US');}
   function buildTiersTable(){
     var b=$('tiersBody');if(!b)return;
     b.innerHTML=SPIN_TIERS.map(function(t,i){
       var range=t.max===Infinity?(nfmt(t.min-1)+'+'):(nfmt(t.min)+' – '+nfmt(t.max));
-      return '<tr data-lvl="'+i+'"><td>L'+(i+1)+'</td><td>'+range+'</td><td class="spins">'+t.spins+(t.spins===1?' spin':' spins')+'</td><td class="apy">'+(t.apy?'<em>'+t.apy+'%</em>':'—')+'</td></tr>';
+      var pts=t.max===Infinity?(nfmt(t.pMin)+'+'):(nfmt(t.pMin)+' – '+nfmt(t.pMax));
+      return '<tr data-lvl="'+i+'"><td>L'+(i+1)+'</td><td>'+range+'</td><td class="pts">'+pts+'</td><td class="apy">'+(t.apy?'<em>'+t.apy+'%</em>':'—')+'</td><td class="spins">'+t.spins+(t.spins===1?' spin':' spins')+'</td></tr>';
     }).join('');
   }
   function updateSpinCalc(){
@@ -811,7 +826,7 @@
     var t=SPIN_TIERS[idx];
     var next=SPIN_TIERS[idx+1];
     var nextLine=next?('<span class="sc-next">+'+nfmt(Math.ceil(next.min-v))+' $QORPO → '+next.spins+' daily spins'+(next.apy&&!t.apy?' & '+next.apy+'% APY':(next.apy>t.apy?' & '+next.apy+'% APY':''))+'</span>'):'<span class="sc-next">Max tier reached 🎉</span>';
-    el.innerHTML='<span class="sc-ic">🎡</span><span>≈ <b class="sc-b">'+t.spins+' daily '+(t.spins===1?'spin':'spins')+'</b>'+(t.apy?' · <b class="sc-b">'+t.apy+'% APY</b>':'')+' at this stake.'+nextLine+'</span>';
+    el.innerHTML='<span class="sc-ic">💎</span><span>≈ <b class="sc-b">'+ptsFmt(dailyPoints(v))+' Community Points / day</b> · <b class="sc-b">'+t.spins+' daily '+(t.spins===1?'spin':'spins')+'</b>'+(t.apy?' · <b class="sc-b">'+t.apy+'% APY</b>':'')+' at this stake.'+nextLine+'</span>';
   }
   $('amt').addEventListener('input',updateSpinCalc);
   buildTiersTable();

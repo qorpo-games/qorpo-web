@@ -105,7 +105,7 @@
   /* HERO (fullscreen video) */
   .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:6rem 1.5rem 3.4rem;overflow:hidden}
   .hero-media{position:absolute;inset:0;z-index:0}
-  .hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+  .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 32%;display:block}
   .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.58) 0%,rgba(6,6,11,.12) 22%,rgba(6,6,11,.14) 46%,rgba(6,6,11,.72) 76%,rgba(6,6,11,.98) 100%)}
   .hero-inner{position:relative;z-index:2;width:100%;max-width:46rem;margin:0 auto}
   .hero .eyebrow{color:var(--pink)}
@@ -362,7 +362,7 @@
 <main>
   <section class="hero" id="hero">
     <div class="hero-media">
-      <video src="./assets/hero-loop.mp4" autoplay muted loop playsinline preload="auto"></video>
+      <img src="./assets/hero-bear.jpg" alt="QORPO">
     </div>
     <div class="hero-inner">
     <p class="eyebrow"><span class="dmark"></span>$QORPO · Games · AI · Entertainment</p>
@@ -469,7 +469,7 @@
     <p class="kicker">Built on $QORPO</p>
     <h2 class="bigh">Utility you use today</h2>
     <div class="objs">
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn Community Points 1:1 (no multipliers), or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking.html">Open Staking</a></div></div>
+      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn daily Community Points by your QORPO Power level, or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking.html">Open Staking</a></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103722_eddb6c75-4479-4015-a28b-dc5560263363.png" alt=""></div><h3>Trade anywhere</h3><p>$QORPO is live on MEXC, KuCoin and Gate — easy to enter, easy to hold.</p><div class="act"><div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103720_4cb10d81-a9e9-42d7-953b-3df42c3a503a.png" alt=""></div><h3>Own the ecosystem</h3><p>Games, on-chain collectibles and an animated series — every drop routes value back to the token.</p><div class="act"><a class="btn btn-text arrow" href="#eco">See ecosystem</a></div></div>
     </div>
