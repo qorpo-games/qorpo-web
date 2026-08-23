@@ -66,6 +66,13 @@
   .wc:hover{background:rgba(255,255,255,.09)}
   .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
   .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
+  .wc.on::after{content:"▾";margin-left:.15rem;opacity:.6;font-size:.7rem}
+  .wcwrap{position:relative}
+  .wc-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:11rem;background:rgba(18,18,26,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:.8rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);padding:.35rem;display:none;flex-direction:column;z-index:95}
+  .wc-menu.open{display:flex}
+  .wc-menu button{background:none;border:0;color:#eaeaf3;font-family:var(--body);font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
+  .wc-menu button:hover{background:rgba(255,255,255,.08)}
+  .wc-menu button.disc{color:#ff8fb0}
   .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
 
   /* HERO */
@@ -224,7 +231,13 @@
     <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
     <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html" class="active">Staking</a><a href="bridge.html">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
-    <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+    <div class="wcwrap">
+      <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+      <div class="wc-menu" id="wcMenu">
+        <button id="wcCopy" type="button">Copy address</button>
+        <button id="wcDisc" class="disc" type="button">Disconnect</button>
+      </div>
+    </div>
     <button class="burger" id="burger">≡</button>
   </nav>
 </header>
@@ -399,11 +412,18 @@
 
   function pickInjected(){ if(okx) return okx; if(eth) return eth; return null; }
 
+  function bindWalletEvents(inj){
+    if(!inj||inj._qbound)return; inj._qbound=true;
+    inj.on&&inj.on('accountsChanged',function(a){ if(a&&a[0]){account=a[0];setConnected();refresh();}else{disconnect();} });
+    // Re-init on chain change WITHOUT reloading — a reload here would interrupt the approve→stake flow.
+    inj.on&&inj.on('chainChanged',function(){ try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;}).catch(function(){});}catch(e){} refresh(); });
+  }
   async function connect(){
     var inj=pickInjected();
     if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');return;}
     try{
       var accs=await inj.request({method:'eth_requestAccounts'});
+      if(!accs||!accs[0]){toast('No account selected.');return;}
       account=accs[0];
       provider=new ethers.BrowserProvider(inj);
       signer=await provider.getSigner();
@@ -411,13 +431,34 @@
       var cid=Number(net.chainId);
       if(CHAINS[cid]) chainId=cid;
       syncChainSeg();
-      inj.on&&inj.on('accountsChanged',function(a){account=a[0]||null;a[0]?refresh():disconnect();});
-      inj.on&&inj.on('chainChanged',function(){location.reload();});
+      bindWalletEvents(inj);
       setConnected();
       refresh();
     }catch(e){toast('Connection cancelled.');}
   }
-  function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';$('mainTxt').textContent='Connect Wallet';setHero();$('positions').innerHTML='<div class="empty">Connect your wallet to see your stakes.</div>';}
+  // silently restore an already-authorized wallet after a reload (no popup)
+  async function tryEager(){
+    var inj=pickInjected(); if(!inj)return;
+    try{
+      var accs=await inj.request({method:'eth_accounts'});
+      if(accs&&accs[0]){
+        account=accs[0];
+        provider=new ethers.BrowserProvider(inj);
+        signer=await provider.getSigner();
+        var net=await provider.getNetwork();var cid=Number(net.chainId);
+        if(CHAINS[cid]) chainId=cid;
+        syncChainSeg(); bindWalletEvents(inj); setConnected(); refresh();
+      }
+    }catch(e){}
+  }
+  function closeWcMenu(){var m=$('wcMenu');if(m)m.classList.remove('open');}
+  function disconnect(){
+    account=null;signer=null;provider=null;
+    $('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';
+    $('mainTxt').textContent='Connect Wallet';setHero();closeWcMenu();
+    $('positions').innerHTML='<div class="empty">Connect your wallet to see your stakes.</div>';
+    try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
+  }
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);updateMainBtn();setHero();}
   function setHero(){var h=$('heroConnectTxt');if(h)h.textContent=account?'Go to staking':'Connect & stake';}
 
@@ -531,17 +572,19 @@
       var token=new ethers.Contract(TOKEN,ERC20,signer);
       var allowance=await token.allowance(account,STAKING[chainId]);
       if(allowance<amount){
-        toast('Approve $QORPO in your wallet…');
+        toast('Step 1 of 2 — approve $QORPO in your wallet…',6000);
         var ap=await token.approve(STAKING[chainId],amount);
         await ap.wait();
+        toast('Approved ✓ — now confirm the <b>STAKE</b> (2nd wallet prompt)…',6000);
       }
       var s=new ethers.Contract(STAKING[chainId],STAKE_ABI,signer);
-      toast('Confirm the stake in your wallet…');
+      toast('Confirm the <b>stake</b> in your wallet…',6000);
       var tx = pool==='apy' ? await s.stakeWithApy(tier,amount) : await s.stakeWithNoApy(amount);
       toast('Staking… <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">view tx ↗</a>');
       await tx.wait();
-      toast('✅ Staked '+fmt(amount)+' $QORPO. <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">receipt ↗</a>',7000);
-      $('amt').value='';refresh();
+      toast('✅ Staked '+fmt(amount)+' $QORPO. <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">receipt ↗</a>',8000);
+      $('amt').value='';
+      refresh(); setTimeout(refresh,4000); setTimeout(refresh,12000); // give the RPC node time to reflect the new stake
     }catch(e){toast('Transaction failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));console.log(e);}
     b.disabled=false;
   }
@@ -567,11 +610,15 @@
   $('poolSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.remove('on');});b.classList.add('on');pool=b.dataset.pool;refresh();});
   $('chainSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;chainId=parseInt(b.dataset.chain);syncChainSeg();refresh();});
   $('maxBtn').addEventListener('click',function(){if(window._bal)$('amt').value=ethers.formatUnits(window._bal,18);});
-  $('wcBtn').addEventListener('click',function(){account?refresh():connect();});
+  $('wcBtn').addEventListener('click',function(e){ if(account){e.stopPropagation();var m=$('wcMenu');if(m)m.classList.toggle('open');} else {connect();} });
+  var wcc=$('wcCopy');if(wcc)wcc.addEventListener('click',function(){ if(account&&navigator.clipboard){navigator.clipboard.writeText(account).then(function(){toast('Address copied ✓',1600);}).catch(function(){}); } closeWcMenu(); });
+  var wcd=$('wcDisc');if(wcd)wcd.addEventListener('click',function(){ disconnect();toast('Wallet disconnected.',2200); });
+  document.addEventListener('click',function(){closeWcMenu();});
   $('mainBtn').addEventListener('click',doStake);
   var hc=$('heroConnect');if(hc)hc.addEventListener('click',function(){if(account){$('app').scrollIntoView({behavior:'smooth'});}else{connect();}});
 
-  refresh(); // initial read (tiers, overview) without wallet
+  refresh();     // initial read (tiers, overview) without wallet
+  tryEager();    // silently restore an already-connected wallet (fixes "Connect Wallet" showing after a reload)
 
   // starfield
   (function(){var c=$('stars'),x=c.getContext('2d'),w,h,st=[];

@@ -65,6 +65,13 @@
   .wc:hover{background:rgba(255,255,255,.09)}
   .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
   .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
+  .wc.on::after{content:"▾";margin-left:.15rem;opacity:.6;font-size:.7rem}
+  .wcwrap{position:relative}
+  .wc-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:11rem;background:rgba(18,18,26,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:.8rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);padding:.35rem;display:none;flex-direction:column;z-index:95}
+  .wc-menu.open{display:flex}
+  .wc-menu button{background:none;border:0;color:#eaeaf3;font-family:var(--body);font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
+  .wc-menu button:hover{background:rgba(255,255,255,.08)}
+  .wc-menu button.disc{color:#ff8fb0}
   .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
 
   /* HERO */
@@ -206,7 +213,13 @@
     <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
     <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html">Staking</a><a href="bridge.html" class="active">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
-    <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+    <div class="wcwrap">
+      <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+      <div class="wc-menu" id="wcMenu">
+        <button id="wcCopy" type="button">Copy address</button>
+        <button id="wcDisc" class="disc" type="button">Disconnect</button>
+      </div>
+    </div>
     <button class="burger" id="burger">≡</button>
   </nav>
 </header>
@@ -373,22 +386,44 @@
   }
   function flip(){var t=fromId;fromId=toId;toId=t;paintDirection();$('bBal').textContent='—';balRaw=0n;if(account)loadBalance();estimate();}
 
+  function bindWalletEvents(inj){
+    if(!inj||inj._qbound)return; inj._qbound=true;
+    inj.on&&inj.on('accountsChanged',function(a){ if(a&&a[0]){account=a[0];setConnected();loadBalance();estimate();}else{disconnect();} });
+    // Re-init on chain change WITHOUT reloading (a reload would interrupt an in-flight bridge send).
+    inj.on&&inj.on('chainChanged',function(){ try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;}).catch(function(){});}catch(e){} loadBalance();estimate(); });
+  }
   async function connect(){
     var inj=pickInjected();
     if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');return;}
     try{
       var accs=await inj.request({method:'eth_requestAccounts'});
+      if(!accs||!accs[0]){toast('No account selected.');return;}
       account=accs[0];
       provider=new ethers.BrowserProvider(inj);
       signer=await provider.getSigner();
       var net=await provider.getNetwork();var cid=Number(net.chainId);
       if(CH[cid]){fromId=cid;toId=(cid===1?56:1);paintDirection();}
-      inj.on&&inj.on('accountsChanged',function(a){account=a[0]||null;a[0]?(setConnected(),loadBalance(),estimate()):disconnect();});
-      inj.on&&inj.on('chainChanged',function(){location.reload();});
+      bindWalletEvents(inj);
       setConnected();loadBalance();estimate();
     }catch(e){toast('Connection cancelled.');}
   }
-  function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';setMain();setHero();$('bBal').textContent='—';}
+  async function tryEager(){
+    var inj=pickInjected(); if(!inj)return;
+    try{
+      var accs=await inj.request({method:'eth_accounts'});
+      if(accs&&accs[0]){
+        account=accs[0];
+        provider=new ethers.BrowserProvider(inj);
+        signer=await provider.getSigner();
+        var net=await provider.getNetwork();var cid=Number(net.chainId);
+        if(CH[cid]){fromId=cid;toId=(cid===1?56:1);paintDirection();}
+        bindWalletEvents(inj);setConnected();loadBalance();estimate();
+      }
+    }catch(e){}
+  }
+  function closeWcMenu(){var m=$('wcMenu');if(m)m.classList.remove('open');}
+  function disconnect(){account=null;signer=null;provider=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';setMain();setHero();closeWcMenu();$('bBal').textContent='—';
+    try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}}
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);setMain();setHero();}
   function setHero(){var h=$('heroConnectTxt');if(h)h.textContent=account?'Go to bridge':'Connect & bridge';}
   function setMain(){var t=$('mainTxt');t.textContent=account?'Bridge to '+CH[toId].name:'Connect Wallet';}
@@ -462,11 +497,14 @@
   $('rhtoggle').addEventListener('click',flip);
   $('amt').addEventListener('input',estimate);
   $('maxBtn').addEventListener('click',function(){if(balRaw>0n){$('amt').value=ethers.formatUnits(floorDust(balRaw),18);estimate();}});
-  $('wcBtn').addEventListener('click',function(){account?loadBalance():connect();});
+  $('wcBtn').addEventListener('click',function(e){ if(account){e.stopPropagation();var m=$('wcMenu');if(m)m.classList.toggle('open');} else {connect();} });
+  var wcc=$('wcCopy');if(wcc)wcc.addEventListener('click',function(){ if(account&&navigator.clipboard){navigator.clipboard.writeText(account).then(function(){toast('Address copied ✓',1600);}).catch(function(){}); } closeWcMenu(); });
+  var wcd=$('wcDisc');if(wcd)wcd.addEventListener('click',function(){ disconnect();toast('Wallet disconnected.',2200); });
+  document.addEventListener('click',function(){closeWcMenu();});
   $('mainBtn').addEventListener('click',doBridge);
   var hc=$('heroConnect');if(hc)hc.addEventListener('click',function(){account?$('app').scrollIntoView({behavior:'smooth'}):connect();});
 
-  paintDirection();estimate();
+  paintDirection();estimate();tryEager();
 
   // starfield
   (function(){var c=$('stars'),x=c.getContext('2d'),w,h,st=[];

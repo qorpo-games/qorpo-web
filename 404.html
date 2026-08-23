@@ -1,0 +1,52 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QORPO — Page moved</title>
+<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  :root{--bg:#06060b;--grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%)}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100svh;display:grid;place-items:center;background:var(--bg);color:#fff;font-family:"Inter",system-ui,sans-serif;text-align:center;
+    background-image:radial-gradient(40rem 30rem at 80% 0,rgba(224,81,199,.18),transparent 60%),radial-gradient(40rem 30rem at 10% 100%,rgba(123,90,240,.15),transparent 60%)}
+  .box{padding:2rem 1.5rem;max-width:32rem}
+  img.mk{width:4rem;height:4rem;object-fit:contain;filter:drop-shadow(0 8px 26px rgba(224,81,199,.7))}
+  h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;letter-spacing:-.03em;margin:1.2rem 0 .4rem}
+  p{color:#b4b4c9;margin:0 0 1.4rem}
+  .mono{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:#9292a8}
+  a.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--grad);color:#fff;font-weight:700;text-decoration:none;padding:.75rem 1.4rem;border-radius:2.4rem;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
+</style>
+<div class="box">
+  <img class="mk" src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">
+  <h1 id="h">Taking you there…</h1>
+  <p id="sub">Redirecting to the right page.</p>
+  <a class="btn" href="/">Go to QORPO home</a>
+</div>
+<script>
+(function(){
+  var path=location.pathname.replace(/\/+$/,'');
+  var search=location.search||'';
+  var seg=path.split('/').filter(Boolean);
+  var map={
+    'qorpo-staking':'/staking.html',
+    'staking':'/staking.html',
+    'bridge':'/bridge.html',
+    'qorpo-bridge':'/bridge.html',
+    'ecosystem':'/ecosystem.html',
+    'token':'/token.html',
+    'why-qorpo':'/token.html'
+  };
+  var dest=null;
+  if(seg.length===1 && map[seg[0]]) dest=map[seg[0]];
+  else if(seg[0]==='blog'){
+    if(seg.length>=2) dest='/blog.html?slug='+encodeURIComponent(seg[1]);
+    else dest='/#news';
+  }
+  if(dest){ location.replace(dest+(dest.indexOf('?')<0?search:'')); }
+  else {
+    // genuine 404 — show a friendly message instead of an auto-redirect
+    var h=document.getElementById('h'), s=document.getElementById('sub');
+    if(h)h.textContent='Page not found';
+    if(s)s.textContent='That page has moved or no longer exists. Head back to the QORPO home.';
+  }
+})();
+</script>
