@@ -164,6 +164,18 @@
   function qs(k){return new URLSearchParams(location.search).get(k);}
   function fdate(s){try{return new Date(s).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}catch(e){return '';}}
   function loadImg(url,onok){if(!url)return;var im=new Image();im.onload=function(){onok(im);};im.src=url;}
+  // Safety net: the live CMS still generates image URLs against a stale host
+  // (blog.playontoy.com) because its APP_URL is misconfigured. All CMS images
+  // are actually served from the same host as the API, so normalize the host.
+  var IMG_HOST='https://blog.tamitos.com';
+  function fixImg(u){
+    if(!u||typeof u!=='string')return u;
+    try{
+      if(/^https?:\/\//i.test(u)){var a=document.createElement('a');a.href=u;return IMG_HOST+a.pathname+(a.search||'');}
+      if(u.charAt(0)==='/')return IMG_HOST+u;
+      return u;
+    }catch(e){return u;}
+  }
 
   function stateHtml(title,msg){return '<div class="state"><h2>'+esc(title)+'</h2><p>'+esc(msg)+'</p><div class="st-cta"><a class="btn btn-glass" href="index.html">← Back to QORPO</a></div></div>';}
 
@@ -172,7 +184,7 @@
     var author = (p.blog_author&&p.blog_author.name) || '';
     var date = p.published_at ? fdate(p.published_at) : '';
     var rt = p.reading_time ? (p.reading_time+' min read') : '';
-    var feat = (p.feature_image&&p.feature_image.url) || (p.thumbnail_image&&p.thumbnail_image.url) || '';
+    var feat = fixImg((p.feature_image&&p.feature_image.url) || (p.thumbnail_image&&p.thumbnail_image.url) || '');
     var lead = (p.annotation&&typeof p.annotation==='string') ? p.annotation : '';
     var metaBits=[];
     if(date) metaBits.push('<span>'+esc(date)+'</span>');
@@ -185,7 +197,7 @@
       var out='';
       if(a.title && typeof a.title==='string' && a.title.trim()) out+='<h2>'+esc(a.title)+'</h2>';
       if(a.text && typeof a.text==='string') out+=a.text;            // CMS-provided HTML
-      if(a.image && a.image.url) out+='<figure class="bimg" data-src="'+esc(a.image.url)+'"></figure>';
+      if(a.image && a.image.url) out+='<figure class="bimg" data-src="'+esc(fixImg(a.image.url))+'"></figure>';
       return out ? '<section class="block">'+out+'</section>' : '';
     }).join('');
     if(!body && lead) body='<section class="block"><p>'+esc(lead)+'</p></section>';

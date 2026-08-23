@@ -1,12 +1,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QORPO Staking — Stake $QORPO for Power &amp; APY</title>
-<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Power multipliers up to 25× and APY up to 30% on Ethereum & BNB Chain.">
+<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn Community Points 1:1 (no multipliers) and APY up to 30% on Ethereum & BNB Chain.">
 <link rel="canonical" href="https://www.qorpo.world/qorpo-staking">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <meta property="og:title" content="QORPO Staking — Stake $QORPO for Power & APY">
-<meta property="og:description" content="Non-custodial $QORPO staking. Power up to 25× or APY up to 30%, on Ethereum & BNB Chain.">
+<meta property="og:description" content="Non-custodial $QORPO staking. Earn Community Points 1:1 or APY up to 30%, on Ethereum & BNB Chain.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,9 +76,21 @@
   .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
 
   /* HERO */
-  .hero{position:relative;padding:4.2rem 1.5rem 2rem;text-align:center;display:flex;flex-direction:column;align-items:center}
-  .hero h1{font-size:clamp(2.5rem,6.4vw,4.6rem);letter-spacing:-.04em;font-weight:900;line-height:.98;margin:.5rem auto 0;max-width:15ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lead{font-size:clamp(1.02rem,1.8vw,1.28rem);color:var(--muted);max-width:40rem;margin:.9rem auto 0;font-weight:400}
+  /* hero — fullscreen render */
+  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:5.5rem 1.5rem 2rem;overflow:hidden;background:#06060b}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.28) 0%,rgba(6,6,11,0) 30%,rgba(6,6,11,.5) 66%,rgba(6,6,11,.98) 100%)}
+  .hero-inner{position:relative;z-index:1;width:100%;max-width:52rem;margin:0 auto}
+  .hero h1{font-size:clamp(1.5rem,3.2vw,2.6rem);letter-spacing:-.035em;font-weight:900;line-height:1;margin:.4rem auto 0;max-width:16ch;color:#fff;text-shadow:0 2px 34px rgba(0,0,0,.75)}
+  .hero .scrollcue{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+  @media (prefers-reduced-motion:reduce){.hero .scrollcue{animation:none}}
+  /* intro block moved below the render */
+  .hero-intro{text-align:center;padding:2.8rem 1.5rem 0;display:flex;flex-direction:column;align-items:center}
+  .hero-intro .lead{font-size:clamp(1.02rem,1.8vw,1.28rem);color:var(--muted);max-width:42rem;margin:0 auto;font-weight:400}
+  .hero-intro .lead b{color:#fff}
+  .hero-intro .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
   .hero .lead b{color:#fff;font-weight:700}
   .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
   .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:2.4rem auto 0;max-width:54rem;width:100%}
@@ -126,6 +138,32 @@
   .amount .max{font-family:var(--mono);font-size:.7rem;font-weight:600;color:#7aa2ff;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.25);border-radius:.5rem;padding:.32rem .55rem;cursor:pointer}
   .actions{margin-top:1.1rem}
   .note{margin-top:1rem;font-size:.8rem;color:var(--muted);background:rgba(224,81,199,.08);border:1px solid rgba(224,81,199,.28);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
+  /* reward-model explainer */
+  .earn{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+  .earn .e{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.3rem}
+  .earn .e .ei{width:2.2rem;height:2.2rem;border-radius:.6rem;background:rgba(224,81,199,.14);display:grid;place-items:center;margin-bottom:.7rem}
+  .earn .e .ei svg{width:1.1rem;height:1.1rem;stroke:var(--pink);fill:none;stroke-width:1.8}
+  .earn .e h3{font-size:1rem}
+  .earn .e p{color:var(--muted);font-size:.88rem;margin-top:.35rem}
+  .earn .e a{color:var(--pink);font-weight:600}
+  @media(max-width:760px){.earn{grid-template-columns:1fr}}
+  /* confirm modal */
+  .cmodal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(4,4,9,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .cmodal.open{display:flex}
+  .cbox{width:100%;max-width:30rem;background:linear-gradient(180deg,#14141d,#0d0d15);border:1px solid var(--card-bd);border-radius:1.2rem;box-shadow:0 40px 90px -30px rgba(0,0,0,.95);padding:1.5rem;max-height:92vh;overflow:auto}
+  .cbox h3{font-size:1.25rem;display:flex;align-items:center;gap:.5rem}
+  .cbox .csub{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+  .crows{margin-top:1.1rem;border:1px solid var(--line2);border-radius:.9rem;overflow:hidden}
+  .crow{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .95rem;border-bottom:1px solid var(--line2);font-size:.9rem}
+  .crow:last-child{border-bottom:0}
+  .crow .ck{color:var(--faint)} .crow .cv{font-family:var(--mono);font-weight:600;text-align:right}
+  .crow .cv em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cwarn{margin-top:1rem;font-size:.82rem;color:#ffd9e6;background:rgba(240,90,90,.10);border:1px solid rgba(255,120,120,.35);border-radius:.7rem;padding:.75rem .9rem;line-height:1.5}
+  .cwarn b{color:#fff}
+  .cgood{margin-top:.8rem;font-size:.82rem;color:#c9f5e4;background:rgba(56,211,159,.10);border:1px solid rgba(56,211,159,.3);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
+  .cact{display:flex;gap:.7rem;margin-top:1.3rem}
+  .cact .btn{flex:1}
+  .cclose{margin-left:auto;background:none;border:0;color:var(--faint);font-size:1.3rem;cursor:pointer;line-height:1}
 
   .ov h2{font-size:1.4rem;margin-bottom:.3rem}
   .ov .intro{color:var(--muted);font-size:.92rem;margin-bottom:.4rem}
@@ -229,7 +267,7 @@
 <header>
   <nav class="nav">
     <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html" class="active">Staking</a><a href="bridge.html">Bridge</a></div>
+    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html" class="active">Staking</a><a href="leaderboard.html">Leaderboard</a><a href="spin.html">Spin</a><a href="bridge.html">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
     <div class="wcwrap">
       <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
@@ -244,18 +282,24 @@
 
 <main>
   <section class="hero" id="hero">
-    <img class="funi" data-i="dollarcoin" style="right:12%;top:14%;width:2.7rem" alt="">
-    <img class="funi" data-i="lightning" style="left:11%;top:26%;width:2.2rem" alt="">
-    <p class="eyebrow"><span class="dmark"></span>$QORPO · Staking</p>
-    <h1>Put your $QORPO to&nbsp;work.</h1>
-    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Lock for <b>Power up to 25×</b>, or earn <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
+    <div class="hero-media"><img src="assets/staking-hero.jpg" alt="QORPO staking key art"></div>
+    <div class="hero-inner">
+      <p class="eyebrow"><span class="dmark"></span>$QORPO · Staking</p>
+      <h1>Put your $QORPO to&nbsp;work.</h1>
+    </div>
+    <a class="scrollcue" href="#app" aria-label="Scroll down">↓</a>
+  </section>
+
+  <!-- INTRO (moved below the hero render) -->
+  <section class="hero-intro wrap">
+    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Earn <b>Community Points</b> 1:1 (no multipliers), or lock for <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
     <div class="cta-row">
       <button class="btn btn-primary" id="heroConnect"><span class="diamond"></span><span id="heroConnectTxt">Connect &amp; stake</span></button>
       <a class="btn btn-glass" href="#how">How it works</a>
     </div>
     <div class="statrow">
       <div class="statcard"><b>up to 30%</b><span>APY tiers</span></div>
-      <div class="statcard"><b>up to 25×</b><span>Power multiplier</span></div>
+      <div class="statcard"><b>1 : 1</b><span>$QORPO → Community Points</span></div>
       <div class="statcard"><b>0 hacks</b><span>in 6 years building</span></div>
       <div class="statcard"><b>100%</b><span>non-custodial</span></div>
     </div>
@@ -279,8 +323,8 @@
         <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
         <span class="pk">Flexible · no lock</span>
         <h3>Power staking</h3>
-        <div class="big">Build <em>up to 25× Power</em></div>
-        <p>Stake with no lock-up to earn Power for ecosystem rewards. Unstake any time.</p>
+        <div class="big">Earn <em>Community Points</em></div>
+        <p>Stake with no lock to earn Community Points 1:1 — no multipliers. Unstake any time.</p>
       </button>
     </div>
 
@@ -335,6 +379,30 @@
     </div>
   </section>
 
+  <!-- WHAT YOU EARN -->
+  <section class="sec wrap reveal" id="earn">
+    <p class="kicker">What you earn</p>
+    <h2 class="bigh">Two rewards, one simple rule</h2>
+    <p class="lead" style="margin-top:.8rem">Staking earns you <b style="color:#fff">Community Points</b> — and the amount is simply how much you stake. <b style="color:#fff">No multipliers.</b> Lock in the APY pool and you also earn extra $QORPO on top.</p>
+    <div class="earn">
+      <div class="e">
+        <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+        <h3>Community Points = your stake</h3>
+        <p>Every staked $QORPO is one Community Point. That's the whole formula — see where you rank on the <a href="leaderboard.html">Community Points leaderboard</a>.</p>
+      </div>
+      <div class="e">
+        <div class="ei"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
+        <h3>APY is a bonus</h3>
+        <p>The APY pool pays extra $QORPO for locking your tokens for a fixed term. It doesn't multiply your points — it just pays more tokens.</p>
+      </div>
+      <div class="e">
+        <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Points stay with you</h3>
+        <p>Loyalty Community Points accrue over time and <b style="color:#fff">remain even after you unstake</b>. (Daily accrual is tracked off-chain and rolls out with the points service.)</p>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section class="sec wrap reveal" id="how">
     <p class="kicker">How it works</p>
@@ -349,7 +417,7 @@
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
         <h3>Two ways to earn</h3>
-        <p>APY staking pays a fixed rate for a locked term. Power staking is flexible with no lock, building multipliers up to 25× for ecosystem rewards.</p>
+        <p>APY staking pays a fixed rate for a locked term. Power staking is flexible with no lock and earns Community Points 1:1 — no multipliers.</p>
       </div>
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -383,6 +451,21 @@
   <div class="flegal">© 2026 QORPO World. All rights reserved. · Non-custodial staking · $QORPO</div>
 </footer>
 
+<!-- CONFIRM STAKE MODAL -->
+<div class="cmodal" id="cmodal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+  <div class="cbox">
+    <h3 id="cmTitle"><span class="dmark"></span>Confirm your stake<button class="cclose" id="cmX" aria-label="Close">×</button></h3>
+    <p class="csub" id="cmSub">Here's exactly what happens when you stake.</p>
+    <div class="crows" id="cmRows"></div>
+    <div class="cgood" id="cmGood"></div>
+    <div class="cwarn" id="cmWarn" style="display:none"></div>
+    <div class="cact">
+      <button class="btn btn-glass" id="cmCancel" type="button">Cancel</button>
+      <button class="btn btn-primary" id="cmGo" type="button"><span class="diamond"></span>Confirm &amp; Stake</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
@@ -399,7 +482,8 @@
     'function getStakesWithApy(address) view returns (tuple(uint256 amount,uint256 startTime,uint8 stakeType,bool finished)[])',
     'function stakeTypes(uint8) view returns (uint256 minStake,uint256 maxStake,uint96 apyFraction,uint256 duration)',
     'function stakeWithApy(uint8,uint256)','function stakeWithNoApy(uint256)',
-    'function unstakeWithApy(uint256)','function unstakeWithNoApy(uint256)'
+    'function unstakeWithApy(uint256)','function unstakeWithNoApy(uint256)',
+    'function penaltyFraction() view returns (uint256)'
   ];
   var eth=window.ethereum, okx=window.okxwallet;
   var provider=null, signer=null, account=null, chainId=1, pool='apy', tier=0, tierList=[];
@@ -555,7 +639,9 @@
     b.disabled=false;
   }
 
-  async function doStake(){
+  var pendingAmount=null;
+
+  function doStake(){
     if(!account){connect();return;}
     var v=($('amt').value||'').trim();
     if(!v||isNaN(v)||parseFloat(v)<=0){toast('Enter an amount to stake.');return;}
@@ -564,8 +650,58 @@
     if(pool==='apy'){
       var ti=tierByIdx(tier);
       if(ti&&ti.minRaw&&amount<ti.minRaw){toast('The '+ti.apy+'% tier needs at least '+fmt(ti.minRaw)+' $QORPO. Use Power staking to stake smaller amounts.',6000);return;}
-      if(ti&&ti.duration>0){/* locked tier — user informed via tierInfo + note */}
     }
+    openConfirm(amount);
+  }
+
+  function fmtDate(ts){try{return new Date(ts*1000).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return '—';}}
+  function nowSec(){return Math.floor(Date.now()/1000);}
+
+  function openConfirm(amount){
+    pendingAmount=amount;
+    var rows='', warn='', good='';
+    var pts=fmt(amount)+' Community Points';
+    if(pool==='apy'){
+      var ti=tierByIdx(tier)||{apy:0,duration:0};
+      var unlock=ti.duration>0?nowSec()+ti.duration:0;
+      var bonus=0;try{bonus=parseFloat(ethers.formatUnits(amount,18))*(ti.apy/100)*(ti.duration/31557600);}catch(e){}
+      rows+=crow('Pool','APY staking · locked');
+      rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
+      rows+=crow('APY rate',ti.apy+'% per year');
+      rows+=crow('Lock',ti.duration>0?daysOf(ti.duration):'—');
+      if(unlock)rows+=crow('Unlocks','<em>'+fmtDate(unlock)+'</em>');
+      rows+=crow('Community Points',pts+' <span style="color:var(--faint)">(1:1)</span>');
+      good='<b>You earn two things:</b> '+pts+' (no multipliers) — plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
+      warn='<b>Locked until '+(unlock?fmtDate(unlock):'the term ends')+'.</b> Exiting early isn’t a normal unstake — it uses the contract’s emergency withdrawal, which <b>forfeits the APY bonus</b> and applies an on-chain <b>early-exit penalty<span id="cmPen"></span></b> to your principal. Hold to the unlock date to withdraw your full stake <b>plus</b> rewards.';
+    }else{
+      rows+=crow('Pool','Power staking · flexible');
+      rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
+      rows+=crow('Lock','None — unstake any time');
+      rows+=crow('APY','None (bonus is APY-pool only)');
+      rows+=crow('Community Points',pts+' <span style="color:var(--faint)">(1:1)</span>');
+      good='<b>You earn '+pts+'</b> — 1:1 with no multipliers, and you can unstake whenever you like.';
+    }
+    $('cmRows').innerHTML=rows;
+    $('cmGood').innerHTML=good;
+    var w=$('cmWarn');
+    if(warn){w.innerHTML=warn;w.style.display='block';readPenalty();}else{w.style.display='none';}
+    $('cmSub').textContent='First-time staking needs two wallet prompts: approve, then stake.';
+    $('cmodal').classList.add('open');
+  }
+  function crow(k,v){return '<div class="crow"><span class="ck">'+k+'</span><span class="cv">'+v+'</span></div>';}
+  function closeConfirm(){$('cmodal').classList.remove('open');}
+  async function readPenalty(){ // best-effort: show exact % if the contract exposes it
+    try{
+      var raw=await stakeR().penaltyFraction();
+      var n=Number(raw), pct=null;
+      if(n>0&&n<=100)pct=n; else if(n<=10000)pct=n/100; // handle % or basis-points style
+      var el=$('cmPen'); if(el&&pct!=null)el.textContent=' of about '+ (Math.round(pct*100)/100) +'%';
+    }catch(e){/* getter not present — keep the generic wording */}
+  }
+
+  async function executeStake(){
+    var amount=pendingAmount; if(amount==null)return;
+    closeConfirm();
     if(!(await ensureChain()))return;
     var b=$('mainBtn');b.disabled=true;
     try{
@@ -615,6 +751,11 @@
   var wcd=$('wcDisc');if(wcd)wcd.addEventListener('click',function(){ disconnect();toast('Wallet disconnected.',2200); });
   document.addEventListener('click',function(){closeWcMenu();});
   $('mainBtn').addEventListener('click',doStake);
+  $('cmGo').addEventListener('click',executeStake);
+  $('cmCancel').addEventListener('click',closeConfirm);
+  $('cmX').addEventListener('click',closeConfirm);
+  $('cmodal').addEventListener('click',function(e){if(e.target===this)closeConfirm();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeConfirm();});
   var hc=$('heroConnect');if(hc)hc.addEventListener('click',function(){if(account){$('app').scrollIntoView({behavior:'smooth'});}else{connect();}});
 
   refresh();     // initial read (tiers, overview) without wallet

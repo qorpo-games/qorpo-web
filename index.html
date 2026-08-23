@@ -338,7 +338,7 @@
 <header>
   <nav class="nav">
     <a class="brand" href="#"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="#">Home</a><a href="ecosystem.html">Ecosystem</a><div class="buydrop nav-tok"><button class="nav-tok-btn">Token <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div><a href="staking.html">Staking</a><a href="bridge.html">Bridge</a></div>
+    <div class="nav-links"><a href="#">Home</a><a href="ecosystem.html">Ecosystem</a><div class="buydrop nav-tok"><button class="nav-tok-btn">Token <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div><a href="staking.html">Staking</a><a href="leaderboard.html">Leaderboard</a><a href="spin.html">Spin</a><a href="bridge.html">Bridge</a></div>
     <div class="buydrop">
       <button class="btn btn-primary cta">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
       <div class="bd-menu right" data-buymenu></div>
@@ -453,7 +453,7 @@
     <p class="kicker">Built on $QORPO</p>
     <h2 class="bigh">Utility you use today</h2>
     <div class="objs">
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Lock $QORPO for Power up to 25x, or APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking.html">Open Staking</a></div></div>
+      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn Community Points 1:1 (no multipliers), or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking.html">Open Staking</a></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103722_eddb6c75-4479-4015-a28b-dc5560263363.png" alt=""></div><h3>Trade anywhere</h3><p>$QORPO is live on MEXC, KuCoin and Gate — easy to enter, easy to hold.</p><div class="act"><div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103720_4cb10d81-a9e9-42d7-953b-3df42c3a503a.png" alt=""></div><h3>Own the ecosystem</h3><p>Games, on-chain collectibles and an animated series — every drop routes value back to the token.</p><div class="act"><a class="btn btn-text arrow" href="#eco">See ecosystem</a></div></div>
     </div>
@@ -576,13 +576,15 @@
   // BLOG via shared Nucleus CMS — real QORPO posts (category qorpo-game-studio).
   // Falls back to the static cards below if offline or the origin isn't CORS-allowed yet.
   (function(){var CMS='https://blog.tamitos.com/api/v1',covers=['g1','g2','g3','g4','g5','g6'];
+    var IMG_HOST='https://blog.tamitos.com';
+    function fixImg(u){if(!u||typeof u!=='string')return u;try{if(/^https?:\/\//i.test(u)){var a=document.createElement('a');a.href=u;return IMG_HOST+a.pathname+(a.search||'');}if(u.charAt(0)==='/')return IMG_HOST+u;return u;}catch(e){return u;}}
     var q='/blog-posts?filter[blog_categories.slug]=qorpo-game-studio&per_page=6&fields[blog_posts]=title,slug,published_at,thumbnail_image,feature_image';
     fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
       var row=document.getElementById('blogrow');
       row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog.html?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
       // real cover only if it actually loads (CMS image host may 404); otherwise the brand gradient stays
-      posts.forEach(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
+      posts.forEach(function(p,i){var img=fixImg((p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'');if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
     }).catch(function(){});
   })();
 

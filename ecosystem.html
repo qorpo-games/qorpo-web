@@ -54,10 +54,19 @@
   .nav .cta{font-size:.86rem;padding:.42rem 1rem}
   .burger{display:none;background:none;border:0;font-size:1.3rem;cursor:pointer}
 
-  .hero{text-align:center;padding:4.5rem 1.4rem 3rem;background:var(--pale)}
-  .hero .eyebrow{color:var(--muted)}
-  .hero h1{font-size:clamp(2.4rem,6vw,4.2rem);letter-spacing:-.035em;margin-top:.6rem;max-width:24ch;margin-left:auto;margin-right:auto}
-  .hero .sub{font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--muted);max-width:42rem;margin:1.1rem auto 0}
+  /* hero — fullscreen render */
+  .hero{position:relative;min-height:100svh;margin-top:calc(-3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:5.5rem 1.4rem 2rem;overflow:hidden;background:#06060b}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.28) 0%,rgba(6,6,11,0) 30%,rgba(6,6,11,.5) 66%,rgba(6,6,11,.98) 100%)}
+  .hero-inner{position:relative;z-index:1;width:100%;max-width:52rem;margin:0 auto}
+  .hero .eyebrow{color:var(--mag)}
+  .hero h1{font-size:clamp(1.5rem,3.1vw,2.5rem);letter-spacing:-.035em;margin-top:.4rem;max-width:20ch;margin-left:auto;margin-right:auto;text-shadow:0 2px 34px rgba(0,0,0,.75)}
+  .hero .scrollcue{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+  @media (prefers-reduced-motion:reduce){.hero .scrollcue{animation:none}}
+  .herolead{text-align:center;color:var(--muted);font-size:clamp(1.05rem,2vw,1.35rem);max-width:44rem;margin:0 auto;padding:2.6rem 1.4rem 0}
+  .herolead b{color:#fff}
   .chips{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;margin:1.8rem auto 0;max-width:44rem}
   .chip{font-family:var(--mono);font-size:.74rem;font-weight:600;letter-spacing:.02em;padding:.5rem .9rem;border-radius:2rem;background:rgba(255,255,255,.7);border:1px solid var(--line);color:var(--ink)}
   .chip.grad{background:var(--grad);color:#fff;border-color:transparent}
@@ -257,6 +266,8 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
         </div>
       </div>
       <a href="staking.html">Staking Hub</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="spin.html">Spin</a>
       <a href="bridge.html">Bridge</a>
     </div>
     <div class="cta-drop">
@@ -275,14 +286,18 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 
 <main>
   <section class="hero">
-    <p class="eyebrow">The ecosystem</p>
-    <h1>Together we are building a digital economy</h1>
-    <p class="sub">One attention layer across games, collectibles and an animated series, connected on-chain and powered by $QORPO. Backed by the people building web3.</p>
-    
+    <div class="hero-media"><img src="assets/ecosystem-hero.jpg" alt="QORPO ecosystem key art"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">The ecosystem</p>
+      <h1>Together we are building a digital economy</h1>
+    </div>
+    <a class="scrollcue" href="#why" aria-label="Scroll down">↓</a>
   </section>
 
+  <p class="herolead">One attention layer across games, collectibles and an animated series, connected on-chain and powered by <b>$QORPO</b>. Backed by the people building web3.</p>
+
   <!-- WHY PARTNERS MATTER -->
-  <section class="sec"><div class="wrap">
+  <section class="sec" id="why"><div class="wrap">
     <h2>Why this matters to you</h2>
     <p class="lead">Partners aren't a logo wall — they're the reason $QORPO is safe to hold and ready to scale.</p>
     <div class="pillars reveal">

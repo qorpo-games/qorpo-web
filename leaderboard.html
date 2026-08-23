@@ -1,0 +1,574 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QORPO Community Points — Leaderboard</title>
+<meta name="description" content="The $QORPO Community Points leaderboard. Every staked $QORPO is one Community Point — no multipliers. Ranked live, on-chain, on Ethereum & BNB Chain.">
+<link rel="canonical" href="https://www.qorpo.world/community-points">
+<meta name="theme-color" content="#06060b">
+<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<meta property="og:title" content="QORPO Community Points — Leaderboard">
+<meta property="og:description" content="Every staked $QORPO is one Community Point. See where you rank — live, on-chain.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
+    --mag:#E051C7;--pink:#FF709E;--green:#38d39f;--eth:#627eea;--gold:#F0B90B;
+    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
+    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
+    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+    --max:78rem;
+    --card-r:1.1rem;--card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    --card-bd:rgba(255,255,255,.10);--card-bd-h:rgba(255,255,255,.24);--card-sh:0 24px 60px -40px rgba(0,0,0,.9);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
+  p{margin:0}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
+  .mono{font-family:var(--mono)}
+  .serif{font-family:var(--serif);font-weight:400;font-style:italic;color:#fff}
+  .kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(46rem 34rem at 82% -4%,rgba(224,81,199,.20),transparent 60%),
+    radial-gradient(40rem 30rem at 4% 16%,rgba(123,90,240,.15),transparent 60%),
+    radial-gradient(54rem 40rem at 50% 118%,rgba(255,112,158,.09),transparent 60%)}
+  main{position:relative;z-index:2}
+
+  .diamond{width:.72rem;height:.72rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);flex:none}
+  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
+  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.4rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line);backdrop-filter:blur(10px)}
+  .btn-glass:hover{background:rgba(255,255,255,.09)}
+
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
+  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
+  .nav-links{display:flex;gap:.2rem;margin:0 auto}
+  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
+  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
+  .nav-links a.active{opacity:1;color:#fff;background:rgba(224,81,199,.16)}
+  .wc{font-family:var(--mono);font-size:.76rem;padding:.5rem .85rem;border-radius:1.6rem;border:1px solid var(--card-bd);background:rgba(255,255,255,.05);cursor:pointer;color:#fff;display:flex;align-items:center;gap:.45rem;white-space:nowrap}
+  .wc:hover{background:rgba(255,255,255,.09)}
+  .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
+  .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
+  .wc.on::after{content:"▾";margin-left:.15rem;opacity:.6;font-size:.7rem}
+  .wcwrap{position:relative}
+  .wc-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:11rem;background:rgba(18,18,26,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:.8rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);padding:.35rem;display:none;flex-direction:column;z-index:95}
+  .wc-menu.open{display:flex}
+  .wc-menu button{background:none;border:0;color:#eaeaf3;font-family:var(--body);font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
+  .wc-menu button:hover{background:rgba(255,255,255,.08)}
+  .wc-menu button.disc{color:#ff8fb0}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
+
+  .hero{position:relative;padding:3.6rem 1.5rem 1rem;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .hero h1{font-size:clamp(2.2rem,5.6vw,4rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.6rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{font-size:clamp(1.02rem,1.8vw,1.24rem);color:var(--muted);max-width:42rem;margin:.9rem auto 0;font-weight:400}
+  .hero .lead b{color:#fff;font-weight:700}
+
+  .toolrow{display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem}
+  .seg{display:inline-flex;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:2rem;padding:.28rem}
+  .seg button{font-family:var(--body);font-weight:600;font-size:.86rem;color:#cfcfe0;background:none;border:0;border-radius:2rem;padding:.45rem 1rem;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:.4rem}
+  .seg button .cd{width:.5rem;height:.5rem;border-radius:50%}
+  .seg button.on{background:rgba(255,255,255,.14);color:#fff}
+  .seg button[data-c="56"] .cd{background:var(--gold)} .seg button[data-c="1"] .cd{background:var(--eth)}
+  .refresh{font-family:var(--mono);font-size:.76rem;color:#cfcfe0;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:1.6rem;padding:.5rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
+  .refresh:hover{background:rgba(255,255,255,.09)}
+  .refresh svg{width:.85rem;height:.85rem;fill:none;stroke:currentColor;stroke-width:2}
+  .asof{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.7rem;min-height:1em}
+
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:1.8rem auto 0;max-width:56rem;width:100%}
+  .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.15rem 1rem;text-align:left}
+  .statcard b{display:block;font-size:1.5rem;font-weight:900;letter-spacing:-.02em;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .statcard span{color:var(--muted);font-size:.76rem;margin-top:.25rem;display:block}
+  @media(max-width:760px){.statrow{grid-template-columns:1fr 1fr}}
+
+  .sec{padding:2.6rem 0;position:relative}
+
+  /* your-rank card */
+  .youcard{background:linear-gradient(180deg,rgba(224,81,199,.12),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.35);border-radius:var(--card-r);padding:1.3rem 1.5rem;margin-top:1.6rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+  .youcard .yl{flex:1;min-width:12rem}
+  .youcard .yk{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
+  .youcard .yv{font-size:1.35rem;font-weight:800;margin-top:.2rem}
+  .youcard .ysub{color:var(--muted);font-size:.85rem;margin-top:.15rem}
+
+  /* board */
+  .board{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);overflow:hidden;box-shadow:var(--card-sh);margin-top:1.4rem}
+  .thead,.trow{display:grid;grid-template-columns:4.5rem 1fr 12rem 7rem;gap:1rem;align-items:center;padding:.85rem 1.4rem}
+  .thead{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line2);background:rgba(255,255,255,.02)}
+  .thead .r-pts,.trow .r-pts{text-align:right}
+  .thead .r-shr,.trow .r-shr{text-align:right}
+  .trow{border-bottom:1px solid var(--line2);transition:background .15s}
+  .trow:last-child{border-bottom:0}
+  .trow:hover{background:rgba(255,255,255,.03)}
+  .trow.you{background:rgba(224,81,199,.10);box-shadow:inset 3px 0 0 var(--mag)}
+  .rank{font-family:var(--mono);font-weight:700;font-size:1rem;display:flex;align-items:center;gap:.5rem}
+  .medal{width:1.7rem;height:1.7rem;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:800;color:#0a0a12}
+  .m1{background:linear-gradient(160deg,#ffe27a,#f0b90b)} .m2{background:linear-gradient(160deg,#e6e9f0,#aab2c5)} .m3{background:linear-gradient(160deg,#e6a86b,#b5763b);color:#fff}
+  .addr{display:flex;align-items:center;gap:.6rem;min-width:0}
+  .ava{width:1.9rem;height:1.9rem;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+  .addr a{font-family:var(--mono);font-size:.9rem;color:#eaeaf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .addr a:hover{color:#fff;text-decoration:underline}
+  .youtag{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--grad);border-radius:1rem;padding:.12rem .5rem;flex:none}
+  .r-pts{font-family:var(--mono);font-weight:700;font-size:1rem;text-align:right;font-variant-numeric:tabular-nums}
+  .r-pts small{color:var(--faint);font-weight:500;font-size:.72rem;margin-left:.2rem}
+  .r-shr{font-family:var(--mono);font-size:.85rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+  @media(max-width:760px){
+    .thead,.trow{grid-template-columns:2.8rem 1fr 7.5rem;gap:.6rem;padding:.8rem 1rem}
+    .r-shr{display:none}.ava{display:none}
+  }
+
+  .state{padding:2.6rem 1.4rem;text-align:center;color:var(--muted)}
+  .state .bar{height:.5rem;border-radius:1rem;background:rgba(255,255,255,.08);overflow:hidden;max-width:24rem;margin:1rem auto 0}
+  .state .bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .3s}
+  .state .pmsg{font-family:var(--mono);font-size:.78rem;color:var(--faint);margin-top:.7rem}
+  .spin{display:inline-block;width:1.1rem;height:1.1rem;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:.5rem}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* rules */
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
+  .rule{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.4rem}
+  .rule .ic{width:2.4rem;height:2.4rem;border-radius:.7rem;background:rgba(224,81,199,.14);display:grid;place-items:center;margin-bottom:.8rem}
+  .rule .ic svg{width:1.2rem;height:1.2rem;stroke:var(--pink);fill:none;stroke-width:1.8}
+  .rule h3{font-size:1.05rem}
+  .rule p{color:var(--muted);font-size:.92rem;margin-top:.4rem}
+  @media(max-width:760px){.rules{grid-template-columns:1fr}}
+  .note{margin-top:1.2rem;font-size:.9rem;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:.9rem;padding:1rem 1.2rem}
+  .note b{color:#fff}
+
+  .cta-band{margin-top:2.4rem;text-align:center;background:linear-gradient(180deg,rgba(224,81,199,.12),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.28);border-radius:var(--card-r);padding:2.2rem 1.5rem}
+  .cta-band h2{font-size:clamp(1.5rem,3.4vw,2.2rem)}
+  .cta-band p{color:var(--muted);margin:.6rem auto 1.2rem;max-width:34rem}
+
+  footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:3rem;padding:2.6rem 1.5rem 2rem}
+  .fcols{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem}
+  .fbrand .fw{font-weight:900;font-size:1.2rem;letter-spacing:-.02em}
+  .fbrand p{color:var(--muted);font-size:.9rem;margin-top:.5rem;max-width:22rem}
+  .fcol .h{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.7rem}
+  .fcol a{display:block;color:#d3d3e0;font-size:.9rem;padding:.2rem 0}
+  .fcol a:hover{color:#fff}
+  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
+  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
+  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
+  .flegal{max-width:var(--max);margin:1.8rem auto 0;color:var(--faint);font-size:.8rem;border-top:1px solid var(--line2);padding-top:1.2rem}
+
+  .buydrop{position:relative;display:inline-block}
+  .buydrop>.btn svg{transition:transform .2s}
+  .buydrop.open>.btn svg{transform:rotate(180deg)}
+  .bd-menu{position:absolute;top:calc(100% + .5rem);right:0;min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
+  .buydrop:hover .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible}
+  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
+  .bd-menu a:hover{background:rgba(255,255,255,.08)}
+  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
+  .bd-menu .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
+  .bd-sep{height:1px;background:var(--line2);margin:.35rem .2rem}
+  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1}}
+  #toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(1.5rem);background:#15151f;border:1px solid var(--card-bd);border-radius:.8rem;padding:.8rem 1.1rem;font-size:.88rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:.25s;z-index:200;max-width:90vw}
+  #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+  #toast a{color:var(--pink)}
+</style>
+
+<canvas id="stars"></canvas>
+<div class="glowfix"></div>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html">Staking</a><a href="leaderboard.html" class="active">Leaderboard</a><a href="spin.html">Spin</a><a href="bridge.html">Bridge</a></div>
+    <div class="buydrop"><button class="btn btn-primary" type="button" style="padding:.55rem 1rem;font-size:.9rem">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
+    <div class="wcwrap">
+      <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+      <div class="wc-menu" id="wcMenu">
+        <button id="wcCopy" type="button">Copy address</button>
+        <button id="wcDisc" class="disc" type="button">Disconnect</button>
+      </div>
+    </div>
+    <button class="burger" id="burger">≡</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="kicker">Community Points</p>
+    <h1>Where the community stands</h1>
+    <p class="lead">Every <b>$QORPO</b> you stake is one <b>Community Point</b> — <b>no multipliers</b>, no tricks. The more you stake, the higher you rank. This board is read <b>live from the chain</b>.</p>
+
+    <div class="toolrow">
+      <div class="seg" id="chainSeg" role="tablist" aria-label="Chain">
+        <button data-c="56" class="on"><span class="cd"></span>BNB Chain</button>
+        <button data-c="1"><span class="cd"></span>Ethereum</button>
+      </div>
+      <button class="refresh" id="refreshBtn"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v5h-5"/></svg>Refresh</button>
+    </div>
+    <div class="asof" id="asof"></div>
+
+    <div class="statrow">
+      <div class="statcard"><b id="stTotal">—</b><span>Community Points staked</span></div>
+      <div class="statcard"><b id="stHolders">—</b><span>Ranked stakers</span></div>
+      <div class="statcard"><b id="stTop">—</b><span>Top holder share</span></div>
+      <div class="statcard"><b id="stYou">—</b><span>Your points</span></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="youcard" id="youcard" style="display:none">
+      <div class="yl">
+        <div class="yk">Your standing</div>
+        <div class="yv" id="youRank">—</div>
+        <div class="ysub" id="youSub"></div>
+      </div>
+      <a class="btn btn-primary" href="staking.html">Stake more →</a>
+    </div>
+
+    <section class="sec" style="padding-top:1.2rem">
+      <div class="board" id="board">
+        <div class="thead"><span>Rank</span><span>Wallet</span><span class="r-pts">Community Points</span><span class="r-shr">Share</span></div>
+        <div id="rows"><div class="state" id="state"><span class="spin"></span>Reading the chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Starting…</div></div></div>
+      </div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <p class="kicker">How Community Points work</p>
+      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">Simple by design</h2>
+      <div class="rules">
+        <div class="rule">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+          <h3>Tokens = points</h3>
+          <p>1 staked $QORPO = 1 Community Point. That's the whole formula — <b style="color:#fff">no multipliers</b>, no weightings, no hidden math. Your rank is your stake.</p>
+        </div>
+        <div class="rule">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
+          <h3>APY is a bonus, not a boost</h3>
+          <p>Lock in the APY pool and you earn <b style="color:#fff">extra $QORPO</b> on top. It does not multiply your points — it just pays you more tokens for locking.</p>
+        </div>
+        <div class="rule">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Flexible still counts</h3>
+          <p>Don't want a lock? The no-lock <b style="color:#fff">Power</b> pool earns Community Points too. You stay liquid and still climb the board.</p>
+        </div>
+      </div>
+      <div class="note" id="loyaltyNote">
+        <b>Live standing vs. loyalty points.</b> This board shows your <b>current staking power</b> straight from the chain. Separately, we're building <b>loyalty Community Points</b> that accrue daily and <b>stay with you even after you unstake</b> — that history is tracked off-chain and will appear here once the points service is live.
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <h2>Climb the board</h2>
+      <p>Stake $QORPO to earn Community Points and move up the ranking. No lock required to start.</p>
+      <a class="btn btn-primary" href="staking.html">Stake $QORPO →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="fcols">
+    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
+    <div class="fcol"><span class="h">Main pages</span><a href="staking.html">QORPO Staking</a><a href="leaderboard.html">Community Points</a><a href="bridge.html">QORPO Bridge</a><a href="token.html">Why $QORPO</a></div>
+    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem.html">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
+    <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
+  </div>
+  <div class="flegal">© 2026 QORPO World. All rights reserved. · Community Points are read live on-chain · $QORPO</div>
+</footer>
+
+<div id="toast"></div>
+
+<script src="assets/ethers-6.13.4.umd.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var TOKEN='0x22514ffb0d7232a56f0c24090e7b68f179faa940';
+  var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
+  var CHAINS={
+    1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1',ex:1},
+    56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38',ex:56}
+  };
+  var MULTICALL='0xcA11bde05977b3631167028862bE2a173976CA11'; // Multicall3, same address on ETH & BSC
+  var ERC20=['function balanceOf(address) view returns (uint256)','function decimals() view returns (uint8)'];
+  var STAKE_ABI=[
+    'function getStakeWithNoApy(address) view returns (uint256)',
+    'function getStakesWithApy(address) view returns (tuple(uint256 amount,uint256 startTime,uint8 stakeType,bool finished)[])'
+  ];
+  var MC_ABI=['function aggregate3((address target,bool allowFailure,bytes callData)[] calls) view returns ((bool success,bytes returnData)[])'];
+  var TRANSFER='0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+  // optional block-explorer key (Etherscan v2 multichain). Empty = try keyless, else RPC scan.
+  var EXPLORER_KEY='';
+
+  var eth=window.ethereum, okx=window.okxwallet;
+  var provider=null, signer=null, account=null;
+  var chainId=56;            // board chain (independent of wallet)
+  var boards={};             // chain -> {ts, rows:[{a,pts}], total}
+  var scanning=false, myStake={};
+
+  var $=function(id){return document.getElementById(id);};
+  var iface=new ethers.Interface(STAKE_ABI);
+  function toast(m,ms){var t=$('toast');t.innerHTML=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},ms||4200);}
+  function readProvider(cid){return new ethers.JsonRpcProvider(CHAINS[cid].rpc);}
+  function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
+  function pad32(a){return '0x'+a.toLowerCase().replace(/^0x/,'').padStart(64,'0');}
+  function fmtPts(bi){try{var n=parseFloat(ethers.formatUnits(bi,18));return n.toLocaleString('en-US',{maximumFractionDigits:n>=1000?0:2});}catch(e){return '0';}}
+  function fmtShort(bi){try{var n=parseFloat(ethers.formatUnits(bi,18));
+    if(n>=1e9)return (n/1e9).toFixed(2)+'B'; if(n>=1e6)return (n/1e6).toFixed(2)+'M'; if(n>=1e3)return (n/1e3).toFixed(1)+'K';
+    return n.toLocaleString('en-US',{maximumFractionDigits:2});}catch(e){return '0';}}
+  function ago(ts){var s=Math.round((Date.now()-ts)/1000);if(s<60)return s+'s ago';var m=Math.round(s/60);if(m<60)return m+'m ago';var h=Math.round(m/60);return h+'h ago';}
+  function blockie(addr){ // tiny deterministic gradient avatar (no external calls)
+    var h=0;for(var i=2;i<addr.length;i++){h=(h*31+addr.charCodeAt(i))>>>0;}
+    var a=h%360,b=(h>>3)%360;return 'background:conic-gradient(from '+(h%360)+'deg,hsl('+a+' 70% 55%),hsl('+b+' 70% 45%),hsl('+a+' 70% 55%))';}
+
+  /* ---------- wallet (for "your rank") ---------- */
+  function pickInjected(){return okx||eth||null;}
+  function bindWalletEvents(inj){if(!inj||inj._qb)return;inj._qb=true;
+    inj.on&&inj.on('accountsChanged',function(a){if(a&&a[0]){account=a[0];setConnected();afterWallet();}else{disconnect();}});
+  }
+  async function connect(){
+    var inj=pickInjected();
+    if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');return;}
+    try{var accs=await inj.request({method:'eth_requestAccounts'});if(!accs||!accs[0]){toast('No account selected.');return;}
+      account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();bindWalletEvents(inj);setConnected();afterWallet();
+    }catch(e){toast('Connection cancelled.');}
+  }
+  async function tryEager(){var inj=pickInjected();if(!inj)return;
+    try{var accs=await inj.request({method:'eth_accounts'});if(accs&&accs[0]){account=accs[0];provider=new ethers.BrowserProvider(inj);bindWalletEvents(inj);setConnected();afterWallet();}}catch(e){}
+  }
+  function closeWcMenu(){var m=$('wcMenu');if(m)m.classList.remove('open');}
+  function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';closeWcMenu();
+    $('youcard').style.display='none';$('stYou').textContent='—';myStake={};render();
+    try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
+  }
+  function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);}
+  async function afterWallet(){ // read my current stake on the board chain, update card + row
+    if(!account)return;
+    try{ myStake[chainId]=await readStake(readProvider(chainId),account); }catch(e){ myStake[chainId]=0n; }
+    render();
+  }
+
+  /* ---------- core reads ---------- */
+  async function readStake(prov, addr){
+    var c=new ethers.Contract(STAKING[chainId],STAKE_ABI,prov);
+    var no=0n,apy=0n;
+    try{no=await c.getStakeWithNoApy(addr);}catch(e){}
+    try{var arr=await c.getStakesWithApy(addr);arr.forEach(function(p){if(!p.finished)apy+=p.amount;});}catch(e){}
+    return no+apy;
+  }
+
+  // Strategy 1: block explorer (one paginated call). Returns array of addresses or null.
+  async function stakersFromExplorer(cid){
+    try{
+      var base='https://api.etherscan.io/v2/api?chainid='+CHAINS[cid].ex+'&module=account&action=tokentx&contractaddress='+TOKEN+'&address='+STAKING[cid]+'&startblock=0&endblock=99999999&sort=asc';
+      if(EXPLORER_KEY)base+='&apikey='+EXPLORER_KEY;
+      var set={};var page=1;
+      for(var guard=0;guard<25;guard++){
+        var r=await fetch(base+'&page='+page+'&offset=10000');
+        if(!r.ok)return null;
+        var j=await r.json();
+        if(j.status!=='1'||!Array.isArray(j.result)){ return (page>1)?Object.keys(set):null; }
+        j.result.forEach(function(tx){ if(tx.to&&tx.to.toLowerCase()===STAKING[cid].toLowerCase()&&tx.from){set[tx.from.toLowerCase()]=1;} });
+        if(j.result.length<10000)break;
+        page++;
+      }
+      return Object.keys(set);
+    }catch(e){return null;}
+  }
+
+  async function deployBlock(prov,addr){ // binary search first block with code
+    var latest=await prov.getBlockNumber(); var lo=0,hi=latest,ans=latest;
+    for(var i=0;i<40&&lo<=hi;i++){var mid=(lo+hi)>>1;var code;try{code=await prov.getCode(addr,mid);}catch(e){code='0x';}
+      if(code&&code!=='0x'){ans=mid;hi=mid-1;}else{lo=mid+1;} }
+    return {deploy:ans,latest:latest};
+  }
+
+  // Strategy 2: RPC getLogs (Transfer -> staking contract), adaptive chunking.
+  async function stakersFromLogs(cid,onp){
+    var prov=readProvider(cid);
+    var dr=await deployBlock(prov,STAKING[cid]);
+    var from=dr.deploy, latest=dr.latest, span=latest-from;
+    var set={}, done=0, step=span; // try full range first, halve on failure
+    var topics=[TRANSFER,null,pad32(STAKING[cid])];
+    var b=from;
+    while(b<=latest){
+      var to=Math.min(b+step, latest);
+      try{
+        var logs=await prov.getLogs({address:TOKEN,topics:topics,fromBlock:b,toBlock:to});
+        logs.forEach(function(l){ var f='0x'+l.topics[1].slice(26); set[f.toLowerCase()]=1; });
+        done+=(to-b+1); b=to+1;
+        if(onp)onp(Math.min(0.55,0.05+0.5*done/(span||1)),'Scanning blocks '+to.toLocaleString()+' / '+latest.toLocaleString()+' · '+Object.keys(set).length+' wallets');
+        if(step<span)step=Math.min(span,step*2); // recover chunk size after success
+      }catch(e){
+        if(step<=2000){ // give up this window, skip forward so we don't stall forever
+          b=to+1; done+=(to-b+1);
+        }else{ step=Math.floor(step/2); }
+      }
+    }
+    return Object.keys(set);
+  }
+
+  async function currentStakes(cid,addrs,onp){ // Multicall3 batched getStakeWithNoApy + getStakesWithApy
+    var prov=readProvider(cid);
+    var mc=new ethers.Contract(MULTICALL,MC_ABI,prov);
+    var out={}; var CH=180; var total=addrs.length, done=0;
+    for(var i=0;i<addrs.length;i+=CH){
+      var slice=addrs.slice(i,i+CH), calls=[];
+      slice.forEach(function(a){
+        calls.push({target:STAKING[cid],allowFailure:true,callData:iface.encodeFunctionData('getStakeWithNoApy',[a])});
+        calls.push({target:STAKING[cid],allowFailure:true,callData:iface.encodeFunctionData('getStakesWithApy',[a])});
+      });
+      var res;
+      try{ res=await mc.aggregate3(calls); }
+      catch(e){ // fallback: shrink or read individually
+        res=null;
+      }
+      if(res){
+        for(var k=0;k<slice.length;k++){
+          var a=slice[k], sum=0n;
+          try{ if(res[2*k].success){ sum+=iface.decodeFunctionResult('getStakeWithNoApy',res[2*k].returnData)[0]; } }catch(e){}
+          try{ if(res[2*k+1].success){ var arr=iface.decodeFunctionResult('getStakesWithApy',res[2*k+1].returnData)[0]; arr.forEach(function(p){ if(!p.finished)sum+=p.amount; }); } }catch(e){}
+          if(sum>0n)out[a]=sum;
+        }
+      }else{
+        for(var m=0;m<slice.length;m++){ try{var s=await readStake(prov,slice[m]); if(s>0n)out[slice[m]]=s;}catch(e){} }
+      }
+      done+=slice.length;
+      if(onp)onp(0.55+0.44*done/(total||1),'Reading stakes · '+done+' / '+total+' wallets');
+    }
+    return out;
+  }
+
+  /* ---------- orchestration ---------- */
+  function cacheKey(cid){return 'qorpo_cp_'+cid;}
+  function loadCache(cid){try{var s=localStorage.getItem(cacheKey(cid));if(!s)return null;var o=JSON.parse(s);o.rows=o.rows.map(function(r){return {a:r.a,pts:BigInt(r.pts)};});o.total=BigInt(o.total);return o;}catch(e){return null;}}
+  function saveCache(cid,b){try{localStorage.setItem(cacheKey(cid),JSON.stringify({ts:b.ts,total:b.total.toString(),rows:b.rows.map(function(r){return {a:r.a,pts:r.pts.toString()};})}));}catch(e){}}
+
+  function setProgress(p,msg){var pb=$('pbar'),pm=$('pmsg');if(pb)pb.style.width=Math.round(p*100)+'%';if(pm)pm.textContent=msg;}
+
+  async function scan(cid){
+    if(scanning)return; scanning=true;
+    $('refreshBtn').disabled=true;
+    $('rows').innerHTML='<div class="state" id="state"><span class="spin"></span>Reading the chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Finding stakers…</div></div>';
+    try{
+      var addrs=await stakersFromExplorer(cid);
+      if(addrs&&addrs.length){ setProgress(0.5,'Found '+addrs.length+' wallets via explorer'); }
+      else{ addrs=await stakersFromLogs(cid,setProgress); }
+      // always include connected account
+      if(account){var la=account.toLowerCase();if(addrs.indexOf(la)<0)addrs.push(la);}
+      if(!addrs.length){ boards[cid]={ts:Date.now(),rows:[],total:0n}; saveCache(cid,boards[cid]); render(); return; }
+      var stakes=await currentStakes(cid,addrs,setProgress);
+      var rows=Object.keys(stakes).map(function(a){return {a:a,pts:stakes[a]};});
+      rows.sort(function(x,y){return x.pts<y.pts?1:(x.pts>y.pts?-1:0);});
+      var total=0n;rows.forEach(function(r){total+=r.pts;});
+      boards[cid]={ts:Date.now(),rows:rows,total:total};
+      saveCache(cid,boards[cid]);
+      if(account&&stakes[account.toLowerCase()]!=null)myStake[cid]=stakes[account.toLowerCase()];
+      render();
+    }catch(e){
+      console.log(e);
+      $('rows').innerHTML='<div class="state">Couldn\'t finish reading the chain. <button class="refresh" onclick="location.reload()">Try again</button></div>';
+    }finally{ scanning=false; $('refreshBtn').disabled=false; }
+  }
+
+  function render(){
+    var b=boards[chainId];
+    var asof=$('asof');
+    if(!b){ asof.textContent=''; return; }
+    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · '+CHAINS[chainId].name;
+    // stats
+    $('stTotal').textContent=fmtShort(b.total);
+    $('stHolders').textContent=b.rows.length.toLocaleString();
+    $('stTop').textContent=(b.rows.length&&b.total>0n)?(Math.round(Number(b.rows[0].pts*10000n/b.total))/100)+'%':'—';
+    var la=account?account.toLowerCase():null;
+    var myPts=(la&&myStake[chainId]!=null)?myStake[chainId]:(la?findPts(b,la):null);
+    $('stYou').textContent=(myPts!=null&&myPts>0n)?fmtShort(myPts):(account?'0':'—');
+    // your-rank card
+    if(account){
+      var rank=findRank(b,la);
+      $('youcard').style.display='flex';
+      if(myPts!=null&&myPts>0n){
+        $('youRank').textContent=rank>0?('#'+rank+' of '+b.rows.length):'Unranked';
+        $('youSub').textContent=fmtPts(myPts)+' Community Points on '+CHAINS[chainId].name;
+      }else{
+        $('youRank').textContent='Not staking yet';
+        $('youSub').textContent='Stake $QORPO to appear on the board.';
+      }
+    }else{ $('youcard').style.display='none'; }
+    // rows
+    if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found on '+CHAINS[chainId].name+' yet. Be the first — <a href="staking.html" style="color:var(--pink)">stake $QORPO</a>.</div>'; return; }
+    var SHOW=100, html='';
+    for(var i=0;i<b.rows.length&&i<SHOW;i++){
+      var r=b.rows[i], rk=i+1, isYou=(la&&r.a===la);
+      var share=b.total>0n?(Math.round(Number(r.pts*10000n/b.total))/100):0;
+      var medal=rk<=3?'<span class="medal m'+rk+'">'+rk+'</span>':'<span style="width:1.7rem;text-align:center">'+rk+'</span>';
+      html+='<div class="trow'+(isYou?' you':'')+'">'+
+        '<span class="rank">'+medal+'</span>'+
+        '<span class="addr"><span class="ava" style="'+blockie(r.a)+'"></span>'+
+          '<a href="'+CHAINS[chainId].scan+'/address/'+r.a+'" target="_blank" rel="noopener">'+short(r.a)+'</a>'+
+          (isYou?'<span class="youtag">You</span>':'')+'</span>'+
+        '<span class="r-pts tnum">'+fmtPts(r.pts)+'<small>CP</small></span>'+
+        '<span class="r-shr tnum">'+share+'%</span>'+
+      '</div>';
+    }
+    if(la&&findRank(b,la)>SHOW){ var rr=findRank(b,la),rw=b.rows[rr-1];
+      html+='<div class="trow you"><span class="rank"><span style="width:1.7rem;text-align:center">'+rr+'</span></span>'+
+        '<span class="addr"><span class="ava" style="'+blockie(rw.a)+'"></span><a href="'+CHAINS[chainId].scan+'/address/'+rw.a+'" target="_blank" rel="noopener">'+short(rw.a)+'</a><span class="youtag">You</span></span>'+
+        '<span class="r-pts tnum">'+fmtPts(rw.pts)+'<small>CP</small></span>'+
+        '<span class="r-shr tnum">'+(b.total>0n?(Math.round(Number(rw.pts*10000n/b.total))/100):0)+'%</span></div>';
+    }
+    $('rows').innerHTML=html;
+  }
+  function findPts(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return b.rows[i].pts;return null;}
+  function findRank(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return i+1;return -1;}
+
+  function openChain(cid){
+    if(cid===chainId)return; chainId=cid;
+    [].forEach.call($('chainSeg').children,function(x){x.classList.toggle('on',parseInt(x.dataset.c)===cid);});
+    var cached=loadCache(cid); if(cached){boards[cid]=cached;render();}
+    else{ $('stTotal').textContent='—';$('stHolders').textContent='—';$('stTop').textContent='—';$('stYou').textContent='—'; }
+    if(!cached) scan(cid); else if(account) afterWallet();
+  }
+
+  /* ---------- init ---------- */
+  function init(){
+    // chain toggle
+    [].forEach.call($('chainSeg').children,function(x){x.addEventListener('click',function(){openChain(parseInt(x.dataset.c));});});
+    $('refreshBtn').addEventListener('click',function(){ try{localStorage.removeItem(cacheKey(chainId));}catch(e){} scan(chainId); });
+    // wallet
+    $('wcBtn').addEventListener('click',function(e){e.stopPropagation();if(account){$('wcMenu').classList.toggle('open');}else{connect();}});
+    $('wcCopy').addEventListener('click',function(){if(account){navigator.clipboard&&navigator.clipboard.writeText(account);toast('Address copied.');}closeWcMenu();});
+    $('wcDisc').addEventListener('click',function(){disconnect();});
+    document.addEventListener('click',function(){closeWcMenu();document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
+    // first paint: cache or scan
+    var cached=loadCache(chainId); if(cached){boards[chainId]=cached;render();}
+    scan(chainId);
+    tryEager();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+
+/* ---------- shared chrome: stars, footer social, buy menu, burger ---------- */
+(function(){
+  var c=document.getElementById('stars');if(c){var x=c.getContext('2d'),st=[];
+    function rz(){c.width=innerWidth;c.height=innerHeight;st=[];var n=Math.min(120,Math.round(innerWidth*innerHeight/16000));for(var i=0;i<n;i++)st.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.2+.2,o:Math.random()*.5+.2});}
+    function dr(){x.clearRect(0,0,c.width,c.height);for(var i=0;i<st.length;i++){var s=st[i];x.globalAlpha=s.o;x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill();}}
+    rz();dr();addEventListener('resize',function(){rz();dr();});}
+  var SVGG={
+    Discord:'<path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>',
+    X:'<path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/>',
+    Telegram:'<path d="M21.9 4.3 2.6 11.8c-1 .4-1 1.8 0 2.1l4.9 1.5 1.9 6c.2.8 1.2 1 1.8.4l2.7-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7l3.4-15.9c.2-1-.8-1.8-1.8-1.3zM9.7 15.3l9-5.6c.2-.1.4.1.2.3l-7.4 6.9-.3 3.1-1.5-4.7z"/>'
+  };
+  var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld']];
+  var f=document.getElementById('fsoc');if(f)f.innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
+  var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
+  var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
+  document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
+  document.querySelectorAll('.buydrop').forEach(function(d){var t=d.querySelector('button');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();d.classList.toggle('open');});});
+  var b=document.getElementById('burger');if(b)b.addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem;gap:.3rem';});
+})();
+</script>
