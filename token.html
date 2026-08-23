@@ -60,12 +60,23 @@
   .buydrop-menu a{display:flex;align-items:center;gap:.65rem;padding:.6rem .8rem;border-radius:.7rem;font-weight:600;font-size:.92rem}
   .buydrop-menu a:hover{background:var(--grey)}
 
-  /* hero */
-  .hero{text-align:center;padding:4rem 1.4rem 2rem;background:var(--pink)}
+  /* hero — fullscreen render */
+  .hero{position:relative;min-height:100svh;margin-top:calc(-3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:5.5rem 1.4rem 1.6rem;overflow:hidden}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.22) 0%,rgba(6,6,11,0) 26%,rgba(6,6,11,.5) 62%,rgba(6,6,11,.98) 100%)}
+  .hero-inner{position:relative;z-index:1;width:100%;max-width:52rem;margin:0 auto}
   .hero .eyebrow{color:var(--mag)}
-  .hero h1{font-size:clamp(2.4rem,6.5vw,4.6rem);letter-spacing:-.035em;margin-top:.6rem}
-  .hero .sub{font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--muted);max-width:40rem;margin:1rem auto 0}
-  .fomo-meter{max-width:34rem;margin:1.8rem auto 0}
+  .hero h1{font-size:clamp(1.5rem,3.1vw,2.5rem);letter-spacing:-.035em;margin-top:.35rem;text-shadow:0 2px 34px rgba(0,0,0,.7)}
+  .hero .sub{font-size:clamp(.95rem,1.6vw,1.12rem);color:#d5d5e3;max-width:37rem;margin:.55rem auto 0;text-shadow:0 1px 14px rgba(0,0,0,.7)}
+  .hero .links{margin-top:.6rem}
+  .hero .eyebrow{margin:0}
+  .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:2;color:#fff;opacity:.55;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
+  .scrollcue:hover{opacity:1}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+  @media (prefers-reduced-motion:reduce){.scrollcue{animation:none}}
+  .fomo-strip{padding:3rem 1.4rem 1rem;display:flex;justify-content:center}
+  .fomo-meter{max-width:34rem;margin:.55rem auto 0}
   .fomo-meter .lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:.4rem}
   .fomo-meter .lab #fomolab{color:var(--mag)}
   .fomo-meter .track{display:block;width:100%;height:1.1rem;border-radius:1rem;background:#fff;border:1px solid var(--line);overflow:hidden;cursor:pointer;padding:0;transition:transform .1s,box-shadow .2s;position:relative}
@@ -73,7 +84,7 @@
   .fomo-meter .track:active{transform:scale(.99)}
   .fomo-meter .track.done{cursor:default}
   .fomo-meter .fill{height:100%;width:0;background:var(--grad);border-radius:1rem;transition:width .55s cubic-bezier(.2,.8,.2,1)}
-  .fomo-meter .cap{font-size:.85rem;color:var(--muted);margin-top:.6rem;min-height:1.2em}
+  .fomo-meter .cap{font-size:.85rem;color:var(--muted);margin-top:.4rem;min-height:1.2em}
   .fomo-cta{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .5s,margin .5s}
   .fomo-cta.show{max-height:9rem;opacity:1;margin-top:1.1rem;overflow:visible}
   .buydrop.open .buydrop-menu{opacity:1;visibility:visible;transform:translateX(-50%)}
@@ -302,9 +313,13 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 <main>
   <!-- HERO -->
   <section class="hero">
-    <p class="eyebrow">The attention economy token</p>
+    <div class="hero-media">
+      <video src="assets/qorpo-diamond.mp4" autoplay muted loop playsinline poster="assets/qorpo-diamond-render.jpg"></video>
+    </div>
+    <div class="hero-inner">
+    <p class="eyebrow"><span class="diamond" style="display:inline-block;width:.5rem;height:.5rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:middle;margin-right:.4rem"></span>The attention economy token</p>
     <h1>You found $QORPO.<br>Most people are still scrolling.</h1>
-    <p class="sub">One token behind games people actually play, a collectible world, and an animated series in the making. Attention is the asset. This is how you own a piece of it.</p>
+    <p class="sub">Games, a collectible world, an animated series — <span style="color:#fff">attention is the asset</span>, and this is the token for it.</p>
     <div class="links">
       <div class="buydrop">
         <a class="link">Buy $QORPO</a>
@@ -317,6 +332,12 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
       <a class="link" href="#why">Why hold it</a>
       <a class="link" href="staking.html">Stake &amp; earn</a>
     </div>
+    </div>
+    <a class="scrollcue" href="#stats" aria-label="Scroll down">↓</a>
+  </section>
+
+  <!-- FOMO STRIP -->
+  <section class="fomo-strip">
     <div class="fomo-meter">
       <div class="lab"><span>How easy is it to buy $QORPO?</span><span id="fomolab">Tap the bar →</span></div>
       <button class="track" id="fomotrack" aria-label="Tap to see how easy it is to buy QORPO"><div class="fill" id="fomofill"></div></button>
