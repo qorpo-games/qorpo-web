@@ -1,8 +1,540 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="0; url=https://www.qorpo.world/qorpo-staking">
-<title>QORPO Staking</title>
-<script>location.replace('https://www.qorpo.world/qorpo-staking')</script>
-<body style="background:#06060b;color:#fff;font-family:system-ui,sans-serif;display:grid;place-items:center;height:100vh;margin:0">
-<p>Opening <a href="https://www.qorpo.world/qorpo-staking" style="color:#E051C7">QORPO Staking</a>…</p>
-</body>
+<title>QORPO Staking — Stake $QORPO for Power &amp; APY</title>
+<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Power multipliers up to 25× and APY up to 30% on Ethereum & BNB Chain.">
+<link rel="canonical" href="https://www.qorpo.world/qorpo-staking">
+<meta name="theme-color" content="#06060b">
+<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<meta property="og:title" content="QORPO Staking — Stake $QORPO for Power & APY">
+<meta property="og:description" content="Non-custodial $QORPO staking. Power up to 25× or APY up to 30%, on Ethereum & BNB Chain.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
+    --mag:#E051C7;--pink:#FF709E;--green:#38d39f;--eth:#627eea;--gold:#F0B90B;
+    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
+    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
+    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+    --max:78rem;
+    --card-r:1.1rem;--card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    --card-bd:rgba(255,255,255,.10);--card-bd-h:rgba(255,255,255,.24);--card-sh:0 24px 60px -40px rgba(0,0,0,.9);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
+  p{margin:0}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
+  .mono{font-family:var(--mono)}
+  .serif{font-family:var(--serif);font-weight:400;font-style:italic;color:#fff}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+  .kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+  .bigh{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.04em;font-weight:900;margin-top:.5rem}
+  .lead{color:var(--muted);font-size:1.12rem;max-width:38rem}
+
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(46rem 34rem at 82% -4%,rgba(224,81,199,.20),transparent 60%),
+    radial-gradient(40rem 30rem at 4% 16%,rgba(123,90,240,.15),transparent 60%),
+    radial-gradient(54rem 40rem at 50% 118%,rgba(255,112,158,.09),transparent 60%)}
+  main{position:relative;z-index:2}
+
+  .diamond{width:.72rem;height:.72rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);flex:none}
+  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
+  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.4rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line);backdrop-filter:blur(10px)}
+  .btn-glass:hover{background:rgba(255,255,255,.09)}
+  .btn-block{width:100%}
+  .arrow::after{content:"→";margin-left:.15rem;transition:transform .2s}.arrow:hover::after{transform:translateX(3px)}
+
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
+  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
+  .nav-links{display:flex;gap:.2rem;margin:0 auto}
+  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
+  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
+  .nav-links a.active{opacity:1;color:#fff;background:rgba(224,81,199,.16)}
+  .wc{font-family:var(--mono);font-size:.76rem;padding:.5rem .85rem;border-radius:1.6rem;border:1px solid var(--card-bd);background:rgba(255,255,255,.05);cursor:pointer;color:#fff;display:flex;align-items:center;gap:.45rem;white-space:nowrap}
+  .wc:hover{background:rgba(255,255,255,.09)}
+  .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
+  .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
+
+  /* HERO */
+  .hero{position:relative;padding:4.2rem 1.5rem 2rem;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .hero h1{font-size:clamp(2.5rem,6.4vw,4.6rem);letter-spacing:-.04em;font-weight:900;line-height:.98;margin:.5rem auto 0;max-width:15ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{font-size:clamp(1.02rem,1.8vw,1.28rem);color:var(--muted);max-width:40rem;margin:.9rem auto 0;font-weight:400}
+  .hero .lead b{color:#fff;font-weight:700}
+  .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:2.4rem auto 0;max-width:54rem;width:100%}
+  .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.2rem 1rem}
+  .statcard b{display:block;font-size:1.55rem;font-weight:900;letter-spacing:-.02em;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .statcard span{color:var(--muted);font-size:.78rem;margin-top:.25rem;display:block}
+  @media(max-width:760px){.statrow{grid-template-columns:1fr 1fr}}
+
+  .sec{padding:4.5rem 0;position:relative}
+  .sec.tight{padding-top:1rem}
+
+  /* pool cards */
+  .poolcards{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:2rem}
+  .poolcard{text-align:left;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.4rem 1.5rem;cursor:pointer;color:#fff;font-family:var(--body);transition:transform .25s,border-color .25s,box-shadow .25s;position:relative;overflow:hidden;display:block}
+  .poolcard:hover{transform:translateY(-4px);border-color:var(--card-bd-h)}
+  .poolcard.on{border-color:transparent;box-shadow:0 0 0 1.5px var(--mag),0 24px 60px -40px rgba(224,81,199,.7)}
+  .poolcard.on::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 100% 0,rgba(224,81,199,.16),transparent 60%);pointer-events:none}
+  .poolcard .pk{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
+  .poolcard h3{font-size:1.35rem;margin-top:.45rem;display:flex;align-items:center;gap:.5rem}
+  .poolcard .big{font-family:var(--mono);font-weight:700;font-size:1.05rem;margin-top:.6rem}
+  .poolcard .big em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .poolcard p{color:var(--muted);font-size:.9rem;margin-top:.5rem}
+  .poolcard .tick{position:absolute;top:1.2rem;right:1.3rem;width:1.3rem;height:1.3rem;border-radius:50%;border:1.5px solid var(--card-bd);display:grid;place-items:center;transition:.2s}
+  .poolcard.on .tick{background:var(--grad);border-color:transparent}
+  .poolcard .tick svg{width:.75rem;height:.75rem;opacity:0;transition:.2s}
+  .poolcard.on .tick svg{opacity:1}
+  @media(max-width:720px){.poolcards{grid-template-columns:1fr}}
+
+  .appgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:1.1rem;margin-top:1.1rem;align-items:start}
+  @media(max-width:860px){.appgrid{grid-template-columns:1fr}}
+  .card{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.5rem;box-shadow:var(--card-sh)}
+  .lab{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.5rem}
+
+  .seg{display:inline-flex;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:2rem;padding:.28rem}
+  .seg button{font-family:var(--body);font-weight:600;font-size:.86rem;color:#cfcfe0;background:none;border:0;border-radius:2rem;padding:.45rem .95rem;cursor:pointer;transition:.18s}
+  .seg.chain button.on{background:rgba(255,255,255,.14);color:#fff}
+  #tierSeg{display:flex;flex-wrap:wrap;gap:.4rem;background:none;border:0;padding:0}
+  #tierSeg button{border:1px solid var(--card-bd);background:rgba(255,255,255,.05)}
+  #tierSeg button.on{background:var(--grad);border-color:transparent;color:#fff}
+
+  .amount{margin-top:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--card-bd);border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.6rem}
+  .amount input{flex:1;background:none;border:0;color:#fff;font-family:var(--mono);font-size:1.35rem;font-weight:700;outline:none;min-width:0}
+  .amount .tk{font-weight:700;color:var(--muted);font-size:.92rem}
+  .amount .max{font-family:var(--mono);font-size:.7rem;font-weight:600;color:#7aa2ff;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.25);border-radius:.5rem;padding:.32rem .55rem;cursor:pointer}
+  .actions{margin-top:1.1rem}
+  .note{margin-top:1rem;font-size:.8rem;color:var(--muted);background:rgba(224,81,199,.08);border:1px solid rgba(224,81,199,.28);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
+
+  .ov h2{font-size:1.4rem;margin-bottom:.3rem}
+  .ov .intro{color:var(--muted);font-size:.92rem;margin-bottom:.4rem}
+  .oline{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.72rem 0;border-bottom:1px solid var(--line2);font-size:.95rem}
+  .oline:last-child{border-bottom:0}
+  .oline .k{color:var(--faint);font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+  .oline .v{font-weight:700;font-family:var(--mono);font-size:.95rem;text-align:right}
+  .oline a{color:#cfcfe0;font-family:var(--mono);font-size:.8rem}
+  .oline a:hover{color:#fff}
+
+  .positions{margin-top:2.4rem}
+  .positions h2{font-size:1.5rem}
+  .ptable{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem}
+  .prow{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:.8rem;align-items:center;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:.8rem;padding:.85rem 1.1rem;font-size:.9rem}
+  .prow .un{font-size:.78rem;padding:.5rem .95rem;border-radius:1.6rem;width:auto}
+  .empty{color:var(--faint);font-size:.92rem;padding:1.1rem 0}
+
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.2rem}
+  .pill3{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.6rem 1.5rem;transition:transform .3s,border-color .3s}
+  .pill3:hover{transform:translateY(-5px);border-color:var(--card-bd-h)}
+  .pill3 .pn{width:2.6rem;height:2.6rem;border-radius:.8rem;background:rgba(224,81,199,.12);border:1px solid rgba(224,81,199,.3);display:grid;place-items:center;color:#ff8fc0}
+  .pill3 .pn svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2}
+  .pill3 h3{font-size:1.2rem;margin-top:1rem}
+  .pill3 p{color:var(--muted);font-size:.94rem;margin-top:.5rem;line-height:1.6}
+  @media(max-width:860px){.pillars{grid-template-columns:1fr}}
+
+  .toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(2rem);z-index:200;background:#12121c;border:1px solid var(--card-bd);border-radius:.8rem;padding:.85rem 1.1rem;font-size:.9rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.9);opacity:0;visibility:hidden;transition:.25s;max-width:27rem}
+  .toast.show{opacity:1;visibility:visible;transform:translateX(-50%)}
+  .toast a{color:#8affc8}
+
+  footer{background:#08080f;border-top:1px solid var(--line);margin-top:4rem;padding:3.2rem 0 2rem;font-size:.85rem;color:rgba(255,255,255,.72);position:relative;z-index:2}
+  .fcols{max-width:var(--max);margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:1.6rem}
+  .fbrand .fw{font-weight:900;font-size:1.3rem}
+  .fbrand p{color:rgba(255,255,255,.62);margin:.5rem 0 .9rem;max-width:20rem}
+  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap}
+  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
+  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
+  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
+  .fcol{display:flex;flex-direction:column;gap:.5rem}.fcol .h{font-weight:700;margin-bottom:.2rem}
+  .fcol a{color:rgba(255,255,255,.9)}.fcol a:hover{text-decoration:underline}
+  .flegal{max-width:var(--max);margin:2rem auto 0;padding:1.3rem 1.5rem 0;border-top:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);font-size:.78rem}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1)}
+  .reveal.in{opacity:1;transform:none}
+  .hero .eyebrow,.hero h1,.hero .lead,.hero .cta-row,.hero .statrow{transition:opacity 1s cubic-bezier(.16,.84,.44,1),transform 1s cubic-bezier(.16,.84,.44,1)}
+  .hero:not(.go) h1,.hero:not(.go) .lead,.hero:not(.go) .cta-row,.hero:not(.go) .statrow{opacity:0;transform:translateY(24px)}
+  .hero:not(.go) .eyebrow{opacity:0}
+  .hero.go h1{transition-delay:.06s}.hero.go .lead{transition-delay:.14s}.hero.go .cta-row{transition-delay:.22s}.hero.go .statrow{transition-delay:.32s}
+  .hero.shown .eyebrow,.hero.shown h1,.hero.shown .lead,.hero.shown .cta-row,.hero.shown .statrow{opacity:1!important;transform:none!important}
+
+  /* splash */
+  #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
+  #splash img{width:4.4rem;height:4.4rem;object-fit:contain;filter:drop-shadow(0 10px 34px rgba(224,81,199,.75));animation:spinpop 1.1s ease-in-out infinite alternate}
+  @keyframes spinpop{from{transform:scale(.9) rotate(-6deg);opacity:.65}to{transform:scale(1.06) rotate(6deg);opacity:1}}
+  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+  @media(prefers-reduced-motion:reduce){#splash{display:none}}
+
+  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}.fbrand p{margin-left:auto;margin-right:auto}.fsoc{justify-content:center}}
+  @media(max-width:560px){.prow{grid-template-columns:1fr auto;gap:.5rem}.prow .mid{display:none}.fcols{grid-template-columns:1fr;text-align:center}.fcol{align-items:center}.flegal{text-align:center}}
+</style>
+
+<div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
+<canvas id="stars"></canvas>
+<div class="glowfix"></div>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html" class="active">Staking</a><a href="bridge.html">Bridge</a></div>
+    <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+    <button class="burger" id="burger">≡</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <p class="eyebrow"><span class="dmark"></span>$QORPO · Staking</p>
+    <h1>Put your $QORPO to&nbsp;work.</h1>
+    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Lock for <b>Power up to 25×</b>, or earn <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
+    <div class="cta-row">
+      <button class="btn btn-primary" id="heroConnect"><span class="diamond"></span><span id="heroConnectTxt">Connect &amp; stake</span></button>
+      <a class="btn btn-glass" href="#how">How it works</a>
+    </div>
+    <div class="statrow">
+      <div class="statcard"><b>up to 30%</b><span>APY tiers</span></div>
+      <div class="statcard"><b>up to 25×</b><span>Power multiplier</span></div>
+      <div class="statcard"><b>0 hacks</b><span>in 6 years building</span></div>
+      <div class="statcard"><b>100%</b><span>non-custodial</span></div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="sec wrap reveal" id="app">
+    <p class="kicker">Stake now</p>
+    <h2 class="bigh">Choose your pool</h2>
+    <p class="lead" style="margin-top:.8rem">Two ways to earn from the same token. Pick a pool, connect your wallet, and stake — every action is a real transaction you sign yourself.</p>
+
+    <div class="poolcards" id="poolSeg">
+      <button data-pool="apy" class="poolcard on" type="button">
+        <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span class="pk">Locked · fixed term</span>
+        <h3>APY staking</h3>
+        <div class="big">Earn <em>up to 30% APY</em></div>
+        <p>Lock $QORPO into a fixed tier and earn a set APY, paid straight from the on-chain contract.</p>
+      </button>
+      <button data-pool="noapy" class="poolcard" type="button">
+        <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span class="pk">Flexible · no lock</span>
+        <h3>Power staking</h3>
+        <div class="big">Build <em>up to 25× Power</em></div>
+        <p>Stake with no lock-up to earn Power for ecosystem rewards. Unstake any time.</p>
+      </button>
+    </div>
+
+    <div class="appgrid">
+      <!-- STAKE CONTROLS -->
+      <div class="card">
+        <div class="lab">Network</div>
+        <div class="seg chain" id="chainSeg">
+          <button data-chain="1" class="on" type="button">Ethereum</button>
+          <button data-chain="56" type="button">BNB Chain</button>
+        </div>
+
+        <div class="lab" style="margin-top:1.3rem">Amount to stake</div>
+        <div class="amount">
+          <input id="amt" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
+          <span class="tk">$QORPO</span>
+          <span class="max" id="maxBtn">MAX</span>
+        </div>
+
+        <div id="tierWrap" style="margin-top:1.2rem">
+          <div class="lab">APY tier</div>
+          <div class="seg" id="tierSeg"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary btn-block" id="mainBtn"><span class="diamond"></span><span id="mainTxt">Connect Wallet</span></button>
+        </div>
+        <div class="note">⚠️ Real on-chain transactions. First-time staking sends an <b>approve</b> then a <b>stake</b> — that's two wallet prompts. Please <b>test with a small amount first</b>.</div>
+      </div>
+
+      <!-- OVERVIEW + LIVE -->
+      <div class="card ov">
+        <div class="lab">Your position</div>
+        <h2>Staking overview</h2>
+        <p class="intro">Live, straight from QORPO's contracts — no custody layer, no platform risk.</p>
+        <div class="oline"><span class="k">Wallet balance</span><span class="v" id="sBal">0.00 $QORPO</span></div>
+        <div class="oline"><span class="k">Total staked</span><span class="v" id="sTotal">0.00 $QORPO</span></div>
+        <div class="oline"><span class="k">Staked · this pool</span><span class="v" id="sPool">0.00 $QORPO</span></div>
+        <div class="oline"><span class="k">Current pool</span><span class="v" id="ovPool">APY staking</span></div>
+        <div class="oline"><span class="k">Network</span><span class="v" id="ovChain">Ethereum</span></div>
+        <div class="oline"><span class="k">APY tiers</span><span class="v" id="sApy">15% / 30%</span></div>
+        <div class="oline"><span class="k">Staking contract</span><a id="ovContract" target="_blank" rel="noopener">View ↗</a></div>
+        <div class="oline"><span class="k">$QORPO token</span><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">0x2251…a940 ↗</a></div>
+      </div>
+    </div>
+
+    <!-- POSITIONS -->
+    <div class="positions">
+      <h2>Your stakes</h2>
+      <div class="ptable" id="positions"><div class="empty">Connect your wallet to see your stakes.</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec wrap reveal" id="how">
+    <p class="kicker">How it works</p>
+    <h2 class="bigh">Non-custodial by design</h2>
+    <p class="lead" style="margin-top:.8rem">Nobody holds your tokens but you. Every stake, unstake and reward is a transaction you sign, on contracts anyone can verify.</p>
+    <div class="pillars">
+      <div class="pill3">
+        <div class="pn"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>Your keys, your tokens</h3>
+        <p>Connect MetaMask, OKX or WalletConnect. QORPO never takes custody — the contract holds the stake, and only your wallet can unstake it.</p>
+      </div>
+      <div class="pill3">
+        <div class="pn"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
+        <h3>Two ways to earn</h3>
+        <p>APY staking pays a fixed rate for a locked term. Power staking is flexible with no lock, building multipliers up to 25× for ecosystem rewards.</p>
+      </div>
+      <div class="pill3">
+        <div class="pn"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Audited &amp; battle-tested</h3>
+        <p>CertiK-audited contracts, six years building, zero hacks. Live on Ethereum and BNB Chain, with every address public and verified.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fcols">
+    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
+    <div class="fcol"><span class="h">Main pages</span><a href="bridge.html">QORPO Bridge</a><a href="staking.html">QORPO Staking</a><a href="token.html">Why $QORPO</a></div>
+    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem.html">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
+    <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
+  </div>
+  <div class="flegal">© 2026 QORPO World. All rights reserved. · Non-custodial staking · $QORPO</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var TOKEN='0x22514ffb0d7232a56f0c24090e7b68f179faa940';
+  var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
+  var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1'},
+              56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38'}};
+  var ERC20=['function balanceOf(address) view returns (uint256)','function decimals() view returns (uint8)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)'];
+  var STAKE_ABI=[
+    'function getStakeWithNoApy(address) view returns (uint256)',
+    'function getStakesWithApy(address) view returns (tuple(uint256 amount,uint256 startTime,uint8 stakeType,bool finished)[])',
+    'function stakeTypes(uint8) view returns (uint256 minStake,uint256 maxStake,uint96 apyFraction,uint256 duration)',
+    'function stakeWithApy(uint8,uint256)','function stakeWithNoApy(uint256)',
+    'function unstakeWithApy(uint256)','function unstakeWithNoApy(uint256)'
+  ];
+  var eth=window.ethereum, okx=window.okxwallet;
+  var provider=null, signer=null, account=null, chainId=1, pool='apy', tier=0, tierList=[];
+
+  var $=function(id){return document.getElementById(id);};
+  function toast(msg,ms){var t=$('toast');t.innerHTML=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},ms||4200);}
+  function fmt(x,d){try{var n=parseFloat(ethers.formatUnits(x,d||18));return n.toLocaleString('en-US',{maximumFractionDigits:n<1?4:2});}catch(e){return '0.00';}}
+  function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
+  function readProvider(){return new ethers.JsonRpcProvider(CHAINS[chainId].rpc);}
+
+  function pickInjected(){ if(okx) return okx; if(eth) return eth; return null; }
+
+  async function connect(){
+    var inj=pickInjected();
+    if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');return;}
+    try{
+      var accs=await inj.request({method:'eth_requestAccounts'});
+      account=accs[0];
+      provider=new ethers.BrowserProvider(inj);
+      signer=await provider.getSigner();
+      var net=await provider.getNetwork();
+      var cid=Number(net.chainId);
+      if(CHAINS[cid]) chainId=cid;
+      syncChainSeg();
+      inj.on&&inj.on('accountsChanged',function(a){account=a[0]||null;a[0]?refresh():disconnect();});
+      inj.on&&inj.on('chainChanged',function(){location.reload();});
+      setConnected();
+      refresh();
+    }catch(e){toast('Connection cancelled.');}
+  }
+  function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';$('mainTxt').textContent='Connect Wallet';setHero();$('positions').innerHTML='<div class="empty">Connect your wallet to see your stakes.</div>';}
+  function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);updateMainBtn();setHero();}
+  function setHero(){var h=$('heroConnectTxt');if(h)h.textContent=account?'Go to staking':'Connect & stake';}
+
+  async function ensureChain(){
+    if(!signer) return true;
+    var net=await provider.getNetwork();
+    if(Number(net.chainId)===chainId) return true;
+    try{
+      await (okx||eth).request({method:'wallet_switchEthereumChain',params:[{chainId:CHAINS[chainId].hex}]});
+      provider=new ethers.BrowserProvider(okx||eth);signer=await provider.getSigner();
+      return true;
+    }catch(e){toast('Please switch your wallet to '+CHAINS[chainId].name+'.');return false;}
+  }
+
+  function tokenR(){return new ethers.Contract(TOKEN,ERC20,readProvider());}
+  function stakeR(){return new ethers.Contract(STAKING[chainId],STAKE_ABI,readProvider());}
+
+  async function loadTiers(){
+    tierList=[];var seg=$('tierSeg');seg.innerHTML='';
+    var c=stakeR();
+    for(var i=0;i<6;i++){
+      try{
+        var st=await c.stakeTypes(i);
+        var apyRaw=Number(st.apyFraction);
+        if(apyRaw===0 && Number(st.duration)===0) continue;
+        var pct=apyRaw>1000?Math.round(apyRaw/100):apyRaw;
+        tierList.push({idx:i,apy:pct,duration:Number(st.duration)});
+      }catch(e){break;}
+    }
+    if(!tierList.length){tierList=[{idx:0,apy:15,duration:0},{idx:1,apy:30,duration:0}];}
+    var found=false;
+    tierList.forEach(function(t,n){
+      var b=document.createElement('button');b.type='button';b.textContent=t.apy+'% APY';b.dataset.idx=t.idx;
+      if(n===0){b.classList.add('on');tier=t.idx;found=true;}
+      b.addEventListener('click',function(){[].forEach.call(seg.children,function(x){x.classList.remove('on');});b.classList.add('on');tier=parseInt(b.dataset.idx);});
+      seg.appendChild(b);
+    });
+    // reflect tiers in overview
+    var lab=tierList.map(function(t){return t.apy+'%';}).join(' / ');
+    if($('sApy'))$('sApy').textContent=lab;
+  }
+
+  async function refresh(){
+    $('tierWrap').style.display = pool==='apy'?'block':'none';
+    $('ovPool').textContent = pool==='apy'?'APY staking':'Power staking';
+    $('ovChain').textContent = CHAINS[chainId].name;
+    $('ovContract').href = CHAINS[chainId].scan+'/address/'+STAKING[chainId];
+    try{ await loadTiers(); }catch(e){}
+    if(!account){return;}
+    try{
+      var t=tokenR(), s=stakeR();
+      var bal=await t.balanceOf(account);
+      $('sBal').textContent=fmt(bal)+' $QORPO';
+      window._bal=bal;
+      var noApy=await s.getStakeWithNoApy(account);
+      var apyArr=await s.getStakesWithApy(account);
+      var apySum=0n; var active=[];
+      apyArr.forEach(function(p,i){ if(!p.finished){apySum+=p.amount; active.push({i:i,amount:p.amount,type:Number(p.stakeType),start:Number(p.startTime)});} });
+      var total=noApy+apySum;
+      $('sTotal').textContent=fmt(total)+' $QORPO';
+      $('sPool').textContent=(pool==='apy'?fmt(apySum):fmt(noApy))+' $QORPO';
+      renderPositions(noApy,active);
+    }catch(e){console.log(e);}
+    updateMainBtn();
+  }
+
+  function renderPositions(noApy,active){
+    var box=$('positions');var html='';
+    if(noApy>0n){
+      html+='<div class="prow"><span><b>Power staking</b> <span class="mono" style="color:var(--faint)">flexible</span></span><span class="mono mid">'+fmt(noApy)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">no lock</span><button class="btn btn-glass un" data-un="noapy" type="button">Unstake</button></div>';
+    }
+    active.forEach(function(p){
+      html+='<div class="prow"><span><b>APY stake</b> <span class="mono" style="color:var(--faint)">#'+p.i+'</span></span><span class="mono mid">'+fmt(p.amount)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">type '+p.type+'</span><button class="btn btn-glass un" data-un="apy" data-i="'+p.i+'" type="button">Unstake</button></div>';
+    });
+    box.innerHTML=html||'<div class="empty">No active stakes on '+CHAINS[chainId].name+' yet.</div>';
+    [].forEach.call(box.querySelectorAll('[data-un]'),function(b){b.addEventListener('click',function(){unstake(b.dataset.un,b.dataset.i);});});
+  }
+
+  function updateMainBtn(){
+    var b=$('mainBtn'),t=$('mainTxt');
+    if(!account){t.textContent='Connect Wallet';b.disabled=false;return;}
+    t.textContent = pool==='apy' ? 'Stake with APY' : 'Stake (Power)';
+    b.disabled=false;
+  }
+
+  async function doStake(){
+    if(!account){connect();return;}
+    var v=($('amt').value||'').trim();
+    if(!v||isNaN(v)||parseFloat(v)<=0){toast('Enter an amount to stake.');return;}
+    if(!(await ensureChain()))return;
+    var amount;try{amount=ethers.parseUnits(v,18);}catch(e){toast('Invalid amount.');return;}
+    var b=$('mainBtn');b.disabled=true;
+    try{
+      var token=new ethers.Contract(TOKEN,ERC20,signer);
+      var allowance=await token.allowance(account,STAKING[chainId]);
+      if(allowance<amount){
+        toast('Approve $QORPO in your wallet…');
+        var ap=await token.approve(STAKING[chainId],amount);
+        await ap.wait();
+      }
+      var s=new ethers.Contract(STAKING[chainId],STAKE_ABI,signer);
+      toast('Confirm the stake in your wallet…');
+      var tx = pool==='apy' ? await s.stakeWithApy(tier,amount) : await s.stakeWithNoApy(amount);
+      toast('Staking… <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">view tx ↗</a>');
+      await tx.wait();
+      toast('✅ Staked '+v+' $QORPO. <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">receipt ↗</a>',7000);
+      $('amt').value='';refresh();
+    }catch(e){toast('Transaction failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));console.log(e);}
+    b.disabled=false;
+  }
+
+  async function unstake(kind,i){
+    if(!account){connect();return;}
+    if(!(await ensureChain()))return;
+    try{
+      var s=new ethers.Contract(STAKING[chainId],STAKE_ABI,signer);
+      var tx;
+      if(kind==='apy'){toast('Confirm unstake in your wallet…');tx=await s.unstakeWithApy(parseInt(i));}
+      else{
+        var full=await stakeR().getStakeWithNoApy(account);
+        if(full<=0n){toast('Nothing to unstake.');return;}
+        toast('Confirm unstake in your wallet…');tx=await s.unstakeWithNoApy(full);
+      }
+      await tx.wait();toast('✅ Unstaked. <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">receipt ↗</a>',7000);refresh();
+    }catch(e){toast('Unstake failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));console.log(e);}
+  }
+
+  // ---- UI wiring ----
+  function syncChainSeg(){[].forEach.call($('chainSeg').children,function(b){b.classList.toggle('on',parseInt(b.dataset.chain)===chainId);});}
+  $('poolSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.remove('on');});b.classList.add('on');pool=b.dataset.pool;refresh();});
+  $('chainSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;chainId=parseInt(b.dataset.chain);syncChainSeg();refresh();});
+  $('maxBtn').addEventListener('click',function(){if(window._bal)$('amt').value=ethers.formatUnits(window._bal,18);});
+  $('wcBtn').addEventListener('click',function(){account?refresh():connect();});
+  $('mainBtn').addEventListener('click',doStake);
+  var hc=$('heroConnect');if(hc)hc.addEventListener('click',function(){if(account){$('app').scrollIntoView({behavior:'smooth'});}else{connect();}});
+
+  refresh(); // initial read (tiers, overview) without wallet
+
+  // starfield
+  (function(){var c=$('stars'),x=c.getContext('2d'),w,h,st=[];
+    function rs(){w=c.width=innerWidth;h=c.height=innerHeight;st=[];var n=Math.min(90,Math.floor(w*h/16000));for(var i=0;i<n;i++)st.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.8+.2,s:Math.random()*1.2+.3});}
+    rs();addEventListener('resize',rs);var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0;
+    (function loop(){t+=.02;x.clearRect(0,0,w,h);for(var i=0;i<st.length;i++){var p=st[i];p.y+=p.z*.12;if(p.y>h)p.y=0;var tw=rm?.6:(.4+.6*Math.abs(Math.sin(t+p.x)));x.globalAlpha=tw*p.z;x.fillStyle=(p.x%7<3)?'#E051C7':'#fff';x.beginPath();x.arc(p.x,p.y,p.s,0,7);x.fill();}x.globalAlpha=1;if(!rm)requestAnimationFrame(loop);})();})();
+})();
+
+// ---- shared chrome scripts ----
+(function(){var hero=document.getElementById('hero');if(!hero)return;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){hero.classList.add('go');});});
+  function showNow(){hero.classList.add('shown');}
+  setTimeout(showNow,2600);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)showNow();});
+  if(document.visibilityState&&document.visibilityState!=='visible')showNow();
+})();
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});})();
+(function(){var s=document.getElementById('splash');if(!s)return;function go(){s.classList.add('gone');}addEventListener('load',function(){setTimeout(go,300);});setTimeout(go,1400);})();
+(function(){var b=document.getElementById('burger');if(!b)return;b.addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem;gap:.3rem';});})();
+(function(){
+  var SVGG={
+    Discord:'<path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>',
+    X:'<path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/>',
+    Telegram:'<path d="M21.9 4.3 2.6 11.8c-1 .4-1 1.8 0 2.1l4.9 1.5 1.9 6c.2.8 1.2 1 1.8.4l2.7-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7l3.4-15.9c.2-1-.8-1.8-1.8-1.3zM9.7 15.3l9-5.6c.2-.1.4.1.2.3l-7.4 6.9-.3 3.1-1.5-4.7z"/>',
+    Instagram:'<path d="M12 8.9A3.1 3.1 0 1 0 15.1 12 3.1 3.1 0 0 0 12 8.9zm0 5.1A2 2 0 1 1 14 12a2 2 0 0 1-2 2zm4-6.4a.72.72 0 1 0 .72.72.72.72 0 0 0-.72-.72zM20 7.6a4.9 4.9 0 0 0-.33-1.62 3.28 3.28 0 0 0-1.87-1.87A4.9 4.9 0 0 0 16.18 3.8C15.46 3.77 15.23 3.76 12 3.76s-3.46 0-4.18.04a4.9 4.9 0 0 0-1.62.33 3.28 3.28 0 0 0-1.87 1.87A4.9 4.9 0 0 0 4 7.6C3.97 8.32 3.96 8.55 3.96 12s0 3.46.04 4.18a4.9 4.9 0 0 0 .33 1.62 3.28 3.28 0 0 0 1.87 1.87 4.9 4.9 0 0 0 1.62.33c.72.03.95.04 4.18.04s3.46 0 4.18-.04a4.9 4.9 0 0 0 1.62-.33 3.28 3.28 0 0 0 1.87-1.87 4.9 4.9 0 0 0 .33-1.62c.03-.72.04-.95.04-4.18s0-3.46-.04-4.18zm-1.2 8.31a3.7 3.7 0 0 1-.24 1.24 2.2 2.2 0 0 1-1.25 1.25 3.7 3.7 0 0 1-1.24.24c-.71.03-.92.04-4.07.04s-3.36 0-4.07-.04a3.7 3.7 0 0 1-1.24-.24 2.2 2.2 0 0 1-1.25-1.25 3.7 3.7 0 0 1-.24-1.24c-.03-.71-.04-.92-.04-4.07s0-3.36.04-4.07a3.7 3.7 0 0 1 .24-1.24A2.2 2.2 0 0 1 6.69 5.29a3.7 3.7 0 0 1 1.24-.24c.71-.03.92-.04 4.07-.04s3.36 0 4.07.04a3.7 3.7 0 0 1 1.24.24 2.2 2.2 0 0 1 1.25 1.25 3.7 3.7 0 0 1 .24 1.24c.03.71.04.92.04 4.07s-.01 3.36-.04 4.07z"/>',
+    TikTok:'<path d="M16.6 3h-2.9v12.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .4 0 .6.1V10a5.3 5.3 0 1 0 4.6 5.3V8.9a6.3 6.3 0 0 0 3.6 1.1V7.1a3.5 3.5 0 0 1-3.6-3.5z"/>',
+    Twitch:'<path d="M4.3 3 3 6.4v13.1h4.5V22h2.5l2.5-2.5h3.6L21 15.1V3zm14.8 11.3-2.6 2.6h-3.9l-2.3 2.3v-2.3H6.7V4.6h12.4zM15.3 7.6h-1.6v4.8h1.6zm-4.3 0H9.4v4.8H11z"/>',
+    YouTube:'<path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8zM9.8 15.3V8.7l5.7 3.3z"/>'
+  };
+  var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['TikTok','https://tiktok.com/@qorpoworld'],['Twitch','https://twitch.tv/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
+  var f=document.getElementById('fsoc');if(f)f.innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
+})();
+</script>
