@@ -138,6 +138,21 @@
   .amount .max{font-family:var(--mono);font-size:.7rem;font-weight:600;color:#7aa2ff;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.25);border-radius:.5rem;padding:.32rem .55rem;cursor:pointer}
   .actions{margin-top:1.1rem}
   .note{margin-top:1rem;font-size:.8rem;color:var(--muted);background:rgba(224,81,199,.08);border:1px solid rgba(224,81,199,.28);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
+  .spincalc{margin-top:.9rem;background:rgba(224,81,199,.09);border:1px solid rgba(224,81,199,.3);border-radius:.7rem;padding:.7rem .9rem;font-size:.86rem;color:#eaeaf3;display:flex;align-items:flex-start;gap:.55rem;line-height:1.45}
+  .spincalc .sc-ic{font-size:1.15rem;line-height:1.2}
+  .spincalc b.sc-b{font-weight:800;color:#fff}
+  .spincalc .sc-next{color:var(--muted);display:block;margin-top:.15rem;font-size:.82rem}
+  .tiers{margin-top:2.4rem}
+  .tiers .tw{overflow-x:auto;border:1px solid var(--card-bd);border-radius:var(--card-r);background:var(--card-bg)}
+  .tierstable{width:100%;border-collapse:collapse;min-width:36rem;font-size:.9rem}
+  .tierstable th,.tierstable td{padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--line2)}
+  .tierstable tr:last-child td{border-bottom:0}
+  .tierstable th{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.02)}
+  .tierstable td{font-family:var(--mono);color:#d9d9e6;font-variant-numeric:tabular-nums}
+  .tierstable td.spins{color:#fff;font-weight:700}
+  .tierstable td.apy em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+  .tierstable tr.on{background:rgba(224,81,199,.12)}
+  .tierstable tr.on td:first-child{box-shadow:inset 3px 0 0 var(--mag)}
   /* reward-model explainer */
   .earn{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
   .earn .e{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.3rem}
@@ -314,17 +329,17 @@
     <div class="poolcards" id="poolSeg">
       <button data-pool="apy" class="poolcard on" type="button">
         <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
-        <span class="pk">Locked · fixed term</span>
-        <h3>APY staking</h3>
-        <div class="big">Earn <em>up to 30% APY</em></div>
-        <p>Lock $QORPO into a fixed tier and earn a set APY, paid straight from the on-chain contract.</p>
+        <span class="pk">Holder · locked · fixed term</span>
+        <h3>Holder</h3>
+        <div class="big">Earn <em>Community Points + up to 30% APY</em></div>
+        <p>Lock $QORPO for a fixed term — earn Community Points 1:1 <b>plus</b> a set APY, paid straight from the on-chain contract.</p>
       </button>
       <button data-pool="noapy" class="poolcard" type="button">
         <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
-        <span class="pk">Flexible · no lock</span>
-        <h3>Power staking</h3>
+        <span class="pk">Trader · flexible · no lock</span>
+        <h3>Trader</h3>
         <div class="big">Earn <em>Community Points</em></div>
-        <p>Stake with no lock to earn Community Points 1:1 — no multipliers. Unstake any time.</p>
+        <p>Stake with no lock — earn Community Points 1:1, no multipliers. Unstake any time.</p>
       </button>
     </div>
 
@@ -344,6 +359,8 @@
           <span class="max" id="maxBtn">MAX</span>
         </div>
 
+        <div class="spincalc" id="spinCalc"><span class="sc-ic">🎡</span><span>Enter an amount to see your <b class="sc-b">daily spins</b>.</span></div>
+
         <div id="tierWrap" style="margin-top:1.2rem">
           <div class="lab">APY tier</div>
           <div class="seg" id="tierSeg"></div>
@@ -353,7 +370,7 @@
         <div class="actions">
           <button class="btn btn-primary btn-block" id="mainBtn"><span class="diamond"></span><span id="mainTxt">Connect Wallet</span></button>
         </div>
-        <div class="note" id="noteApy">⚠️ Real on-chain transactions. First-time staking sends an <b>approve</b> then a <b>stake</b> — two wallet prompts. APY tiers have a <b>minimum</b> and a <b>lock period</b> (shown above). To test small, use <b>Power staking</b> — it has no minimum and no lock.</div>
+        <div class="note" id="noteApy">⚠️ Real on-chain transactions. First-time staking sends an <b>approve</b> then a <b>stake</b> — two wallet prompts. The <b>Holder</b> pool has a <b>minimum</b> and a <b>lock period</b> (shown above). To test small, use <b>Trader</b> — no minimum, no lock.</div>
       </div>
 
       <!-- OVERVIEW + LIVE -->
@@ -364,7 +381,7 @@
         <div class="oline"><span class="k">Wallet balance</span><span class="v" id="sBal">0.00 $QORPO</span></div>
         <div class="oline"><span class="k">Total staked</span><span class="v" id="sTotal">0.00 $QORPO</span></div>
         <div class="oline"><span class="k">Staked · this pool</span><span class="v" id="sPool">0.00 $QORPO</span></div>
-        <div class="oline"><span class="k">Current pool</span><span class="v" id="ovPool">APY staking</span></div>
+        <div class="oline"><span class="k">Current pool</span><span class="v" id="ovPool">Holder</span></div>
         <div class="oline"><span class="k">Network</span><span class="v" id="ovChain">Ethereum</span></div>
         <div class="oline"><span class="k">APY tiers</span><span class="v" id="sApy">15% / 30%</span></div>
         <div class="oline"><span class="k">Staking contract</span><a id="ovContract" target="_blank" rel="noopener">View ↗</a></div>
@@ -377,6 +394,17 @@
       <h2>Your stakes</h2>
       <div class="ptable" id="positions"><div class="empty">Connect your wallet to see your stakes.</div></div>
     </div>
+  </section>
+
+  <!-- DAILY SPINS BY STAKE -->
+  <section class="sec wrap reveal" id="spins">
+    <p class="kicker">Stake more, spin more</p>
+    <h2 class="bigh">Your daily spins</h2>
+    <p class="lead" style="margin-top:.8rem">The more $QORPO you stake, the more <b style="color:#fff">free daily spins</b> you get in the <a href="spin.html" style="color:var(--pink)">Spin</a> game — every spin can win vouchers, NFTs or airdrop entries. Spins are valid 24h.</p>
+    <div class="tiers"><div class="tw"><table class="tierstable" id="tiersTable">
+      <thead><tr><th>Level</th><th>$QORPO staked</th><th>Daily spins</th><th>APY</th></tr></thead>
+      <tbody id="tiersBody"></tbody>
+    </table></div></div>
   </section>
 
   <!-- WHAT YOU EARN -->
@@ -417,7 +445,7 @@
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
         <h3>Two ways to earn</h3>
-        <p>APY staking pays a fixed rate for a locked term. Power staking is flexible with no lock and earns Community Points 1:1 — no multipliers.</p>
+        <p>The <b>Holder</b> pool pays a fixed rate for a locked term. The <b>Trader</b> pool is flexible with no lock. Both earn Community Points 1:1 — no multipliers.</p>
       </div>
       <div class="pill3">
         <div class="pn"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -598,7 +626,7 @@
 
   async function refresh(){
     $('tierWrap').style.display = pool==='apy'?'block':'none';
-    $('ovPool').textContent = pool==='apy'?'APY staking':'Power staking';
+    $('ovPool').textContent = pool==='apy'?'Holder':'Trader';
     $('ovChain').textContent = CHAINS[chainId].name;
     $('ovContract').href = CHAINS[chainId].scan+'/address/'+STAKING[chainId];
     try{ await loadTiers(); }catch(e){}
@@ -623,10 +651,10 @@
   function renderPositions(noApy,active){
     var box=$('positions');var html='';
     if(noApy>0n){
-      html+='<div class="prow"><span><b>Power staking</b> <span class="mono" style="color:var(--faint)">flexible</span></span><span class="mono mid">'+fmt(noApy)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">no lock</span><button class="btn btn-glass un" data-un="noapy" type="button">Unstake</button></div>';
+      html+='<div class="prow"><span><b>Trader</b> <span class="mono" style="color:var(--faint)">flexible</span></span><span class="mono mid">'+fmt(noApy)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">no lock</span><button class="btn btn-glass un" data-un="noapy" type="button">Unstake</button></div>';
     }
     active.forEach(function(p){
-      html+='<div class="prow"><span><b>APY stake</b> <span class="mono" style="color:var(--faint)">#'+p.i+'</span></span><span class="mono mid">'+fmt(p.amount)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">type '+p.type+'</span><button class="btn btn-glass un" data-un="apy" data-i="'+p.i+'" type="button">Unstake</button></div>';
+      html+='<div class="prow"><span><b>Holder stake</b> <span class="mono" style="color:var(--faint)">#'+p.i+'</span></span><span class="mono mid">'+fmt(p.amount)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">type '+p.type+'</span><button class="btn btn-glass un" data-un="apy" data-i="'+p.i+'" type="button">Unstake</button></div>';
     });
     box.innerHTML=html||'<div class="empty">No active stakes on '+CHAINS[chainId].name+' yet.</div>';
     [].forEach.call(box.querySelectorAll('[data-un]'),function(b){b.addEventListener('click',function(){unstake(b.dataset.un,b.dataset.i);});});
@@ -635,7 +663,7 @@
   function updateMainBtn(){
     var b=$('mainBtn'),t=$('mainTxt');
     if(!account){t.textContent='Connect Wallet';b.disabled=false;return;}
-    t.textContent = pool==='apy' ? 'Stake with APY' : 'Stake (Power)';
+    t.textContent = pool==='apy' ? 'Stake as Holder' : 'Stake as Trader';
     b.disabled=false;
   }
 
@@ -649,7 +677,7 @@
     if(window._bal&&amount>window._bal){toast('Amount exceeds your $QORPO balance.');return;}
     if(pool==='apy'){
       var ti=tierByIdx(tier);
-      if(ti&&ti.minRaw&&amount<ti.minRaw){toast('The '+ti.apy+'% tier needs at least '+fmt(ti.minRaw)+' $QORPO. Use Power staking to stake smaller amounts.',6000);return;}
+      if(ti&&ti.minRaw&&amount<ti.minRaw){toast('The '+ti.apy+'% tier needs at least '+fmt(ti.minRaw)+' $QORPO. Use the Trader pool to stake smaller amounts.',6000);return;}
     }
     openConfirm(amount);
   }
@@ -665,7 +693,7 @@
       var ti=tierByIdx(tier)||{apy:0,duration:0};
       var unlock=ti.duration>0?nowSec()+ti.duration:0;
       var bonus=0;try{bonus=parseFloat(ethers.formatUnits(amount,18))*(ti.apy/100)*(ti.duration/31557600);}catch(e){}
-      rows+=crow('Pool','APY staking · locked');
+      rows+=crow('Pool','Holder · locked');
       rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
       rows+=crow('APY rate',ti.apy+'% per year');
       rows+=crow('Lock',ti.duration>0?daysOf(ti.duration):'—');
@@ -674,7 +702,7 @@
       good='<b>You earn two things:</b> '+pts+' (no multipliers) — plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
       warn='<b>Locked until '+(unlock?fmtDate(unlock):'the term ends')+'.</b> Exiting early isn’t a normal unstake — it uses the contract’s emergency withdrawal, which <b>forfeits the APY bonus</b> and applies an on-chain <b>early-exit penalty<span id="cmPen"></span></b> to your principal. Hold to the unlock date to withdraw your full stake <b>plus</b> rewards.';
     }else{
-      rows+=crow('Pool','Power staking · flexible');
+      rows+=crow('Pool','Trader · flexible');
       rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
       rows+=crow('Lock','None — unstake any time');
       rows+=crow('APY','None (bonus is APY-pool only)');
@@ -745,7 +773,45 @@
   function syncChainSeg(){[].forEach.call($('chainSeg').children,function(b){b.classList.toggle('on',parseInt(b.dataset.chain)===chainId);});}
   $('poolSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.remove('on');});b.classList.add('on');pool=b.dataset.pool;refresh();});
   $('chainSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;chainId=parseInt(b.dataset.chain);syncChainSeg();refresh();});
-  $('maxBtn').addEventListener('click',function(){if(window._bal)$('amt').value=ethers.formatUnits(window._bal,18);});
+  $('maxBtn').addEventListener('click',function(){if(window._bal)$('amt').value=ethers.formatUnits(window._bal,18);updateSpinCalc();});
+
+  // ---- daily-spin tiers (staking power -> free daily spins) ----
+  var SPIN_TIERS=[
+    {min:100,     max:1000,     spins:1,  apy:0},
+    {min:1001,    max:5000,     spins:2,  apy:0},
+    {min:5001,    max:15000,    spins:3,  apy:0},
+    {min:15001,   max:50000,    spins:4,  apy:15},
+    {min:50001,   max:500000,   spins:5,  apy:30},
+    {min:500001,  max:Infinity, spins:10, apy:30}
+  ];
+  function nfmt(n){return n>=1e6?(n/1e6).toLocaleString('en-US',{maximumFractionDigits:1})+'M':n.toLocaleString('en-US');}
+  function tierOf(amt){for(var i=0;i<SPIN_TIERS.length;i++){if(amt>=SPIN_TIERS[i].min&&amt<=SPIN_TIERS[i].max)return i;}return -1;}
+  function buildTiersTable(){
+    var b=$('tiersBody');if(!b)return;
+    b.innerHTML=SPIN_TIERS.map(function(t,i){
+      var range=t.max===Infinity?(nfmt(t.min-1)+'+'):(nfmt(t.min)+' – '+nfmt(t.max));
+      return '<tr data-lvl="'+i+'"><td>L'+(i+1)+'</td><td>'+range+'</td><td class="spins">'+t.spins+(t.spins===1?' spin':' spins')+'</td><td class="apy">'+(t.apy?'<em>'+t.apy+'%</em>':'—')+'</td></tr>';
+    }).join('');
+  }
+  function updateSpinCalc(){
+    var el=$('spinCalc');if(!el)return;
+    var v=parseFloat(($('amt').value||'').replace(/,/g,''))||0;
+    // highlight active tier row
+    var idx=tierOf(v);
+    [].forEach.call(document.querySelectorAll('#tiersBody tr'),function(r){r.classList.toggle('on',parseInt(r.dataset.lvl)===idx);});
+    if(v<100){
+      var need=100-v;
+      el.innerHTML='<span class="sc-ic">🎡</span><span>Stake <b class="sc-b">100 $QORPO</b> to earn your first <b class="sc-b">daily spin</b>.'+(v>0?'<span class="sc-next">+'+nfmt(Math.ceil(need))+' $QORPO to go.</span>':'')+'</span>';
+      return;
+    }
+    var t=SPIN_TIERS[idx];
+    var next=SPIN_TIERS[idx+1];
+    var nextLine=next?('<span class="sc-next">+'+nfmt(Math.ceil(next.min-v))+' $QORPO → '+next.spins+' daily spins'+(next.apy&&!t.apy?' & '+next.apy+'% APY':(next.apy>t.apy?' & '+next.apy+'% APY':''))+'</span>'):'<span class="sc-next">Max tier reached 🎉</span>';
+    el.innerHTML='<span class="sc-ic">🎡</span><span>≈ <b class="sc-b">'+t.spins+' daily '+(t.spins===1?'spin':'spins')+'</b>'+(t.apy?' · <b class="sc-b">'+t.apy+'% APY</b>':'')+' at this stake.'+nextLine+'</span>';
+  }
+  $('amt').addEventListener('input',updateSpinCalc);
+  buildTiersTable();
+  updateSpinCalc();
   $('wcBtn').addEventListener('click',function(e){ if(account){e.stopPropagation();var m=$('wcMenu');if(m)m.classList.toggle('open');} else {connect();} });
   var wcc=$('wcCopy');if(wcc)wcc.addEventListener('click',function(){ if(account&&navigator.clipboard){navigator.clipboard.writeText(account).then(function(){toast('Address copied ✓',1600);}).catch(function(){}); } closeWcMenu(); });
   var wcd=$('wcDisc');if(wcd)wcd.addEventListener('click',function(){ disconnect();toast('Wallet disconnected.',2200); });
