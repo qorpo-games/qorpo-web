@@ -579,7 +579,10 @@
     var q='/blog-posts?filter[blog_categories.slug]=qorpo-game-studio&per_page=6&fields[blog_posts]=title,slug,published_at,thumbnail_image,feature_image';
     fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
-      document.getElementById('blogrow').innerHTML=posts.map(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';var cover=img?'style="background-image:url('+img+')"':'';return '<a class="blog" href="https://www.qorpo.world/blog/'+p.slug+'" target="_blank" rel="noopener"><div class="cover '+(img?'':covers[i])+'" '+cover+'></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      var row=document.getElementById('blogrow');
+      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="https://www.qorpo.world/blog/'+p.slug+'" target="_blank" rel="noopener"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      // real cover only if it actually loads (CMS image host may 404); otherwise the brand gradient stays
+      posts.forEach(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
     }).catch(function(){});
   })();
 
