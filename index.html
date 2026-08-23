@@ -573,11 +573,13 @@
   var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['TikTok','https://tiktok.com/@qorpoworld'],['Twitch','https://twitch.tv/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
   document.getElementById('fsoc').innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
   document.getElementById('burger').addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem'});
-  // BLOG via CMS (real posts when online, up to 6)
-  (function(){var CMS='https://cms.qorpo.world/api/v1',covers=['g1','g2','g3','g4','g5','g6'];
-    fetch(CMS+'/blog-posts?page=1&per_page=6').then(function(r){return r.ok?r.json():null;}).then(function(j){
+  // BLOG via shared Nucleus CMS — real QORPO posts (category qorpo-game-studio).
+  // Falls back to the static cards below if offline or the origin isn't CORS-allowed yet.
+  (function(){var CMS='https://blog.tamitos.com/api/v1',covers=['g1','g2','g3','g4','g5','g6'];
+    var q='/blog-posts?filter[blog_categories.slug]=qorpo-game-studio&per_page=6&fields[blog_posts]=title,slug,published_at,thumbnail_image,feature_image';
+    fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
-      document.getElementById('blogrow').innerHTML=posts.map(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';var cat=(p.blog_categories&&p.blog_categories[0]&&p.blog_categories[0].name)||'QORPO';var cover=img?'style="background-image:url('+img+')"':'';return '<a class="blog" href="https://www.qorpo.world/blog/'+p.slug+'" target="_blank" rel="noopener"><div class="cover '+(img?'':covers[i])+'" '+cover+'></div><div class="b-body"><div class="cat">'+cat+'</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      document.getElementById('blogrow').innerHTML=posts.map(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';var cover=img?'style="background-image:url('+img+')"':'';return '<a class="blog" href="https://www.qorpo.world/blog/'+p.slug+'" target="_blank" rel="noopener"><div class="cover '+(img?'':covers[i])+'" '+cover+'></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
     }).catch(function(){});
   })();
 
