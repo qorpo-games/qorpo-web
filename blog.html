@@ -1,0 +1,271 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QORPO Blog</title>
+<meta name="description" content="News and updates from the QORPO world — games, AI, entertainment and the $QORPO token.">
+<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
+    --mag:#E051C7;--pink:#FF709E;--green:#38d39f;
+    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
+    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
+    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+    --max:78rem;--read:44rem;
+    --card-r:1.1rem;--card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    --card-bd:rgba(255,255,255,.10);--card-bd-h:rgba(255,255,255,.24);--card-sh:0 24px 60px -40px rgba(0,0,0,.9);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+  p{margin:0}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
+  .read{max-width:var(--read);margin:0 auto;padding:0 1.5rem}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+  .diamond{width:.72rem;height:.72rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);flex:none}
+  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
+
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(46rem 34rem at 82% -4%,rgba(224,81,199,.18),transparent 60%),
+    radial-gradient(40rem 30rem at 4% 12%,rgba(123,90,240,.13),transparent 60%)}
+  main{position:relative;z-index:2}
+
+  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.4rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
+  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line)}
+  .btn-glass:hover{background:rgba(255,255,255,.09)}
+  .cta{font-size:.86rem;padding:.55rem 1.1rem}
+
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
+  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
+  .nav-links{display:flex;gap:.2rem;margin:0 auto}
+  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
+  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
+  .nav-links a.active{opacity:1;color:#fff;background:rgba(224,81,199,.16)}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
+
+  /* buy dropdown */
+  .buydrop{position:relative;display:inline-block}
+  .buydrop>.btn svg{transition:transform .2s}
+  .buydrop.open>.btn svg,.buydrop:hover>.btn svg{transform:rotate(180deg)}
+  .bd-menu{position:absolute;top:calc(100% + .5rem);right:0;transform:translateY(8px);min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
+  .buydrop:hover .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible;transform:none}
+  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
+  .bd-menu a:hover{background:rgba(255,255,255,.08)}
+  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
+  .bd-sep{height:1px;background:var(--line2);margin:.3rem .4rem}
+  .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
+
+  /* article */
+  .art{padding:2.6rem 0 1rem}
+  .back{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:1.4rem}
+  .back:hover{color:#fff}
+  .cat{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--pink)}
+  h1.title{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:900;letter-spacing:-.03em;margin:.6rem 0 0;background:linear-gradient(180deg,#fff 55%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .meta{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;margin-top:1rem;color:var(--faint);font-family:var(--mono);font-size:.76rem}
+  .meta b{color:#cfcfe0;font-weight:600}
+  .lead{color:var(--muted);font-size:1.16rem;margin-top:1.2rem;line-height:1.6}
+  .hero-img{width:100%;max-width:var(--max);margin:2rem auto 0;aspect-ratio:16/8;border-radius:var(--card-r);overflow:hidden;border:1px solid var(--card-bd);position:relative;background:radial-gradient(120% 120% at 20% 0,rgba(224,81,199,.28),transparent 55%),radial-gradient(120% 120% at 100% 100%,rgba(123,90,240,.28),transparent 55%),#0c0c14}
+  .hero-img.g2{background:radial-gradient(120% 120% at 0 0,rgba(90,167,240,.28),transparent 55%),radial-gradient(120% 120% at 100% 100%,rgba(224,81,199,.26),transparent 55%),#0c0c14}
+  .hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* prose */
+  .prose{margin-top:2.2rem;color:#e7e7f2;font-size:1.05rem;line-height:1.75}
+  .prose .block{margin-top:2.2rem}
+  .prose .block:first-child{margin-top:0}
+  .prose h2{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin:0 0 .7rem;color:#fff}
+  .prose p{margin:0 0 1rem}
+  .prose a{color:#ff9ecb;text-decoration:underline;text-underline-offset:2px}
+  .prose a:hover{color:#fff}
+  .prose ul,.prose ol{margin:0 0 1rem;padding-left:1.3rem}
+  .prose li{margin:.35rem 0}
+  .prose strong,.prose b{color:#fff;font-weight:700}
+  .prose img{max-width:100%;height:auto;border-radius:.8rem;border:1px solid var(--card-bd);display:block;margin:1rem 0}
+  .prose figure{margin:1.4rem 0}
+  .prose blockquote{margin:1.4rem 0;padding:.6rem 0 .6rem 1.1rem;border-left:3px solid var(--mag);color:var(--muted)}
+  .prose hr{border:0;border-top:1px solid var(--line2);margin:2rem 0}
+  .prose table{width:100%;border-collapse:collapse;font-size:.92rem;margin:1.2rem 0;display:block;overflow-x:auto}
+  .prose td,.prose th{border:1px solid var(--card-bd);padding:.55rem .7rem;text-align:left}
+
+  .end{max-width:var(--read);margin:3rem auto 0;padding:2rem 1.5rem;border-top:1px solid var(--line2);text-align:center}
+  .end p{color:var(--muted);margin-bottom:1rem}
+  .st-cta{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+
+  .state{max-width:var(--read);margin:5rem auto;text-align:center;padding:0 1.5rem;color:var(--muted)}
+  .state h2{font-size:1.6rem;margin-bottom:.6rem}
+  .spin{width:2.2rem;height:2.2rem;margin:0 auto 1rem;border-radius:50%;border:3px solid rgba(255,255,255,.15);border-top-color:var(--mag);animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  footer{background:#08080f;border-top:1px solid var(--line);margin-top:4rem;padding:3.2rem 0 2rem;font-size:.85rem;color:rgba(255,255,255,.72);position:relative;z-index:2}
+  .fcols{max-width:var(--max);margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:1.6rem}
+  .fbrand .fw{font-weight:900;font-size:1.3rem}
+  .fbrand p{color:rgba(255,255,255,.62);margin:.5rem 0 .9rem;max-width:20rem}
+  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap}
+  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
+  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
+  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
+  .fcol{display:flex;flex-direction:column;gap:.5rem}.fcol .h{font-weight:700;margin-bottom:.2rem}
+  .fcol a{color:rgba(255,255,255,.9)}.fcol a:hover{text-decoration:underline}
+  .flegal{max-width:var(--max);margin:2rem auto 0;padding:1.3rem 1.5rem 0;border-top:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);font-size:.78rem}
+
+  #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
+  #splash img{width:4.4rem;height:4.4rem;object-fit:contain;filter:drop-shadow(0 10px 34px rgba(224,81,199,.75));animation:spinpop 1.1s ease-in-out infinite alternate}
+  @keyframes spinpop{from{transform:scale(.9) rotate(-6deg);opacity:.65}to{transform:scale(1.06) rotate(6deg);opacity:1}}
+  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+  @media(prefers-reduced-motion:reduce){#splash{display:none}}
+
+  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}.fbrand p{margin-left:auto;margin-right:auto}.fsoc{justify-content:center}}
+  @media(max-width:560px){.fcols{grid-template-columns:1fr;text-align:center}.fcol{align-items:center}.flegal{text-align:center}}
+</style>
+
+<div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
+<canvas id="stars"></canvas>
+<div class="glowfix"></div>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html">Staking</a><a href="bridge.html">Bridge</a></div>
+    <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
+    <button class="burger" id="burger">≡</button>
+  </nav>
+</header>
+
+<main>
+  <div id="content">
+    <div class="state" id="loading"><div class="spin"></div>Loading article…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="fcols">
+    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
+    <div class="fcol"><span class="h">Main pages</span><a href="bridge.html">QORPO Bridge</a><a href="staking.html">QORPO Staking</a><a href="token.html">Why $QORPO</a></div>
+    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem.html">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
+    <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
+  </div>
+  <div class="flegal">© 2026 QORPO World. All rights reserved. · $QORPO the attention economy token</div>
+</footer>
+
+<script>
+(function(){
+  var CMS='https://blog.tamitos.com/api/v1';
+  var $=function(s,r){return (r||document).querySelector(s);};
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function qs(k){return new URLSearchParams(location.search).get(k);}
+  function fdate(s){try{return new Date(s).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}catch(e){return '';}}
+  function loadImg(url,onok){if(!url)return;var im=new Image();im.onload=function(){onok(im);};im.src=url;}
+
+  function stateHtml(title,msg){return '<div class="state"><h2>'+esc(title)+'</h2><p>'+esc(msg)+'</p><div class="st-cta"><a class="btn btn-glass" href="index.html">← Back to QORPO</a></div></div>';}
+
+  function render(p){
+    var cat = (p.blog_categories&&p.blog_categories[0]&&p.blog_categories[0].name) || 'QORPO';
+    var author = (p.blog_author&&p.blog_author.name) || '';
+    var date = p.published_at ? fdate(p.published_at) : '';
+    var rt = p.reading_time ? (p.reading_time+' min read') : '';
+    var feat = (p.feature_image&&p.feature_image.url) || (p.thumbnail_image&&p.thumbnail_image.url) || '';
+    var lead = (p.annotation&&typeof p.annotation==='string') ? p.annotation : '';
+    var metaBits=[];
+    if(date) metaBits.push('<span>'+esc(date)+'</span>');
+    if(author) metaBits.push('<span>by <b>'+esc(author)+'</b></span>');
+    if(rt) metaBits.push('<span>'+esc(rt)+'</span>');
+
+    var blocks = Array.isArray(p.content_blocks) ? p.content_blocks : [];
+    var body = blocks.map(function(b){
+      var a=b.attributes||{};
+      var out='';
+      if(a.title && typeof a.title==='string' && a.title.trim()) out+='<h2>'+esc(a.title)+'</h2>';
+      if(a.text && typeof a.text==='string') out+=a.text;            // CMS-provided HTML
+      if(a.image && a.image.url) out+='<figure class="bimg" data-src="'+esc(a.image.url)+'"></figure>';
+      return out ? '<section class="block">'+out+'</section>' : '';
+    }).join('');
+    if(!body && lead) body='<section class="block"><p>'+esc(lead)+'</p></section>';
+
+    var html=''+
+      '<article class="art">'+
+        '<div class="read">'+
+          '<a class="back" href="index.html#news">← QORPO Newsroom</a>'+
+          '<div class="cat">'+esc(cat)+'</div>'+
+          '<h1 class="title">'+esc(p.title||'')+'</h1>'+
+          (metaBits.length?'<div class="meta">'+metaBits.join('')+'</div>':'')+
+          (lead?'<p class="lead">'+esc(lead)+'</p>':'')+
+        '</div>'+
+        '<div class="hero-img" id="heroImg"></div>'+
+        '<div class="read"><div class="prose">'+body+'</div></div>'+
+        '<div class="end"><p>Get $QORPO and be part of the attention economy.</p>'+
+          '<div class="st-cta">'+
+            '<div class="buydrop"><button class="btn btn-primary" type="button"><span class="diamond"></span> Buy $QORPO</button><div class="bd-menu" data-buymenu></div></div>'+
+            '<a class="btn btn-glass" href="index.html#news">More articles</a>'+
+          '</div>'+
+        '</div>'+
+      '</article>';
+    $('#content').innerHTML=html;
+    document.title = (p.title? p.title+' — ' : '')+'QORPO Blog';
+
+    // hero image: show only if it loads, else keep the gradient banner
+    var hero=$('#heroImg');
+    loadImg(feat,function(im){hero.innerHTML='';var i=document.createElement('img');i.src=feat;i.alt=p.title||'';hero.appendChild(i);});
+    // inline block images: same graceful handling — drop the figure if it 404s
+    [].forEach.call(document.querySelectorAll('.bimg'),function(fig){
+      var src=fig.getAttribute('data-src');
+      loadImg(src,function(){var i=document.createElement('img');i.src=src;i.alt='';fig.appendChild(i);});
+    });
+    buildBuyMenus();
+  }
+
+  function load(){
+    var slug=qs('slug');
+    if(!slug){ $('#content').innerHTML=stateHtml('No article selected','Head back to the newsroom to pick a story.'); return; }
+    var url=CMS+'/blog-posts?filter[slug]='+encodeURIComponent(slug)+'&include=blog_categories,blog_author';
+    fetch(url).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      var p=j&&j.data&&j.data[0];
+      if(!p){ $('#content').innerHTML=stateHtml('Article not found','This story may have moved. Browse the latest on the QORPO newsroom.'); return; }
+      render(p);
+    }).catch(function(){
+      $('#content').innerHTML=stateHtml('Couldn’t load the article','Please try again in a moment.');
+    });
+  }
+
+  // ---- buy menus ----
+  function buildBuyMenus(){
+    var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
+            ['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
+            ['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
+    var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
+      EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
+    [].forEach.call(document.querySelectorAll('[data-buymenu]'),function(m){if(!m.innerHTML)m.innerHTML=BM;});
+    [].forEach.call(document.querySelectorAll('.buydrop'),function(d){var t=d.querySelector('button');if(!t||t._w)return;t._w=1;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();document.querySelectorAll('.buydrop').forEach(function(x){if(x!==d)x.classList.remove('open');});d.classList.toggle('open');});});
+  }
+  document.addEventListener('click',function(){document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
+
+  load();
+
+  // ---- chrome ----
+  (function(){var s=document.getElementById('splash');if(!s)return;function go(){s.classList.add('gone');}addEventListener('load',function(){setTimeout(go,300);});setTimeout(go,1400);})();
+  (function(){var b=document.getElementById('burger');if(!b)return;b.addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem;gap:.3rem';});})();
+  (function(){var c=document.getElementById('stars'),x=c.getContext('2d'),w,h,st=[];
+    function rs(){w=c.width=innerWidth;h=c.height=innerHeight;st=[];var n=Math.min(90,Math.floor(w*h/16000));for(var i=0;i<n;i++)st.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.8+.2,s:Math.random()*1.2+.3});}
+    rs();addEventListener('resize',rs);var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0;
+    (function loop(){t+=.02;x.clearRect(0,0,w,h);for(var i=0;i<st.length;i++){var p=st[i];p.y+=p.z*.12;if(p.y>h)p.y=0;var tw=rm?.6:(.4+.6*Math.abs(Math.sin(t+p.x)));x.globalAlpha=tw*p.z;x.fillStyle=(p.x%7<3)?'#E051C7':'#fff';x.beginPath();x.arc(p.x,p.y,p.s,0,7);x.fill();}x.globalAlpha=1;if(!rm)requestAnimationFrame(loop);})();})();
+  (function(){
+    var SVGG={
+      Discord:'<path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>',
+      X:'<path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/>',
+      Telegram:'<path d="M21.9 4.3 2.6 11.8c-1 .4-1 1.8 0 2.1l4.9 1.5 1.9 6c.2.8 1.2 1 1.8.4l2.7-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7l3.4-15.9c.2-1-.8-1.8-1.8-1.3zM9.7 15.3l9-5.6c.2-.1.4.1.2.3l-7.4 6.9-.3 3.1-1.5-4.7z"/>',
+      Instagram:'<path d="M12 8.9A3.1 3.1 0 1 0 15.1 12 3.1 3.1 0 0 0 12 8.9zm0 5.1A2 2 0 1 1 14 12a2 2 0 0 1-2 2zm4-6.4a.72.72 0 1 0 .72.72.72.72 0 0 0-.72-.72zM20 7.6a4.9 4.9 0 0 0-.33-1.62 3.28 3.28 0 0 0-1.87-1.87A4.9 4.9 0 0 0 16.18 3.8C15.46 3.77 15.23 3.76 12 3.76s-3.46 0-4.18.04a4.9 4.9 0 0 0-1.62.33 3.28 3.28 0 0 0-1.87 1.87A4.9 4.9 0 0 0 4 7.6C3.97 8.32 3.96 8.55 3.96 12s0 3.46.04 4.18a4.9 4.9 0 0 0 .33 1.62 3.28 3.28 0 0 0 1.87 1.87 4.9 4.9 0 0 0 1.62.33c.72.03.95.04 4.18.04s3.46 0 4.18-.04a4.9 4.9 0 0 0 1.62-.33 3.28 3.28 0 0 0 1.87-1.87 4.9 4.9 0 0 0 .33-1.62c.03-.72.04-.95.04-4.18s0-3.46-.04-4.18zm-1.2 8.31a3.7 3.7 0 0 1-.24 1.24 2.2 2.2 0 0 1-1.25 1.25 3.7 3.7 0 0 1-1.24.24c-.71.03-.92.04-4.07.04s-3.36 0-4.07-.04a3.7 3.7 0 0 1-1.24-.24 2.2 2.2 0 0 1-1.25-1.25 3.7 3.7 0 0 1-.24-1.24c-.03-.71-.04-.92-.04-4.07s0-3.36.04-4.07a3.7 3.7 0 0 1 .24-1.24A2.2 2.2 0 0 1 6.69 5.29a3.7 3.7 0 0 1 1.24-.24c.71-.03.92-.04 4.07-.04s3.36 0 4.07.04a3.7 3.7 0 0 1 1.24.24 2.2 2.2 0 0 1 1.25 1.25 3.7 3.7 0 0 1 .24 1.24c.03.71.04.92.04 4.07s-.01 3.36-.04 4.07z"/>',
+      YouTube:'<path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8zM9.8 15.3V8.7l5.7 3.3z"/>'
+    };
+    var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
+    var f=document.getElementById('fsoc');if(f)f.innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
+  })();
+})();
+</script>

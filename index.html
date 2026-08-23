@@ -580,7 +580,7 @@
     fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
       var row=document.getElementById('blogrow');
-      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="https://www.qorpo.world/blog/'+p.slug+'" target="_blank" rel="noopener"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog.html?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
       // real cover only if it actually loads (CMS image host may 404); otherwise the brand gradient stays
       posts.forEach(function(p,i){var img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
     }).catch(function(){});
