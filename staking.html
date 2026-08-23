@@ -4,12 +4,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="QORPO Staking">
 <meta property="og:description" content="Stake $QORPO for Community Points and up to 30% APY. Ethereum & BNB Chain.">
-<meta property="og:image" content="https://new.qorpo.world/assets/og-image.jpg">
+<meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QORPO Staking">
-<meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
+<meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn daily Community Points by your QORPO Power level and APY up to 30% on Ethereum & BNB Chain.">
-<link rel="canonical" href="https://www.qorpo.world/qorpo-staking">
+<link rel="canonical" href="https://qorpo.world/qorpo-staking">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -617,6 +617,9 @@
         tierList.push({idx:i,apy:pct,duration:dur,minRaw:st.minStake});
       }catch(e){break;}
     }
+    // the contract can expose the same APY rate more than once (e.g. per chain / duplicate config) — show each distinct rate only once
+    var seenApy={}; tierList=tierList.filter(function(t){var k=t.apy;if(seenApy[k])return false;seenApy[k]=1;return true;});
+    tierList.sort(function(a,b){return a.apy-b.apy;});
     if(!tierList.length){tierList=[{idx:1,apy:15,duration:31556926,minRaw:0n},{idx:2,apy:30,duration:31556926,minRaw:0n}];}
     tierList.forEach(function(t,n){
       var b=document.createElement('button');b.type='button';b.textContent=t.apy+'% APY';b.dataset.idx=t.idx;

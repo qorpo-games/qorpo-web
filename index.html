@@ -3,7 +3,7 @@
 <title>QORPO ($QORPO) — The Attention Economy Token for Games, AI &amp; Entertainment</title>
 <meta name="description" content="$QORPO powers real Web3 games, AI and entertainment. Hold $QORPO to earn airdrops, stake for rewards, and bridge across Ethereum & BNB Chain.">
 <meta name="keywords" content="QORPO, $QORPO, attention economy, web3 games, AI, entertainment, crypto token, airdrop, staking, bridge, Ethereum, BNB Chain">
-<link rel="canonical" href="https://www.qorpo.world/">
+<link rel="canonical" href="https://qorpo.world/">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="apple-touch-icon" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
@@ -11,13 +11,13 @@
 <meta property="og:site_name" content="QORPO">
 <meta property="og:title" content="QORPO ($QORPO) — Own the Attention Economy">
 <meta property="og:description" content="One token behind the games, AI and entertainment the world can't stop watching. Hold $QORPO to earn the airdrop. Live on Ethereum & BNB Chain.">
-<meta property="og:url" content="https://www.qorpo.world/">
-<meta property="og:image" content="https://new.qorpo.world/assets/og-image.jpg">
+<meta property="og:url" content="https://qorpo.world/">
+<meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@QORPOworld">
 <meta name="twitter:title" content="QORPO ($QORPO) — Own the Attention Economy">
 <meta name="twitter:description" content="Games, AI and entertainment, powered by one token. Hold $QORPO, earn the airdrop.">
-<meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
+<meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"QORPO","url":"https://www.qorpo.world/","logo":"https://www.qorpo.world/img/logo-color.png","sameAs":["https://x.com/QORPOworld","https://t.me/qorpoworld","https://discord.gg/qorpo","https://youtube.com/@qorpoworld"]},{"@type":"WebSite","name":"QORPO","url":"https://www.qorpo.world/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,6 +115,9 @@
   .pricecard.hero-ticker{position:absolute;right:1.5rem;bottom:1.5rem;z-index:3;width:16.5rem;max-width:calc(100vw - 3rem)}
   @media(max-width:1280px){.pricecard.hero-ticker{position:static;width:100%;max-width:21rem;margin:1.6rem auto 0;right:auto;bottom:auto}}
   .lead .serif{color:#fff}
+  /* hero buy dropdown opens UPWARD so the hero's overflow:hidden doesn't clip it */
+  .hero .cta-row .bd-menu{top:auto;bottom:calc(100% + .5rem);transform:translateX(-50%) translateY(-8px)}
+  .hero .cta-row .buydrop.open .bd-menu,.hero .cta-row .buydrop:hover .bd-menu,.hero .cta-row .buydrop:focus-within .bd-menu{transform:translateX(-50%)}
   .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
   .scrollcue:hover{opacity:1}
   @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
