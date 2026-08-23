@@ -152,6 +152,35 @@
 
   .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1)}
   .reveal.in{opacity:1;transform:none}
+  /* buy dropdown + funi + sticky buybar (index parity) */
+  .buydrop{position:relative;display:inline-block}
+  .buydrop>.btn svg{transition:transform .2s}
+  .buydrop.open>.btn svg,.buydrop:hover>.btn svg{transform:rotate(180deg)}
+  .cta{font-size:.86rem;padding:.55rem 1.1rem}
+  .bd-menu{position:absolute;top:calc(100% + .5rem);left:50%;transform:translateX(-50%) translateY(8px);min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
+  .buydrop:hover .bd-menu,.buydrop:focus-within .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible;transform:translateX(-50%)}
+  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
+  .bd-menu a:hover{background:rgba(255,255,255,.08)}
+  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
+  .bd-sep{height:1px;background:var(--line2);margin:.3rem .4rem}
+  .bd-menu.right{left:auto;right:0;transform:translateY(8px)}
+  .buydrop:hover .bd-menu.right,.buydrop.open .bd-menu.right{transform:none}
+  .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
+  .funi{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 26px rgba(224,81,199,.4));opacity:.9;animation:float 8s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+  .chrome{background:linear-gradient(100deg,#fff 0%,#f2f2fb 22%,#dcdcf0 42%,#fff 50%,#f2f2fb 60%,#dcdcf0 80%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
+  @keyframes shine{to{background-position:220% center}}
+  #buybar{position:fixed;left:0;right:0;bottom:0;z-index:80;transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.8,.2,1);padding:.55rem 1rem;pointer-events:none}
+  #buybar.show{transform:none}
+  .bb-in{pointer-events:auto;max-width:33rem;margin:0 auto;display:flex;align-items:center;gap:.6rem;background:rgba(16,16,24,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:2rem;padding:.45rem .5rem .45rem 1rem;box-shadow:0 20px 50px -22px rgba(0,0,0,.9)}
+  .bb-in .dmark{margin:0}
+  .bb-t{font-weight:700;font-size:.92rem}
+  .bb-p{font-family:var(--mono);font-weight:700;font-size:.92rem}
+  .bb-c{font-family:var(--mono);font-size:.78rem;color:var(--green)}
+  .bb-buy{margin-left:auto}
+  .bb-buy .btn{padding:.55rem 1.1rem;font-size:.9rem}
+  .bb-buy .bd-menu{top:auto;bottom:calc(100% + .6rem)}
+  @media(max-width:460px){.bb-t{display:none}}
   .hero .eyebrow,.hero h1,.hero .lead,.hero .cta-row,.hero .statrow{transition:opacity 1s cubic-bezier(.16,.84,.44,1),transform 1s cubic-bezier(.16,.84,.44,1)}
   .hero:not(.go) h1,.hero:not(.go) .lead,.hero:not(.go) .cta-row,.hero:not(.go) .statrow{opacity:0;transform:translateY(24px)}
   .hero:not(.go) .eyebrow{opacity:0}
@@ -176,6 +205,7 @@
   <nav class="nav">
     <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
     <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html">Staking</a><a href="bridge.html" class="active">Bridge</a></div>
+    <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
     <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
     <button class="burger" id="burger">≡</button>
   </nav>
@@ -183,6 +213,8 @@
 
 <main>
   <section class="hero" id="hero">
+    <img class="funi" data-i="rocket" style="right:12%;top:14%;width:2.7rem" alt="">
+    <img class="funi" data-i="sparkle" style="left:11%;top:26%;width:2.2rem" alt="">
     <p class="eyebrow"><span class="dmark"></span>$QORPO · Bridge</p>
     <h1>Move $QORPO across&nbsp;chains.</h1>
     <p class="lead">Send your $QORPO between Ethereum and BNB Chain — <span class="serif">same token, 1:1, non-custodial.</span> Powered by <b>LayerZero</b>, straight from your own wallet in about 3–5&nbsp;minutes.</p>
@@ -273,6 +305,19 @@
   </section>
 </main>
 
+<div id="buybar">
+  <div class="bb-in">
+    <span class="dmark"></span>
+    <span class="bb-t">$QORPO</span>
+    <span class="bb-p" id="bbPrice">$0.00073</span>
+    <span class="bb-c" id="bbChg" style="color:var(--green)">+3.8%</span>
+    <div class="buydrop bb-buy">
+      <button class="btn btn-primary" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+      <div class="bd-menu right" data-buymenu></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="fcols">
     <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
@@ -285,7 +330,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -455,4 +500,33 @@
   var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['TikTok','https://tiktok.com/@qorpoworld'],['Twitch','https://twitch.tv/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
   var f=document.getElementById('fsoc');if(f)f.innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
 })();
+// floating icons
+(function(){var P='https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/';
+  var ICONS={sparkle:'hf_20260823_105623_e40b77fa-e071-4b01-8c99-6538e9013fe7.png',lightning:'hf_20260823_105625_4988350c-421a-4bd9-98dd-d88fbf0d0a55.png',rocket:'hf_20260823_105628_d3ac2bc6-b368-4e3b-9ba8-60b2e715c35e.png',dollarcoin:'hf_20260823_105634_06eb38bd-9280-478a-8003-ca5f97c2f738.png'};
+  document.querySelectorAll('img[data-i]').forEach(function(im){if(ICONS[im.dataset.i])im.src=P+ICONS[im.dataset.i];});})();
+// buy menus + click-to-open
+(function(){
+  var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
+          ['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
+          ['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
+  var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
+    EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
+  document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
+  document.querySelectorAll('.buydrop').forEach(function(d){var t=d.querySelector('button');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();document.querySelectorAll('.buydrop').forEach(function(x){if(x!==d)x.classList.remove('open');});d.classList.toggle('open');});});
+  document.addEventListener('click',function(){document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
+})();
+// diamond markers on every kicker
+(function(){document.querySelectorAll('.kicker').forEach(function(k){if(k.querySelector('.dmark'))return;var s=document.createElement('span');s.className='dmark';k.insertBefore(s,k.firstChild);});})();
+// sticky buy bar on scroll
+(function(){var bar=document.getElementById('buybar'),hero=document.getElementById('hero');if(!bar||!hero)return;
+  function upd(){var b=hero.getBoundingClientRect();if(b.bottom<70)bar.classList.add('show');else bar.classList.remove('show');}
+  addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
+// live $QORPO price -> buybar
+(function(){function usd(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
+  fetch('https://api.coingecko.com/api/v3/coins/qorpo-world?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
+    .then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.market_data)return;var m=d.market_data;
+      var p=document.getElementById('bbPrice');if(p)p.textContent=usd(m.current_price&&m.current_price.usd);
+      var ch=m.price_change_percentage_24h,c=document.getElementById('bbChg');
+      if(ch!=null&&c){c.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';c.style.color=ch>=0?'var(--green)':'#ff6b8b';}
+    }).catch(function(){});})();
 </script>
