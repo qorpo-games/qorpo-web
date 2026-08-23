@@ -12,12 +12,12 @@
 <meta property="og:title" content="QORPO ($QORPO) — Own the Attention Economy">
 <meta property="og:description" content="One token behind the games, AI and entertainment the world can't stop watching. Hold $QORPO to earn the airdrop. Live on Ethereum & BNB Chain.">
 <meta property="og:url" content="https://www.qorpo.world/">
-<meta property="og:image" content="https://www.qorpo.world/og-qorpo.jpg">
+<meta property="og:image" content="https://new.qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@QORPOworld">
 <meta name="twitter:title" content="QORPO ($QORPO) — Own the Attention Economy">
 <meta name="twitter:description" content="Games, AI and entertainment, powered by one token. Hold $QORPO, earn the airdrop.">
-<meta name="twitter:image" content="https://www.qorpo.world/og-qorpo.jpg">
+<meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"QORPO","url":"https://www.qorpo.world/","logo":"https://www.qorpo.world/img/logo-color.png","sameAs":["https://x.com/QORPOworld","https://t.me/qorpoworld","https://discord.gg/qorpo","https://youtube.com/@qorpoworld"]},{"@type":"WebSite","name":"QORPO","url":"https://www.qorpo.world/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,14 +102,26 @@
   .funi{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 26px rgba(224,81,199,.4));opacity:.9;animation:float 8s ease-in-out infinite}
   @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(4deg)}}
 
-  /* HERO */
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1.5rem 1.6rem;text-align:center;overflow:hidden}
+  /* HERO (fullscreen video) */
+  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:6rem 1.5rem 3.4rem;overflow:hidden}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.58) 0%,rgba(6,6,11,.12) 22%,rgba(6,6,11,.14) 46%,rgba(6,6,11,.72) 76%,rgba(6,6,11,.98) 100%)}
+  .hero-inner{position:relative;z-index:2;width:100%;max-width:46rem;margin:0 auto}
   .hero .eyebrow{color:var(--pink)}
-  .hero h1{font-size:clamp(2.4rem,6vw,5rem);letter-spacing:-.04em;font-weight:900;line-height:.98;margin:.4rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lead{font-size:clamp(1.02rem,1.9vw,1.3rem);color:var(--muted);max-width:36rem;margin:.85rem auto 0;font-weight:400}
-  .hero .lead .serif{color:#fff}
-  .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap}
-  .showcase{display:grid;grid-template-columns:1.1fr .9fr;gap:1.8rem;align-items:center;max-width:60rem;margin:1.3rem auto 0}
+  .hero h1{font-size:clamp(2rem,4.4vw,3.6rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.5rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 55%,#d7d7ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 40px rgba(0,0,0,.45)}
+  .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
+  /* price ticker floating in the hero bottom-right */
+  .pricecard.hero-ticker{position:absolute;right:1.5rem;bottom:1.5rem;z-index:3;width:16.5rem;max-width:calc(100vw - 3rem)}
+  @media(max-width:1280px){.pricecard.hero-ticker{position:static;width:100%;max-width:21rem;margin:1.6rem auto 0;right:auto;bottom:auto}}
+  .lead .serif{color:#fff}
+  .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
+  .scrollcue:hover{opacity:1}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+  @media (prefers-reduced-motion:reduce){.scrollcue{animation:none}}
+  /* below the hero: lead + trust, moved lower */
+  .herobelow{text-align:center;padding-top:3.6rem}
+  .herobelow .lead{font-size:clamp(1.02rem,1.9vw,1.28rem);color:var(--muted);max-width:40rem;margin:0 auto;font-weight:400}
   .hero-diamond{width:100%;max-width:26rem;justify-self:center;display:block;filter:drop-shadow(0 26px 70px rgba(224,81,199,.6));animation:float 7s ease-in-out infinite}
   .pricecard{width:100%;max-width:20rem;justify-self:start;text-align:left;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);box-shadow:0 34px 90px -44px rgba(0,0,0,.9);overflow:hidden}
   .pc-top{padding:1.1rem 1.2rem .9rem;border-bottom:1px solid var(--line2)}
@@ -349,10 +361,12 @@
 
 <main>
   <section class="hero" id="hero">
-    <img class="funi" data-i="sparkle" style="right:11%;top:15%;width:2.6rem" alt="">
+    <div class="hero-media">
+      <video src="./assets/hero-loop.mp4" autoplay muted loop playsinline preload="auto"></video>
+    </div>
+    <div class="hero-inner">
     <p class="eyebrow"><span class="dmark"></span>$QORPO · Games · AI · Entertainment</p>
     <h1>Own the attention&nbsp;economy.</h1>
-    <p class="lead">One token behind the <span class="serif">games, AI and entertainment</span> the world can't stop watching. Stake for up to <b style="color:#fff">30% APY</b> and hold $QORPO to qualify for the <b style="color:#fff">airdrop</b> — live on Ethereum &amp; BNB&nbsp;Chain.</p>
     <div class="cta-row">
       <div class="buydrop">
         <button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
@@ -360,9 +374,8 @@
       </div>
       <a class="btn btn-glass hide-mobile" href="staking.html">Stake &amp; earn</a>
     </div>
-    <div class="showcase">
-      <div class="dia-wrap"><img class="hero-diamond" src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="$QORPO"></div>
-      <div class="pricecard">
+    </div><!-- /hero-inner -->
+      <div class="pricecard hero-ticker">
         <div class="pc-top">
           <div class="pc-row"><div class="pc-k">$QORPO price</div><div class="livepill"><span class="dot"></span>LIVE</div></div>
           <div class="pc-p"><span class="v" id="pcPrice">$0.00073</span><span class="c" id="pcChg" style="color:var(--green)">+3.8%</span></div>
@@ -373,9 +386,12 @@
         <div class="pc-grid"><div><div class="k">Market cap</div><div class="v" id="pcMc">$471K</div></div><div><div class="k">24h volume</div><div class="v" id="pcVol">$56.0K</div></div><div><div class="k">Circulating</div><div class="v" id="pcCirc">644.2M</div></div><div><div class="k">Chains</div><div class="v">ETH · BSC</div></div></div>
         <a class="pc-src" href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">Live market data · CoinGecko ↗</a>
       </div>
-    </div>
+    <a class="scrollcue" href="#learn" aria-label="Scroll down">↓</a>
+  </section>
 
-    <!-- TRUST STRIP -->
+  <!-- LEAD + TRUST (below the hero) -->
+  <section class="sec wrap herobelow reveal" id="learn">
+    <p class="lead">One token behind the <span class="serif">games, AI and entertainment</span> the world can't stop watching. Stake for up to <b style="color:#fff">30% APY</b> and hold $QORPO to qualify for the <b style="color:#fff">airdrop</b> — live on Ethereum &amp; BNB&nbsp;Chain.</p>
     <div class="trustbar">
       <div class="tb-badges">
         <a class="tbadge" href="token.html" title="Audited by CertiK — 3.9 / 5"><span class="dmark"></span><b>CertiK audited</b><span class="stars">★★★★<span class="off">★</span></span><span class="rt">3.9</span></a>
@@ -553,7 +569,7 @@
   })();
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
-  var dia=document.querySelector('.hero-diamond');addEventListener('mousemove',function(e){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;var dx=(e.clientX/innerWidth-.5),dy=(e.clientY/innerHeight-.5);dia.style.translate=(dx*16)+'px '+(dy*12)+'px';});
+  var dia=document.querySelector('.hero-diamond');if(dia){addEventListener('mousemove',function(e){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;var dx=(e.clientX/innerWidth-.5),dy=(e.clientY/innerHeight-.5);dia.style.translate=(dx*16)+'px '+(dy*12)+'px';});}
   // bridge toggle
   (function(){var ETH=P+'hf_20260823_103608_d2843171-0b77-4c4b-aea6-b389b6130271.png',BNB=P+'hf_20260823_103628_8fd43627-43ea-42ce-83ba-5aa01236171e.png';
     var tg=document.getElementById('rhtoggle'),sc=document.getElementById('rhscene'),ball=document.getElementById('rhball'),c1=document.getElementById('c1nm'),c2=document.getElementById('c2nm');var bnb=false,timer;

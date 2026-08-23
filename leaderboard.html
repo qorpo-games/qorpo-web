@@ -1,13 +1,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QORPO Community Points — Leaderboard</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="QORPO Community Points — Leaderboard">
+<meta property="og:description" content="Every staked $QORPO is one Community Point. ETH + BNB combined, ranked live on-chain.">
+<meta property="og:image" content="https://new.qorpo.world/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QORPO Community Points — Leaderboard">
+<meta name="twitter:image" content="https://new.qorpo.world/assets/og-image.jpg">
 <meta name="description" content="The $QORPO Community Points leaderboard. Every staked $QORPO is one Community Point — no multipliers. Ranked live, on-chain, on Ethereum & BNB Chain.">
 <link rel="canonical" href="https://www.qorpo.world/community-points">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
-<meta property="og:title" content="QORPO Community Points — Leaderboard">
-<meta property="og:description" content="Every staked $QORPO is one Community Point. See where you rank — live, on-chain.">
-<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600;700&display=swap">
@@ -71,10 +75,19 @@
   .wc-menu button.disc{color:#ff8fb0}
   .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
 
-  .hero{position:relative;padding:3.6rem 1.5rem 1rem;text-align:center;display:flex;flex-direction:column;align-items:center}
-  .hero h1{font-size:clamp(2.2rem,5.6vw,4rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.6rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lead{font-size:clamp(1.02rem,1.8vw,1.24rem);color:var(--muted);max-width:42rem;margin:.9rem auto 0;font-weight:400}
-  .hero .lead b{color:#fff;font-weight:700}
+  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:6rem 1.5rem 3.4rem;overflow:hidden}
+  .hero-media{position:absolute;inset:0;z-index:0}
+  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.5) 0%,rgba(6,6,11,.12) 24%,rgba(6,6,11,.16) 48%,rgba(6,6,11,.72) 76%,rgba(6,6,11,.98) 100%)}
+  .hero-inner{position:relative;z-index:2;width:100%;max-width:46rem;margin:0 auto}
+  .hero h1{font-size:clamp(2rem,4.6vw,3.6rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.5rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 55%,#d7d7ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 40px rgba(0,0,0,.45)}
+  .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
+  .scrollcue:hover{opacity:1}
+  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+  @media (prefers-reduced-motion:reduce){.scrollcue{animation:none}}
+  .herobelow{text-align:center;padding-top:3.6rem}
+  .herobelow .lead{font-size:clamp(1.02rem,1.8vw,1.24rem);color:var(--muted);max-width:42rem;margin:0 auto;font-weight:400}
+  .herobelow .lead b{color:#fff;font-weight:700}
 
   .toolrow{display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem}
   .seg{display:inline-flex;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:2rem;padding:.28rem}
@@ -200,14 +213,20 @@
 
 <main>
   <section class="hero">
-    <p class="kicker">Community Points</p>
-    <h1>Where the community stands</h1>
-    <p class="lead">Every <b>$QORPO</b> you stake is one <b>Community Point</b> — <b>no multipliers</b>, no tricks. The more you stake, the higher you rank. This board is read <b>live from the chain</b>.</p>
+    <div class="hero-media"><img src="assets/leaderboard-hero.jpg" alt="$QORPO — Ethereum + BNB Chain combined"></div>
+    <div class="hero-inner">
+      <p class="kicker">Community Points</p>
+      <h1>Where the community stands</h1>
+    </div>
+    <a class="scrollcue" href="#board-top" aria-label="Scroll down">↓</a>
+  </section>
+
+  <section class="wrap herobelow" id="board-top">
+    <p class="lead">Every <b>$QORPO</b> you stake is one <b>Community Point</b> — <b>no multipliers</b>, no tricks. Your <b>Ethereum</b> and <b>BNB Chain</b> stakes are added together into <b>one combined pool</b>. The more you stake, the higher you rank. This board is read <b>live from the chain</b>.</p>
 
     <div class="toolrow">
-      <div class="seg" id="chainSeg" role="tablist" aria-label="Chain">
-        <button data-c="56" class="on"><span class="cd"></span>BNB Chain</button>
-        <button data-c="1"><span class="cd"></span>Ethereum</button>
+      <div class="seg" aria-label="Combined pool">
+        <button class="on" disabled style="cursor:default"><span class="cd"></span>Ethereum + BNB Chain · one pool</button>
       </div>
       <button class="refresh" id="refreshBtn"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v5h-5"/></svg>Refresh</button>
     </div>
@@ -306,9 +325,9 @@
 
   var eth=window.ethereum, okx=window.okxwallet;
   var provider=null, signer=null, account=null;
-  var chainId=56;            // board chain (independent of wallet)
-  var boards={};             // chain -> {ts, rows:[{a,pts}], total}
-  var scanning=false, myStake={};
+  var CIDS=[1,56];           // combined pool: Ethereum + BNB Chain
+  var board=null;            // single merged board {ts, rows:[{a,pts,eth,bnb}], total}
+  var scanning=false, myStake=null; // myStake = combined BigInt across both chains
 
   var $=function(id){return document.getElementById(id);};
   var iface=new ethers.Interface(STAKE_ABI);
@@ -342,19 +361,21 @@
   }
   function closeWcMenu(){var m=$('wcMenu');if(m)m.classList.remove('open');}
   function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';closeWcMenu();
-    $('youcard').style.display='none';$('stYou').textContent='—';myStake={};render();
+    $('youcard').style.display='none';$('stYou').textContent='—';myStake=null;render();
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
   }
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);}
-  async function afterWallet(){ // read my current stake on the board chain, update card + row
+  async function afterWallet(){ // read my current stake on BOTH chains, sum, update card + row
     if(!account)return;
-    try{ myStake[chainId]=await readStake(readProvider(chainId),account); }catch(e){ myStake[chainId]=0n; }
+    var sum=0n;
+    for(var i=0;i<CIDS.length;i++){ try{ sum+=await readStake(readProvider(CIDS[i]),account,CIDS[i]); }catch(e){} }
+    myStake=sum;
     render();
   }
 
   /* ---------- core reads ---------- */
-  async function readStake(prov, addr){
-    var c=new ethers.Contract(STAKING[chainId],STAKE_ABI,prov);
+  async function readStake(prov, addr, cid){
+    var c=new ethers.Contract(STAKING[cid],STAKE_ABI,prov);
     var no=0n,apy=0n;
     try{no=await c.getStakeWithNoApy(addr);}catch(e){}
     try{var arr=await c.getStakesWithApy(addr);arr.forEach(function(p){if(!p.finished)apy+=p.amount;});}catch(e){}
@@ -435,7 +456,7 @@
           if(sum>0n)out[a]=sum;
         }
       }else{
-        for(var m=0;m<slice.length;m++){ try{var s=await readStake(prov,slice[m]); if(s>0n)out[slice[m]]=s;}catch(e){} }
+        for(var m=0;m<slice.length;m++){ try{var s=await readStake(prov,slice[m],cid); if(s>0n)out[slice[m]]=s;}catch(e){} }
       }
       done+=slice.length;
       if(onp)onp(0.55+0.44*done/(total||1),'Reading stakes · '+done+' / '+total+' wallets');
@@ -444,30 +465,40 @@
   }
 
   /* ---------- orchestration ---------- */
-  function cacheKey(cid){return 'qorpo_cp_'+cid;}
-  function loadCache(cid){try{var s=localStorage.getItem(cacheKey(cid));if(!s)return null;var o=JSON.parse(s);o.rows=o.rows.map(function(r){return {a:r.a,pts:BigInt(r.pts)};});o.total=BigInt(o.total);return o;}catch(e){return null;}}
-  function saveCache(cid,b){try{localStorage.setItem(cacheKey(cid),JSON.stringify({ts:b.ts,total:b.total.toString(),rows:b.rows.map(function(r){return {a:r.a,pts:r.pts.toString()};})}));}catch(e){}}
+  function cacheKey(){return 'qorpo_cp_combined';}
+  function loadCache(){try{var s=localStorage.getItem(cacheKey());if(!s)return null;var o=JSON.parse(s);o.rows=o.rows.map(function(r){return {a:r.a,pts:BigInt(r.pts),eth:BigInt(r.eth||'0'),bnb:BigInt(r.bnb||'0')};});o.total=BigInt(o.total);return o;}catch(e){return null;}}
+  function saveCache(b){try{localStorage.setItem(cacheKey(),JSON.stringify({ts:b.ts,total:b.total.toString(),rows:b.rows.map(function(r){return {a:r.a,pts:r.pts.toString(),eth:(r.eth||0n).toString(),bnb:(r.bnb||0n).toString()};})}));}catch(e){}}
 
   function setProgress(p,msg){var pb=$('pbar'),pm=$('pmsg');if(pb)pb.style.width=Math.round(p*100)+'%';if(pm)pm.textContent=msg;}
 
-  async function scan(cid){
+  async function scan(){
     if(scanning)return; scanning=true;
     $('refreshBtn').disabled=true;
-    $('rows').innerHTML='<div class="state" id="state"><span class="spin"></span>Reading the chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Finding stakers…</div></div>';
+    $('rows').innerHTML='<div class="state" id="state"><span class="spin"></span>Reading Ethereum + BNB Chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Finding stakers…</div></div>';
     try{
-      var addrs=await stakersFromExplorer(cid);
-      if(addrs&&addrs.length){ setProgress(0.5,'Found '+addrs.length+' wallets via explorer'); }
-      else{ addrs=await stakersFromLogs(cid,setProgress); }
-      // always include connected account
-      if(account){var la=account.toLowerCase();if(addrs.indexOf(la)<0)addrs.push(la);}
-      if(!addrs.length){ boards[cid]={ts:Date.now(),rows:[],total:0n}; saveCache(cid,boards[cid]); render(); return; }
-      var stakes=await currentStakes(cid,addrs,setProgress);
-      var rows=Object.keys(stakes).map(function(a){return {a:a,pts:stakes[a]};});
+      var merged={};  // addr -> {eth:BigInt, bnb:BigInt}
+      for(var ci=0;ci<CIDS.length;ci++){
+        var cid=CIDS[ci];
+        var frac0=ci/CIDS.length, fw=1/CIDS.length;
+        var onp=(function(cid,frac0,fw){return function(p,msg){ setProgress(frac0+fw*p, CHAINS[cid].name+' · '+msg); };})(cid,frac0,fw);
+        var addrs=await stakersFromExplorer(cid);
+        if(addrs&&addrs.length){ onp(0.5,'Found '+addrs.length+' wallets via explorer'); }
+        else{ addrs=await stakersFromLogs(cid,onp); }
+        if(account){var la=account.toLowerCase();if(addrs.indexOf(la)<0)addrs.push(la);}
+        if(!addrs.length) continue;
+        var stakes=await currentStakes(cid,addrs,onp);
+        Object.keys(stakes).forEach(function(a){
+          if(!merged[a])merged[a]={eth:0n,bnb:0n};
+          if(cid===1)merged[a].eth+=stakes[a]; else merged[a].bnb+=stakes[a];
+        });
+      }
+      var rows=Object.keys(merged).map(function(a){var m=merged[a];return {a:a,pts:m.eth+m.bnb,eth:m.eth,bnb:m.bnb};});
+      rows=rows.filter(function(r){return r.pts>0n;});
       rows.sort(function(x,y){return x.pts<y.pts?1:(x.pts>y.pts?-1:0);});
       var total=0n;rows.forEach(function(r){total+=r.pts;});
-      boards[cid]={ts:Date.now(),rows:rows,total:total};
-      saveCache(cid,boards[cid]);
-      if(account&&stakes[account.toLowerCase()]!=null)myStake[cid]=stakes[account.toLowerCase()];
+      board={ts:Date.now(),rows:rows,total:total};
+      saveCache(board);
+      if(account){var la2=account.toLowerCase();var mm=merged[la2];myStake=mm?(mm.eth+mm.bnb):0n;}
       render();
     }catch(e){
       console.log(e);
@@ -475,17 +506,32 @@
     }finally{ scanning=false; $('refreshBtn').disabled=false; }
   }
 
+  function ctag(txt,ttl){return '<span class="ctag" title="'+ttl+'" style="font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;padding:.08rem .3rem;border-radius:.35rem;border:1px solid rgba(255,255,255,.18);color:var(--faint,#8a8aa0);margin-left:.35rem;vertical-align:middle">'+txt+'</span>';}
+  function chainTags(r){var t='';if(r.eth&&r.eth>0n)t+=ctag('ETH','Ethereum stake: '+fmtPts(r.eth)+' CP');if(r.bnb&&r.bnb>0n)t+=ctag('BNB','BNB Chain stake: '+fmtPts(r.bnb)+' CP');return t;}
+  function rowHTML(r,rk,isYou,total){
+    var share=total>0n?(Math.round(Number(r.pts*10000n/total))/100):0;
+    var medal=rk<=3?'<span class="medal m'+rk+'">'+rk+'</span>':'<span style="width:1.7rem;text-align:center">'+rk+'</span>';
+    return '<div class="trow'+(isYou?' you':'')+'">'+
+      '<span class="rank">'+medal+'</span>'+
+      '<span class="addr"><span class="ava" style="'+blockie(r.a)+'"></span>'+
+        '<a href="https://etherscan.io/address/'+r.a+'" target="_blank" rel="noopener">'+short(r.a)+'</a>'+
+        chainTags(r)+
+        (isYou?'<span class="youtag">You</span>':'')+'</span>'+
+      '<span class="r-pts tnum">'+fmtPts(r.pts)+'<small>CP</small></span>'+
+      '<span class="r-shr tnum">'+share+'%</span>'+
+    '</div>';
+  }
   function render(){
-    var b=boards[chainId];
+    var b=board;
     var asof=$('asof');
     if(!b){ asof.textContent=''; return; }
-    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · '+CHAINS[chainId].name;
+    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · Ethereum + BNB Chain (combined)';
     // stats
     $('stTotal').textContent=fmtShort(b.total);
     $('stHolders').textContent=b.rows.length.toLocaleString();
     $('stTop').textContent=(b.rows.length&&b.total>0n)?(Math.round(Number(b.rows[0].pts*10000n/b.total))/100)+'%':'—';
     var la=account?account.toLowerCase():null;
-    var myPts=(la&&myStake[chainId]!=null)?myStake[chainId]:(la?findPts(b,la):null);
+    var myPts=(la&&myStake!=null)?myStake:(la?findPts(b,la):null);
     $('stYou').textContent=(myPts!=null&&myPts>0n)?fmtShort(myPts):(account?'0':'—');
     // your-rank card
     if(account){
@@ -493,60 +539,38 @@
       $('youcard').style.display='flex';
       if(myPts!=null&&myPts>0n){
         $('youRank').textContent=rank>0?('#'+rank+' of '+b.rows.length):'Unranked';
-        $('youSub').textContent=fmtPts(myPts)+' Community Points on '+CHAINS[chainId].name;
+        $('youSub').textContent=fmtPts(myPts)+' Community Points · ETH + BNB combined';
       }else{
         $('youRank').textContent='Not staking yet';
         $('youSub').textContent='Stake $QORPO to appear on the board.';
       }
     }else{ $('youcard').style.display='none'; }
     // rows
-    if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found on '+CHAINS[chainId].name+' yet. Be the first — <a href="staking.html" style="color:var(--pink)">stake $QORPO</a>.</div>'; return; }
+    if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found yet. Be the first — <a href="staking.html" style="color:var(--pink)">stake $QORPO</a>.</div>'; return; }
     var SHOW=100, html='';
     for(var i=0;i<b.rows.length&&i<SHOW;i++){
       var r=b.rows[i], rk=i+1, isYou=(la&&r.a===la);
-      var share=b.total>0n?(Math.round(Number(r.pts*10000n/b.total))/100):0;
-      var medal=rk<=3?'<span class="medal m'+rk+'">'+rk+'</span>':'<span style="width:1.7rem;text-align:center">'+rk+'</span>';
-      html+='<div class="trow'+(isYou?' you':'')+'">'+
-        '<span class="rank">'+medal+'</span>'+
-        '<span class="addr"><span class="ava" style="'+blockie(r.a)+'"></span>'+
-          '<a href="'+CHAINS[chainId].scan+'/address/'+r.a+'" target="_blank" rel="noopener">'+short(r.a)+'</a>'+
-          (isYou?'<span class="youtag">You</span>':'')+'</span>'+
-        '<span class="r-pts tnum">'+fmtPts(r.pts)+'<small>CP</small></span>'+
-        '<span class="r-shr tnum">'+share+'%</span>'+
-      '</div>';
+      html+=rowHTML(r,rk,isYou,b.total);
     }
     if(la&&findRank(b,la)>SHOW){ var rr=findRank(b,la),rw=b.rows[rr-1];
-      html+='<div class="trow you"><span class="rank"><span style="width:1.7rem;text-align:center">'+rr+'</span></span>'+
-        '<span class="addr"><span class="ava" style="'+blockie(rw.a)+'"></span><a href="'+CHAINS[chainId].scan+'/address/'+rw.a+'" target="_blank" rel="noopener">'+short(rw.a)+'</a><span class="youtag">You</span></span>'+
-        '<span class="r-pts tnum">'+fmtPts(rw.pts)+'<small>CP</small></span>'+
-        '<span class="r-shr tnum">'+(b.total>0n?(Math.round(Number(rw.pts*10000n/b.total))/100):0)+'%</span></div>';
+      html+=rowHTML(rw,rr,true,b.total);
     }
     $('rows').innerHTML=html;
   }
   function findPts(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return b.rows[i].pts;return null;}
   function findRank(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return i+1;return -1;}
 
-  function openChain(cid){
-    if(cid===chainId)return; chainId=cid;
-    [].forEach.call($('chainSeg').children,function(x){x.classList.toggle('on',parseInt(x.dataset.c)===cid);});
-    var cached=loadCache(cid); if(cached){boards[cid]=cached;render();}
-    else{ $('stTotal').textContent='—';$('stHolders').textContent='—';$('stTop').textContent='—';$('stYou').textContent='—'; }
-    if(!cached) scan(cid); else if(account) afterWallet();
-  }
-
   /* ---------- init ---------- */
   function init(){
-    // chain toggle
-    [].forEach.call($('chainSeg').children,function(x){x.addEventListener('click',function(){openChain(parseInt(x.dataset.c));});});
-    $('refreshBtn').addEventListener('click',function(){ try{localStorage.removeItem(cacheKey(chainId));}catch(e){} scan(chainId); });
+    $('refreshBtn').addEventListener('click',function(){ try{localStorage.removeItem(cacheKey());}catch(e){} scan(); });
     // wallet
     $('wcBtn').addEventListener('click',function(e){e.stopPropagation();if(account){$('wcMenu').classList.toggle('open');}else{connect();}});
     $('wcCopy').addEventListener('click',function(){if(account){navigator.clipboard&&navigator.clipboard.writeText(account);toast('Address copied.');}closeWcMenu();});
     $('wcDisc').addEventListener('click',function(){disconnect();});
     document.addEventListener('click',function(){closeWcMenu();document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
     // first paint: cache or scan
-    var cached=loadCache(chainId); if(cached){boards[chainId]=cached;render();}
-    scan(chainId);
+    var cached=loadCache(); if(cached){board=cached;render();}
+    scan();
     tryEager();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
