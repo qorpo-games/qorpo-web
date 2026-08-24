@@ -99,6 +99,7 @@
   .bundle{position:relative;text-align:center;border:1px solid var(--card-bd);background:var(--glass);border-radius:.9rem;padding:.9rem .5rem;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
   .bundle:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.28)}
   .bundle:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .bundle .bimg{width:4.4rem;height:4.4rem;object-fit:contain;display:block;margin:.1rem auto .35rem;filter:drop-shadow(0 6px 16px rgba(224,81,199,.55))}
   .bundle .bs{font-size:1.5rem;font-weight:900;line-height:1;color:#fff}
   .bundle .bl{font-size:.68rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
   .bundle .bp{font-family:var(--mono);font-size:.82rem;color:#fff;margin-top:.5rem}
@@ -265,10 +266,11 @@
   var PREVIEW=true;                // true = outcomes are a client-side preview until the on-chain rewards service is wired
   // Spin bundles — one wallet transaction buys the whole pack (gas paid once). price = total $QORPO for the pack.
   // Bigger packs are cheaper per spin. Edit freely; the UI derives per-spin price + savings automatically.
+  var PACKART='https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/';
   var BUNDLES=[
-    {spins:100,  price:10000},     // 100 / spin
-    {spins:500,  price:45000},     // 90 / spin  (10% off)
-    {spins:1000, price:80000}      // 80 / spin  (20% off)
+    {spins:100,  price:10000, img:PACKART+'hf_20260824_115655_1339effb-ecfe-489a-9f66-a9a1a9a29036.png'},   // 100 / spin
+    {spins:500,  price:45000, img:PACKART+'hf_20260824_120127_535ab6d9-5fcc-4f25-8c05-d520de19d224.png'},   // 90 / spin  (10% off)
+    {spins:1000, price:80000, img:PACKART+'hf_20260824_120129_3e95fd09-ae44-41ff-beb1-5500b4794695.png'}    // 80 / spin  (20% off)
   ];
   /* ================================================================================= */
 
@@ -372,6 +374,7 @@
       var per=b.price/b.spins, save=Math.round((1-per/SPIN_PRICE)*100);
       var tag=save>0?('<span class="btag">'+(save===Math.round(best*100)?'Best value':'Save '+save+'%')+'</span>'):'';
       return '<button class="bundle" type="button" data-i="'+i+'"'+((!TREASURY||!account||spinning)?' disabled':'')+'>'+tag+
+        (b.img?'<img class="bimg" src="'+b.img+'" alt="" onerror="this.style.display=\'none\'">':'')+
         '<div class="bs">'+fmtN(b.spins)+'</div><div class="bl">spins</div>'+
         '<div class="bp">'+fmtN(b.price)+' QORPO</div>'+
         (QORPO_USD!=null?'<div class="busd">≈ '+usdVal(b.price*QORPO_USD)+'</div>':'')+
