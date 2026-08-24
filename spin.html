@@ -1,22 +1,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>QORPO Spin — Spend $QORPO, Win Rewards</title>
+<title>QORPO Daily Spin — Earn Community Points</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="QORPO Spin">
-<meta property="og:description" content="Spend $QORPO or earn free daily spins from staking. Win rewards.">
+<meta property="og:title" content="QORPO Daily Spin">
+<meta property="og:description" content="Stake $QORPO, spin once a day, earn Community Points. Use it or lose it — 24h.">
 <meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="QORPO Spin">
+<meta name="twitter:title" content="QORPO Daily Spin">
 <meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
-<meta name="description" content="Spin to win with $QORPO. Earn free daily spins by staking, or buy spin packs with $QORPO — win vouchers, NFTs and airdrop entries. One transaction per pack; bought spins never expire.">
+<meta name="description" content="Stake $QORPO to unlock one free spin every day and earn Community Points. Provably fair. Use it within 24 hours or lose it.">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600;700&display=swap">
 <style>
   :root{
-    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
+    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#a6a6bd;
     --mag:#E051C7;--pink:#FF709E;--green:#38d39f;--eth:#627eea;--gold:#F0B90B;
     --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
     --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
@@ -67,87 +67,63 @@
   .hero .lead{color:var(--muted);max-width:40rem;margin:.9rem auto 0}
   .hero .lead b{color:#fff}
 
-  .play{display:grid;grid-template-columns:1.1fr .9fr;gap:1.8rem;align-items:center;margin-top:2rem}
+  .play{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:center;margin-top:2rem}
   @media(max-width:860px){.play{grid-template-columns:1fr}}
 
   /* wheel */
   .wheelwrap{position:relative;width:min(30rem,86vw);aspect-ratio:1;margin:0 auto}
-  .wheel{position:absolute;inset:0;border-radius:50%;transition:transform 5s cubic-bezier(.12,.66,.16,1);box-shadow:0 0 0 .7rem #0d0d16,0 0 0 .85rem rgba(224,81,199,.5),0 30px 80px -30px rgba(224,81,199,.6);overflow:hidden}
-  .seg{position:absolute;left:50%;top:50%;width:50%;height:50%;transform-origin:0 0;display:flex;justify-content:center;padding-top:1.4rem;clip-path:polygon(0 0,100% 0,50% 100%)}
-  .seg span{transform:rotate(22.5deg);font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.02em;color:#fff;text-align:center;width:6.5rem;line-height:1.15;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  .hub{position:absolute;left:50%;top:50%;width:4.2rem;height:4.2rem;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(180deg,#15151f,#0b0b12);border:1px solid var(--card-bd);display:grid;place-items:center;z-index:5;box-shadow:0 8px 24px -8px #000}
-  .hub img{width:2.3rem;height:2.3rem;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(224,81,199,.8))}
-  .pointer{position:absolute;top:-.55rem;left:50%;transform:translateX(-50%);z-index:6;width:0;height:0;border-left:.8rem solid transparent;border-right:.8rem solid transparent;border-top:1.3rem solid var(--pink);filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+  .wheel{position:absolute;inset:0;border-radius:50%;transition:transform 5.4s cubic-bezier(.12,.66,.16,1);box-shadow:0 0 0 .7rem #0d0d16,0 0 0 .85rem rgba(224,81,199,.5),0 30px 80px -30px rgba(224,81,199,.6);overflow:hidden}
+  .seg{position:absolute;inset:0;transform-origin:50% 50%;pointer-events:none}
+  .seg span{position:absolute;left:50%;top:1rem;transform:translateX(-50%);font-family:var(--mono);font-weight:800;font-size:1.25rem;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.75)}
+  .hub{position:absolute;left:50%;top:50%;width:4.4rem;height:4.4rem;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(180deg,#15151f,#0b0b12);border:1px solid var(--card-bd);display:grid;place-items:center;z-index:5;box-shadow:0 8px 24px -8px #000}
+  .hub img{width:2.4rem;height:2.4rem;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(224,81,199,.8))}
+  .pointer{position:absolute;top:-.35rem;left:50%;transform:translateX(-50%);z-index:6;width:0;height:0;border-left:.85rem solid transparent;border-right:.85rem solid transparent;border-top:1.4rem solid var(--pink);filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
 
-  .panel{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.6rem;box-shadow:var(--card-sh)}
-  .spinbal{display:flex;align-items:baseline;gap:.6rem}
-  .spinbal b{font-size:2.6rem;font-weight:900;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .panel{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.7rem;box-shadow:var(--card-sh)}
+  .balhead{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .spinbal{display:flex;align-items:baseline;gap:.6rem;margin-top:.25rem}
+  .spinbal b{font-size:2.8rem;font-weight:900;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
   .spinbal span{color:var(--muted);font-size:.9rem}
-  .expire{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.4rem;min-height:1em}
   .srow{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--line2);font-size:.9rem}
   .srow:last-of-type{border-bottom:0}
   .srow .k{color:var(--faint)}.srow .v{font-family:var(--mono);font-weight:600}
-  .bigspin{width:100%;margin-top:1.1rem;font-size:1.1rem;padding:1rem}
-  .buyrow{display:flex;gap:.6rem;margin-top:.8rem;align-items:center;flex-wrap:wrap}
-  .buyrow .btn-glass{flex:1;min-width:8rem}
-  .spinctl{display:flex;gap:.6rem;margin-top:.7rem}
-  .spinctl .btn{flex:1;padding:.7rem;font-size:.92rem}
-  .spinctl .btn.on{background:linear-gradient(100deg,#ff8fc0,#c83dd0);color:#fff;border-color:transparent}
-  .buyhead{margin:1.4rem 0 .7rem;font-weight:700;font-size:.95rem}
-  .buyhead .subtle{font-weight:400}
-  .chainrow{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.78rem;color:var(--faint);margin:0 0 .7rem}
-  .chainsel{display:flex;gap:.4rem}
-  .chainsel .chip{display:flex;align-items:center;gap:.35rem;font-family:var(--body);font-weight:700;font-size:.8rem;color:#cfcfe0;background:var(--glass);border:1px solid var(--card-bd);border-radius:2rem;padding:.35rem .7rem;cursor:pointer;transition:.15s}
-  .chainsel .chip:hover{border-color:rgba(255,255,255,.28)}
-  .chainsel .chip.on{background:linear-gradient(100deg,rgba(255,112,158,.22),rgba(224,81,199,.22));border-color:rgba(224,81,199,.6);color:#fff}
-  .chainsel .chip .sg{font-weight:600;font-size:.6rem;letter-spacing:.03em;text-transform:uppercase;color:var(--green)}
-  .chainsel .chip:not(.on) .sg{color:var(--faint)}
-  .bundlegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
-  .bundle{position:relative;text-align:center;border:1px solid var(--card-bd);background:var(--glass);border-radius:.9rem;padding:.9rem .5rem;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
-  .bundle:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.28)}
-  .bundle:disabled{opacity:.5;cursor:not-allowed;transform:none}
-  .bundle .bimg{width:4.4rem;height:4.4rem;object-fit:contain;display:block;margin:.1rem auto .35rem;filter:drop-shadow(0 6px 16px rgba(224,81,199,.55))}
-  .bundle .bs{font-size:1.5rem;font-weight:900;line-height:1;color:#fff}
-  .bundle .bl{font-size:.68rem;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
-  .bundle .bp{font-family:var(--mono);font-size:.82rem;color:#fff;margin-top:.5rem}
-  .bundle .busd{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.1rem}
-  .bundle .bper{font-size:.66rem;color:var(--muted);margin-top:.15rem}
-  .pxbadge{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--faint);margin-left:.5rem;font-weight:400}
-  .pxbadge .pdot{width:.4rem;height:.4rem;border-radius:50%;background:var(--green,#38d39f);box-shadow:0 0 0 0 rgba(56,211,159,.6);animation:pxp 1.8s infinite}
-  .pxbadge b{color:#fff;font-family:var(--mono);font-weight:600}
-  @keyframes pxp{0%{box-shadow:0 0 0 0 rgba(56,211,159,.5)}70%{box-shadow:0 0 0 .35rem rgba(56,211,159,0)}100%{box-shadow:0 0 0 0 rgba(56,211,159,0)}}
-  .bundle .btag{position:absolute;top:-.5rem;left:50%;transform:translateX(-50%);font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:linear-gradient(100deg,#ff8fc0,#c83dd0);color:#fff;padding:.15rem .5rem;border-radius:2rem;white-space:nowrap}
-  @media(max-width:520px){.bundlegrid{grid-template-columns:1fr}}
+  .v.ok{color:var(--green)}.v.no{color:#ff8fb0}
+  .bigspin{width:100%;margin-top:1.2rem;font-size:1.12rem;padding:1.05rem}
+  .expire{font-family:var(--mono);font-size:.78rem;color:var(--faint);margin-top:.7rem;min-height:1em;text-align:center}
+  .expire b{color:#fff}
   .subtle{color:var(--faint);font-size:.78rem;margin-top:.8rem;line-height:1.5}
 
   .sec{padding:3rem 0}
-  .prizes{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.6rem}
-  @media(max-width:860px){.prizes{grid-template-columns:1fr 1fr}}
-  .prize{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.3rem;text-align:center}
-  .prize .pi{font-size:1.7rem}.prize h3{font-size:1rem;margin-top:.5rem}.prize p{color:var(--muted);font-size:.84rem;margin-top:.3rem}
+  .odds{display:grid;grid-template-columns:repeat(8,1fr);gap:.55rem;margin-top:1.5rem}
+  @media(max-width:640px){.odds{grid-template-columns:repeat(4,1fr)}}
+  .oc{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:.9rem;padding:.9rem .4rem;text-align:center}
+  .oc .ov{font-family:var(--mono);font-weight:800;font-size:1.5rem;line-height:1}
+  .oc .op{font-family:var(--mono);font-size:.66rem;color:var(--faint);margin-top:.35rem}
+  .oc.jack{border-color:rgba(240,185,11,.5);background:linear-gradient(180deg,rgba(240,185,11,.12),rgba(255,255,255,.02))}
+  .oc.jack .ov{color:var(--gold)}
+
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
   @media(max-width:760px){.steps{grid-template-columns:1fr}}
   .step{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.4rem}
   .step .n{font-family:var(--mono);font-size:.7rem;color:var(--pink)}
   .step h3{font-size:1.05rem;margin-top:.4rem}.step p{color:var(--muted);font-size:.9rem;margin-top:.4rem}
 
-  .myrewards{margin-top:1.4rem;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);overflow:hidden}
-  .myrewards .h{padding:.9rem 1.3rem;border-bottom:1px solid var(--line2);font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .rwrow{display:flex;justify-content:space-between;gap:1rem;padding:.75rem 1.3rem;border-bottom:1px solid var(--line2);font-size:.9rem}
-  .rwrow:last-child{border-bottom:0}.rwrow .t{font-family:var(--mono);color:var(--faint);font-size:.8rem}
-  .rwempty{padding:1.6rem 1.3rem;color:var(--muted);text-align:center}
-
   .note{margin-top:1.4rem;font-size:.86rem;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:.9rem;padding:1rem 1.2rem;line-height:1.55}
   .note b{color:#fff}
+  .note code{font-family:var(--mono);font-size:.8rem;color:#cfcfe0;word-break:break-all}
 
   /* reward modal */
   .rmodal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(4,4,9,.75);backdrop-filter:blur(6px)}
   .rmodal.open{display:flex}
-  .rbox{width:100%;max-width:26rem;text-align:center;background:linear-gradient(180deg,#14141d,#0d0d15);border:1px solid var(--card-bd);border-radius:1.2rem;box-shadow:0 40px 90px -30px rgba(0,0,0,.95);padding:2rem 1.6rem}
-  .rbox .em{font-size:3rem}
-  .rbox h3{font-size:1.5rem;margin-top:.5rem}
-  .rbox .rp{color:var(--muted);margin-top:.5rem}
+  .rbox{width:100%;max-width:24rem;text-align:center;background:linear-gradient(180deg,#14141d,#0d0d15);border:1px solid var(--card-bd);border-radius:1.2rem;box-shadow:0 40px 90px -30px rgba(0,0,0,.95);padding:2.1rem 1.6rem}
+  .rbox .big{font-family:var(--mono);font-weight:900;font-size:4rem;line-height:1;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .rbox .big.zero{background:none;color:var(--faint)}
+  .rbox .big.jack{background:none;color:var(--gold)}
+  .rbox h3{font-size:1.35rem;margin-top:.6rem}
+  .rbox .rp{color:var(--muted);margin-top:.5rem;font-size:.92rem}
   .rbox .btn{margin-top:1.3rem;width:100%}
+  .rbox .verify{display:block;margin-top:.8rem;font-family:var(--mono);font-size:.68rem;color:var(--faint)}
+  .rbox .verify:hover{color:#cfcfe0}
   .conf{position:fixed;inset:0;pointer-events:none;z-index:299}
 
   footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:3rem;padding:2.4rem 1.5rem}
@@ -160,11 +136,17 @@
   .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
   .bd-menu .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
   .bd-sep{height:1px;background:var(--line2);margin:.35rem .2rem}
+  .pxpill{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#ffce54;border:1px solid rgba(240,185,11,.4);border-radius:2rem;padding:.2rem .6rem;margin-left:.5rem;vertical-align:middle}
   @media(max-width:760px){.nav-links{display:none}.burger{display:block}.nav{gap:.5rem}.brand{margin-right:auto}.nav>.buydrop{display:none}.wc{padding:.46rem .62rem;font-size:.72rem}}
   #toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(1.5rem);background:#15151f;border:1px solid var(--card-bd);border-radius:.8rem;padding:.8rem 1.1rem;font-size:.88rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:.25s;z-index:400;max-width:90vw}
   #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
   #toast a{color:var(--pink)}
-@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
+@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}
+
+html{overflow-x:clip}
+
+/* uniform mobile header: brand left, burger right, buy hidden on mobile */
+@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
 </style>
 
 <canvas id="stars"></canvas>
@@ -172,8 +154,8 @@
 
 <header>
   <nav class="nav">
-    <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html">Staking</a><a href="leaderboard.html">Leaderboard</a><a href="bridge.html">Bridge</a></div>
+    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary" type="button" style="padding:.55rem 1rem;font-size:.9rem">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
     <div class="wcwrap">
       <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
@@ -185,9 +167,9 @@
 
 <main>
   <section class="hero">
-    <p class="kicker">Spend $QORPO</p>
-    <h1>Spin. Win. Repeat.</h1>
-    <p class="lead">Turn $QORPO into rewards. <b>Stake to earn free daily spins</b>, or buy a spin pack with $QORPO — and win vouchers, NFTs and airdrop entries. <b>One transaction per pack</b>, then Spin all or Auto-spin — no signing per spin.</p>
+    <p class="kicker">Daily Spin</p>
+    <h1>Stake. Spin. Earn.</h1>
+    <p class="lead">Stake $QORPO to unlock <b>one free spin every day</b> and rack up <b>Community Points</b>. Points climb the <a href="leaderboard" style="color:var(--pink);text-decoration:underline;text-underline-offset:3px">leaderboard</a>. Miss a day and the spin is gone — <b>24 hours, use it or lose it</b>.</p>
   </section>
 
   <div class="wrap">
@@ -200,70 +182,51 @@
         </div>
       </div>
       <div class="panel">
-        <div class="spinbal"><b id="spinCount">0</b><span>spins available</span></div>
+        <div class="balhead">Your Community Points</div>
+        <div class="spinbal"><b id="pts">0</b><span>points</span></div>
+        <div style="margin-top:1.1rem">
+          <div class="srow"><span class="k">Staking status</span><span class="v" id="statusTxt">Not connected</span></div>
+          <div class="srow"><span class="k">Your level</span><span class="v" id="lvlTxt">—</span></div>
+          <div class="srow"><span class="k">Today's spin</span><span class="v" id="spinTxt">—</span></div>
+        </div>
+        <button class="btn btn-primary bigspin" id="spinBtn">Connect wallet</button>
         <div class="expire" id="expire"></div>
-        <div style="margin-top:1rem">
-          <div class="srow"><span class="k">Free daily (staking)</span><span class="v" id="freeCount">—</span></div>
-          <div class="srow"><span class="k">Bought spins</span><span class="v" id="boughtCount">0</span></div>
-          <div class="srow"><span class="k">Your status</span><span class="v" id="statusTxt">Not connected</span></div>
-        </div>
-        <button class="btn btn-primary bigspin" id="spinBtn">Connect wallet to spin</button>
-        <div class="spinctl">
-          <button class="btn btn-glass" id="spinAllBtn" type="button">Spin all</button>
-          <button class="btn btn-glass" id="autoBtn" type="button">Auto-spin</button>
-        </div>
-        <div class="buyhead">Buy spins <span class="subtle">— one transaction per pack</span><span class="pxbadge" id="pxBadge"></span></div>
-        <div class="chainrow">Pay with $QORPO on:
-          <div class="chainsel" id="chainSel">
-            <button class="chip" data-c="56" type="button">BNB<span class="sg">suggested · low gas</span></button>
-            <button class="chip" data-c="1" type="button">Ethereum</button>
-          </div>
-        </div>
-        <div class="bundlegrid" id="bundleGrid"></div>
-        <p class="subtle" id="buyNote"></p>
+        <p class="subtle" id="hintNote"></p>
       </div>
-    </div>
-
-    <div class="myrewards">
-      <div class="h">Your rewards</div>
-      <div id="rwlist"><div class="rwempty">No rewards yet — take a spin!</div></div>
-    </div>
-
-    <div class="note" id="fairNote">
-      <b>How rewards are credited.</b> Winning spins are recorded to your wallet and fulfilled by the QORPO rewards service — vouchers and airdrop entries are credited to your account, and NFT prizes are sent to your wallet. Free spins are granted for having an active stake and reset every 24&nbsp;hours; bought spins never expire. Buy a pack in one transaction and use them any time — Spin&nbsp;all or Auto-spin plays through them with no extra signing. <span id="previewNote"></span>
     </div>
 
     <section class="sec">
-      <p class="kicker">How it works</p>
-      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">Three steps to a spin</h2>
-      <div class="steps">
-        <div class="step"><div class="n">01</div><h3>Get spins</h3><p>Stake $QORPO to earn a free spin every day, or buy spins instantly with $QORPO from your wallet.</p></div>
-        <div class="step"><div class="n">02</div><h3>Spin the wheel</h3><p>Every spin is a real chance at a prize. Watch the wheel land — your reward is revealed on the spot.</p></div>
-        <div class="step"><div class="n">03</div><h3>Claim your reward</h3><p>Vouchers and airdrop entries land in your account; NFTs are sent to your wallet by the rewards service.</p></div>
-      </div>
+      <p class="kicker">The wheel</p>
+      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">What you can spin<span class="pxpill" id="pxPill" style="display:none">Preview</span></h2>
+      <p class="subtle" style="font-size:.9rem;color:var(--muted);max-width:44rem">Small numbers, real balance. Most spins land 0–2, the middle rewards regulars, and <b style="color:var(--gold)">10 is the rare jackpot</b> (~1 in 16). Average ≈ 2.6 points a spin — about <b style="color:#fff">80 a month</b> if you show up daily.</p>
+      <div class="odds" id="oddsGrid"></div>
     </section>
 
     <section class="sec" style="padding-top:0">
-      <p class="kicker">What you can win</p>
-      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">The prize pool</h2>
-      <div class="prizes">
-        <div class="prize"><div class="pi">🎟️</div><h3>$QORPO vouchers</h3><p>Discount and bonus vouchers usable across the QORPO ecosystem.</p></div>
-        <div class="prize"><div class="pi">🖼️</div><h3>NFTs</h3><p>AneeMate & QORPO collectibles sent straight to your wallet.</p></div>
-        <div class="prize"><div class="pi">🪂</div><h3>Airdrop entries</h3><p>Tickets into upcoming $QORPO airdrops — the more you spin, the more entries.</p></div>
-        <div class="prize"><div class="pi">🔁</div><h3>Bonus spins</h3><p>Land a bonus and spin again — free.</p></div>
+      <p class="kicker">How it works</p>
+      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">Three simple rules</h2>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><h3>Stake to unlock</h3><p>Any active $QORPO stake (ETH or BNB) gives you one free spin per day. No stake, no spin.</p></div>
+        <div class="step"><div class="n">02</div><h3>Spin within 24h</h3><p>Your daily spin expires 24 hours after it's granted. Use it or lose it — that's the whole point of coming back.</p></div>
+        <div class="step"><div class="n">03</div><h3>Points stack up</h3><p>Every spin adds Community Points to your balance. They accumulate and rank you on the leaderboard.</p></div>
       </div>
     </section>
+
+    <div class="note" id="fairNote">
+      <b>Provably fair.</b> Each day the server publishes a commitment hash of a secret seed. When you spin, the result is computed as <code>keccak256(seed + your address + day)</code> mapped onto the wheel — then the seed is revealed so anyone can recompute and verify the outcome wasn't rigged. The spin is free and pays only Community Points, so it isn't gambling. <span id="previewNote"></span>
+    </div>
   </div>
 </main>
 
-<footer><div class="flegal">© 2026 QORPO World · Spins are non-custodial · Free spins require an active stake · $QORPO</div></footer>
+<footer><div class="flegal">© 2026 QORPO World · Daily spin requires an active stake · Community Points are off-chain rewards · $QORPO</div></footer>
 
 <!-- reward modal -->
 <div class="rmodal" id="rmodal"><div class="rbox">
-  <div class="em" id="rEm">🎉</div>
-  <h3 id="rTitle">You won!</h3>
+  <div class="big" id="rBig">+0</div>
+  <h3 id="rTitle">Nice!</h3>
   <p class="rp" id="rDesc"></p>
-  <button class="btn btn-primary" id="rClose" type="button">Nice!</button>
+  <button class="btn btn-primary" id="rClose" type="button">Done</button>
+  <a class="verify" id="rVerify" href="#" target="_blank" rel="noopener" style="display:none">Verify this spin ↗</a>
 </div></div>
 <canvas class="conf" id="conf"></canvas>
 <div id="toast"></div>
@@ -272,349 +235,239 @@
 <script>
 (function(){
   "use strict";
-  /* ======= CONFIG (owner sets these when the rewards backend/treasury is live) ======= */
-  var TREASURY='0x1d17930eDF35Ae485AB4a6d1DedD89F302daf98d';   // receives $QORPO for bought spin packs
-  var SPIN_PRICE=100;              // $QORPO per spin (reference / free-spin value)
-  var FREE_SPINS_PER_DAY=1;        // free spins granted daily to any active staker
-  var PREVIEW=true;                // true = outcomes are a client-side preview until the on-chain rewards service is wired
-  // Spin bundles — one wallet transaction buys the whole pack (gas paid once). price = total $QORPO for the pack.
-  // Bigger packs are cheaper per spin. Edit freely; the UI derives per-spin price + savings automatically.
-  var PACKART='https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/';
-  var BUNDLES=[
-    {spins:100,  price:10000, img:PACKART+'hf_20260824_115655_1339effb-ecfe-489a-9f66-a9a1a9a29036.png'},   // 100 / spin
-    {spins:500,  price:45000, img:PACKART+'hf_20260824_120127_535ab6d9-5fcc-4f25-8c05-d520de19d224.png'},   // 90 / spin  (10% off)
-    {spins:1000, price:80000, img:PACKART+'hf_20260824_120129_3e95fd09-ae44-41ff-beb1-5500b4794695.png'}    // 80 / spin  (20% off)
-  ];
-  /* ================================================================================= */
+  /* ================= CONFIG ================= */
+  // Cloudflare Worker base URL for the points/spin backend. Set after deploy,
+  // e.g. 'https://qorpo-spin.<subdomain>.workers.dev'. Empty string = local PREVIEW mode.
+  var BACKEND='';
+  var PREVIEW=!BACKEND;
+  /* ========================================= */
 
   var TOKEN='0x22514ffb0d7232a56f0c24090e7b68f179faa940';
   var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
-  var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1',sym:'ETH'},56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38',sym:'BNB'}};
-  var ERC20=['function balanceOf(address) view returns (uint256)','function transfer(address,uint256) returns (bool)'];
+  var CHAINS={1:{name:'Ethereum',rpc:'https://ethereum-rpc.publicnode.com'},56:{name:'BNB Chain',rpc:'https://bsc-rpc.publicnode.com'}};
   var STAKE_ABI=['function getStakeWithNoApy(address) view returns (uint256)','function getStakesWithApy(address) view returns (tuple(uint256 amount,uint256 startTime,uint8 stakeType,bool finished)[])'];
 
-  // wheel segments (label, emoji, type, weight) — weighting favors small wins & retries
-  var SEGMENTS=[
-    {l:'50 $QORPO\nvoucher',e:'🎟️',t:'voucher',w:14,c:'#7b5af0'},
-    {l:'Try again',e:'🌀',t:'none',w:26,c:'#2a2a3a'},
-    {l:'Airdrop\nentry',e:'🪂',t:'airdrop',w:20,c:'#E051C7'},
-    {l:'Free NFT',e:'🖼️',t:'nft',w:4,c:'#38d39f'},
-    {l:'10% off\nvoucher',e:'🏷️',t:'voucher',w:14,c:'#627eea'},
-    {l:'+1 spin',e:'🔁',t:'spin',w:9,c:'#F0B90B'},
-    {l:'Airdrop\nentry',e:'🪂',t:'airdrop',w:20,c:'#c83dd0'},
-    {l:'Try again',e:'🌀',t:'none',w:26,c:'#2a2a3a'}
-  ];
+  // QORPO Power tiers -> level (same table as staking/leaderboard). amount in whole $QORPO.
+  var TIERS=[[100,1000],[1001,5000],[5001,15000],[15001,50000],[50001,500000],[500001,Infinity]];
+  function levelOf(amt){for(var i=0;i<TIERS.length;i++){if(amt>=TIERS[i][0]&&amt<=TIERS[i][1])return i+1;}return 0;}
 
-  var eth=window.ethereum, okx=window.okxwallet, provider=null, signer=null, account=null, chainId=56;
-  var spinning=false, hasStake=false, rot=0, auto=false, buying=false, bulk=false, stopBulk=false;
-  var payChain=56;   // chain the user pays QORPO on for bundles: 56=BNB (suggested, low gas), 1=Ethereum
-  var QORPO_USD=null, QORPO_CHG=null;   // live price (CoinGecko), USD per $QORPO
-  function usdVal(n){if(n==null)return '';if(n<1000)return '$'+n.toFixed(2);return '$'+Math.round(n).toLocaleString('en-US');}
-  function usdPrice(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
+  // Wheel: 16 segments, values 0..10 spread around the ring. Landing is uniform per segment,
+  // so the segment-count IS the probability curve: 0x3,1x4,2x3,3x2,4x1,5x1,7x1,10x1 -> avg 2.625.
+  var WHEEL=[1,0,2,1,3,0,5,1,2,10,0,3,1,4,2,7];
+  var COLOR={0:'#2a2a3a',1:'#5b4be0',2:'#7b5af0',3:'#627eea',4:'#38d39f',5:'#E051C7',7:'#FF709E',10:'#F0B90B'};
+  // odds table (value -> count) derived from WHEEL
+  function oddsTable(){var m={};WHEEL.forEach(function(v){m[v]=(m[v]||0)+1;});return m;}
+
+  var eth=window.ethereum, okx=window.okxwallet, provider=null, signer=null, account=null;
+  var state={points:0,level:0,staked:0,spinAvailable:false,expiresAt:0,commit:''};
+  var spinning=false, rot=0, ready=false;
 
   var $=function(i){return document.getElementById(i);};
   function toast(m,ms){var t=$('toast');t.innerHTML=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},ms||4200);}
   function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
-  function readProvider(){return new ethers.JsonRpcProvider(CHAINS[chainId].rpc);}
-  function todayKey(){var d=new Date();return d.getUTCFullYear()+'-'+(d.getUTCMonth()+1)+'-'+d.getUTCDate();}
+  function dayKey(){var d=new Date();return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');}
+  var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms);});};
 
-  /* ---- local spin state (per wallet), 24h use-or-lose ---- */
-  function stateKey(){return 'qorpo_spin_'+(account?account.toLowerCase():'anon');}
-  function loadState(){try{var s=JSON.parse(localStorage.getItem(stateKey())||'{}');return s;}catch(e){return {};}}
-  function saveState(s){try{localStorage.setItem(stateKey(),JSON.stringify(s));}catch(e){}}
-  function rewardsKey(){return 'qorpo_rewards_'+(account?account.toLowerCase():'anon');}
-  function loadRewards(){try{return JSON.parse(localStorage.getItem(rewardsKey())||'[]');}catch(e){return [];}}
-  function saveRewards(r){try{localStorage.setItem(rewardsKey(),JSON.stringify(r));}catch(e){}}
-
-  // returns {free, bought, expiresAt}
-  function currentSpins(){
-    var s=loadState();
-    // reset free allotment each UTC day; grant only if staking
-    if(s.day!==todayKey()){
-      s.day=todayKey();
-      s.free=hasStake?FREE_SPINS_PER_DAY:0;
-      s.freeGrantedAt=Date.now();
-      // NOTE: bought spins never expire — the user paid for them. Only free daily spins reset.
-      saveState(s);
-    }else{
-      if(s.free==null)s.free=hasStake?FREE_SPINS_PER_DAY:0;
-    }
-    return s;
-  }
-  function totalSpins(s){return (s.free||0)+(s.bought||0);}
-
-  function render(){
-    var s=currentSpins();
-    $('spinCount').textContent=totalSpins(s);
-    $('freeCount').textContent=account?(hasStake?(s.free||0)+' / '+FREE_SPINS_PER_DAY:'stake to unlock'):'—';
-    $('boughtCount').textContent=s.bought||0;
-    $('statusTxt').textContent=account?(hasStake?'Staking ✓':'Connected'):'Not connected';
-    // expiry line — only free daily spins reset; bought spins never expire
-    if(account&&s.freeGrantedAt&&(s.free||0)>0){
-      var end=new Date();end.setUTCHours(24,0,0,0);
-      var hrs=Math.max(0,Math.round((end-Date.now())/36e5));
-      $('expire').textContent='Free daily spin resets in ~'+hrs+'h · bought spins never expire';
-    }else $('expire').textContent='';
-    // spin button
-    var tot=totalSpins(s);
-    var btn=$('spinBtn');
-    if(!account){btn.textContent='Connect wallet to spin';btn.disabled=false;}
-    else if(spinning){btn.textContent=auto?'Auto-spinning…':'Spinning…';btn.disabled=true;}
-    else if(tot>0){btn.textContent='SPIN ▸ ('+tot+' left)';btn.disabled=false;}
-    else{btn.textContent=hasStake?'No spins left — buy a pack or wait for tomorrow':'Stake or buy spins to play';btn.disabled=false;}
-    // spin-all / auto controls
-    var canBulk=!!account&&!spinning&&tot>0;
-    $('spinAllBtn').disabled=!canBulk;
-    $('autoBtn').disabled=!account||tot<=0&&!auto;
-    $('autoBtn').classList.toggle('on',auto);
-    $('autoBtn').textContent=auto?'Stop auto':'Auto-spin';
-    // live price badge
-    var px=$('pxBadge');
-    if(px){px.innerHTML=QORPO_USD!=null?'<span class="pdot"></span>$QORPO <b>'+usdPrice(QORPO_USD)+'</b>'+(QORPO_CHG!=null?' <span style="color:'+(QORPO_CHG>=0?'var(--green,#38d39f)':'#ff6b8b')+'">'+(QORPO_CHG>=0?'+':'')+QORPO_CHG.toFixed(1)+'%</span>':''):'';}
-    // pay-chain chips
-    var cs=$('chainSel');
-    if(cs){Array.prototype.forEach.call(cs.querySelectorAll('.chip'),function(el){el.classList.toggle('on',(+el.dataset.c)===payChain);});}
-    // bundles + buy note
-    renderBundles(s);
-    if(!TREASURY){$('buyNote').innerHTML='Buying with $QORPO turns on once the rewards treasury address is configured. Free daily spins from staking work now.';}
-    else if(!account){$('buyNote').innerHTML='Connect your wallet to buy a spin pack. One transaction per pack — gas is paid once.';}
-    else{$('buyNote').innerHTML='Paid in $QORPO on <b>'+CHAINS[payChain].name+'</b> from your wallet to the QORPO treasury. Same token on both chains — BNB has the lowest gas. One signature buys the whole pack; bought spins never expire.';}
-    // preview note
-    $('previewNote').innerHTML=PREVIEW?'<b>Preview:</b> this build simulates spin outcomes locally so you can try the experience — final, provably-fair results are credited on-chain once the rewards service is live.':'';
-    renderRewards();
-  }
-  var fmtN=function(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',');};
-  function renderBundles(s){
-    var grid=$('bundleGrid');if(!grid)return;
-    var best=0;BUNDLES.forEach(function(b){var save=1-(b.price/b.spins)/SPIN_PRICE;if(save>best)best=save;});
-    grid.innerHTML=BUNDLES.map(function(b,i){
-      var per=b.price/b.spins, save=Math.round((1-per/SPIN_PRICE)*100);
-      var tag=save>0?('<span class="btag">'+(save===Math.round(best*100)?'Best value':'Save '+save+'%')+'</span>'):'';
-      return '<button class="bundle" type="button" data-i="'+i+'"'+((!TREASURY||!account||spinning)?' disabled':'')+'>'+tag+
-        (b.img?'<img class="bimg" src="'+b.img+'" alt="" onerror="this.style.display=\'none\'">':'')+
-        '<div class="bs">'+fmtN(b.spins)+'</div><div class="bl">spins</div>'+
-        '<div class="bp">'+fmtN(b.price)+' QORPO</div>'+
-        (QORPO_USD!=null?'<div class="busd">(≈ '+usdVal(b.price*QORPO_USD)+')</div>':'')+
-        '<div class="bper">'+fmtN(Math.round(per))+' / spin'+(save>0?' · −'+save+'%':'')+'</div></button>';
-    }).join('');
-    Array.prototype.forEach.call(grid.querySelectorAll('.bundle'),function(el){
-      el.addEventListener('click',function(){var b=BUNDLES[+el.dataset.i];if(b)buy(b.spins,b.price);});
-    });
-  }
-  function renderRewards(){
-    var r=loadRewards();var box=$('rwlist');
-    if(!r.length){box.innerHTML='<div class="rwempty">No rewards yet — take a spin!</div>';return;}
-    box.innerHTML=r.slice(0,12).map(function(x){return '<div class="rwrow"><span>'+x.e+' '+x.label+'</span><span class="t">'+x.when+'</span></div>';}).join('');
-  }
-
-  /* ---- wheel build ---- */
+  /* ---------- wheel build ---------- */
   function buildWheel(){
-    var w=$('wheel');var n=SEGMENTS.length,ang=360/n;
-    // conic background
-    var stops=[];for(var i=0;i<n;i++){stops.push(SEGMENTS[i].c+' '+(i*ang)+'deg '+((i+1)*ang)+'deg');}
+    var w=$('wheel'),n=WHEEL.length,ang=360/n,stops=[];
+    for(var i=0;i<n;i++){stops.push(COLOR[WHEEL[i]]+' '+(i*ang)+'deg '+((i+1)*ang)+'deg');}
     w.style.background='conic-gradient(from '+(-ang/2)+'deg,'+stops.join(',')+')';
-    // labels
     var html='';
     for(var j=0;j<n;j++){
-      var rotd=j*ang;
-      html+='<div class="seg" style="transform:rotate('+rotd+'deg)"><span>'+SEGMENTS[j].e+'<br>'+SEGMENTS[j].l.replace('\n','<br>')+'</span></div>';
+      html+='<div class="seg" style="transform:rotate('+(j*ang)+'deg)"><span>'+WHEEL[j]+'</span></div>';
     }
     w.innerHTML=html;
   }
-
-  function weightedPick(){
-    var tot=0;SEGMENTS.forEach(function(s){tot+=s.w;});
-    var r=Math.random()*tot,acc=0;
-    for(var i=0;i<SEGMENTS.length;i++){acc+=SEGMENTS[i].w;if(r<=acc)return i;}
-    return 0;
+  function renderOdds(){
+    var m=oddsTable(),grid=$('oddsGrid'),order=[0,1,2,3,4,5,7,10];
+    grid.innerHTML=order.map(function(v){
+      var pct=Math.round((m[v]||0)/WHEEL.length*1000)/10;
+      return '<div class="oc'+(v===10?' jack':'')+'"><div class="ov" style="color:'+(v===10?'':(v===0?'var(--faint)':'#fff'))+'">'+(v===10?'10 🎉':v)+'</div><div class="op">'+pct+'%</div></div>';
+    }).join('');
   }
-
-  var sleep=function(ms){return new Promise(function(r){setTimeout(r,ms);});};
-  function setWheelDur(d){$('wheel').style.transitionDuration=d;}
-  // spin the wheel to land segment idx; resolves after ms
+  // land the pointer (top, 0deg) on segment idx
   function animateWheel(idx,ms){
-    var n=SEGMENTS.length,ang=360/n,turns=ms<1500?3:6;
-    var target=(360*turns)+(360-idx*ang);
-    rot+=target-(rot%360);
+    var n=WHEEL.length,ang=360/n,turns=6;
+    var base=rot-(rot%360);
+    var target=base+360*turns+(360-idx*ang)%360;
+    if(target<=rot)target+=360;
+    rot=target;
+    $('wheel').style.transitionDuration=(ms/1000)+'s';
     $('wheel').style.transform='rotate('+rot+'deg)';
     return sleep(ms);
   }
-  // record a spin outcome WITHOUT showing the per-spin modal (used by single + bulk)
-  function recordReward(seg){
-    if(seg.t==='spin'){var s=currentSpins();s.bought=(s.bought||0)+1;saveState(s);}
-    if(seg.t!=='none'){
-      var r=loadRewards();
-      r.unshift({e:seg.e,label:seg.l.replace('\n',' '),t:seg.t,when:new Date().toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})});
-      saveRewards(r);
-    }
+  // pick a landing segment index that shows the given value (for a known result value)
+  function segmentForValue(v){
+    var idxs=[];WHEEL.forEach(function(x,i){if(x===v)idxs.push(i);});
+    return idxs.length?idxs[Math.floor(Math.random()*idxs.length)]:0;
   }
 
-  // single spin — full animation + reward modal
-  async function spin(){
-    if(!account){connect();return;}
-    if(spinning||bulk)return;
-    var s=currentSpins();
-    if(totalSpins(s)<=0){toast(hasStake?'No spins left. Buy a pack or come back tomorrow.':'Stake $QORPO or buy spins to play.',5000);return;}
-    if(s.free>0)s.free--;else s.bought--;
-    saveState(s);
-    spinning=true;render();
-    setWheelDur('5s');
-    var idx=weightedPick();
-    await animateWheel(idx,5200);
-    spinning=false;
-    recordReward(SEGMENTS[idx]);
-    showReward(SEGMENTS[idx]);
+  /* ---------- render ---------- */
+  function render(){
+    $('pts').textContent=Number(state.points||0).toLocaleString('en-US');
+    if(!account){$('statusTxt').textContent='Not connected';$('statusTxt').className='v';}
+    else{$('statusTxt').innerHTML=state.level>0?'<span class="ok">Staking ✓</span>':'<span class="no">Not staking</span>';}
+    $('lvlTxt').textContent=account?(state.level>0?('L'+state.level):'—'):'—';
+    var st=$('spinTxt');
+    if(!account)st.textContent='—';
+    else if(state.level<=0)st.innerHTML='<span class="no">stake to unlock</span>';
+    else if(state.spinAvailable)st.innerHTML='<span class="ok">ready ✓</span>';
+    else st.textContent='used — back tomorrow';
+
+    var btn=$('spinBtn');
+    if(!account){btn.textContent='Connect wallet';btn.disabled=false;}
+    else if(spinning){btn.textContent='Spinning…';btn.disabled=true;}
+    else if(state.level<=0){btn.textContent='Stake $QORPO to spin';btn.disabled=false;}
+    else if(state.spinAvailable){btn.textContent='SPIN ▸';btn.disabled=false;}
+    else{btn.textContent='Come back tomorrow';btn.disabled=true;}
+
+    // countdown
+    var ex=$('expire');
+    if(account&&state.level>0&&state.spinAvailable&&state.expiresAt){
+      var ms=state.expiresAt-Date.now();
+      if(ms>0){var h=Math.floor(ms/36e5),m=Math.floor((ms%36e5)/6e4);ex.innerHTML='Use it within <b>'+h+'h '+m+'m</b> or you lose it';}
+      else ex.textContent='';
+    }else if(account&&state.level>0&&!state.spinAvailable){
+      var end=new Date();end.setUTCHours(24,0,0,0);var h2=Math.max(0,Math.round((end-Date.now())/36e5));
+      ex.innerHTML='Next spin in ~<b>'+h2+'h</b>';
+    }else ex.textContent='';
+
+    // hint
+    var hn=$('hintNote');
+    if(!account)hn.textContent='Connect the wallet you stake with to claim your daily spin.';
+    else if(state.level<=0)hn.innerHTML='You need an active $QORPO stake to earn spins. <a href="staking" style="color:var(--pink);text-decoration:underline">Open Staking →</a>';
+    else hn.textContent='One spin per day. It expires 24h after it unlocks, so don’t sit on it.';
+  }
+
+  /* ---------- backend calls ---------- */
+  function api(path,opts){return fetch(BACKEND.replace(/\/$/,'')+path,opts).then(function(r){return r.json();});}
+  async function refreshStatus(){
+    if(!account)return;
+    if(PREVIEW){ previewStatus(); render(); return; }
+    try{
+      var j=await api('/status?wallet='+account);
+      state.points=j.points||0;state.level=j.level||0;state.staked=j.staked||0;
+      state.spinAvailable=!!j.spinAvailable;state.expiresAt=j.expiresAt||0;state.commit=j.commit||'';
+    }catch(e){ /* fall back to on-chain level only */ await readLevelOnchain(); }
     render();
   }
-
-  // bulk — spin through the whole balance with no per-spin signing or modal
-  async function bulkRun(isAuto){
-    if(!account){connect();return;}
-    if(spinning||bulk)return;
-    if(totalSpins(currentSpins())<=0){toast('No spins to play — buy a pack or stake for a free daily spin.',4500);return;}
-    bulk=true;auto=!!isAuto;stopBulk=false;
-    var results=[],played=0;
-    setWheelDur('.8s');render();
-    while(true){
-      var s=currentSpins();
-      if(totalSpins(s)<=0||stopBulk)break;
-      if(s.free>0)s.free--;else s.bought--;saveState(s);
-      var idx=weightedPick();
-      await animateWheel(idx,800);
-      recordReward(SEGMENTS[idx]);
-      results.push(SEGMENTS[idx]);played++;
-      $('spinCount').textContent=totalSpins(currentSpins());
-      renderRewards();
-      await sleep(130);
+  // read stake/level straight from chain (used for level display + preview eligibility)
+  async function readLevelOnchain(){
+    var total=0;
+    for(var cid in CHAINS){
+      try{
+        var c=new ethers.Contract(STAKING[cid],STAKE_ABI,new ethers.JsonRpcProvider(CHAINS[cid].rpc));
+        var no=await c.getStakeWithNoApy(account);var apy=0n;
+        try{var arr=await c.getStakesWithApy(account);arr.forEach(function(p){if(!p.finished)apy+=p.amount;});}catch(e){}
+        total+=parseFloat(ethers.formatUnits(no+apy,18))||0;
+      }catch(e){}
     }
-    setWheelDur('5s');
-    bulk=false;auto=false;render();
-    if(played>0)showBulkSummary(results);
-  }
-  function stopAuto(){stopBulk=true;}
-
-  function showBulkSummary(results){
-    var wins=results.filter(function(r){return r.t!=='none';});
-    var counts={};wins.forEach(function(r){var k=r.e+' '+r.l.replace('\n',' ');counts[k]=(counts[k]||0)+1;});
-    var m=$('rmodal');
-    $('rEm').textContent=wins.length?'🎉':'🌀';
-    $('rTitle').textContent=results.length+' spins done';
-    if(!wins.length){$('rDesc').innerHTML='<span style="color:var(--faint)">No prizes this run — try another pack.</span>';}
-    else{
-      var rows=Object.keys(counts).map(function(k){return '<div style="display:flex;justify-content:space-between;gap:1rem;padding:.3rem 0;border-bottom:1px solid var(--line2)"><span>'+k+'</span><span style="font-family:var(--mono);color:#fff">×'+counts[k]+'</span></div>';}).join('');
-      $('rDesc').innerHTML='<b style="color:#fff">'+wins.length+' prize'+(wins.length>1?'s':'')+' won!</b><div style="margin-top:.6rem;text-align:left">'+rows+'</div>'+(PREVIEW?'<div style="color:var(--faint);font-size:.82rem;margin-top:.6rem">Credited to your wallet by the rewards service (preview).</div>':'');
-    }
-    m.classList.add('open');
-    if(wins.length)confetti();
+    state.staked=total;state.level=levelOf(total);
   }
 
-  function showReward(seg){
-    var m=$('rmodal');
-    $('rEm').textContent=seg.e;
-    if(seg.t==='none'){$('rTitle').textContent='So close!';$('rDesc').textContent='No prize this time — spin again to try your luck.';}
-    else{$('rTitle').textContent='You won!';$('rDesc').innerHTML='<b style="color:#fff">'+seg.l.replace('\n',' ')+'</b>'+(PREVIEW?'<br><span style="color:var(--faint);font-size:.85rem">Credited to your wallet by the rewards service (preview).</span>':'');}
-    m.classList.add('open');
-    if(seg.t!=='none')confetti();
+  /* ---------- PREVIEW (no backend): local state, clearly labelled, cheatable ---------- */
+  function pKey(){return 'qorpo_spin_pv_'+(account?account.toLowerCase():'anon');}
+  function pLoad(){try{return JSON.parse(localStorage.getItem(pKey())||'{}');}catch(e){return {};}}
+  function pSave(s){try{localStorage.setItem(pKey(),JSON.stringify(s));}catch(e){}}
+  function previewStatus(){
+    var s=pLoad();
+    if(s.day!==dayKey()){s.day=dayKey();s.used=false;s.grantedAt=Date.now();pSave(s);}
+    state.points=s.points||0;
+    state.spinAvailable=(state.level>0)&&!s.used;
+    state.expiresAt=s.grantedAt?(new Date(new Date().setUTCHours(24,0,0,0)).getTime()):0;
   }
 
-  /* ---- buy a spin pack (single real $QORPO transfer to treasury) ---- */
-  async function buy(nSpins,priceTotal){
+  /* ---------- spin ---------- */
+  async function doSpin(){
     if(!account){connect();return;}
-    if(!TREASURY){toast('Buying is not enabled yet.');return;}
-    if(buying)return;
-    if(!(await switchToPayChain()))return;
-    var total=(priceTotal!=null?priceTotal:SPIN_PRICE*nSpins);
-    buying=true;render();
+    if(spinning)return;
+    if(state.level<=0){toast('Stake $QORPO first to unlock your daily spin.',5000);return;}
+    if(!state.spinAvailable){toast('You already spun today — come back tomorrow.',4500);return;}
+    spinning=true;render();
     try{
-      var amount=ethers.parseUnits(String(total),18);
-      var token=new ethers.Contract(TOKEN,ERC20,signer);
-      toast('Confirm the payment in your wallet…',6000);
-      var tx=await token.transfer(TREASURY,amount);
-      toast('Processing… <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">view ↗</a>');
-      await tx.wait();
-      var s=currentSpins();s.bought=(s.bought||0)+nSpins;saveState(s);
-      toast('✅ '+fmtN(nSpins)+' spins added — good luck!',5000);
-    }catch(e){toast('Payment failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));}
-    buying=false;render();
+      var value,verifyUrl='';
+      if(PREVIEW){
+        // uniform segment -> value (segment-count encodes the odds)
+        var idxP=Math.floor(Math.random()*WHEEL.length);value=WHEEL[idxP];
+        await animateWheel(idxP,5400);
+        var s=pLoad();s.used=true;s.points=(s.points||0)+value;pSave(s);
+        state.points=s.points;state.spinAvailable=false;
+      }else{
+        // sign a message proving wallet control, then let the server compute the fair result
+        var day=dayKey(),msg='QORPO Daily Spin\nwallet: '+account+'\nday: '+day;
+        var sig=await signer.signMessage(msg);
+        var j=await api('/spin',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({wallet:account,day:day,signature:sig})});
+        if(j.error){spinning=false;render();toast(j.error==='already_spun'?'You already spun today — come back tomorrow.':(j.error==='not_staked'?'No active stake found for this wallet.':'Spin failed: '+j.error),5000);return;}
+        value=j.value;
+        var idxR=(j.segment!=null)?j.segment:segmentForValue(value);
+        await animateWheel(idxR,5400);
+        state.points=j.points;state.spinAvailable=false;state.expiresAt=0;
+        if(j.seed&&j.day)verifyUrl=BACKEND.replace(/\/$/,'')+'/verify?wallet='+account+'&day='+j.day;
+      }
+      spinning=false;render();
+      showResult(value,verifyUrl);
+    }catch(e){
+      spinning=false;render();
+      toast(e&&e.code===4001?'Signature cancelled.':'Spin failed. Please try again.',4500);
+    }
   }
 
-  /* ---- wallet ---- */
+  function showResult(value,verifyUrl){
+    var m=$('rmodal'),big=$('rBig');
+    big.className='big'+(value===0?' zero':(value>=10?' jack':''));
+    big.textContent='+'+value;
+    if(value===0){$('rTitle').textContent='So close!';$('rDesc').textContent='No points this time — your spin unlocks again tomorrow.';}
+    else if(value>=10){$('rTitle').textContent='JACKPOT!';$('rDesc').innerHTML='<b style="color:#fff">+10 Community Points</b> — the rare one. Nicely done.';}
+    else{$('rTitle').textContent='You earned points!';$('rDesc').innerHTML='<b style="color:#fff">+'+value+' Community Points</b> added to your balance.';}
+    var v=$('rVerify');
+    if(verifyUrl){v.style.display='block';v.href=verifyUrl;}else v.style.display='none';
+    m.classList.add('open');
+    if(value>0)confetti(value>=10);
+  }
+
+  /* ---------- wallet ---------- */
   function pickInjected(){return okx||eth||null;}
   function bindWalletEvents(inj){if(!inj||inj._qb)return;inj._qb=true;
     inj.on&&inj.on('accountsChanged',function(a){if(a&&a[0]){account=a[0];setConnected();afterWallet();}else{disconnect();}});
-    inj.on&&inj.on('chainChanged',function(){try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;});}catch(e){}});
   }
-  async function connect(){var inj=pickInjected();if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX.');return;}
-    try{var accs=await inj.request({method:'eth_requestAccounts'});if(!accs||!accs[0])return;account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();var net=await provider.getNetwork();var cid=Number(net.chainId);if(CHAINS[cid])chainId=cid;bindWalletEvents(inj);setConnected();afterWallet();}catch(e){toast('Connection cancelled.');}
+  async function connect(){var inj=pickInjected();if(!inj){var _m=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);if(_m){var _u=encodeURIComponent(location.href),_hp=location.host+location.pathname+location.search;toast('Open this page in your wallet app: <a href="https://metamask.app.link/dapp/'+_hp+'">MetaMask</a> &nbsp;·&nbsp; <a href="okx://wallet/dapp/url?dappUrl='+_u+'">OKX</a>',9000);}else{toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');}return;}
+    try{var accs=await inj.request({method:'eth_requestAccounts'});if(!accs||!accs[0])return;account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();bindWalletEvents(inj);setConnected();afterWallet();}catch(e){toast('Connection cancelled.');}
   }
-  async function tryEager(){var inj=pickInjected();if(!inj)return;try{var accs=await inj.request({method:'eth_accounts'});if(accs&&accs[0]){account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();var net=await provider.getNetwork();var cid=Number(net.chainId);if(CHAINS[cid])chainId=cid;bindWalletEvents(inj);setConnected();afterWallet();}}catch(e){}}
+  async function tryEager(){var inj=pickInjected();if(!inj)return;try{var accs=await inj.request({method:'eth_accounts'});if(accs&&accs[0]){account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();bindWalletEvents(inj);setConnected();afterWallet();}}catch(e){}}
   function closeWcMenu(){$('wcMenu').classList.remove('open');}
-  function disconnect(){account=null;signer=null;hasStake=false;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';closeWcMenu();render();
+  function disconnect(){account=null;signer=null;state={points:0,level:0,staked:0,spinAvailable:false,expiresAt:0,commit:''};$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';closeWcMenu();render();
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}}
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);}
-  async function ensureChain(){if(!signer)return true;try{var net=await provider.getNetwork();if(CHAINS[Number(net.chainId)])chainId=Number(net.chainId);return true;}catch(e){return true;}}
-  // switch the wallet to the selected pay chain (BNB/ETH) before a purchase
-  async function switchToPayChain(){
-    var inj=pickInjected();if(!inj||!inj.request){chainId=payChain;return true;}
-    var c=CHAINS[payChain];
-    try{await inj.request({method:'wallet_switchEthereumChain',params:[{chainId:c.hex}]});}
-    catch(e){
-      var code=e&&(e.code||(e.data&&e.data.originalError&&e.data.originalError.code));
-      if(code===4902){
-        try{await inj.request({method:'wallet_addEthereumChain',params:[{chainId:c.hex,chainName:c.name,nativeCurrency:{name:c.sym,symbol:c.sym,decimals:18},rpcUrls:[c.rpc],blockExplorerUrls:[c.scan]}]});}
-        catch(e2){toast('Please switch your wallet to '+c.name+' to pay.');return false;}
-      }else if(code===4001){toast('Chain switch cancelled.');return false;}
-      else{toast('Please switch your wallet to '+c.name+' to pay.');return false;}
-    }
-    chainId=payChain;
-    try{provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();}catch(e){}
-    return true;
-  }
   async function afterWallet(){
-    hasStake=false;
-    try{
-      var c=new ethers.Contract(STAKING[chainId],STAKE_ABI,readProvider());
-      var no=await c.getStakeWithNoApy(account);var apy=0n;
-      try{var arr=await c.getStakesWithApy(account);arr.forEach(function(p){if(!p.finished)apy+=p.amount;});}catch(e){}
-      hasStake=(no+apy)>0n;
-    }catch(e){hasStake=false;}
+    if(!account)return;
+    await readLevelOnchain();     // always know the level from chain
     render();
+    await refreshStatus();        // then points + spin availability (backend, or preview)
   }
 
   function init(){
-    buildWheel();
-    $('spinBtn').addEventListener('click',spin);
-    $('spinAllBtn').addEventListener('click',function(){bulkRun(false);});
-    $('autoBtn').addEventListener('click',function(){if(auto||bulk)stopAuto();else bulkRun(true);});
-    var cs=$('chainSel');if(cs)Array.prototype.forEach.call(cs.querySelectorAll('.chip'),function(el){el.addEventListener('click',function(){payChain=+el.dataset.c;render();});});
+    buildWheel();renderOdds();
+    if(PREVIEW){$('pxPill').style.display='inline-flex';$('previewNote').innerHTML='<b>Preview:</b> until the points backend is connected, spins run locally in your browser so you can try the experience — real balances and fair, server-verified results turn on the moment the backend URL is set.';}
+    $('spinBtn').addEventListener('click',doSpin);
     $('rClose').addEventListener('click',function(){$('rmodal').classList.remove('open');});
     $('rmodal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
     $('wcBtn').addEventListener('click',function(e){e.stopPropagation();if(account)$('wcMenu').classList.toggle('open');else connect();});
     $('wcCopy').addEventListener('click',function(){if(account&&navigator.clipboard)navigator.clipboard.writeText(account);toast('Address copied.');closeWcMenu();});
     $('wcDisc').addEventListener('click',disconnect);
     document.addEventListener('click',function(){closeWcMenu();document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
-    render();tryEager();fetchPrice();
-    setInterval(fetchPrice,60000);
-  }
-  // live $QORPO price (CoinGecko — same source as the rest of the site)
-  function fetchPrice(){
-    fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
-      .then(function(r){return r.ok?r.json():null;}).then(function(d){
-        if(!d||!d.market_data)return;
-        var m=d.market_data;
-        if(m.current_price&&m.current_price.usd!=null)QORPO_USD=m.current_price.usd;
-        if(m.price_change_percentage_24h!=null)QORPO_CHG=m.price_change_percentage_24h;
-        render();
-      }).catch(function(){});
+    render();tryEager();
+    setInterval(function(){if(account)render();},30000); // keep countdown fresh
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 
   /* confetti */
-  function confetti(){
+  function confetti(big){
     var c=$('conf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
-    var P=[],cols=['#FF709E','#E051C7','#7b5af0','#38d39f','#F0B90B'];
-    for(var i=0;i<130;i++)P.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*14,vy:(Math.random()-1)*14,g:.3+Math.random()*.2,c:cols[i%cols.length],s:4+Math.random()*5,r:Math.random()*6});
-    var t=0;(function f(){t++;x.clearRect(0,0,c.width,c.height);P.forEach(function(p){p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore();});if(t<120)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height);})();
+    var P=[],cols=big?['#F0B90B','#ffce54','#fff5cc','#FF709E']:['#FF709E','#E051C7','#7b5af0','#38d39f','#F0B90B'];
+    var N=big?200:110;
+    for(var i=0;i<N;i++)P.push({x:innerWidth/2,y:innerHeight*.36,vx:(Math.random()-.5)*(big?18:14),vy:(Math.random()-1)*(big?16:13),g:.3+Math.random()*.2,c:cols[i%cols.length],s:4+Math.random()*5,r:Math.random()*6});
+    var t=0;(function f(){t++;x.clearRect(0,0,c.width,c.height);P.forEach(function(p){p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore();});if(t<130)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height);})();
   }
 })();
 
@@ -625,7 +478,7 @@
     function dr(){x.clearRect(0,0,c.width,c.height);for(var i=0;i<st.length;i++){var s=st[i];x.globalAlpha=s.o;x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill();}}
     rz();dr();addEventListener('resize',function(){rz();dr();});}
   var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
-  var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
+  var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
   document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
   document.querySelectorAll('.buydrop').forEach(function(d){var t=d.querySelector('button');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();d.classList.toggle('open');});});
   (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
