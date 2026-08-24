@@ -62,7 +62,7 @@
   .cta-drop:hover .cta-drop-menu,.cta-drop:focus-within .cta-drop-menu{opacity:1;visibility:visible;transform:none}
   .cta-drop-menu a{display:flex;align-items:center;gap:.65rem;padding:.6rem .8rem;border-radius:.7rem;font-weight:600;font-size:.92rem;color:var(--ink)}
   .cta-drop-menu a:hover{background:var(--grey)}
-  .burger{display:none;background:none;border:0;font-size:1.3rem;cursor:pointer}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:1.75rem;line-height:1;cursor:pointer;padding:.1rem .3rem;-webkit-tap-highlight-color:transparent}
   .buydrop{position:relative;display:inline-block}
   .buydrop-menu{position:absolute;top:calc(100% + .5rem);left:50%;transform:translateX(-50%) translateY(8px);min-width:13rem;padding:.4rem;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 24px 60px -20px rgba(0,0,0,.35);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.22s;z-index:80}
   .buydrop:hover .buydrop-menu,.buydrop:focus-within .buydrop-menu{opacity:1;visibility:visible;transform:translateX(-50%)}
@@ -283,6 +283,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 #qprev .pdot{width:.45rem;height:.45rem;border-radius:50%;background:#E051C7;box-shadow:0 0 0 0 rgba(224,81,199,.6);animation:qpulse 1.8s infinite}
 @keyframes qpulse{0%{box-shadow:0 0 0 0 rgba(224,81,199,.5)}70%{box-shadow:0 0 0 .5rem rgba(224,81,199,0)}100%{box-shadow:0 0 0 0 rgba(224,81,199,0)}}
 @media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
+@media(max-width:760px){main .buydrop.open .buydrop-menu,main .buydrop:hover .buydrop-menu,main .buydrop:focus-within .buydrop-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;width:auto!important;min-width:0!important;max-width:none!important;z-index:600!important;max-height:70vh;overflow:auto}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="qg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF709E"/><stop offset=".52" stop-color="#E051C7"/><stop offset="1" stop-color="#C83DD0"/></linearGradient></defs></svg>
@@ -318,7 +319,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
         <a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/gateio.png" alt="Gate" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'GT'}))">Gate</a>
       </div>
     </div>
-    <button class="burger" id="burger" aria-label="Menu">≡</button>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
   </nav>
 </header>
 
@@ -502,6 +503,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 </footer>
 
 <script>
+  (function(){document.querySelectorAll('.hero .buydrop').forEach(function(bd){var t=bd.querySelector('.link,.btn');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();bd.classList.toggle('open');});});document.addEventListener('click',function(e){document.querySelectorAll('.hero .buydrop.open').forEach(function(bd){if(!bd.contains(e.target))bd.classList.remove('open');});});})();
   (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
