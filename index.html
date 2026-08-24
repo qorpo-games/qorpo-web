@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="apple-touch-icon" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<link rel="preload" as="image" href="./assets/hero-bear.jpg" fetchpriority="high">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="QORPO">
 <meta property="og:title" content="QORPO ($QORPO) — Own the Attention Economy">
@@ -18,13 +19,13 @@
 <meta name="twitter:title" content="QORPO ($QORPO) — Own the Attention Economy">
 <meta name="twitter:description" content="Games, AI and entertainment, powered by one token. Hold $QORPO, earn the airdrop.">
 <meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"QORPO","url":"https://www.qorpo.world/","logo":"https://www.qorpo.world/img/logo-color.png","sameAs":["https://x.com/QORPOworld","https://t.me/qorpoworld","https://discord.gg/qorpo","https://youtube.com/@qorpoworld"]},{"@type":"WebSite","name":"QORPO","url":"https://www.qorpo.world/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"QORPO","url":"https://qorpo.world/","logo":"https://qorpo.world/assets/og-image.jpg","sameAs":["https://x.com/QORPOworld","https://t.me/qorpoworld","https://discord.gg/qorpo","https://youtube.com/@qorpoworld"]},{"@type":"WebSite","name":"QORPO","url":"https://qorpo.world/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is $QORPO?","acceptedAnswer":{"@type":"Answer","text":"$QORPO is the token behind QORPO's ecosystem of Web3 games, AI and entertainment. Holding $QORPO qualifies you for airdrops, staking rewards and access across the ecosystem. It is live on Ethereum and BNB Chain."}},{"@type":"Question","name":"Where can I buy $QORPO?","acceptedAnswer":{"@type":"Answer","text":"$QORPO trades on major exchanges and on-chain. You can also buy directly and bridge between Ethereum and BNB Chain from the QORPO website."}},{"@type":"Question","name":"How do I earn rewards with $QORPO?","acceptedAnswer":{"@type":"Answer","text":"Stake $QORPO to earn rewards, and hold it to qualify for ecosystem airdrops such as the upcoming $TAMITOS animated-series airdrop."}},{"@type":"Question","name":"Which blockchains is $QORPO on?","acceptedAnswer":{"@type":"Answer","text":"$QORPO is a LayerZero OFT token available on both Ethereum and BNB Chain, and can be bridged between the two natively."}}]}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
   :root{
-    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
+    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#a6a6bd;
     --mag:#E051C7;--pink:#FF709E;--violet:#B06FE2;--eth:#627eea;--gold:#F0B90B;--green:#38d39f;
     /* contrast pass: lighter faint so microcopy passes AA on #06060b */
     --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
@@ -449,7 +450,7 @@
     <p class="lead" style="margin:.9rem auto 0">The animated series the world will fall for. Hold $QORPO to qualify for the $TAMITOS airdrop.</p>
     <div style="margin-top:1rem"><a class="btn btn-text arrow" href="https://www.tamitos.com/" target="_blank" rel="noopener">Check Tamitos website</a></div>
     <div class="feat" style="margin-top:2.2rem">
-      <video src="./assets/tamitos.mp4" autoplay muted loop playsinline poster="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_102217_c0ffbd9c-2219-4897-8814-f43c047ef737.png"></video>
+      <video data-src="./assets/tamitos.mp4" muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_102217_c0ffbd9c-2219-4897-8814-f43c047ef737.png"></video>
     </div>
     <!-- Games below -->
     <div class="duo2">
@@ -655,4 +656,11 @@
         drawSpark(m.sparkline_7d&&m.sparkline_7d.price);
       }).catch(function(){});
   })();
+
+  /* ============ lazy-load + autoplay heavy video only when near viewport ============ */
+  (function(){var vids=document.querySelectorAll('video[data-src]');if(!vids.length)return;
+    function load(v){if(v.dataset.loaded)return;v.dataset.loaded='1';v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}
+    if(!('IntersectionObserver' in window)){vids.forEach(load);return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);io.unobserve(e.target);}});},{rootMargin:'300px 0px'});
+    vids.forEach(function(v){io.observe(v);});})();
 </script>
