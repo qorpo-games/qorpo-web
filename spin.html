@@ -95,6 +95,13 @@
   .spinctl .btn.on{background:linear-gradient(100deg,#ff8fc0,#c83dd0);color:#fff;border-color:transparent}
   .buyhead{margin:1.4rem 0 .7rem;font-weight:700;font-size:.95rem}
   .buyhead .subtle{font-weight:400}
+  .chainrow{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.78rem;color:var(--faint);margin:0 0 .7rem}
+  .chainsel{display:flex;gap:.4rem}
+  .chainsel .chip{display:flex;align-items:center;gap:.35rem;font-family:var(--body);font-weight:700;font-size:.8rem;color:#cfcfe0;background:var(--glass);border:1px solid var(--card-bd);border-radius:2rem;padding:.35rem .7rem;cursor:pointer;transition:.15s}
+  .chainsel .chip:hover{border-color:rgba(255,255,255,.28)}
+  .chainsel .chip.on{background:linear-gradient(100deg,rgba(255,112,158,.22),rgba(224,81,199,.22));border-color:rgba(224,81,199,.6);color:#fff}
+  .chainsel .chip .sg{font-weight:600;font-size:.6rem;letter-spacing:.03em;text-transform:uppercase;color:var(--green)}
+  .chainsel .chip:not(.on) .sg{color:var(--faint)}
   .bundlegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
   .bundle{position:relative;text-align:center;border:1px solid var(--card-bd);background:var(--glass);border-radius:.9rem;padding:.9rem .5rem;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
   .bundle:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.28)}
@@ -206,6 +213,12 @@
           <button class="btn btn-glass" id="autoBtn" type="button">Auto-spin</button>
         </div>
         <div class="buyhead">Buy spins <span class="subtle">— one transaction per pack</span><span class="pxbadge" id="pxBadge"></span></div>
+        <div class="chainrow">Pay with $QORPO on:
+          <div class="chainsel" id="chainSel">
+            <button class="chip" data-c="56" type="button">BNB<span class="sg">suggested · low gas</span></button>
+            <button class="chip" data-c="1" type="button">Ethereum</button>
+          </div>
+        </div>
         <div class="bundlegrid" id="bundleGrid"></div>
         <p class="subtle" id="buyNote"></p>
       </div>
@@ -276,7 +289,7 @@
 
   var TOKEN='0x22514ffb0d7232a56f0c24090e7b68f179faa940';
   var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
-  var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1'},56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38'}};
+  var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1',sym:'ETH'},56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38',sym:'BNB'}};
   var ERC20=['function balanceOf(address) view returns (uint256)','function transfer(address,uint256) returns (bool)'];
   var STAKE_ABI=['function getStakeWithNoApy(address) view returns (uint256)','function getStakesWithApy(address) view returns (tuple(uint256 amount,uint256 startTime,uint8 stakeType,bool finished)[])'];
 
@@ -294,6 +307,7 @@
 
   var eth=window.ethereum, okx=window.okxwallet, provider=null, signer=null, account=null, chainId=56;
   var spinning=false, hasStake=false, rot=0, auto=false, buying=false, bulk=false, stopBulk=false;
+  var payChain=56;   // chain the user pays QORPO on for bundles: 56=BNB (suggested, low gas), 1=Ethereum
   var QORPO_USD=null, QORPO_CHG=null;   // live price (CoinGecko), USD per $QORPO
   function usdVal(n){if(n==null)return '';if(n<1000)return '$'+n.toFixed(2);return '$'+Math.round(n).toLocaleString('en-US');}
   function usdPrice(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
@@ -357,11 +371,14 @@
     // live price badge
     var px=$('pxBadge');
     if(px){px.innerHTML=QORPO_USD!=null?'<span class="pdot"></span>$QORPO <b>'+usdPrice(QORPO_USD)+'</b>'+(QORPO_CHG!=null?' <span style="color:'+(QORPO_CHG>=0?'var(--green,#38d39f)':'#ff6b8b')+'">'+(QORPO_CHG>=0?'+':'')+QORPO_CHG.toFixed(1)+'%</span>':''):'';}
+    // pay-chain chips
+    var cs=$('chainSel');
+    if(cs){Array.prototype.forEach.call(cs.querySelectorAll('.chip'),function(el){el.classList.toggle('on',(+el.dataset.c)===payChain);});}
     // bundles + buy note
     renderBundles(s);
     if(!TREASURY){$('buyNote').innerHTML='Buying with $QORPO turns on once the rewards treasury address is configured. Free daily spins from staking work now.';}
     else if(!account){$('buyNote').innerHTML='Connect your wallet to buy a spin pack. One transaction per pack — gas is paid once.';}
-    else{$('buyNote').innerHTML='Paid in $QORPO from your wallet to the QORPO treasury. One signature buys the whole pack; bought spins never expire.';}
+    else{$('buyNote').innerHTML='Paid in $QORPO on <b>'+CHAINS[payChain].name+'</b> from your wallet to the QORPO treasury. Same token on both chains — BNB has the lowest gas. One signature buys the whole pack; bought spins never expire.';}
     // preview note
     $('previewNote').innerHTML=PREVIEW?'<b>Preview:</b> this build simulates spin outcomes locally so you can try the experience — final, provably-fair results are credited on-chain once the rewards service is live.':'';
     renderRewards();
@@ -377,7 +394,7 @@
         (b.img?'<img class="bimg" src="'+b.img+'" alt="" onerror="this.style.display=\'none\'">':'')+
         '<div class="bs">'+fmtN(b.spins)+'</div><div class="bl">spins</div>'+
         '<div class="bp">'+fmtN(b.price)+' QORPO</div>'+
-        (QORPO_USD!=null?'<div class="busd">≈ '+usdVal(b.price*QORPO_USD)+'</div>':'')+
+        (QORPO_USD!=null?'<div class="busd">(≈ '+usdVal(b.price*QORPO_USD)+')</div>':'')+
         '<div class="bper">'+fmtN(Math.round(per))+' / spin'+(save>0?' · −'+save+'%':'')+'</div></button>';
     }).join('');
     Array.prototype.forEach.call(grid.querySelectorAll('.bundle'),function(el){
@@ -505,7 +522,7 @@
     if(!account){connect();return;}
     if(!TREASURY){toast('Buying is not enabled yet.');return;}
     if(buying)return;
-    if(!(await ensureChain()))return;
+    if(!(await switchToPayChain()))return;
     var total=(priceTotal!=null?priceTotal:SPIN_PRICE*nSpins);
     buying=true;render();
     try{
@@ -536,6 +553,23 @@
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}}
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);}
   async function ensureChain(){if(!signer)return true;try{var net=await provider.getNetwork();if(CHAINS[Number(net.chainId)])chainId=Number(net.chainId);return true;}catch(e){return true;}}
+  // switch the wallet to the selected pay chain (BNB/ETH) before a purchase
+  async function switchToPayChain(){
+    var inj=pickInjected();if(!inj||!inj.request){chainId=payChain;return true;}
+    var c=CHAINS[payChain];
+    try{await inj.request({method:'wallet_switchEthereumChain',params:[{chainId:c.hex}]});}
+    catch(e){
+      var code=e&&(e.code||(e.data&&e.data.originalError&&e.data.originalError.code));
+      if(code===4902){
+        try{await inj.request({method:'wallet_addEthereumChain',params:[{chainId:c.hex,chainName:c.name,nativeCurrency:{name:c.sym,symbol:c.sym,decimals:18},rpcUrls:[c.rpc],blockExplorerUrls:[c.scan]}]});}
+        catch(e2){toast('Please switch your wallet to '+c.name+' to pay.');return false;}
+      }else if(code===4001){toast('Chain switch cancelled.');return false;}
+      else{toast('Please switch your wallet to '+c.name+' to pay.');return false;}
+    }
+    chainId=payChain;
+    try{provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();}catch(e){}
+    return true;
+  }
   async function afterWallet(){
     hasStake=false;
     try{
@@ -552,6 +586,7 @@
     $('spinBtn').addEventListener('click',spin);
     $('spinAllBtn').addEventListener('click',function(){bulkRun(false);});
     $('autoBtn').addEventListener('click',function(){if(auto||bulk)stopAuto();else bulkRun(true);});
+    var cs=$('chainSel');if(cs)Array.prototype.forEach.call(cs.querySelectorAll('.chip'),function(el){el.addEventListener('click',function(){payChain=+el.dataset.c;render();});});
     $('rClose').addEventListener('click',function(){$('rmodal').classList.remove('open');});
     $('rmodal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
     $('wcBtn').addEventListener('click',function(e){e.stopPropagation();if(account)$('wcMenu').classList.toggle('open');else connect();});
@@ -563,7 +598,7 @@
   }
   // live $QORPO price (CoinGecko — same source as the rest of the site)
   function fetchPrice(){
-    fetch('https://api.coingecko.com/api/v3/coins/qorpo-world?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
+    fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
       .then(function(r){return r.ok?r.json():null;}).then(function(d){
         if(!d||!d.market_data)return;
         var m=d.market_data;
