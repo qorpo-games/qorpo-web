@@ -60,7 +60,7 @@
   .wc-menu.open{display:flex}
   .wc-menu button{background:none;border:0;color:#eaeaf3;font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
   .wc-menu button:hover{background:rgba(255,255,255,.08)}.wc-menu button.disc{color:#ff8fb0}
-  .burger{display:none;background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:1.75rem;line-height:1;cursor:pointer;padding:.1rem .3rem;-webkit-tap-highlight-color:transparent}
 
   .hero{text-align:center;padding:3rem 1.5rem 1rem}
   .hero h1{font-size:clamp(2.2rem,5.6vw,3.8rem);font-weight:900;letter-spacing:-.04em;margin:.5rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 48%,#cfcfe8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -160,7 +160,7 @@
   .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
   .bd-menu .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
   .bd-sep{height:1px;background:var(--line2);margin:.35rem .2rem}
-  @media(max-width:760px){.nav-links{display:none}.burger{display:block}}
+  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.nav{gap:.5rem}.brand{margin-right:auto}.nav>.buydrop{display:none}.wc{padding:.46rem .62rem;font-size:.72rem}}
   #toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(1.5rem);background:#15151f;border:1px solid var(--card-bd);border-radius:.8rem;padding:.8rem 1.1rem;font-size:.88rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:.25s;z-index:400;max-width:90vw}
   #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
   #toast a{color:var(--pink)}
@@ -179,7 +179,7 @@
       <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
       <div class="wc-menu" id="wcMenu"><button id="wcCopy" type="button">Copy address</button><button id="wcDisc" class="disc" type="button">Disconnect</button></div>
     </div>
-    <button class="burger" id="burger">≡</button>
+    <button class="burger" id="burger">☰</button>
   </nav>
 </header>
 
