@@ -567,7 +567,7 @@
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
 // live $QORPO price -> buybar
 (function(){function usd(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
-  fetch('https://api.coingecko.com/api/v3/coins/qorpo-world?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
+  fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
     .then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.market_data)return;var m=d.market_data;
       var p=document.getElementById('bbPrice');if(p)p.textContent=usd(m.current_price&&m.current_price.usd);
       var ch=m.price_change_percentage_24h,c=document.getElementById('bbChg');
