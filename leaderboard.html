@@ -191,6 +191,7 @@
   #toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(1.5rem);background:#15151f;border:1px solid var(--card-bd);border-radius:.8rem;padding:.8rem 1.1rem;font-size:.88rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:.25s;z-index:200;max-width:90vw}
   #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
   #toast a{color:var(--pink)}
+@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}
 </style>
 
 <canvas id="stars"></canvas>
@@ -617,6 +618,6 @@
   var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
   document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
   document.querySelectorAll('.buydrop').forEach(function(d){var t=d.querySelector('button');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();d.classList.toggle('open');});});
-  var b=document.getElementById('burger');if(b)b.addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem;gap:.3rem';});
+  (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
 })();
 </script>

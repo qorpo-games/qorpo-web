@@ -279,6 +279,7 @@
 
   @media(max-width:760px){.nav-links{display:none}.burger{display:block}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}.fbrand p{margin-left:auto;margin-right:auto}.fsoc{justify-content:center}}
   @media(max-width:560px){.prow{grid-template-columns:1fr auto;gap:.5rem}.prow .mid{display:none}.fcols{grid-template-columns:1fr;text-align:center}.fcol{align-items:center}.flegal{text-align:center}}
+@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -320,7 +321,7 @@
     </div>
     <div class="statrow">
       <div class="statcard"><b>up to 30%</b><span>APY tiers</span></div>
-      <div class="statcard"><b>1 : 1</b><span>$QORPO → Community Points</span></div>
+      <div class="statcard"><b>Daily</b><span>Community Points by level</span></div>
       <div class="statcard"><b>0 hacks</b><span>in 6 years building</span></div>
       <div class="statcard"><b>100%</b><span>non-custodial</span></div>
     </div>
@@ -604,33 +605,38 @@
     if(t.duration>0)parts.push('locks '+daysOf(t.duration));
     el.textContent=parts.join(' · ');
   }
+  var tiersLoading=false;
   async function loadTiers(){
-    tierList=[];var seg=$('tierSeg');seg.innerHTML='';
-    var c=stakeR();
-    for(var i=0;i<8;i++){
-      try{
-        var st=await c.stakeTypes(i);
-        var apyRaw=Number(st.apyFraction);
-        var dur=Number(st.duration);
-        // an APY tier is one that actually pays APY; skip empty/zero-APY entries
-        if(apyRaw<=0) continue;
-        var pct=apyRaw>1000?Math.round(apyRaw/100):apyRaw;
-        tierList.push({idx:i,apy:pct,duration:dur,minRaw:st.minStake});
-      }catch(e){break;}
-    }
-    // the contract can expose the same APY rate more than once (e.g. per chain / duplicate config) — show each distinct rate only once
-    var seenApy={}; tierList=tierList.filter(function(t){var k=t.apy;if(seenApy[k])return false;seenApy[k]=1;return true;});
-    tierList.sort(function(a,b){return a.apy-b.apy;});
-    if(!tierList.length){tierList=[{idx:1,apy:15,duration:31556926,minRaw:0n},{idx:2,apy:30,duration:31556926,minRaw:0n}];}
-    tierList.forEach(function(t,n){
-      var b=document.createElement('button');b.type='button';b.textContent=t.apy+'% APY';b.dataset.idx=t.idx;
-      if(n===0){b.classList.add('on');tier=t.idx;}
-      b.addEventListener('click',function(){[].forEach.call(seg.children,function(x){x.classList.remove('on');});b.classList.add('on');tier=parseInt(b.dataset.idx);tierInfoLine();});
-      seg.appendChild(b);
-    });
-    tierInfoLine();
-    var lab=tierList.map(function(t){return t.apy+'%';}).join(' / ');
-    if($('sApy'))$('sApy').textContent=lab;
+    if(tiersLoading)return; tiersLoading=true;   // guard: prevent concurrent runs duplicating the buttons
+    try{
+      var c=stakeR();
+      var list=[];
+      for(var i=0;i<8;i++){
+        try{
+          var st=await c.stakeTypes(i);
+          var apyRaw=Number(st.apyFraction);
+          var dur=Number(st.duration);
+          if(apyRaw<=0) continue; // APY tier = one that actually pays APY
+          var pct=apyRaw>1000?Math.round(apyRaw/100):apyRaw;
+          list.push({idx:i,apy:pct,duration:dur,minRaw:st.minStake});
+        }catch(e){break;}
+      }
+      // contract can expose the same APY rate more than once — keep each distinct rate once
+      var seenApy={}; list=list.filter(function(t){if(seenApy[t.apy])return false;seenApy[t.apy]=1;return true;});
+      list.sort(function(a,b){return a.apy-b.apy;});
+      if(!list.length){list=[{idx:1,apy:15,duration:31556926,minRaw:0n},{idx:2,apy:30,duration:31556926,minRaw:0n}];}
+      tierList=list;
+      var seg=$('tierSeg'); seg.innerHTML='';   // build once, at the end
+      tierList.forEach(function(t,n){
+        var b=document.createElement('button');b.type='button';b.textContent=t.apy+'% APY';b.dataset.idx=t.idx;
+        if(n===0){b.classList.add('on');tier=t.idx;}
+        b.addEventListener('click',function(){[].forEach.call(seg.children,function(x){x.classList.remove('on');});b.classList.add('on');tier=parseInt(b.dataset.idx);tierInfoLine();});
+        seg.appendChild(b);
+      });
+      tierInfoLine();
+      var lab=tierList.map(function(t){return t.apy+'%';}).join(' / ');
+      if($('sApy'))$('sApy').textContent=lab;
+    } finally { tiersLoading=false; }
   }
 
   async function refresh(){
@@ -868,7 +874,7 @@
 (function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});})();
 (function(){var s=document.getElementById('splash');if(!s)return;function go(){s.classList.add('gone');}addEventListener('load',function(){setTimeout(go,300);});setTimeout(go,1400);})();
-(function(){var b=document.getElementById('burger');if(!b)return;b.addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem;gap:.3rem';});})();
+(function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
 (function(){
   var SVGG={
     Discord:'<path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>',

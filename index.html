@@ -344,6 +344,7 @@
     .fcol{align-items:center}
     .flegal{text-align:center}
   }
+@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -591,7 +592,7 @@
   };
   var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['TikTok','https://tiktok.com/@qorpoworld'],['Twitch','https://twitch.tv/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
   document.getElementById('fsoc').innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
-  document.getElementById('burger').addEventListener('click',function(){var l=document.querySelector('.nav-links');l.style.cssText='display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;padding:1rem'});
+  (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
   // BLOG via shared Nucleus CMS — real QORPO posts (category qorpo-game-studio).
   // Falls back to the static cards below if offline or the origin isn't CORS-allowed yet.
   (function(){var CMS='https://blog.tamitos.com/api/v1',covers=['g1','g2','g3','g4','g5','g6'];
