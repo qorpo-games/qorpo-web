@@ -384,7 +384,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
     function fu(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
     function fb(n){if(n==null)return '—';if(n>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return '$'+(n/1e3).toFixed(1)+'K';return '$'+n.toFixed(0);}
     function fn(n){if(n==null)return '—';if(n>=1e9)return (n/1e9).toFixed(2)+'B';if(n>=1e6)return (n/1e6).toFixed(1)+'M';if(n>=1e3)return (n/1e3).toFixed(1)+'K';return Math.round(n).toLocaleString('en-US');}
-    fetch('https://api.coingecko.com/api/v3/coins/qorpo-world?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false')
+    fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false')
       .then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.market_data)return;var m=d.market_data;
         if(el('price'))el('price').textContent=fu(m.current_price&&m.current_price.usd);
         var ch=m.price_change_percentage_24h;if(el('change')&&ch!=null){el('change').textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';el('change').style.color=ch>=0?'#38d39f':'#ff6b8b';}
