@@ -27,20 +27,20 @@
   var search=location.search||'';
   var seg=path.split('/').filter(Boolean);
   var map={
-    'qorpo-staking':'/staking.html',
-    'staking':'/staking.html',
-    'bridge':'/bridge.html',
-    'qorpo-bridge':'/bridge.html',
-    'ecosystem':'/ecosystem.html',
-    'token':'/token.html',
-    'why-qorpo':'/token.html',
-    'leaderboard':'/leaderboard.html',
-    'community-points':'/leaderboard.html',
+    'qorpo-staking':'/staking',
+    'staking':'/staking',
+    'bridge':'/bridge',
+    'qorpo-bridge':'/bridge',
+    'ecosystem':'/ecosystem',
+    'token':'/token',
+    'why-qorpo':'/token',
+    'leaderboard':'/leaderboard',
+    'community-points':'/leaderboard',
   };
   var dest=null;
   if(seg.length===1 && map[seg[0]]) dest=map[seg[0]];
   else if(seg[0]==='blog'){
-    if(seg.length>=2) dest='/blog.html?slug='+encodeURIComponent(seg[1]);
+    if(seg.length>=2) dest='/blog?slug='+encodeURIComponent(seg[1]);
     else dest='/#news';
   }
   if(dest){ location.replace(dest+(dest.indexOf('?')<0?search:'')); }
