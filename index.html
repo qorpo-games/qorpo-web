@@ -355,41 +355,43 @@ html{overflow-x:clip}
 /* uniform mobile header: brand left, burger right, buy hidden on mobile */
 @media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
 
-  /* ===== buy-QORPO promo popup (5s, once/day) ===== */
-  .qp-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(4,4,9,.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+  /* ===== buy-$QORPO promo popup (5s, once/day) — glass ===== */
+  .qp-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(3,3,8,.6);backdrop-filter:blur(12px) saturate(120%);-webkit-backdrop-filter:blur(12px) saturate(120%)}
   .qp-overlay.show{display:flex}
-  .qp-card{position:relative;width:100%;max-width:25rem;background:linear-gradient(180deg,#14141e,#0c0c14);border:1px solid rgba(255,255,255,.12);border-radius:1.3rem;box-shadow:0 44px 100px -34px rgba(0,0,0,.95),0 0 0 1px rgba(224,81,199,.14);overflow:hidden;animation:qp-pop .4s cubic-bezier(.2,.9,.3,1.2)}
+  .qp-card{position:relative;width:100%;max-width:25rem;background:linear-gradient(180deg,rgba(40,34,56,.62),rgba(14,12,22,.66));backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%);border:1px solid rgba(255,255,255,.14);border-radius:1.5rem;box-shadow:0 40px 120px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.14),0 0 0 1px rgba(224,81,199,.1);overflow:hidden;animation:qp-pop .45s cubic-bezier(.2,.9,.3,1.2)}
+  .qp-card::before{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);pointer-events:none;z-index:4}
   @keyframes qp-pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
   @media(prefers-reduced-motion:reduce){.qp-card{animation:none}}
-  .qp-glow{position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:120%;height:60%;background:radial-gradient(60% 60% at 50% 100%,rgba(224,81,199,.5),transparent 70%);pointer-events:none;opacity:.7}
-  .qp-x{position:absolute;top:.7rem;right:.8rem;z-index:3;width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#cfcfe0;font-size:1.15rem;line-height:1;cursor:pointer;transition:.15s}
-  .qp-x:hover{background:rgba(255,255,255,.12);color:#fff}
-  .qp-body{position:relative;z-index:2;padding:1.9rem 1.5rem 1.5rem;text-align:center;font-family:"Inter",-apple-system,system-ui,sans-serif}
-  .qp-mark{display:inline-flex;align-items:center;justify-content:center;width:3.2rem;height:3.2rem}
-  .qp-mark img{width:3.2rem;height:3.2rem;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(224,81,199,.8))}
-  .qp-mark svg{width:3rem;height:3rem;filter:drop-shadow(0 6px 20px rgba(224,81,199,.8))}
-  .qp-eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#FF709E;margin:.6rem 0 0}
+  .qp-glow{position:absolute;top:-45%;left:50%;transform:translateX(-50%);width:130%;height:65%;background:radial-gradient(58% 58% at 50% 100%,rgba(224,81,199,.42),transparent 72%);pointer-events:none;opacity:.85}
+  .qp-x{position:absolute;top:.8rem;right:.85rem;z-index:3;width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#e6e6f0;font-size:1.15rem;line-height:1;cursor:pointer;transition:.15s}
+  .qp-x:hover{background:rgba(255,255,255,.16);color:#fff}
+  .qp-body{position:relative;z-index:2;padding:2rem 1.55rem 1.55rem;text-align:center;font-family:"Inter",-apple-system,system-ui,sans-serif}
+  .qp-mark{display:inline-flex;align-items:center;justify-content:center;width:3.4rem;height:3.4rem;border-radius:1rem;background:rgba(224,81,199,.12);border:1px solid rgba(224,81,199,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+  .qp-mark img{width:2.2rem;height:2.2rem;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(224,81,199,.7))}
+  .qp-mark svg{width:2rem;height:2rem;filter:drop-shadow(0 4px 14px rgba(224,81,199,.7))}
+  .qp-eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#FF709E;margin:.75rem 0 0}
   .qp-title{font-size:1.7rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:.5rem 0 0;color:#fff}
   .qp-title .grad{background:linear-gradient(100deg,#FF709E,#E051C7 52%,#C83DD0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .qp-sub{color:#b4b4c9;font-size:.92rem;margin:.6rem auto 0;max-width:22rem;line-height:1.5}
-  .qp-list{list-style:none;margin:1.2rem 0 0;padding:0;display:flex;flex-direction:column;gap:.55rem;text-align:left}
-  .qp-list li{display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.8rem;padding:.7rem .85rem}
-  .qp-i{width:2.1rem;height:2.1rem;border-radius:.6rem;background:rgba(224,81,199,.14);display:flex;align-items:center;justify-content:center;flex:none}
-  .qp-i svg{display:block;width:1.2rem;height:1.2rem;fill:none;stroke:#FF709E;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .qp-sub{color:#c2c2d4;font-size:.92rem;margin:.6rem auto 0;max-width:22rem;line-height:1.5}
+  .qp-list{list-style:none;margin:1.25rem 0 0;padding:0;display:flex;flex-direction:column;gap:.55rem;text-align:left}
+  .qp-list li{display:flex;align-items:center;gap:.85rem;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:.9rem;padding:.75rem .9rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:.15s}
+  .qp-list li:hover{background:rgba(255,255,255,.09);border-color:rgba(224,81,199,.3)}
+  .qp-i{width:2.3rem;height:2.3rem;border-radius:.7rem;background:rgba(224,81,199,.14);border:1px solid rgba(224,81,199,.3);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+  .qp-i svg{display:block;width:1.2rem;height:1.2rem;fill:none;stroke:#FF8FB4;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .qp-list b{display:block;font-size:.92rem;font-weight:700;color:#fff}
-  .qp-list li span{display:block;color:#9292a8;font-size:.78rem;margin-top:.05rem}
-  .qp-buylab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#9292a8;margin:1.3rem 0 .55rem}
+  .qp-list li span{display:block;color:#a3a3ba;font-size:.78rem;margin-top:.05rem}
+  .qp-buylab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#9292a8;margin:1.35rem 0 .6rem}
   .qp-buys{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
-  .qp-buy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:4.4rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:.85rem;padding:.75rem .4rem;text-decoration:none;transition:.15s}
-  .qp-buy:hover{background:rgba(255,255,255,.09);transform:translateY(-2px);border-color:rgba(224,81,199,.45)}
-  .qp-buy .lg{width:2.1rem;height:2.1rem;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;padding:3px;flex:none}
+  .qp-buy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:4.6rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.95rem;padding:.8rem .4rem;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);transition:.15s}
+  .qp-buy:hover{background:rgba(255,255,255,.11);transform:translateY(-2px);border-color:rgba(224,81,199,.5)}
+  .qp-buy .lg{width:2.1rem;height:2.1rem;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;padding:3px;flex:none}
   .qp-buy .lg img{width:100%;height:100%;object-fit:contain}
   .qp-buy>span{font-weight:700;font-size:.82rem;color:#fff}
-  .qp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.15rem;gap:.5rem}
+  .qp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem;gap:.5rem}
   .qp-why{color:#eaeaf3;font-weight:600;font-size:.85rem;text-decoration:none;border-bottom:1px solid transparent}
   .qp-why:hover{border-color:rgba(255,255,255,.3)}
   .qp-secure{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;color:#9292a8;display:flex;align-items:center;gap:.35rem}
-  .qp-secure .d{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f}
+  .qp-secure .d{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f;box-shadow:0 0 8px #38d39f}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -721,9 +723,9 @@ html{overflow-x:clip}
       <h3 class="qp-title">Buy <span class="grad">$QORPO</span>.<br>Get the upside.</h3>
       <p class="qp-sub">One token across QORPO's games and shows. Hold &amp; stake to unlock all three:</p>
       <ul class="qp-list">
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M20 12v9H4v-9"/><path d="M2 8h20v4H2z"/><path d="M12 21V8"/><path d="M12 8C10.5 8 8 8 8 6c0-1.7 1.3-3 3-3s1 3 1 5zm0 0c1.5 0 4 0 4-2 0-1.7-1.3-3-3-3s-1 3-1 5z"/></svg></span><div><b>Tamitos airdrop</b><span>Stake $QORPO to qualify</span></div></li>
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M17 6H7a5 5 0 0 0-5 5v.5A4.5 4.5 0 0 0 6.5 16c1.4 0 2-.5 3-1.5l.4-.5h4.2l.4.5c1 1 1.6 1.5 3 1.5A4.5 4.5 0 0 0 22 11.5V11a5 5 0 0 0-5-5Z"/><path d="M6.5 10v3M5 11.5h3"/><circle cx="16" cy="11" r=".6" fill="currentColor" stroke="none"/><circle cx="18" cy="13" r=".6" fill="currentColor" stroke="none"/></svg></span><div><b>Share of AneeMate</b><span>Be part of the game's economy</span></div></li>
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><div><b>Stake &amp; earn</b><span>Daily Community Points + APY</span></div></li>
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><div><b>Tamitos airdrop</b><span>Stake $QORPO to qualify</span></div></li>
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/></svg></span><div><b>Share of AneeMate</b><span>Be part of the game's economy</span></div></li>
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><div><b>Stake &amp; earn</b><span>Daily Community Points + APY</span></div></li>
       </ul>
       <p class="qp-buylab">Buy $QORPO on</p>
       <div class="qp-buys">
