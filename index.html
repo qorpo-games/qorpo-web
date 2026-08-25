@@ -348,6 +348,11 @@
     .flegal{text-align:center}
   }
 @media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
+
+html{overflow-x:clip}
+
+/* uniform mobile header: brand left, burger right, buy hidden on mobile */
+@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -357,7 +362,7 @@
 <header>
   <nav class="nav">
     <a class="brand" href="#"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="#">Home</a><a href="ecosystem.html">Ecosystem</a><div class="buydrop nav-tok"><button class="nav-tok-btn">Token <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div><a href="staking.html">Staking</a><a href="leaderboard.html">Leaderboard</a><a href="bridge.html">Bridge</a></div>
+    <div class="nav-links"><a href="#">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
     <div class="buydrop">
       <button class="btn btn-primary cta">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
       <div class="bd-menu right" data-buymenu></div>
@@ -379,7 +384,7 @@
         <button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
         <div class="bd-menu" data-buymenu></div>
       </div>
-      <a class="btn btn-glass hide-mobile" href="staking.html">Stake &amp; earn</a>
+      <a class="btn btn-glass hide-mobile" href="staking">Stake &amp; earn</a>
     </div>
     </div><!-- /hero-inner -->
       <div class="pricecard hero-ticker">
@@ -401,7 +406,7 @@
     <p class="lead">One token behind the <span class="serif">games, AI and entertainment</span> the world can't stop watching. Stake for up to <b style="color:#fff">30% APY</b> and hold $QORPO to qualify for the <b style="color:#fff">airdrop</b> — live on Ethereum &amp; BNB&nbsp;Chain.</p>
     <div class="trustbar">
       <div class="tb-badges">
-        <a class="tbadge" href="token.html" title="Audited by CertiK — 3.9 / 5"><span class="dmark"></span><b>CertiK audited</b><span class="stars">★★★★<span class="off">★</span></span><span class="rt">3.9</span></a>
+        <a class="tbadge" href="token" title="Audited by CertiK — 3.9 / 5"><span class="dmark"></span><b>CertiK audited</b><span class="stars">★★★★<span class="off">★</span></span><span class="rt">3.9</span></a>
         <a class="tbadge" href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener"><span class="dmark"></span><b>Verified contract</b><span class="sub">Etherscan</span></a>
         <a class="tbadge" href="https://www.coingecko.com/en/coins/qopro" target="_blank" rel="noopener"><span class="dmark"></span><b>CoinGecko</b><span class="sub">Listed</span></a>
         <a class="tbadge" href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener"><span class="dmark"></span><b>CoinMarketCap</b><span class="sub">Listed</span></a>
@@ -431,7 +436,7 @@
           </div>
           <div class="bmeta"><span>Rate <b>1 : 1</b></span><span>Time <b>~3–5 min</b></span></div>
         </div>
-        <div style="margin-top:1.4rem"><a class="btn btn-glass arrow" href="bridge.html">Open QORPO Bridge</a></div>
+        <div style="margin-top:1.4rem"><a class="btn btn-glass arrow" href="bridge">Open QORPO Bridge</a></div>
       </div>
       <div class="rh-scene" id="rhscene">
         <div class="rh-glow"></div>
@@ -476,7 +481,7 @@
     <p class="kicker">Built on $QORPO</p>
     <h2 class="bigh">Utility you use today</h2>
     <div class="objs">
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn daily Community Points by your QORPO Power level, or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking.html">Open Staking</a></div></div>
+      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn daily Community Points by your QORPO Power level, or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking">Open Staking</a></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103722_eddb6c75-4479-4015-a28b-dc5560263363.png" alt=""></div><h3>Trade anywhere</h3><p>$QORPO is live on MEXC, KuCoin and Gate — easy to enter, easy to hold.</p><div class="act"><div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div></div></div>
       <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103720_4cb10d81-a9e9-42d7-953b-3df42c3a503a.png" alt=""></div><h3>Own the ecosystem</h3><p>Games, on-chain collectibles and an animated series — every drop routes value back to the token.</p><div class="act"><a class="btn btn-text arrow" href="#eco">See ecosystem</a></div></div>
     </div>
@@ -495,7 +500,7 @@
     </div>
     <div class="st-cta">
       <div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
-      <a class="btn btn-text arrow" href="staking.html">See staking rewards</a>
+      <a class="btn btn-text arrow" href="staking">See staking rewards</a>
     </div>
   </section>
 
@@ -530,8 +535,8 @@
 <footer>
   <div class="fcols">
     <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
-    <div class="fcol"><span class="h">Main pages</span><a href="bridge.html">QORPO Bridge</a><a href="staking.html">QORPO Staking</a><a href="#">QORPO Brand Kit</a></div>
-    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem.html">Ecosystem</a><a href="token.html">Why $QORPO</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
+    <div class="fcol"><span class="h">Main pages</span><a href="bridge">QORPO Bridge</a><a href="staking">QORPO Staking</a><a href="#">QORPO Brand Kit</a></div>
+    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem">Ecosystem</a><a href="token">Why $QORPO</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
     <div class="fcol"><span class="h">Legal</span><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
   <div class="flegal">© 2026 QORPO World. All rights reserved. · $QORPO the attention economy token</div>
@@ -554,7 +559,7 @@
   var EX=[['MEXC','MX','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
           ['KuCoin','KC','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
           ['Gate','GT','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
-  var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
+  var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
     EX.map(function(e){return '<a href="'+e[2]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[3]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
   document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
   // click-to-open on touch
@@ -605,7 +610,7 @@
     fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
       var row=document.getElementById('blogrow');
-      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog.html?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
       // real cover only if it actually loads (CMS image host may 404); otherwise the brand gradient stays
       posts.forEach(function(p,i){var img=fixImg((p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'');if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
     }).catch(function(){});
