@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /spin.html
 
 Sitemap: https://qorpo.world/sitemap.xml
