@@ -196,9 +196,6 @@
 
 
 
-
-
-
 /* ================= PREMIUM DARK RETHEME ================= */
 :root{
   --white:#13131d;--grey:#181824;--ink:#ffffff;--muted:#b4b4c9;--faint:#9a9ab5;
@@ -310,6 +307,7 @@ html{overflow-x:clip}
       <a href="ecosystem">Ecosystem</a>
       <a href="token" class="active">Token</a>
       <a href="staking">Staking</a>
+      <a href="spin">Spin</a>
       <a href="leaderboard">Leaderboard</a>
 
       <a href="bridge">Bridge</a>
@@ -467,9 +465,9 @@ html{overflow-x:clip}
   <section class="blogs reveal">
     <h2>From the newsroom</h2>
     <div class="blogrow" id="blogrow">
-      <article class="blog"><div class="cover g1"></div><div class="b-body"><div class="cat">Tamitos</div><h3>Tamitos heads to TV with an animated series</h3><div class="date">Sample post</div></div></article>
-      <article class="blog"><div class="cover g2"></div><div class="b-body"><div class="cat">$QORPO</div><h3>$QORPO now trading on KuCoin, MEXC and Gate</h3><div class="date">Sample post</div></div></article>
-      <article class="blog"><div class="cover g3"></div><div class="b-body"><div class="cat">AneeMate</div><h3>AneeMate brings on-chain collectibles to life</h3><div class="date">Sample post</div></div></article>
+      <a class="blog" href="blog"><div class="cover g1"></div><div class="b-body"><div class="cat">Tamitos</div><h3>Tamitos heads to TV with an animated series</h3><div class="date">Read on qorpo.world →</div></div></a>
+      <a class="blog" href="blog"><div class="cover g2"></div><div class="b-body"><div class="cat">$QORPO</div><h3>$QORPO now trading on KuCoin, MEXC and Gate</h3><div class="date">Read on qorpo.world →</div></div></a>
+      <a class="blog" href="blog"><div class="cover g3"></div><div class="b-body"><div class="cat">AneeMate</div><h3>AneeMate brings on-chain collectibles to life</h3><div class="date">Read on qorpo.world →</div></div></a>
     </div>
   </section>
 </main>
@@ -499,8 +497,8 @@ html{overflow-x:clip}
         <a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a>
       </div>
       <div class="qf-col"><span class="qf-h">Legal</span>
-        <a href="https://www.qorpo.world/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
-        <a href="https://www.qorpo.world/terms-of-service" target="_blank" rel="noopener">Terms of Service</a>
+        <a href="privacy">Privacy Policy</a>
+        <a href="terms">Terms of Service</a>
       </div>
     </div>
     <div class="qf-legal"><span>© 2026 QORPO World. All rights reserved.</span><span>$QORPO · The attention economy token</span></div>
@@ -555,11 +553,17 @@ html{overflow-x:clip}
     if(d.circulatingSupply)circ.textContent=compact(d.circulatingSupply);
     if(d.totalSupply)supply.textContent=compact(d.totalSupply);
   }catch(e){}})();
-  // BLOG via real CMS (same system as playontoy/tamitos)
-  (async()=>{const CMS='https://cms.qorpo.world/api/v1';const covers=['g1','g2','g3'];
-    try{const r=await fetch(CMS+'/blog-posts?page=1&per_page=3&filter%5Bblog_categories.slug%5D=playontoy');if(!r.ok)return;const j=await r.json();const posts=(j.data||[]).slice(0,3);if(!posts.length)return;
-      document.getElementById('blogrow').innerHTML=posts.map((p,i)=>{const img=(p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'';const date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';const cat=(p.blog_categories&&p.blog_categories[0]&&p.blog_categories[0].name)||'QORPO';const cover=img?`style="background-image:url('${img}')"`:'';return `<a class="blog" href="https://www.qorpo.world/blog/${p.slug}" target="_blank" rel="noopener"><div class="cover ${img?'':covers[i]}" ${cover}></div><div class="b-body"><div class="cat">${cat}</div><h3>${p.title}</h3><div class="date">${date}</div></div></a>`;}).join('');
-    }catch(e){}})();
+  // BLOG via shared Nucleus CMS — real QORPO posts (category qorpo-game-studio), same source as the homepage.
+  (function(){var CMS='https://blog.tamitos.com/api/v1',IMG_HOST='https://blog.tamitos.com',covers=['g1','g2','g3'];
+    function fixImg(u){if(!u||typeof u!=='string')return u;try{if(/^https?:\/\//i.test(u)){var a=document.createElement('a');a.href=u;return IMG_HOST+a.pathname+(a.search||'');}if(u.charAt(0)==='/')return IMG_HOST+u;return u;}catch(e){return u;}}
+    var q='/blog-posts?filter[blog_categories.slug]=qorpo-game-studio&per_page=3&fields[blog_posts]=title,slug,published_at,thumbnail_image,feature_image';
+    fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      if(!j)return;var posts=(j.data||[]).slice(0,3);if(!posts.length)return;
+      var row=document.getElementById('blogrow');
+      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
+      posts.forEach(function(p,i){var img=fixImg((p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'');if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
+    }).catch(function(){});
+  })();
 </script>
 
 <script>
