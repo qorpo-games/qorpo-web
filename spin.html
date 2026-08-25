@@ -71,14 +71,16 @@
   .play{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:center;margin-top:2rem}
   @media(max-width:860px){.play{grid-template-columns:1fr}}
 
-  /* wheel */
-  .wheelwrap{position:relative;width:min(30rem,86vw);aspect-ratio:1;margin:0 auto}
-  .wheel{position:absolute;inset:0;border-radius:50%;transition:transform 5.4s cubic-bezier(.12,.66,.16,1);box-shadow:0 0 0 .7rem #0d0d16,0 0 0 .85rem rgba(224,81,199,.5),0 30px 80px -30px rgba(224,81,199,.6);overflow:hidden}
+  /* wheel — liquid-chrome premium */
+  .wheelwrap{position:relative;width:min(30rem,86vw);aspect-ratio:1;margin:0 auto;filter:drop-shadow(0 34px 70px rgba(224,81,199,.32))}
+  .wheel-rim{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 90deg,#3a2350,#cf9bec,#5a2f7a,#eab6f2,#3a2350,#b884da,#472863,#eab6f2,#3a2350);box-shadow:0 0 0 1px rgba(0,0,0,.6),inset 0 0 0 .38rem #0b0b12,inset 0 7px 22px rgba(255,255,255,.2),inset 0 -12px 26px rgba(0,0,0,.65),0 0 64px -12px rgba(224,81,199,.5)}
+  .wheel{position:absolute;inset:6.5%;border-radius:50%;transition:transform 5.4s cubic-bezier(.12,.66,.16,1);overflow:hidden;box-shadow:inset 0 0 0 2px rgba(0,0,0,.55),inset 0 2px 34px rgba(0,0,0,.45);z-index:2}
   .seg{position:absolute;inset:0;transform-origin:50% 50%;pointer-events:none}
-  .seg span{position:absolute;left:50%;top:1rem;transform:translateX(-50%);font-family:var(--mono);font-weight:800;font-size:1.25rem;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.75)}
-  .hub{position:absolute;left:50%;top:50%;width:4.4rem;height:4.4rem;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(180deg,#15151f,#0b0b12);border:1px solid var(--card-bd);display:grid;place-items:center;z-index:5;box-shadow:0 8px 24px -8px #000}
-  .hub img{width:2.4rem;height:2.4rem;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(224,81,199,.8))}
-  .pointer{position:absolute;top:-.35rem;left:50%;transform:translateX(-50%);z-index:6;width:0;height:0;border-left:.85rem solid transparent;border-right:.85rem solid transparent;border-top:1.4rem solid var(--pink);filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+  .seg span{position:absolute;left:50%;top:.85rem;transform:translateX(-50%);font-family:var(--mono);font-weight:800;font-size:1.2rem;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.85),0 0 3px rgba(0,0,0,.7)}
+  .wheel-gloss{position:absolute;inset:6.5%;border-radius:50%;pointer-events:none;z-index:3;background:radial-gradient(115% 85% at 33% 20%,rgba(255,255,255,.34),rgba(255,255,255,.05) 34%,transparent 56%);mix-blend-mode:screen;opacity:.85}
+  .hub{position:absolute;left:50%;top:50%;width:5rem;height:5rem;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 38% 30%,#2c2540,#141019 70%);box-shadow:0 0 0 .18rem #0b0b12,0 0 0 .34rem rgba(224,81,199,.4),inset 0 2px 8px rgba(255,255,255,.24),inset 0 -6px 14px rgba(0,0,0,.72),0 10px 28px -8px #000;display:grid;place-items:center;z-index:5}
+  .hub svg{width:2.5rem;height:2.5rem;filter:drop-shadow(0 0 9px rgba(255,112,158,.95))}
+  .pointer{position:absolute;top:-.1rem;left:50%;transform:translateX(-50%);z-index:6;width:0;height:0;border-left:.82rem solid transparent;border-right:.82rem solid transparent;border-top:1.5rem solid #ff5fa0;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7)) drop-shadow(0 0 6px rgba(255,112,158,.85))}
 
   .panel{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.7rem;box-shadow:var(--card-sh)}
   .balhead{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
@@ -177,9 +179,11 @@ html{overflow-x:clip}
     <div class="play">
       <div>
         <div class="wheelwrap">
+          <div class="wheel-rim"></div>
           <div class="pointer"></div>
           <div class="wheel" id="wheel"></div>
-          <div class="hub"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
+          <div class="wheel-gloss"></div>
+          <div class="hub" aria-label="QORPO"><svg viewBox="0 0 24 24" fill="none" stroke="#ff9ecb" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M6 9 L12 21 L18 9 Z"/><path d="M6 9 L8.5 4.5 L15.5 4.5 L18 9"/><path d="M6 9 H18"/><path d="M8.5 4.5 L12 9 L15.5 4.5"/><path d="M12 9 L12 21"/><path d="M9 9 L12 21"/><path d="M15 9 L12 21"/></svg></div>
         </div>
       </div>
       <div class="panel">
@@ -255,7 +259,7 @@ html{overflow-x:clip}
   // Wheel: 16 segments, values 0..10 spread around the ring. Landing is uniform per segment,
   // so the segment-count IS the probability curve: 0x3,1x4,2x3,3x2,4x1,5x1,7x1,10x1 -> avg 2.625.
   var WHEEL=[1,0,2,1,3,0,5,1,2,10,0,3,1,4,2,7];
-  var COLOR={0:'#2a2a3a',1:'#5b4be0',2:'#7b5af0',3:'#627eea',4:'#38d39f',5:'#E051C7',7:'#FF709E',10:'#F0B90B'};
+  var COLOR={0:'#2b2440',1:'#6d3ce0',2:'#8447e6',3:'#9d43dc',4:'#b93bce',5:'#E051C7',7:'#FF709E',10:'#F0B90B'};
   // odds table (value -> count) derived from WHEEL
   function oddsTable(){var m={};WHEEL.forEach(function(v){m[v]=(m[v]||0)+1;});return m;}
 
@@ -271,8 +275,8 @@ html{overflow-x:clip}
 
   /* ---------- wheel build ---------- */
   function buildWheel(){
-    var w=$('wheel'),n=WHEEL.length,ang=360/n,stops=[];
-    for(var i=0;i<n;i++){stops.push(COLOR[WHEEL[i]]+' '+(i*ang)+'deg '+((i+1)*ang)+'deg');}
+    var w=$('wheel'),n=WHEEL.length,ang=360/n,d=0.9,stops=[];
+    for(var i=0;i<n;i++){var a0=i*ang,a1=(i+1)*ang;stops.push('#0b0b12 '+a0+'deg '+(a0+d)+'deg');stops.push(COLOR[WHEEL[i]]+' '+(a0+d)+'deg '+a1+'deg');}
     w.style.background='conic-gradient(from '+(-ang/2)+'deg,'+stops.join(',')+')';
     var html='';
     for(var j=0;j<n;j++){
