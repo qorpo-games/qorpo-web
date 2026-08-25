@@ -354,6 +354,42 @@ html{overflow-x:clip}
 
 /* uniform mobile header: brand left, burger right, buy hidden on mobile */
 @media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
+
+  /* ===== buy-QORPO promo popup (5s, once/day) ===== */
+  .qp-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(4,4,9,.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+  .qp-overlay.show{display:flex}
+  .qp-card{position:relative;width:100%;max-width:25rem;background:linear-gradient(180deg,#14141e,#0c0c14);border:1px solid rgba(255,255,255,.12);border-radius:1.3rem;box-shadow:0 44px 100px -34px rgba(0,0,0,.95),0 0 0 1px rgba(224,81,199,.14);overflow:hidden;animation:qp-pop .4s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes qp-pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.qp-card{animation:none}}
+  .qp-glow{position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:120%;height:60%;background:radial-gradient(60% 60% at 50% 100%,rgba(224,81,199,.5),transparent 70%);pointer-events:none;opacity:.7}
+  .qp-x{position:absolute;top:.7rem;right:.8rem;z-index:3;width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#cfcfe0;font-size:1.15rem;line-height:1;cursor:pointer;transition:.15s}
+  .qp-x:hover{background:rgba(255,255,255,.12);color:#fff}
+  .qp-body{position:relative;z-index:2;padding:1.9rem 1.5rem 1.5rem;text-align:center;font-family:"Inter",-apple-system,system-ui,sans-serif}
+  .qp-mark{display:inline-flex;align-items:center;justify-content:center;width:3.2rem;height:3.2rem}
+  .qp-mark img{width:3.2rem;height:3.2rem;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(224,81,199,.8))}
+  .qp-mark svg{width:3rem;height:3rem;filter:drop-shadow(0 6px 20px rgba(224,81,199,.8))}
+  .qp-eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#FF709E;margin:.6rem 0 0}
+  .qp-title{font-size:1.7rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:.5rem 0 0;color:#fff}
+  .qp-title .grad{background:linear-gradient(100deg,#FF709E,#E051C7 52%,#C83DD0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .qp-sub{color:#b4b4c9;font-size:.92rem;margin:.6rem auto 0;max-width:22rem;line-height:1.5}
+  .qp-list{list-style:none;margin:1.2rem 0 0;padding:0;display:flex;flex-direction:column;gap:.55rem;text-align:left}
+  .qp-list li{display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.8rem;padding:.7rem .85rem}
+  .qp-i{width:2.1rem;height:2.1rem;border-radius:.6rem;background:rgba(224,81,199,.14);display:flex;align-items:center;justify-content:center;flex:none}
+  .qp-i svg{display:block;width:1.2rem;height:1.2rem;fill:none;stroke:#FF709E;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .qp-list b{display:block;font-size:.92rem;font-weight:700;color:#fff}
+  .qp-list li span{display:block;color:#9292a8;font-size:.78rem;margin-top:.05rem}
+  .qp-buylab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#9292a8;margin:1.3rem 0 .55rem}
+  .qp-buys{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
+  .qp-buy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:4.4rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:.85rem;padding:.75rem .4rem;text-decoration:none;transition:.15s}
+  .qp-buy:hover{background:rgba(255,255,255,.09);transform:translateY(-2px);border-color:rgba(224,81,199,.45)}
+  .qp-buy .lg{width:2.1rem;height:2.1rem;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;padding:3px;flex:none}
+  .qp-buy .lg img{width:100%;height:100%;object-fit:contain}
+  .qp-buy>span{font-weight:700;font-size:.82rem;color:#fff}
+  .qp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.15rem;gap:.5rem}
+  .qp-why{color:#eaeaf3;font-weight:600;font-size:.85rem;text-decoration:none;border-bottom:1px solid transparent}
+  .qp-why:hover{border-color:rgba(255,255,255,.3)}
+  .qp-secure{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;color:#9292a8;display:flex;align-items:center;gap:.35rem}
+  .qp-secure .d{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -669,4 +705,53 @@ html{overflow-x:clip}
     if(!('IntersectionObserver' in window)){vids.forEach(load);return;}
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);io.unobserve(e.target);}});},{rootMargin:'300px 0px'});
     vids.forEach(function(v){io.observe(v);});})();
+</script>
+
+<!-- ===== buy-$QORPO promo popup (shows once/day, 5s after landing) ===== -->
+<div class="qp-overlay" id="qpOverlay">
+  <div class="qp-card" role="dialog" aria-modal="true" aria-label="Buy $QORPO">
+    <button class="qp-x" id="qpX" aria-label="Close">×</button>
+    <div class="qp-glow"></div>
+    <div class="qp-body">
+      <span class="qp-mark">
+        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg viewBox="0 0 24 24" style="display:none"><defs><linearGradient id="qpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF709E"/><stop offset=".55" stop-color="#E051C7"/><stop offset="1" stop-color="#C83DD0"/></linearGradient></defs><path d="M12 2l7.5 7L12 22 4.5 9z" fill="url(#qpg)"/></svg>
+      </span>
+      <p class="qp-eyebrow">$QORPO · The attention economy token</p>
+      <h3 class="qp-title">Buy <span class="grad">$QORPO</span>.<br>Get the upside.</h3>
+      <p class="qp-sub">One token across QORPO's games and shows. Hold &amp; stake to unlock all three:</p>
+      <ul class="qp-list">
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M20 12v9H4v-9"/><path d="M2 8h20v4H2z"/><path d="M12 21V8"/><path d="M12 8C10.5 8 8 8 8 6c0-1.7 1.3-3 3-3s1 3 1 5zm0 0c1.5 0 4 0 4-2 0-1.7-1.3-3-3-3s-1 3-1 5z"/></svg></span><div><b>Tamitos airdrop</b><span>Stake $QORPO to qualify</span></div></li>
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M17 6H7a5 5 0 0 0-5 5v.5A4.5 4.5 0 0 0 6.5 16c1.4 0 2-.5 3-1.5l.4-.5h4.2l.4.5c1 1 1.6 1.5 3 1.5A4.5 4.5 0 0 0 22 11.5V11a5 5 0 0 0-5-5Z"/><path d="M6.5 10v3M5 11.5h3"/><circle cx="16" cy="11" r=".6" fill="currentColor" stroke="none"/><circle cx="18" cy="13" r=".6" fill="currentColor" stroke="none"/></svg></span><div><b>Share of AneeMate</b><span>Be part of the game's economy</span></div></li>
+        <li><span class="qp-i"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><div><b>Stake &amp; earn</b><span>Daily Community Points + APY</span></div></li>
+      </ul>
+      <p class="qp-buylab">Buy $QORPO on</p>
+      <div class="qp-buys">
+        <a class="qp-buy" href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png" alt="MEXC" onerror="this.parentNode.style.display='none'"></span><span>MEXC</span></a>
+        <a class="qp-buy" href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png" alt="KuCoin" onerror="this.parentNode.style.display='none'"></span><span>KuCoin</span></a>
+        <a class="qp-buy" href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/gateio.png" alt="Gate" onerror="this.parentNode.style.display='none'"></span><span>Gate</span></a>
+      </div>
+      <div class="qp-foot">
+        <a class="qp-why" href="token">Why $QORPO? →</a>
+        <span class="qp-secure"><span class="d"></span>Live on ETH &amp; BNB</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  try{
+    var KEY='qorpo_promo_seen';
+    var today=new Date().toISOString().slice(0,10);
+    var ov=document.getElementById('qpOverlay'); if(!ov) return;
+    function seen(){try{localStorage.setItem(KEY,today);}catch(e){}}
+    function hide(){ov.classList.remove('show');seen();}
+    var already=false; try{already=(localStorage.getItem(KEY)===today);}catch(e){}
+    if(!already){ setTimeout(function(){ov.classList.add('show');},5000); }
+    var x=document.getElementById('qpX'); if(x)x.addEventListener('click',hide);
+    ov.addEventListener('click',function(e){if(e.target===ov)hide();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('show'))hide();});
+    var links=ov.querySelectorAll('a[href]'); for(var i=0;i<links.length;i++){links[i].addEventListener('click',seen);}
+  }catch(e){}
+})();
 </script>
