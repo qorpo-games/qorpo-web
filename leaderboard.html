@@ -172,6 +172,27 @@
   .cta-band h2{font-size:clamp(1.5rem,3.4vw,2.2rem)}
   .cta-band p{color:var(--muted);margin:.6rem auto 1.2rem;max-width:34rem}
 
+  /* climb targets — conversion panel */
+  .climb{margin-top:1.6rem;background:linear-gradient(180deg,rgba(224,81,199,.10),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.30);border-radius:var(--card-r);padding:1.5rem 1.5rem 1.6rem}
+  .climb-top{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .climb-copy h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-top:.3rem}
+  .climb-sub{color:var(--muted);font-size:.95rem;margin-top:.5rem;max-width:42rem}
+  .climb-sub b{color:#fff}
+  .climb-buy{white-space:nowrap}
+  .targets{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-top:1.3rem}
+  .tcard{background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:1rem;padding:1.1rem 1.2rem;text-align:left}
+  .tcard.gold{border-color:rgba(240,185,11,.45);background:linear-gradient(180deg,rgba(240,185,11,.10),rgba(255,255,255,.02))}
+  .tcard .tlabel{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .tcard.gold .tlabel{color:var(--gold)}
+  .tcard .tq{font-family:var(--mono);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin-top:.45rem;line-height:1;color:#fff}
+  .tcard .tq small{font-size:.66rem;color:var(--faint);font-weight:600;margin-left:.15rem}
+  .tcard .tusd{font-family:var(--mono);font-size:.9rem;color:#8fe3bf;margin-top:.3rem;font-variant-numeric:tabular-nums}
+  .tcard .tnote{color:var(--faint);font-size:.72rem;margin-top:.55rem}
+  .you-next{margin-top:1.2rem;padding:.9rem 1.1rem;background:rgba(0,0,0,.28);border:1px solid var(--card-bd);border-radius:.8rem;color:#e7e7f2;font-size:.95rem;display:flex;align-items:center;gap:.6rem;line-height:1.45}
+  .you-next b{color:#fff}
+  .you-next .yn-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--mag);box-shadow:0 0 0 3px rgba(224,81,199,.22);flex:none}
+  @media(max-width:760px){.targets{grid-template-columns:1fr}.climb-buy{width:100%;text-align:center;justify-content:center}}
+
   footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:3rem;padding:2.6rem 1.5rem 2rem}
   .fcols{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem}
   .fbrand .fw{font-weight:900;font-size:1.2rem;letter-spacing:-.02em}
@@ -256,6 +277,19 @@ html{overflow-x:clip}
   </section>
 
   <div class="wrap">
+    <section class="climb" id="climb">
+      <div class="climb-top">
+        <div class="climb-copy">
+          <p class="kicker">Your move</p>
+          <h2>How far to the top?</h2>
+          <p class="climb-sub">Stake <b>$QORPO</b> to climb the board and qualify for the <b>Tamitos airdrop</b>. Here's exactly what it takes to reach each tier right now — live from the chain.</p>
+        </div>
+        <a class="btn btn-primary climb-buy" href="staking">Stake $QORPO →</a>
+      </div>
+      <div class="targets" id="targets"></div>
+      <div class="you-next" id="youNext"></div>
+    </section>
+
     <div class="youcard" id="youcard" style="display:none">
       <div class="yl">
         <div class="yk">Your standing</div>
@@ -343,6 +377,7 @@ html{overflow-x:clip}
   var CIDS=[1,56];           // combined pool: Ethereum + BNB Chain
   var board=null;            // single merged board {ts, rows:[{a,pts,eth,bnb}], total}
   var scanning=false, myStake=null; // myStake = combined BigInt across both chains
+  var QPRICE=0.00073; // live $QORPO price (USD); refined by fetchPrice()
 
   var $=function(id){return document.getElementById(id);};
   var iface=new ethers.Interface(STAKE_ABI);
@@ -538,6 +573,8 @@ html{overflow-x:clip}
   }
   function humanAmt(bi){try{return parseFloat(ethers.formatUnits(bi,18))||0;}catch(e){return 0;}}
   function ptsShort(n){if(n>=1e6)return (n/1e6).toFixed(2)+'M';if(n>=1e3)return (n/1e3).toFixed(1)+'K';return (Math.round(n*10)/10).toLocaleString('en-US');}
+  function qShort(n){n=Number(n)||0;if(n>=1e6)return (n/1e6).toFixed(2)+'M';if(n>=1e3)return (n/1e3).toFixed(n>=1e5?0:1)+'K';return Math.round(n).toLocaleString('en-US');}
+  function usd(n){n=Number(n)||0;if(n>=1000)return '$'+Math.round(n).toLocaleString('en-US');if(n>=1)return '$'+n.toFixed(n>=100?0:2);return '$'+n.toFixed(2);}
   function lvltag(lvl){return lvl>0?'<span class="lvltag" style="font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;padding:.08rem .34rem;border-radius:.35rem;background:rgba(224,81,199,.16);color:#ffbdec;margin-left:.35rem;vertical-align:middle">L'+lvl+'</span>':'';}
   function ctag(txt,ttl){return '<span class="ctag" title="'+ttl+'" style="font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;padding:.08rem .3rem;border-radius:.35rem;border:1px solid rgba(255,255,255,.18);color:var(--faint,#8a8aa0);margin-left:.35rem;vertical-align:middle">'+txt+'</span>';}
   function chainTags(r){var t='';if(r.eth&&r.eth>0n)t+=ctag('ETH','Ethereum stake: '+fmtPts(r.eth)+' CP');if(r.bnb&&r.bnb>0n)t+=ctag('BNB','BNB Chain stake: '+fmtPts(r.bnb)+' CP');return t;}
@@ -560,6 +597,50 @@ html{overflow-x:clip}
       '<span class="r-pts tnum">'+ptsShort(dp)+'<small>CP/day</small></span>'+
       '<span class="r-shr tnum">'+share+'%</span>'+
     '</div>';
+  }
+  function fetchPrice(){
+    fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){var p=d&&d.market_data&&d.market_data.current_price&&d.market_data.current_price.usd; if(p){QPRICE=p; if(board)render();}})
+      .catch(function(){});
+  }
+  function updateClimb(b){
+    var wrap=$('targets'); if(!wrap) return;
+    var rows=(b&&b.rows)||[];
+    var defs=[{label:'Top 10',idx:9},{label:'Top 3',idx:2},{label:'#1',idx:0}];
+    wrap.innerHTML=defs.map(function(t){
+      var qtxt,usdtxt,note;
+      if(rows.length>t.idx){
+        var q=humanAmt(rows[t.idx].pts);
+        qtxt=qShort(q)+' <small>$QORPO</small>';
+        usdtxt=QPRICE>0?('≈ '+usd(q*QPRICE)):'';
+        note='Beat the current #'+(t.idx+1);
+      }else{
+        qtxt='Open <small>spot</small>'; usdtxt=''; note='Under '+(t.idx+1)+' stakers — easy to grab';
+      }
+      return '<div class="tcard'+(t.idx===0?' gold':'')+'">'+
+        '<div class="tlabel">'+t.label+'</div>'+
+        '<div class="tq">'+qtxt+'</div>'+
+        '<div class="tusd">'+usdtxt+'</div>'+
+        '<div class="tnote">'+note+'</div>'+
+      '</div>';
+    }).join('');
+    var yn=$('youNext'); if(!yn) return;
+    var la=account?account.toLowerCase():null;
+    if(!account){ yn.innerHTML='<span class="yn-dot"></span>Connect your wallet to see exactly how much $QORPO puts you in the top ranks.'; return; }
+    var myAmt=(myStake!=null)?humanAmt(myStake):humanAmt(findPts(b,la)||0n);
+    var myRank=findRank(b,la);
+    if(myRank===1){ yn.innerHTML='<span class="yn-dot"></span>👑 You hold <b>#1</b> — you\'re powering QORPO the most. Stake more to defend it.'; return; }
+    if(myRank>1){
+      var above=rows[myRank-2];
+      var delta=Math.max(1, humanAmt(above.pts)-myAmt+1);
+      var u=QPRICE>0?(' (≈ '+usd(delta*QPRICE)+')'):'';
+      yn.innerHTML='<span class="yn-dot"></span>You\'re <b>#'+myRank+'</b>. Stake <b>+'+qShort(delta)+' $QORPO</b>'+u+' to pass <b>#'+(myRank-1)+'</b>.';
+      return;
+    }
+    var need10=rows.length>=10?humanAmt(rows[9].pts):0;
+    var t10=need10>0?(qShort(need10)+' $QORPO'+(QPRICE>0?(' ≈ '+usd(need10*QPRICE)):'')):'a small amount';
+    yn.innerHTML='<span class="yn-dot"></span>You\'re not on the board yet. Stake <b>'+t10+'</b> to break into the Top 10 — and start earning toward the <b>Tamitos airdrop</b>.';
   }
   function render(){
     var b=board;
@@ -589,6 +670,7 @@ html{overflow-x:clip}
         $('youSub').textContent='Stake $QORPO to appear on the board.';
       }
     }else{ $('youcard').style.display='none'; }
+    updateClimb(b);
     // rows
     if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found yet. Be the first — <a href="staking" style="color:var(--pink);font-weight:700;text-decoration:underline;text-underline-offset:3px">stake $QORPO →</a>.</div>'; return; }
     var SHOW=100, html='';
@@ -614,6 +696,7 @@ html{overflow-x:clip}
     document.addEventListener('click',function(){closeWcMenu();document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
     // first paint: cache or scan
     var cached=loadCache(); if(cached){board=cached;render();}
+    fetchPrice();
     scan();
     tryEager();
   }
