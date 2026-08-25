@@ -1,3 +1,4 @@
+<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Why $QORPO</title>
@@ -281,12 +282,18 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 #qprev{position:relative;z-index:3;margin:0 auto;max-width:72rem;padding:.55rem 1rem;display:flex;align-items:center;gap:.5rem;justify-content:center;font-family:var(--mono,monospace);font-size:.7rem;letter-spacing:.04em;color:#ffd8f2;background:rgba(224,81,199,.10);border:1px solid rgba(224,81,199,.35);border-radius:2rem;width:max-content}
 #qprev .pdot{width:.45rem;height:.45rem;border-radius:50%;background:#E051C7;box-shadow:0 0 0 0 rgba(224,81,199,.6);animation:qpulse 1.8s infinite}
 @keyframes qpulse{0%{box-shadow:0 0 0 0 rgba(224,81,199,.5)}70%{box-shadow:0 0 0 .5rem rgba(224,81,199,0)}100%{box-shadow:0 0 0 0 rgba(224,81,199,0)}}
-@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
+@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid rgba(255,255,255,.08);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn,.nav-links.nav-open .drop>button{padding:.7rem .5rem;font-size:1.02rem;width:100%;color:#e9e9f2!important;opacity:1}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.cta-drop.open>.cta-drop-menu,.cta-drop:focus-within>.cta-drop-menu{position:fixed;left:1rem;right:1rem;bottom:1rem;top:auto;transform:none!important;min-width:0;width:auto;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.35)}}
+
+/* === mobile safety: lock horizontal scroll + collapse grids === */
+html{overflow-x:clip}
+@media(max-width:760px){
+  .stats,.grid3,.util,.duo,.funnel,.blogrow,.qf-cols{grid-template-columns:1fr!important}
+  .wcard,.u,.col,.step,.blog,.stat{max-width:100%;min-width:0}
+  .funnel{flex-direction:column}
+}
 @media(max-width:760px){main .buydrop.open .buydrop-menu,main .buydrop:hover .buydrop-menu,main .buydrop:focus-within .buydrop-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;width:auto!important;min-width:0!important;max-width:none!important;z-index:600!important;max-height:70vh;overflow:auto}}
 /* hero Buy dropdown opens UPWARD so the hero's overflow:hidden doesn't clip it (tablet/desktop) */
 @media(min-width:761px){.hero .buydrop-menu{top:auto;bottom:calc(100% + .5rem);transform:translateX(-50%) translateY(8px)}.hero .buydrop.open .buydrop-menu,.hero .buydrop:hover .buydrop-menu,.hero .buydrop:focus-within .buydrop-menu{transform:translateX(-50%)}}
-
-html{overflow-x:clip}
 
 /* uniform mobile header: brand left, burger right, buy hidden on mobile */
 @media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
