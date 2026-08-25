@@ -1,8 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Why $QORPO</title>
-<link rel="canonical" href="https://qorpo.world/token.html">
-<meta property="og:url" content="https://qorpo.world/token.html">
+<link rel="canonical" href="https://qorpo.world/token">
+<meta property="og:url" content="https://qorpo.world/token">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Why $QORPO — QORPO">
 <meta property="og:description" content="The token behind the games, AI and entertainment the world can't stop watching.">
@@ -44,7 +44,7 @@
 
   header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
   .nav{max-width:74rem;margin:0 auto;padding:.55rem 1.4rem;display:flex;align-items:center;gap:1rem;height:3rem}
-  .nav .logo img{height:1.5rem;width:auto;display:block}
+  .nav .logo{display:inline-flex;align-items:center;gap:.5rem}.nav .logo img{height:1.7rem;width:auto;display:block}.nav .logo .bt{font-weight:800;font-size:1.05rem;color:#fff;letter-spacing:-.02em}
   .nav .logo .wm{font-weight:800;font-size:1.15rem;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .nav-links{display:flex;gap:.4rem;margin:0 auto}
   .nav-links a,.nav-links .drop>button{font-size:.86rem;color:var(--ink);opacity:.85;padding:.4rem .8rem;border-radius:1.5rem;background:none;border:0;font-family:var(--body);cursor:pointer;display:flex;align-items:center;gap:.3rem}
@@ -198,7 +198,6 @@
 
 
 
-
 /* ================= PREMIUM DARK RETHEME ================= */
 :root{
   --white:#13131d;--grey:#181824;--ink:#ffffff;--muted:#b4b4c9;--faint:#9a9ab5;
@@ -284,35 +283,32 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
 @keyframes qpulse{0%{box-shadow:0 0 0 0 rgba(224,81,199,.5)}70%{box-shadow:0 0 0 .5rem rgba(224,81,199,0)}100%{box-shadow:0 0 0 0 rgba(224,81,199,0)}}
 @media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
 @media(max-width:760px){main .buydrop.open .buydrop-menu,main .buydrop:hover .buydrop-menu,main .buydrop:focus-within .buydrop-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;width:auto!important;min-width:0!important;max-width:none!important;z-index:600!important;max-height:70vh;overflow:auto}}
+
+html{overflow-x:clip}
+
+/* uniform mobile header: brand left, burger right, buy hidden on mobile */
+@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;color:#fff}.brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="qg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF709E"/><stop offset=".52" stop-color="#E051C7"/><stop offset="1" stop-color="#C83DD0"/></linearGradient></defs></svg>
 
 <header>
   <nav class="nav">
-    <a class="logo" href="index.html"><img src="./assets/logo.png" alt="QORPO" onerror="this.onerror=null;this.src='https://www.qorpo.world/img/logo-color.png';this.addEventListener('error',()=>{const s=document.createElement('span');s.className='wm';s.textContent='QORPO';this.replaceWith(s)},{once:true})"></a>
+    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="ecosystem.html">Ecosystem</a>
-      <div class="drop">
-        <button>Buy Token <svg width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg></button>
-        <div class="drop-menu">
-          <a href="token.html" class="active"><span class="mk" style="background:var(--grad)"><svg class="dia" viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a>
-          <div style="height:1px;background:var(--line2);margin:.3rem .4rem"></div>
-          <a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png" alt="MEXC" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'MX'}))">MEXC</a>
-          <a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png" alt="KuCoin" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'KC'}))">KuCoin</a>
-          <a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/gateio.png" alt="Gate" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'GT'}))">Gate</a>
-        </div>
-      </div>
-      <a href="staking.html">Staking Hub</a>
-      <a href="leaderboard.html">Leaderboard</a>
-      
-      <a href="bridge.html">Bridge</a>
+      <a href="/">Home</a>
+      <a href="ecosystem">Ecosystem</a>
+      <a href="token" class="active">Token</a>
+      <a href="staking">Staking</a>
+      <a href="leaderboard">Leaderboard</a>
+
+      <a href="bridge">Bridge</a>
     </div>
     <div class="cta-drop">
       <button class="btn btn-primary cta">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg></button>
       <div class="cta-drop-menu">
-        <a href="token.html"><span class="mk" style="background:var(--grad);width:1.6rem;height:1.6rem;border-radius:7px;display:grid;place-items:center"><svg class="dia" viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a>
+        <a href="token"><span class="mk" style="background:var(--grad);width:1.6rem;height:1.6rem;border-radius:7px;display:grid;place-items:center"><svg class="dia" viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a>
         <div style="height:1px;background:var(--line2);margin:.3rem .4rem"></div>
         <a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png" alt="MEXC" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'MX'}))">MEXC</a>
         <a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><img class="exlogo" src="https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png" alt="KuCoin" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'KC'}))">KuCoin</a>
@@ -343,7 +339,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
         </div>
       </div>
       <a class="link" href="#why">Why hold it</a>
-      <a class="link" href="staking.html">Stake &amp; earn</a>
+      <a class="link" href="staking">Stake &amp; earn</a>
     </div>
     </div>
     <a class="scrollcue" href="#stats" aria-label="Scroll down">↓</a>
@@ -447,7 +443,7 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
       <div class="step"><div class="num">STEP 3</div><h3>Earn more</h3><p>More $QORPO plus benefits.</p></div>
       <div class="step"><div class="num">STEP 4</div><h3>Stay eligible</h3><p>Hold for the $TAMITOS airdrop.</p></div>
     </div>
-    <div class="links"><a class="btn btn-primary" href="staking.html"><span class="diamond"></span>Go to Staking Hub</a></div>
+    <div class="links"><a class="btn btn-primary" href="staking"><span class="diamond"></span>Go to Staking</a></div>
   </div></section>
 
   <!-- AIRDROP -->
@@ -478,13 +474,13 @@ footer.qf{background:#08080f !important;border-top:1px solid rgba(255,255,255,.1
         <div class="qf-soc"><a href="https://discord.gg/qorpo" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/></svg></a><a href="https://x.com/QORPOworld" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/></svg></a><a href="https://t.me/qorpoworld" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 2.6 11.8c-1 .4-1 1.8 0 2.1l4.9 1.5 1.9 6c.2.8 1.2 1 1.8.4l2.7-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7l3.4-15.9c.2-1-.8-1.8-1.8-1.3zM9.7 15.3l9-5.6c.2-.1.4.1.2.3l-7.4 6.9-.3 3.1-1.5-4.7z"/></svg></a><a href="https://instagram.com/qorpoworld" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8.9A3.1 3.1 0 1 0 15.1 12 3.1 3.1 0 0 0 12 8.9zm0 5.1A2 2 0 1 1 14 12a2 2 0 0 1-2 2zm4-6.4a.72.72 0 1 0 .72.72.72.72 0 0 0-.72-.72zM20 7.6a4.9 4.9 0 0 0-.33-1.62 3.28 3.28 0 0 0-1.87-1.87A4.9 4.9 0 0 0 16.18 3.8C15.46 3.77 15.23 3.76 12 3.76s-3.46 0-4.18.04a4.9 4.9 0 0 0-1.62.33 3.28 3.28 0 0 0-1.87 1.87A4.9 4.9 0 0 0 4 7.6C3.97 8.32 3.96 8.55 3.96 12s0 3.46.04 4.18a4.9 4.9 0 0 0 .33 1.62 3.28 3.28 0 0 0 1.87 1.87 4.9 4.9 0 0 0 1.62.33c.72.03.95.04 4.18.04s3.46 0 4.18-.04a4.9 4.9 0 0 0 1.62-.33 3.28 3.28 0 0 0 1.87-1.87 4.9 4.9 0 0 0 .33-1.62c.03-.72.04-.95.04-4.18s0-3.46-.04-4.18zm-1.2 8.31a3.7 3.7 0 0 1-.24 1.24 2.2 2.2 0 0 1-1.25 1.25 3.7 3.7 0 0 1-1.24.24c-.71.03-.92.04-4.07.04s-3.36 0-4.07-.04a3.7 3.7 0 0 1-1.24-.24 2.2 2.2 0 0 1-1.25-1.25 3.7 3.7 0 0 1-.24-1.24c-.03-.71-.04-.92-.04-4.07s0-3.36.04-4.07a3.7 3.7 0 0 1 .24-1.24A2.2 2.2 0 0 1 6.69 5.29a3.7 3.7 0 0 1 1.24-.24c.71-.03.92-.04 4.07-.04s3.36 0 4.07.04a3.7 3.7 0 0 1 1.24.24 2.2 2.2 0 0 1 1.25 1.25 3.7 3.7 0 0 1 .24 1.24c.03.71.04.92.04 4.07s-.01 3.36-.04 4.07z"/></svg></a><a href="https://tiktok.com/@qorpoworld" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3h-2.9v12.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .4 0 .6.1V10a5.3 5.3 0 1 0 4.6 5.3V8.9a6.3 6.3 0 0 0 3.6 1.1V7.1a3.5 3.5 0 0 1-3.6-3.5z"/></svg></a><a href="https://twitch.tv/qorpoworld" target="_blank" rel="noopener" aria-label="Twitch"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.3 3 3 6.4v13.1h4.5V22h2.5l2.5-2.5h3.6L21 15.1V3zm14.8 11.3-2.6 2.6h-3.9l-2.3 2.3v-2.3H6.7V4.6h12.4zM15.3 7.6h-1.6v4.8h1.6zm-4.3 0H9.4v4.8H11z"/></svg></a><a href="https://youtube.com/@qorpoworld" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8zM9.8 15.3V8.7l5.7 3.3z"/></svg></a></div>
       </div>
       <div class="qf-col"><span class="qf-h">Main pages</span>
-        <a href="bridge.html">QORPO Bridge</a>
-        <a href="staking.html">QORPO Staking</a>
+        <a href="bridge">QORPO Bridge</a>
+        <a href="staking">QORPO Staking</a>
         <a href="https://www.qorpo.world/brand-kit" target="_blank" rel="noopener">QORPO Brand Kit</a>
       </div>
       <div class="qf-col"><span class="qf-h">Ecosystem</span>
-        <a href="ecosystem.html">Ecosystem</a>
-        <a href="token.html">Why $QORPO</a>
+        <a href="ecosystem">Ecosystem</a>
+        <a href="token">Why $QORPO</a>
         <a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a>
         <a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a>
       </div>
