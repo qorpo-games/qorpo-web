@@ -9,8 +9,8 @@
 <meta name="twitter:title" content="QORPO Staking">
 <meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn daily Community Points by your QORPO Power level and APY up to 30% on Ethereum & BNB Chain.">
-<link rel="canonical" href="https://qorpo.world/staking.html">
-<meta property="og:url" content="https://qorpo.world/staking.html">
+<link rel="canonical" href="https://qorpo.world/staking">
+<meta property="og:url" content="https://qorpo.world/staking">
 <meta name="theme-color" content="#06060b">
 <link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -280,6 +280,21 @@
   @media(max-width:760px){.nav-links{display:none}.burger{display:block}.nav{gap:.5rem}.brand{margin-right:auto}.nav>.buydrop{display:none}.wc{padding:.46rem .62rem;font-size:.72rem}.hero{min-height:62svh}.hero-intro{padding-top:2rem}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}.fbrand p{margin-left:auto;margin-right:auto}.fsoc{justify-content:center}}
   @media(max-width:560px){.prow{grid-template-columns:1fr auto;gap:.5rem}.prow .mid{display:none}.fcols{grid-template-columns:1fr;text-align:center}.fcol{align-items:center}.flegal{text-align:center}}
 @media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
+
+/* === mobile safety: lock horizontal scroll + fit form === */
+html{overflow-x:clip}
+@media(max-width:760px){
+  .appgrid{gap:.8rem}
+  .card{max-width:100%}
+  .prow{grid-template-columns:1.3fr 1fr auto;column-gap:.4rem;row-gap:.2rem}
+  .prow>*{min-width:0}
+  .amount{flex-wrap:wrap}
+  .amount>*{min-width:0}.amount input{flex:1 1 7rem}
+  .spincalc,.lab,.oline{min-width:0}
+}
+
+/* uniform mobile header: brand left, burger right, buy hidden on mobile */
+@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
 </style>
 
 <div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
@@ -288,8 +303,8 @@
 
 <header>
   <nav class="nav">
-    <a class="brand" href="index.html"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="ecosystem.html">Ecosystem</a><a href="token.html">Token</a><a href="staking.html" class="active">Staking</a><a href="leaderboard.html">Leaderboard</a><a href="bridge.html">Bridge</a></div>
+    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking" class="active">Staking</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
     <div class="wcwrap">
       <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
@@ -423,7 +438,7 @@
       <div class="e">
         <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
         <h3>Community Points = your stake</h3>
-        <p>Every staked $QORPO is one Community Point. That's the whole formula — see where you rank on the <a href="leaderboard.html">Community Points leaderboard</a>.</p>
+        <p>Every staked $QORPO is one Community Point. That's the whole formula — see where you rank on the <a href="leaderboard">Community Points leaderboard</a>.</p>
       </div>
       <div class="e">
         <div class="ei"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
@@ -479,8 +494,8 @@
 <footer>
   <div class="fcols">
     <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
-    <div class="fcol"><span class="h">Main pages</span><a href="bridge.html">QORPO Bridge</a><a href="staking.html">QORPO Staking</a><a href="token.html">Why $QORPO</a></div>
-    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem.html">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
+    <div class="fcol"><span class="h">Main pages</span><a href="bridge">QORPO Bridge</a><a href="staking">QORPO Staking</a><a href="token">Why $QORPO</a></div>
+    <div class="fcol"><span class="h">Ecosystem</span><a href="ecosystem">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
     <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
   </div>
   <div class="flegal">© 2026 QORPO World. All rights reserved. · Non-custodial staking · $QORPO</div>
@@ -539,7 +554,7 @@
   }
   async function connect(){
     var inj=pickInjected();
-    if(!inj){toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');return;}
+    if(!inj){var _m=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);if(_m){var _u=encodeURIComponent(location.href),_hp=location.host+location.pathname+location.search;toast('Open this page in your wallet app: <a href="https://metamask.app.link/dapp/'+_hp+'">MetaMask</a> &nbsp;·&nbsp; <a href="okx://wallet/dapp/url?dappUrl='+_u+'">OKX</a>',9000);}else{toast('No web3 wallet found. Install <a href="https://metamask.io" target="_blank">MetaMask</a> or OKX Wallet.');}return;}
     try{
       var accs=await inj.request({method:'eth_requestAccounts'});
       if(!accs||!accs[0]){toast('No account selected.');return;}
@@ -897,7 +912,7 @@
   var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
           ['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
           ['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
-  var BM='<a href="token.html"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
+  var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
     EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
   document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
   document.querySelectorAll('.buydrop').forEach(function(d){var t=d.querySelector('button');if(!t)return;t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();document.querySelectorAll('.buydrop').forEach(function(x){if(x!==d)x.classList.remove('open');});d.classList.toggle('open');});});
