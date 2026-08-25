@@ -282,7 +282,7 @@ html{overflow-x:clip}
         <div class="climb-copy">
           <p class="kicker">Your move</p>
           <h2>How far to the top?</h2>
-          <p class="climb-sub">Stake <b>$QORPO</b> to climb the board and qualify for the <b>Tamitos airdrop</b>. Here's exactly what it takes to reach each tier right now — live from the chain.</p>
+          <p class="climb-sub">Stake <b>$QORPO</b> to climb the board and qualify for the <b>Tamitos airdrop</b>. Here's what the top stakers hold right now — match them to compete for each tier.</p>
         </div>
         <a class="btn btn-primary climb-buy" href="staking">Stake $QORPO →</a>
       </div>
@@ -327,7 +327,7 @@ html{overflow-x:clip}
         </div>
       </div>
       <div class="note" id="loyaltyNote">
-        <b>How this board works.</b> The board reads the chain live and ranks every wallet by its <b>current QORPO Power level</b> — how much you stake right now sets your daily Community Points rate. Stake more to climb; if you unstake, your spot frees up. It's a live snapshot of who's powering QORPO today.
+        <b>How this board works.</b> You earn <b>Community Points every day</b> by your QORPO Power level and they <b>add up over time</b> — the board ranks wallets by their <b>total accumulated points</b>. Your points are <b>kept only while you stake at least 10,000&nbsp;$QORPO</b> (Ethereum + BNB Chain combined); drop below that and they reset. Stake more to earn faster and climb.
       </div>
     </section>
 
@@ -371,6 +371,9 @@ html{overflow-x:clip}
   var TRANSFER='0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
   // optional block-explorer key (Etherscan v2 multichain). Empty = try keyless, else RPC scan.
   var EXPLORER_KEY='XGQTU5PIBGV963GC7PNCPVY6WY5RWESZYN';
+  // Community Points backend (accumulated points; retained only while staking >= RETAIN_MIN)
+  var BACKEND='https://qorpo-points.ceo-b3f.workers.dev';
+  var RETAIN_MIN=10000;
 
   var eth=window.ethereum, okx=window.okxwallet;
   var provider=null, signer=null, account=null;
@@ -580,11 +583,15 @@ html{overflow-x:clip}
   function chainTags(r){var t='';if(r.eth&&r.eth>0n)t+=ctag('ETH','Ethereum stake: '+fmtPts(r.eth)+' CP');if(r.bnb&&r.bnb>0n)t+=ctag('BNB','BNB Chain stake: '+fmtPts(r.bnb)+' CP');return t;}
   function chainLabel(r){var e=r.eth&&r.eth>0n,b=r.bnb&&r.bnb>0n;if(e&&b)return 'ETH + BNB';if(b)return 'BNB';return 'ETH';}
   function stakedTitle(r){var p=[];if(r.eth&&r.eth>0n)p.push('Ethereum: '+fmtPts(r.eth)+' $QORPO');if(r.bnb&&r.bnb>0n)p.push('BNB Chain: '+fmtPts(r.bnb)+' $QORPO');return p.join(' · ');}
-  function rowHTML(r,rk,isYou,totalDaily){
-    var amt=humanAmt(r.pts), dp=dailyPoints(amt), lvl=tierOf(amt)+1;
-    var share=totalDaily>0?(Math.round(dp/totalDaily*10000)/100):0;
+  function rowHTML(r,rk,isYou,total){
+    var bk=(board&&board.mode==='backend');
+    var amt=humanAmt(r.pts), dp=dailyPoints(amt);
+    var lvl=bk?(r.lvl||tierOf(amt)+1):(tierOf(amt)+1);
+    var metric=bk?(r.acc||0):dp;
+    var share=total>0?(Math.round(metric/total*10000)/100):0;
     var medal=rk<=3?'<span class="medal m'+rk+'">'+rk+'</span>':'<span style="width:1.7rem;text-align:center">'+rk+'</span>';
     var stk=fmtShort(r.pts), ch=chainLabel(r), sttl=stakedTitle(r);
+    var cp=bk?(ptsShort(r.acc||0)+'<small>CP</small>'):(ptsShort(dp)+'<small>CP/day</small>');
     return '<div class="trow'+(isYou?' you':'')+'">'+
       '<span class="rank">'+medal+'</span>'+
       '<span class="addr"><span class="ava" style="'+blockie(r.a)+'"></span>'+
@@ -594,7 +601,7 @@ html{overflow-x:clip}
         '<span class="stk-sub">'+stk+' $QORPO · '+ch+'</span>'+
       '</span>'+
       '<span class="r-stk tnum" title="'+sttl+'">'+stk+'<small>$QORPO</small><span class="ch">'+ch+'</span></span>'+
-      '<span class="r-pts tnum">'+ptsShort(dp)+'<small>CP/day</small></span>'+
+      '<span class="r-pts tnum">'+cp+'</span>'+
       '<span class="r-shr tnum">'+share+'%</span>'+
     '</div>';
   }
@@ -646,23 +653,46 @@ html{overflow-x:clip}
     var b=board;
     var asof=$('asof');
     if(!b){ asof.textContent=''; return; }
-    asof.textContent='On-chain snapshot · '+ago(b.ts)+' · Ethereum + BNB Chain (combined) · showing current daily rate';
-    // total daily Community Points emitted across all stakers (current rate)
-    var totalDaily=0; b.rows.forEach(function(r){totalDaily+=dailyPoints(humanAmt(r.pts));});
-    var topDaily=b.rows.length?dailyPoints(humanAmt(b.rows[0].pts)):0;
+    var bk=(b.mode==='backend');
+    // total "metric": accumulated points (backend) or current daily rate (on-chain fallback)
+    var total = bk ? (b.total||0) : 0;
+    if(!bk){ b.rows.forEach(function(r){ total+=dailyPoints(humanAmt(r.pts)); }); }
+    var top = b.rows.length ? (bk ? (b.rows[0].acc||0) : dailyPoints(humanAmt(b.rows[0].pts))) : 0;
+    // stat + column labels adapt to mode
+    var lbTotal=$('stTotal').nextElementSibling, lbTop=$('stTop').nextElementSibling, lbYou=$('stYou').nextElementSibling;
+    if(lbTotal)lbTotal.textContent=bk?'Community Points (total)':'Community Points / day';
+    if(lbTop)lbTop.textContent=bk?'Top share':'Top share (daily)';
+    if(lbYou)lbYou.textContent=bk?'Your points (total)':'Your points / day';
+    var thPts=document.querySelector('#board .thead .r-pts'); if(thPts)thPts.textContent=bk?'Community Points':'Community Points / day';
+    asof.textContent = bk
+      ? ('Community Points · accumulated total · updated '+ago(b.ts)+' · kept while staking ≥ '+qShort(b.retainMin||RETAIN_MIN)+' $QORPO (ETH + BNB combined)')
+      : ('On-chain snapshot · '+ago(b.ts)+' · Ethereum + BNB Chain (combined) · showing current daily rate');
     // stats
-    $('stTotal').textContent=ptsShort(totalDaily);
+    $('stTotal').textContent=ptsShort(total);
     $('stHolders').textContent=b.rows.length.toLocaleString();
-    $('stTop').textContent=(b.rows.length&&totalDaily>0)?(Math.round(topDaily/totalDaily*10000)/100)+'%':'—';
+    $('stTop').textContent=(b.rows.length&&total>0)?(Math.round(top/total*10000)/100)+'%':'—';
     var la=account?account.toLowerCase():null;
-    var myAmt=(la&&myStake!=null)?humanAmt(myStake):(la?humanAmt(findPts(b,la)||0n):0);
-    var myDaily=dailyPoints(myAmt), myLvl=tierOf(myAmt)+1;
-    $('stYou').textContent=(myDaily>0)?ptsShort(myDaily):(account?'0':'—');
+    var myRow=la?findRow(b,la):null;
+    var myAmt=(la&&myStake!=null)?humanAmt(myStake):(myRow?humanAmt(myRow.pts):0);
+    var myDaily=dailyPoints(myAmt), myLvl=(myRow&&myRow.lvl)?myRow.lvl:(tierOf(myAmt)+1);
+    var myAcc=myRow?(myRow.acc||0):0;
+    $('stYou').textContent = bk ? (account?ptsShort(myAcc):'—') : ((myDaily>0)?ptsShort(myDaily):(account?'0':'—'));
     // your-rank card
     if(account){
       var rank=findRank(b,la);
       $('youcard').style.display='flex';
-      if(myDaily>0){
+      if(bk){
+        if(rank>0){
+          $('youRank').textContent='#'+rank+' of '+b.rows.length;
+          $('youSub').textContent=ptsShort(myAcc)+' Community Points · Level '+myLvl+' · staking '+qShort(myAmt)+' $QORPO';
+        }else if(myAmt>=RETAIN_MIN){
+          $('youRank').textContent='Earning';
+          $('youSub').textContent='You\'re staking '+qShort(myAmt)+' $QORPO — points appear after the next daily update.';
+        }else{
+          $('youRank').textContent='Not qualified';
+          $('youSub').textContent='Stake at least '+qShort(RETAIN_MIN)+' $QORPO to start earning and keep your points.';
+        }
+      }else if(myDaily>0){
         $('youRank').textContent=rank>0?('#'+rank+' of '+b.rows.length):'Unranked';
         $('youSub').textContent=ptsShort(myDaily)+' Community Points / day · Level '+myLvl+' · ETH + BNB combined';
       }else{
@@ -676,28 +706,52 @@ html{overflow-x:clip}
     var SHOW=100, html='';
     for(var i=0;i<b.rows.length&&i<SHOW;i++){
       var r=b.rows[i], rk=i+1, isYou=(la&&r.a===la);
-      html+=rowHTML(r,rk,isYou,totalDaily);
+      html+=rowHTML(r,rk,isYou,total);
     }
     if(la&&findRank(b,la)>SHOW){ var rr=findRank(b,la),rw=b.rows[rr-1];
-      html+=rowHTML(rw,rr,true,totalDaily);
+      html+=rowHTML(rw,rr,true,total);
     }
     $('rows').innerHTML=html;
   }
   function findPts(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return b.rows[i].pts;return null;}
   function findRank(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return i+1;return -1;}
+  function findRow(b,la){for(var i=0;i<b.rows.length;i++)if(b.rows[i].a===la)return b.rows[i];return null;}
+
+  /* ---------- Community Points backend (accumulated points) ---------- */
+  // Primary source: the daily-accrued board from the Cloudflare Worker.
+  // Points are accumulated and KEPT only while a wallet stakes >= RETAIN_MIN $QORPO;
+  // drop below and they are wiped. Falls back to the live on-chain scan if unreachable.
+  async function loadBackend(){
+    try{
+      var r=await fetch(BACKEND+'/leaderboard',{cache:'no-store'});
+      if(!r.ok) return false;
+      var j=await r.json();
+      if(!j||!j.rows||!j.rows.length) return false;
+      var rows=j.rows.map(function(x){
+        var e=BigInt(x.eth||'0'), b=BigInt(x.bnb||'0');
+        return {a:(x.a||'').toLowerCase(), pts:e+b, eth:e, bnb:b,
+                acc:Number(x.points)||0, lvl:x.lvl||0, staked:Number(x.staked)||0};
+      });
+      rows.sort(function(p,q){ return (q.acc-p.acc) || (q.pts>p.pts?1:q.pts<p.pts?-1:0); });
+      var totalAcc=0; rows.forEach(function(rw){ totalAcc+=rw.acc; });
+      board={ts:(j.ts||Date.now()), rows:rows, total:totalAcc, mode:'backend', retainMin:j.retainMin||RETAIN_MIN};
+      render();
+      return true;
+    }catch(e){ return false; }
+  }
 
   /* ---------- init ---------- */
   function init(){
-    $('refreshBtn').addEventListener('click',function(){ try{localStorage.removeItem(cacheKey());}catch(e){} scan(); });
+    $('refreshBtn').addEventListener('click',function(){ $('refreshBtn').disabled=true; loadBackend().then(function(ok){ $('refreshBtn').disabled=false; if(!ok){ try{localStorage.removeItem(cacheKey());}catch(e){} scan(); } }); });
     // wallet
     $('wcBtn').addEventListener('click',function(e){e.stopPropagation();if(account){$('wcMenu').classList.toggle('open');}else{connect();}});
     $('wcCopy').addEventListener('click',function(){if(account){navigator.clipboard&&navigator.clipboard.writeText(account);toast('Address copied.');}closeWcMenu();});
     $('wcDisc').addEventListener('click',function(){disconnect();});
     document.addEventListener('click',function(){closeWcMenu();document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open');});});
-    // first paint: cache or scan
+    // first paint: cached on-chain board for instant content, then live backend (accumulated points).
     var cached=loadCache(); if(cached){board=cached;render();}
     fetchPrice();
-    scan();
+    loadBackend().then(function(ok){ if(!ok) scan(); }); // backend primary; on-chain scan is the fallback
     tryEager();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
