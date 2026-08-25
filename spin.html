@@ -158,7 +158,7 @@ html{overflow-x:clip}
 <header>
   <nav class="nav">
     <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
+    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="spin" class="active">Spin</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
     <div class="buydrop"><button class="btn btn-primary" type="button" style="padding:.55rem 1rem;font-size:.9rem">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
     <div class="wcwrap">
       <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
@@ -172,7 +172,7 @@ html{overflow-x:clip}
   <section class="hero">
     <p class="kicker">Daily Spin</p>
     <h1>Stake. Spin. Earn.</h1>
-    <p class="lead">Stake $QORPO to unlock <b>one free spin every day</b> and rack up <b>Community Points</b>. Points climb the <a href="leaderboard" style="color:var(--pink);text-decoration:underline;text-underline-offset:3px">leaderboard</a>. Miss a day and the spin is gone — <b>24 hours, use it or lose it</b>.</p>
+    <p class="lead">Stake $QORPO to unlock <b>free daily spins</b> — the more you stake, the more spins you get — and rack up <b>Community Points</b>. Points climb the <a href="leaderboard" style="color:var(--pink);text-decoration:underline;text-underline-offset:3px">leaderboard</a>. Spins reset every day — <b>use them or lose them</b>.</p>
   </section>
 
   <div class="wrap">
@@ -203,7 +203,7 @@ html{overflow-x:clip}
     <section class="sec">
       <p class="kicker">The wheel</p>
       <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">What you can spin<span class="pxpill" id="pxPill" style="display:none">Preview</span></h2>
-      <p class="subtle" style="font-size:.9rem;color:var(--muted);max-width:44rem">Small numbers, real balance. Most spins land 0–2, the middle rewards regulars, and <b style="color:var(--gold)">10 is the rare jackpot</b> (~1 in 16). Average ≈ 2.6 points a spin — about <b style="color:#fff">80 a month</b> if you show up daily.</p>
+      <p class="subtle" style="font-size:.9rem;color:var(--muted);max-width:44rem">Small numbers, real balance. Most spins land 0–2, the middle rewards regulars, and <b style="color:var(--gold)">10 is the rare jackpot</b> (~1 in 16). Average ≈ <b style="color:#fff">2.6 points</b> a spin — and higher stakers get more spins a day.</p>
       <div class="odds" id="oddsGrid"></div>
     </section>
 
@@ -211,14 +211,14 @@ html{overflow-x:clip}
       <p class="kicker">How it works</p>
       <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">Three simple rules</h2>
       <div class="steps">
-        <div class="step"><div class="n">01</div><h3>Stake to unlock</h3><p>Any active $QORPO stake (ETH or BNB) gives you one free spin per day. No stake, no spin.</p></div>
-        <div class="step"><div class="n">02</div><h3>Spin within 24h</h3><p>Your daily spin expires 24 hours after it's granted. Use it or lose it — that's the whole point of coming back.</p></div>
+        <div class="step"><div class="n">01</div><h3>Stake to unlock</h3><p>Stake at least <b style="color:#fff">10,000 $QORPO</b> (ETH or BNB combined) to unlock daily spins. Higher QORPO Power level = more spins per day (1 → 5).</p></div>
+        <div class="step"><div class="n">02</div><h3>Spin every day</h3><p>Your spins reset each day (UTC). Use them or lose them — that's the whole point of coming back.</p></div>
         <div class="step"><div class="n">03</div><h3>Points stack up</h3><p>Every spin adds Community Points to your balance. They accumulate and rank you on the leaderboard.</p></div>
       </div>
     </section>
 
     <div class="note" id="fairNote">
-      <b>Provably fair.</b> Each day the server publishes a commitment hash of a secret seed. When you spin, the result is computed as <code>keccak256(seed + your address + day)</code> mapped onto the wheel — then the seed is revealed so anyone can recompute and verify the outcome wasn't rigged. The spin is free and pays only Community Points, so it isn't gambling. <span id="previewNote"></span>
+      <b>Provably fair.</b> Each day the server publishes a commitment hash of a secret seed. When you spin, the result is computed as <code>sha256(seed : your address : day : spin#)</code> mapped onto the wheel — then the seed is revealed so anyone can recompute and verify the outcome wasn't rigged. The spin is free and pays only Community Points, so it isn't gambling. <span id="previewNote"></span>
     </div>
   </div>
 </main>
@@ -243,7 +243,7 @@ html{overflow-x:clip}
   /* ================= CONFIG ================= */
   // Cloudflare Worker base URL for the points/spin backend. Set after deploy,
   // e.g. 'https://qorpo-spin.<subdomain>.workers.dev'. Empty string = local PREVIEW mode.
-  var BACKEND='';
+  var BACKEND='https://qorpo-points.ceo-b3f.workers.dev';
   var PREVIEW=!BACKEND;
   /* ========================================= */
 
@@ -255,6 +255,9 @@ html{overflow-x:clip}
   // QORPO Power tiers -> level (same table as staking/leaderboard). amount in whole $QORPO.
   var TIERS=[[100,1000],[1001,5000],[5001,15000],[15001,50000],[50001,500000],[500001,Infinity]];
   function levelOf(amt){for(var i=0;i<TIERS.length;i++){if(amt>=TIERS[i][0]&&amt<=TIERS[i][1])return i+1;}return 0;}
+  var MIN_STAKE=10000; // must stake >= this to unlock any spin
+  function spinsForLevel(lvl){return {3:1,4:2,5:3,6:5}[lvl]||0;} // daily free spins scale with level (only when staked >= MIN_STAKE)
+  function eligibleSpins(){return (state.staked>=MIN_STAKE)?spinsForLevel(state.level):0;}
 
   // Wheel: 16 segments, values 0..10 spread around the ring. Landing is uniform per segment,
   // so the segment-count IS the probability curve: 0x3,1x4,2x3,3x2,4x1,5x1,7x1,10x1 -> avg 2.625.
@@ -264,7 +267,7 @@ html{overflow-x:clip}
   function oddsTable(){var m={};WHEEL.forEach(function(v){m[v]=(m[v]||0)+1;});return m;}
 
   var eth=window.ethereum, okx=window.okxwallet, provider=null, signer=null, account=null;
-  var state={points:0,level:0,staked:0,spinAvailable:false,expiresAt:0,commit:''};
+  var state={points:0,level:0,staked:0,spinAvailable:false,spinsLeft:0,spinsAllowed:0,expiresAt:0,commit:''};
   var spinning=false, rot=0, ready=false;
 
   var $=function(i){return document.getElementById(i);};
@@ -311,38 +314,39 @@ html{overflow-x:clip}
   /* ---------- render ---------- */
   function render(){
     $('pts').textContent=Number(state.points||0).toLocaleString('en-US');
+    var elg=state.spinsAllowed>0;
     if(!account){$('statusTxt').textContent='Not connected';$('statusTxt').className='v';}
-    else{$('statusTxt').innerHTML=state.level>0?'<span class="ok">Staking ✓</span>':'<span class="no">Not staking</span>';}
+    else{$('statusTxt').innerHTML=elg?'<span class="ok">Staking ✓</span>':(state.staked>0?'<span class="no">Below 10k</span>':'<span class="no">Not staking</span>');}
     $('lvlTxt').textContent=account?(state.level>0?('L'+state.level):'—'):'—';
     var st=$('spinTxt');
     if(!account)st.textContent='—';
-    else if(state.level<=0)st.innerHTML='<span class="no">stake to unlock</span>';
-    else if(state.spinAvailable)st.innerHTML='<span class="ok">ready ✓</span>';
+    else if(!elg)st.innerHTML='<span class="no">stake 10k+ to unlock</span>';
+    else if(state.spinsLeft>0)st.innerHTML='<span class="ok">'+state.spinsLeft+' of '+state.spinsAllowed+' left</span>';
     else st.textContent='used — back tomorrow';
 
     var btn=$('spinBtn');
     if(!account){btn.textContent='Connect wallet';btn.disabled=false;}
     else if(spinning){btn.textContent='Spinning…';btn.disabled=true;}
-    else if(state.level<=0){btn.textContent='Stake $QORPO to spin';btn.disabled=false;}
-    else if(state.spinAvailable){btn.textContent='SPIN ▸';btn.disabled=false;}
+    else if(!elg){btn.textContent='Stake $QORPO to spin';btn.disabled=false;}
+    else if(state.spinsLeft>0){btn.textContent=state.spinsLeft>1?('SPIN ▸ ('+state.spinsLeft+' left)'):'SPIN ▸';btn.disabled=false;}
     else{btn.textContent='Come back tomorrow';btn.disabled=true;}
 
-    // countdown
+    // countdown (daily reset, UTC midnight)
     var ex=$('expire');
-    if(account&&state.level>0&&state.spinAvailable&&state.expiresAt){
+    if(account&&elg&&state.spinsLeft>0&&state.expiresAt){
       var ms=state.expiresAt-Date.now();
-      if(ms>0){var h=Math.floor(ms/36e5),m=Math.floor((ms%36e5)/6e4);ex.innerHTML='Use it within <b>'+h+'h '+m+'m</b> or you lose it';}
+      if(ms>0){var h=Math.floor(ms/36e5),m=Math.floor((ms%36e5)/6e4);ex.innerHTML='Spins reset in <b>'+h+'h '+m+'m</b> — use them today';}
       else ex.textContent='';
-    }else if(account&&state.level>0&&!state.spinAvailable){
+    }else if(account&&elg&&state.spinsLeft<=0){
       var end=new Date();end.setUTCHours(24,0,0,0);var h2=Math.max(0,Math.round((end-Date.now())/36e5));
-      ex.innerHTML='Next spin in ~<b>'+h2+'h</b>';
+      ex.innerHTML='Fresh spins in ~<b>'+h2+'h</b>';
     }else ex.textContent='';
 
     // hint
     var hn=$('hintNote');
-    if(!account)hn.textContent='Connect the wallet you stake with to claim your daily spin.';
-    else if(state.level<=0)hn.innerHTML='You need an active $QORPO stake to earn spins. <a href="staking" style="color:var(--pink);text-decoration:underline">Open Staking →</a>';
-    else hn.textContent='One spin per day. It expires 24h after it unlocks, so don’t sit on it.';
+    if(!account)hn.textContent='Connect the wallet you stake with to claim your daily spins.';
+    else if(!elg)hn.innerHTML='Stake at least 10,000 $QORPO to unlock daily spins — stake more to get more. <a href="staking" style="color:var(--pink);text-decoration:underline">Open Staking →</a>';
+    else hn.textContent='You get '+state.spinsAllowed+' spin'+(state.spinsAllowed>1?'s':'')+' a day at your level. They reset daily (UTC).';
   }
 
   /* ---------- backend calls ---------- */
@@ -353,6 +357,7 @@ html{overflow-x:clip}
     try{
       var j=await api('/status?wallet='+account);
       state.points=j.points||0;state.level=j.level||0;state.staked=j.staked||0;
+      state.spinsAllowed=j.spinsAllowed||0;state.spinsLeft=j.spinsLeft||0;
       state.spinAvailable=!!j.spinAvailable;state.expiresAt=j.expiresAt||0;state.commit=j.commit||'';
     }catch(e){ /* fall back to on-chain level only */ await readLevelOnchain(); }
     render();
@@ -377,18 +382,21 @@ html{overflow-x:clip}
   function pSave(s){try{localStorage.setItem(pKey(),JSON.stringify(s));}catch(e){}}
   function previewStatus(){
     var s=pLoad();
-    if(s.day!==dayKey()){s.day=dayKey();s.used=false;s.grantedAt=Date.now();pSave(s);}
+    if(s.day!==dayKey()){s.day=dayKey();s.used=0;pSave(s);}
+    var allowed=eligibleSpins();
     state.points=s.points||0;
-    state.spinAvailable=(state.level>0)&&!s.used;
-    state.expiresAt=s.grantedAt?(new Date(new Date().setUTCHours(24,0,0,0)).getTime()):0;
+    state.spinsAllowed=allowed;
+    state.spinsLeft=Math.max(0,allowed-(s.used||0));
+    state.spinAvailable=allowed>0&&state.spinsLeft>0;
+    state.expiresAt=(new Date(new Date().setUTCHours(24,0,0,0)).getTime());
   }
 
   /* ---------- spin ---------- */
   async function doSpin(){
     if(!account){connect();return;}
     if(spinning)return;
-    if(state.level<=0){toast('Stake $QORPO first to unlock your daily spin.',5000);return;}
-    if(!state.spinAvailable){toast('You already spun today — come back tomorrow.',4500);return;}
+    if(state.spinsAllowed<=0){location.href='staking';return;}
+    if(state.spinsLeft<=0){toast('No spins left today — come back tomorrow.',4500);return;}
     spinning=true;render();
     try{
       var value,verifyUrl='';
@@ -396,18 +404,18 @@ html{overflow-x:clip}
         // uniform segment -> value (segment-count encodes the odds)
         var idxP=Math.floor(Math.random()*WHEEL.length);value=WHEEL[idxP];
         await animateWheel(idxP,5400);
-        var s=pLoad();s.used=true;s.points=(s.points||0)+value;pSave(s);
-        state.points=s.points;state.spinAvailable=false;
+        var s=pLoad();s.used=(s.used||0)+1;s.points=(s.points||0)+value;pSave(s);
+        state.points=s.points;state.spinsLeft=Math.max(0,state.spinsAllowed-s.used);state.spinAvailable=state.spinsLeft>0;
       }else{
         // sign a message proving wallet control, then let the server compute the fair result
         var day=dayKey(),msg='QORPO Daily Spin\nwallet: '+account+'\nday: '+day;
         var sig=await signer.signMessage(msg);
         var j=await api('/spin',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({wallet:account,day:day,signature:sig})});
-        if(j.error){spinning=false;render();toast(j.error==='already_spun'?'You already spun today — come back tomorrow.':(j.error==='not_staked'?'No active stake found for this wallet.':'Spin failed: '+j.error),5000);return;}
+        if(j.error){spinning=false;render();toast(j.error==='no_spins_left'?'No spins left today — come back tomorrow.':(j.error==='not_staked'?'Stake at least 10,000 $QORPO to spin.':'Spin failed: '+j.error),5000);return;}
         value=j.value;
         var idxR=(j.segment!=null)?j.segment:segmentForValue(value);
         await animateWheel(idxR,5400);
-        state.points=j.points;state.spinAvailable=false;state.expiresAt=0;
+        state.points=j.points;state.spinsLeft=(j.spinsLeft!=null)?j.spinsLeft:Math.max(0,state.spinsLeft-1);state.spinAvailable=state.spinsLeft>0;
         if(j.seed&&j.day)verifyUrl=BACKEND.replace(/\/$/,'')+'/verify?wallet='+account+'&day='+j.day;
       }
       spinning=false;render();
