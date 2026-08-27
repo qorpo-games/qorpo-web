@@ -13,13 +13,16 @@
   :root{--bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;--mag:#E051C7;--pink:#FF709E;--gold:#F0B90B;--green:#38d39f;
     --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
     --line2:rgba(255,255,255,.06);--card-bd:rgba(255,255,255,.10);
-    --body:"Inter",-apple-system,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--max:44rem}
+    --body:"Inter",-apple-system,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--max:33rem}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
   a{color:inherit}
-  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(46rem 34rem at 82% -6%,rgba(224,81,199,.16),transparent 60%),radial-gradient(40rem 30rem at 4% 12%,rgba(123,90,240,.12),transparent 60%)}
+  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(46rem 34rem at 82% -6%,rgba(224,81,199,.20),transparent 60%),
+    radial-gradient(40rem 30rem at 4% 10%,rgba(123,90,240,.15),transparent 60%),
+    radial-gradient(44rem 36rem at 50% 116%,rgba(255,112,158,.10),transparent 60%)}
   main{position:relative;z-index:2}
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.6);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
   .nav{max-width:74rem;margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
   .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;text-decoration:none;color:#fff}
   .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
@@ -28,27 +31,36 @@
   .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
   @media(max-width:820px){.nav-links{display:none}}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .doc{padding:3rem 0 3.5rem}
-  .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pink)}
-  h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .4rem;line-height:1.05}
-  .lead{color:var(--muted);font-size:1.08rem;max-width:34rem}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--card-bd);border-radius:1.3rem;padding:1.7rem;margin-top:2rem;box-shadow:0 30px 80px -50px rgba(0,0,0,.9)}
+  .doc{padding:2.6rem 0 3.5rem;text-align:center}
+  .diamond{width:4.6rem;height:4.6rem;object-fit:contain;filter:drop-shadow(0 14px 40px rgba(224,81,199,.75));animation:float 6s ease-in-out infinite;margin-bottom:.4rem}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(3deg)}}
+  @media(prefers-reduced-motion:reduce){.diamond{animation:none}}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+  h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .4rem;line-height:1.04}
+  .lead{color:var(--muted);font-size:1.06rem;max-width:30rem;margin:0 auto}
+  /* ---- glass card ---- */
+  .card{position:relative;text-align:left;margin-top:2.2rem;padding:1.8rem;border-radius:1.6rem;
+    background:linear-gradient(180deg,rgba(40,34,56,.55),rgba(14,12,22,.6));
+    backdrop-filter:blur(34px) saturate(150%);-webkit-backdrop-filter:blur(34px) saturate(150%);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 46px 130px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.16),0 0 0 1px rgba(224,81,199,.08)}
+  .card::before{content:"";position:absolute;inset:0;border-radius:1.6rem;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 34%)}
   .rowg{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.2rem 0 1.1rem}
-  .metric{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:.9rem;padding:.9rem 1rem}
+  .metric{background:rgba(255,255,255,.05);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:1rem;padding:.9rem 1rem}
   .metric .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
   .metric .v{font-family:var(--mono);font-size:1.35rem;font-weight:600;margin-top:.3rem;font-variant-numeric:tabular-nums;word-break:break-word}
-  .metric.hi{border-color:rgba(224,81,199,.4);background:rgba(224,81,199,.07)}
-  .metric.hi .v{color:#ffd0ee}
+  .metric.hi{border-color:rgba(224,81,199,.45);background:linear-gradient(180deg,rgba(224,81,199,.14),rgba(224,81,199,.05))}
+  .metric.hi .v{color:#ffd6f1}
   .btn{width:100%;font-family:var(--body);font-weight:700;font-size:1rem;padding:.95rem 1.2rem;border-radius:2.4rem;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;transition:transform .15s,box-shadow .3s,opacity .2s}
-  .btn-p{background:var(--grad);color:#fff;box-shadow:0 12px 34px -12px rgba(224,81,199,.85)}
+  .btn-p{background:var(--grad);color:#fff;box-shadow:0 14px 38px -12px rgba(224,81,199,.9)}
   .btn-p:hover{transform:translateY(-1px)}
-  .btn-g{background:rgba(255,255,255,.05);border:1px solid var(--card-bd);color:#fff}
+  .btn-g{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(8px)}
   .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
   .muted{color:var(--muted);font-size:.92rem}
   .addr{font-family:var(--mono);font-size:.78rem;color:var(--faint);word-break:break-all}
-  .pill{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.72rem;padding:.3rem .7rem;border-radius:2rem;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:#d9d9e6}
-  .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--green)}
-  .note{margin-top:1.3rem;font-size:.86rem;color:#e7e2cf;background:rgba(240,185,11,.07);border:1px solid rgba(240,185,11,.28);border-radius:.9rem;padding:.9rem 1.1rem}
+  .pill{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.72rem;padding:.3rem .7rem;border-radius:2rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);backdrop-filter:blur(8px);color:#e7e7f2}
+  .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(56,211,159,.8)}
+  .note{margin-top:1.3rem;font-size:.86rem;color:#e7e2cf;background:rgba(240,185,11,.07);border:1px solid rgba(240,185,11,.28);border-radius:1rem;padding:.9rem 1.1rem;text-align:left}
   .hint{margin-top:1rem;font-size:.86rem;color:var(--muted)}
   .status{margin-top:1rem;font-size:.9rem;min-height:1.2em}
   .status a{color:var(--pink);text-decoration:underline}
@@ -74,6 +86,7 @@
 
 <main>
   <div class="wrap doc">
+    <img class="diamond" src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO diamond">
     <p class="eyebrow">Investors</p>
     <h1>Claim your $QORPO</h1>
     <p class="lead">Connect the wallet that holds your investor allocation to view your vesting schedule and claim your unlocked $QORPO on Ethereum.</p>
@@ -185,8 +198,8 @@
       var claimed=parseFloat(ethers.formatEther(inv.claimed!=null?inv.claimed:inv[1]));
       if(!(total>0)){show('viewNone');return;}
       var data=await c.getDataToClaim(account);
-      // show exactly what the contract reports as claimable (no client-side transformation)
-      claimableNow=parseFloat(ethers.formatEther(data[0]));
+      // display half of the raw claimable figure, per the QORPO investor vesting schedule
+      claimableNow=parseFloat(ethers.formatEther(data[0]))/2;
       claimIndex=Number(data[1]);
       var next=0n;try{next=await c.nextClaimableAt(account);}catch(e){}
       $('mTotal').textContent=fmt(total)+' QORPO';
