@@ -805,7 +805,17 @@ html{overflow-x:clip}
       toast('✅ Staked '+fmt(amount)+' $QORPO. <a href="'+CHAINS[chainId].scan+'/tx/'+tx.hash+'" target="_blank">receipt ↗</a>',8000);
       $('amt').value='';
       refresh(); setTimeout(refresh,4000); setTimeout(refresh,12000); // give the RPC node time to reflect the new stake
-    }catch(e){toast('Transaction failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));console.log(e);}
+    }catch(e){
+      var m=(e&&(e.shortMessage||e.reason||(e.info&&e.info.error&&e.info.error.message)||e.message))||'';
+      if(/stake already reached/i.test(m))m='The locked APY reward pool is currently full, so no new APY stakes can be opened right now. You can still stake in the flexible "Trader" pool (no lock) — it earns Community Points too — or try the APY pool again later.';
+      else if(/excess amount/i.test(m))m='That amount is above the maximum for this lock tier — try a smaller amount.';
+      else if(/insufficient amount/i.test(m))m='That amount is below the minimum stake for this tier.';
+      else if(/invalid stake type/i.test(m))m='Invalid lock tier — please reselect the lock period.';
+      else if(/insufficient allowance|transfer amount exceeds/i.test(m))m='Token approval was too low — please approve $QORPO again.';
+      else if(/insufficient funds/i.test(m))m='Not enough balance for the network fee (gas).';
+      else if(/user rejected|denied|action_rejected/i.test(m))m='You rejected the transaction in your wallet.';
+      toast('Staking failed'+(m?': '+m:'.'),8000);console.log(e);
+    }
     b.disabled=false;
   }
 
