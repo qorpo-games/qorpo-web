@@ -100,7 +100,14 @@
   .refresh{font-family:var(--mono);font-size:.76rem;color:#cfcfe0;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:1.6rem;padding:.5rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
   .refresh:hover{background:rgba(255,255,255,.09)}
   .refresh svg{width:.85rem;height:.85rem;fill:none;stroke:currentColor;stroke-width:2}
-  .asof{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.7rem;min-height:1em}
+  .asof{font-family:var(--mono);font-size:.72rem;color:var(--faint);min-height:1em}
+  .asofrow{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+  .infoi{position:relative;display:inline-flex;width:1.05rem;height:1.05rem;border-radius:50%;border:1px solid var(--line);color:var(--faint);align-items:center;justify-content:center;font-family:var(--mono);font-size:.66rem;font-weight:600;cursor:help;flex:none;-webkit-tap-highlight-color:transparent}
+  .infoi:hover,.infoi:focus{color:#fff;border-color:rgba(255,255,255,.4);outline:none}
+  .infoi .tip{position:absolute;bottom:calc(100% + .55rem);left:50%;transform:translateX(-50%);width:17rem;background:#12121c;border:1px solid rgba(255,255,255,.14);border-radius:.75rem;padding:.75rem .85rem;font-family:var(--body);font-size:.78rem;font-weight:400;line-height:1.5;color:#d7d7e6;text-align:left;text-transform:none;letter-spacing:normal;box-shadow:0 22px 54px -20px rgba(0,0,0,.9);opacity:0;visibility:hidden;transition:opacity .16s,visibility .16s;z-index:50}
+  .infoi .tip b{color:#fff}
+  .infoi:hover .tip,.infoi:focus .tip{opacity:1;visibility:visible}
+  @media(max-width:560px){.infoi .tip{left:auto;right:-.4rem;transform:none;width:15rem}}
 
   .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:1.8rem auto 0;max-width:56rem;width:100%}
   .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.15rem 1rem;text-align:left}
@@ -266,7 +273,7 @@ html{overflow-x:clip}
       </div>
       <button class="refresh" id="refreshBtn"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v5h-5"/></svg>Refresh</button>
     </div>
-    <div class="asof" id="asof"></div>
+    <div class="asofrow"><div class="asof" id="asof"></div><span class="infoi" tabindex="0" role="button" aria-label="How the leaderboard updates">i<span class="tip">Community Points update <b>once a day</b>, around <b>00:15 UTC</b>. A new or increased stake appears on the board <b>after the next daily update</b> — not instantly. Points are kept while you stake at least <b>10,000 $QORPO</b> (Ethereum + BNB combined).</span></span></div>
 
     <div class="statrow">
       <div class="statcard"><b id="stTotal">—</b><span>Community Points / day</span></div>
