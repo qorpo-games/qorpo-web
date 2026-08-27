@@ -646,6 +646,14 @@ html{overflow-x:clip}
       yn.innerHTML='<span class="yn-dot"></span>You\'re <b>#'+myRank+'</b>. Stake <b>+'+qShort(delta)+' $QORPO</b>'+u+' to pass <b>#'+(myRank-1)+'</b>.';
       return;
     }
+    if(myAmt>=RETAIN_MIN){
+      yn.innerHTML='<span class="yn-dot"></span>You\'re staking <b>'+qShort(myAmt)+' $QORPO</b> — your Community Points are accruing and you\'ll appear on the board after the next daily update. Stake more to climb faster.';
+      return;
+    }
+    if(myAmt>0){
+      yn.innerHTML='<span class="yn-dot"></span>You\'re staking <b>'+qShort(myAmt)+' $QORPO</b>. Stake at least <b>'+qShort(RETAIN_MIN)+' $QORPO</b> (Ethereum + BNB combined) to start earning Community Points and climb the board.';
+      return;
+    }
     var need10=rows.length>=10?humanAmt(rows[9].pts):0;
     var t10=need10>0?(qShort(need10)+' $QORPO'+(QPRICE>0?(' ≈ '+usd(need10*QPRICE)):'')):'a small amount';
     yn.innerHTML='<span class="yn-dot"></span>You\'re not on the board yet. Stake <b>'+t10+'</b> to break into the Top 10 — and start earning toward the <b>Tamitos airdrop</b>.';
