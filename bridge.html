@@ -494,7 +494,10 @@ html{overflow-x:clip}
     if(!account){connect();return;}
     var amount=parsedAmount();
     if(!amount){toast('Enter an amount to bridge.');return;}
-    if(balRaw>0n && amount>balRaw){toast('Amount exceeds your balance on '+CH[fromId].name+'.');return;}
+    // fresh source-chain balance check — prevents the cryptic "missing revert data" on a 0-balance send
+    try{var _b=await new ethers.Contract(OFT_ADDR,ERC20,readProvider(fromId)).balanceOf(account);balRaw=_b;$('bBal').textContent=fmt(_b)+' $QORPO';}catch(e){}
+    if(balRaw<=0n){toast('You have 0 $QORPO on '+CH[fromId].name+'. Use the ⇅ button to bridge FROM the chain where you actually hold $QORPO.',7000);return;}
+    if(amount>balRaw){toast('Amount is more than your '+fmt(balRaw)+' $QORPO on '+CH[fromId].name+' — lower it or press MAX.',7000);return;}
     if(!(await ensureChain()))return;
     var b=$('mainBtn');b.disabled=true;
     try{
@@ -509,7 +512,13 @@ html{overflow-x:clip}
       await tx.wait();
       toast('✅ Sent from '+CH[fromId].name+'. Track delivery on <a href="https://layerzeroscan.com/tx/'+tx.hash+'" target="_blank">LayerZero Scan ↗</a>',9000);
       $('amt').value='';estimate();loadBalance();
-    }catch(e){toast('Bridge failed'+(e&&e.shortMessage?': '+e.shortMessage:'.'));console.log(e);}
+    }catch(e){
+      var m=(e&&(e.shortMessage||e.reason||e.message))||'';
+      if(/insufficient funds/i.test(m))m='not enough '+CH[fromId].gas+' to pay the network fee.';
+      else if(/user rejected|user denied|rejected the request|action_rejected/i.test(m))m='you rejected it in the wallet.';
+      else if(/missing revert data|CALL_EXCEPTION|cannot estimate|execution reverted/i.test(m))m='not enough $QORPO on '+CH[fromId].name+', or not enough '+CH[fromId].gas+' for gas.';
+      toast('Bridge failed: '+m,7000);console.log(e);
+    }
     b.disabled=false;
   }
 
