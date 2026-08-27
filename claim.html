@@ -1,0 +1,249 @@
+<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Investor Claim — $QORPO</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="QORPO investor claim portal — connect your wallet to view and claim your vested $QORPO allocation on Ethereum.">
+<link rel="canonical" href="https://qorpo.world/claim">
+<meta name="theme-color" content="#06060b">
+<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+  :root{--bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;--mag:#E051C7;--pink:#FF709E;--gold:#F0B90B;--green:#38d39f;
+    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
+    --line2:rgba(255,255,255,.06);--card-bd:rgba(255,255,255,.10);
+    --body:"Inter",-apple-system,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--max:44rem}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit}
+  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(46rem 34rem at 82% -6%,rgba(224,81,199,.16),transparent 60%),radial-gradient(40rem 30rem at 4% 12%,rgba(123,90,240,.12),transparent 60%)}
+  main{position:relative;z-index:2}
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.6);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  .nav{max-width:74rem;margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;text-decoration:none;color:#fff}
+  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
+  .nav-links{display:flex;align-items:center;gap:.2rem;margin:0 auto}
+  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;text-decoration:none}
+  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
+  @media(max-width:820px){.nav-links{display:none}}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
+  .doc{padding:3rem 0 3.5rem}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pink)}
+  h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .4rem;line-height:1.05}
+  .lead{color:var(--muted);font-size:1.08rem;max-width:34rem}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--card-bd);border-radius:1.3rem;padding:1.7rem;margin-top:2rem;box-shadow:0 30px 80px -50px rgba(0,0,0,.9)}
+  .rowg{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.2rem 0 1.1rem}
+  .metric{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:.9rem;padding:.9rem 1rem}
+  .metric .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .metric .v{font-family:var(--mono);font-size:1.35rem;font-weight:600;margin-top:.3rem;font-variant-numeric:tabular-nums;word-break:break-word}
+  .metric.hi{border-color:rgba(224,81,199,.4);background:rgba(224,81,199,.07)}
+  .metric.hi .v{color:#ffd0ee}
+  .btn{width:100%;font-family:var(--body);font-weight:700;font-size:1rem;padding:.95rem 1.2rem;border-radius:2.4rem;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;transition:transform .15s,box-shadow .3s,opacity .2s}
+  .btn-p{background:var(--grad);color:#fff;box-shadow:0 12px 34px -12px rgba(224,81,199,.85)}
+  .btn-p:hover{transform:translateY(-1px)}
+  .btn-g{background:rgba(255,255,255,.05);border:1px solid var(--card-bd);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .muted{color:var(--muted);font-size:.92rem}
+  .addr{font-family:var(--mono);font-size:.78rem;color:var(--faint);word-break:break-all}
+  .pill{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.72rem;padding:.3rem .7rem;border-radius:2rem;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:#d9d9e6}
+  .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--green)}
+  .note{margin-top:1.3rem;font-size:.86rem;color:#e7e2cf;background:rgba(240,185,11,.07);border:1px solid rgba(240,185,11,.28);border-radius:.9rem;padding:.9rem 1.1rem}
+  .hint{margin-top:1rem;font-size:.86rem;color:var(--muted)}
+  .status{margin-top:1rem;font-size:.9rem;min-height:1.2em}
+  .status a{color:var(--pink);text-decoration:underline}
+  .err{color:#ff8fae}
+  .ok{color:var(--green)}
+  .ctrhead{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.1rem;flex-wrap:wrap}
+  .hidden{display:none!important}
+  footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:2rem;padding:2rem 1.5rem;text-align:center}
+  .flegal{max-width:74rem;margin:0 auto;color:var(--faint);font-size:.82rem}
+  .flinks{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem}
+  .flinks a{color:#cfcfe0;font-size:.85rem;text-decoration:none}
+  .flinks a:hover{color:#fff;text-decoration:underline}
+</style>
+
+<div class="glowfix"></div>
+<header>
+  <nav class="nav">
+    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
+    <div class="nav-links"><a href="/">Home</a><a href="token">Token</a><a href="staking">Staking</a><a href="spin">Spin</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
+    <span></span>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <p class="eyebrow">Investors</p>
+    <h1>Claim your $QORPO</h1>
+    <p class="lead">Connect the wallet that holds your investor allocation to view your vesting schedule and claim your unlocked $QORPO on Ethereum.</p>
+
+    <div class="card">
+      <div class="ctrhead">
+        <div><span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4v6c0 4.5-3 7.5-8 9-5-1.5-8-4.5-8-9z" stroke="currentColor" stroke-width="1.5"/></svg>Investor Claim</span></div>
+        <div id="acctPill" class="pill hidden"><span class="dot"></span><span id="acctShort">—</span></div>
+      </div>
+
+      <!-- disconnected -->
+      <div id="viewConnect">
+        <p class="muted">This portal reads your allocation directly from the QORPO vesting contract on Ethereum. Nothing is stored — you sign each claim yourself.</p>
+        <button class="btn btn-p" id="connectBtn" style="margin-top:1.1rem">Connect wallet</button>
+      </div>
+
+      <!-- wrong chain -->
+      <div id="viewChain" class="hidden">
+        <p class="muted">Your wallet is on the wrong network. The claim contract lives on <b>Ethereum</b>.</p>
+        <button class="btn btn-p" id="switchBtn" style="margin-top:1.1rem">Switch to Ethereum</button>
+      </div>
+
+      <!-- loading -->
+      <div id="viewLoading" class="hidden"><p class="muted">Reading your allocation from the contract…</p></div>
+
+      <!-- no allocation -->
+      <div id="viewNone" class="hidden">
+        <div class="metric" style="text-align:center"><div class="v" style="font-size:1.1rem">No $QORPO allocation found</div></div>
+        <p class="hint">This wallet isn't registered in the investor vesting contract. If you invested with a different address, connect that one instead.</p>
+        <button class="btn btn-g" id="switchAcctBtn" style="margin-top:1.1rem">Use a different wallet</button>
+      </div>
+
+      <!-- allocation -->
+      <div id="viewClaim" class="hidden">
+        <div class="rowg">
+          <div class="metric"><div class="k">Total allocation</div><div class="v" id="mTotal">—</div></div>
+          <div class="metric"><div class="k">Already claimed</div><div class="v" id="mClaimed">—</div></div>
+        </div>
+        <div class="metric hi" style="margin-bottom:1.1rem"><div class="k">Claimable now</div><div class="v" id="mNow">—</div></div>
+        <button class="btn btn-p" id="claimBtn">Claim $QORPO</button>
+        <p class="hint" id="nextHint"></p>
+      </div>
+
+      <div class="status" id="status"></div>
+
+      <div style="margin-top:1.4rem;border-top:1px solid var(--line2);padding-top:1rem">
+        <div class="muted" style="font-size:.8rem;margin-bottom:.25rem">Vesting contract (verify on Etherscan)</div>
+        <a class="addr" id="ctrLink" href="https://etherscan.io/address/0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839" target="_blank" rel="noopener">0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839 ↗</a>
+      </div>
+    </div>
+
+    <div class="note"><b>Before you claim:</b> make sure you're on <b>qorpo.world/claim</b>, verify the contract address above on Etherscan, and keep a little ETH for gas. QORPO never asks for your seed phrase and can't move your funds — every claim is signed by you. Not financial advice.</div>
+  </div>
+</main>
+
+<footer>
+  <div class="flinks"><a href="/">Home</a><a href="token">Token</a><a href="staking">Staking</a><a href="privacy">Privacy Policy</a><a href="terms">Terms of Service</a></div>
+  <div class="flegal">© 2026 QORPO World. All rights reserved. · $QORPO the attention economy token</div>
+</footer>
+
+<script src="assets/ethers-6.13.4.umd.min.js"></script>
+<script>
+(function(){
+  var CLAIM_ADDR='0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839';
+  var CHAIN_HEX='0x1', CHAIN_ID=1n, RPC='https://ethereum-rpc.publicnode.com';
+  var ABI=[
+    {"inputs":[{"name":"_investor","type":"address"}],"name":"nextClaimableAt","outputs":[{"type":"uint64"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"_investor","type":"address"},{"name":"_claimIndex","type":"uint8"}],"name":"claim","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"name":"_investor","type":"address"}],"name":"getDataToClaim","outputs":[{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"","type":"address"}],"name":"investors","outputs":[{"name":"totalToClaim","type":"uint256"},{"name":"claimed","type":"uint256"},{"name":"groupId","type":"uint16"}],"stateMutability":"view","type":"function"}
+  ];
+
+  var $=function(id){return document.getElementById(id);};
+  var account=null, claimIndex=-1, claimableNow=0;
+  var views=['viewConnect','viewChain','viewLoading','viewNone','viewClaim'];
+  function show(v){views.forEach(function(x){$(x).classList.toggle('hidden',x!==v);});}
+  function setStatus(msg,cls){var s=$('status');s.className='status '+(cls||'');s.innerHTML=msg||'';}
+  function fmt(n){n=Number(n);if(!isFinite(n))return '0';return n.toLocaleString('en-US',{maximumFractionDigits:n>0&&n<1?4:2});}
+  function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
+
+  function injected(){
+    var eth=window.ethereum;if(!eth)return null;
+    if(eth.providers&&eth.providers.length){return eth.providers.find(function(p){return p.isMetaMask;})||eth.providers[0];}
+    return eth;
+  }
+  function readProvider(){return new ethers.JsonRpcProvider(RPC);}
+
+  async function connect(){
+    var inj=injected();
+    if(!inj){setStatus('No Ethereum wallet found. Install MetaMask (or open this page in your wallet browser).','err');return;}
+    try{
+      var accs=await inj.request({method:'eth_requestAccounts'});
+      account=ethers.getAddress(accs[0]);
+      $('acctShort').textContent=short(account);
+      $('acctPill').classList.remove('hidden');
+      inj.removeAllListeners&&inj.removeAllListeners('accountsChanged');
+      inj.on&&inj.on('accountsChanged',function(a){if(a&&a.length){account=ethers.getAddress(a[0]);$('acctShort').textContent=short(account);load();}else{account=null;$('acctPill').classList.add('hidden');show('viewConnect');}});
+      load();
+    }catch(e){setStatus('Connection cancelled.','');}
+  }
+
+  async function load(){
+    if(!account)return;
+    setStatus('');show('viewLoading');
+    try{
+      var c=new ethers.Contract(CLAIM_ADDR,ABI,readProvider());
+      var inv=await c.investors(account);
+      var total=parseFloat(ethers.formatEther(inv.totalToClaim!=null?inv.totalToClaim:inv[0]));
+      var claimed=parseFloat(ethers.formatEther(inv.claimed!=null?inv.claimed:inv[1]));
+      if(!(total>0)){show('viewNone');return;}
+      var data=await c.getDataToClaim(account);
+      // show exactly what the contract reports as claimable (no client-side transformation)
+      claimableNow=parseFloat(ethers.formatEther(data[0]));
+      claimIndex=Number(data[1]);
+      var next=0n;try{next=await c.nextClaimableAt(account);}catch(e){}
+      $('mTotal').textContent=fmt(total)+' QORPO';
+      $('mClaimed').textContent=fmt(claimed)+' QORPO';
+      $('mNow').textContent=fmt(claimableNow)+' QORPO';
+      var hint='', canClaim=claimableNow>0;
+      if(next && next>0n){var d=new Date(Number(next)*1000);hint='Next unlock: '+d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});}
+      if(!canClaim && !hint)hint='Nothing available to claim right now.';
+      $('nextHint').textContent=hint;
+      $('claimBtn').disabled=!canClaim;
+      $('claimBtn').textContent=canClaim?('Claim '+fmt(claimableNow)+' QORPO'):'Nothing to claim yet';
+      show('viewClaim');
+    }catch(e){console.log(e);setStatus('Could not read your allocation. Please refresh and try again.','err');show('viewClaim');}
+  }
+
+  async function ensureChain(inj){
+    try{
+      var cid=await inj.request({method:'eth_chainId'});
+      if(cid===CHAIN_HEX)return true;
+      await inj.request({method:'wallet_switchEthereumChain',params:[{chainId:CHAIN_HEX}]});
+      return true;
+    }catch(e){setStatus('Please switch your wallet to the Ethereum network to claim.','err');return false;}
+  }
+
+  async function doClaim(){
+    if(!account){connect();return;}
+    if(!(claimableNow>0)||claimIndex<0){setStatus('Nothing available to claim right now.','');return;}
+    var inj=injected();if(!inj){setStatus('No wallet found.','err');return;}
+    if(!(await ensureChain(inj)))return;
+    var btn=$('claimBtn');btn.disabled=true;setStatus('Confirm the claim in your wallet…','');
+    try{
+      var bp=new ethers.BrowserProvider(inj);
+      var signer=await bp.getSigner();
+      var c=new ethers.Contract(CLAIM_ADDR,ABI,signer);
+      var tx=await c.claim(account,claimIndex);
+      setStatus('Claiming… <a href="https://etherscan.io/tx/'+tx.hash+'" target="_blank" rel="noopener">view transaction ↗</a>','');
+      await tx.wait();
+      setStatus('✅ Claim confirmed. Your $QORPO has been sent to your wallet.','ok');
+      setTimeout(load,800);
+    }catch(e){
+      console.error(e);
+      var m=(e&&(e.shortMessage||e.reason||(e.info&&e.info.error&&e.info.error.message)||e.message))||'';
+      if(/paused/i.test(m))m='Claiming is temporarily paused on the contract. Please try again later.';
+      else if(/user rejected|denied|action_rejected/i.test(m))m='You rejected the transaction in your wallet.';
+      else if(/insufficient funds/i.test(m))m='Not enough ETH to cover the gas fee.';
+      else if(/missing revert data|CALL_EXCEPTION|execution reverted/i.test(m))m='The contract rejected this claim (nothing claimable yet, or not eligible).';
+      setStatus('Claim failed: '+m,'err');
+      btn.disabled=false;
+    }
+  }
+
+  $('connectBtn').addEventListener('click',connect);
+  $('switchBtn').addEventListener('click',async function(){var inj=injected();if(inj&&await ensureChain(inj))load();});
+  $('switchAcctBtn').addEventListener('click',connect);
+  $('claimBtn').addEventListener('click',doClaim);
+
+  // auto-connect if wallet already authorized
+  (function(){var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){connect();}}).catch(function(){});}})();
+})();
+</script>
