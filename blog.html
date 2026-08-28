@@ -266,9 +266,9 @@ html{overflow-x:clip}
 
   // ---- buy menus ----
   function buildBuyMenus(){
-    var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
-            ['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
-            ['Gate','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
+    var EX=[['MEXC','https://www.mexc.com/exchange/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/544.png'],
+            ['KuCoin','https://www.kucoin.com/trade/QORPO-USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/311.png'],
+            ['Gate','https://www.gate.com/trade/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/302.png']];
     var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
       EX.map(function(e){return '<a href="'+e[1]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[2]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
     [].forEach.call(document.querySelectorAll('[data-buymenu]'),function(m){if(!m.innerHTML)m.innerHTML=BM;});
