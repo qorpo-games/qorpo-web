@@ -510,7 +510,7 @@ html{overflow-x:clip}
         <h3>One Life</h3>
         <p>One shot, total collection. Set in the QORPO universe.</p>
         <div class="links"><a class="btn btn-text arrow" href="#">Learn more</a></div>
-        <img class="banner" src="https://www.qorpo.world/img/home/game/one-life.png" alt="One Life" onerror="this.style.display='none'">
+        <img class="banner" src="assets/one-life-cover.svg" alt="One Life — collection shooter" loading="lazy">
       </div>
     </div>
   </section>
@@ -595,11 +595,11 @@ html{overflow-x:clip}
   };
   document.querySelectorAll('img[data-i]').forEach(function(im){im.src=P+ICONS[im.dataset.i];});
   // Buy dropdown menus
-  var EX=[['MEXC','MX','https://www.mexc.com/exchange/QORPO_USDT','https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png'],
-          ['KuCoin','KC','https://www.kucoin.com/trade/QORPO-USDT','https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png'],
-          ['Gate','GT','https://www.gate.com/trade/QORPO_USDT','https://www.qorpo.world/assets/images/logos/gateio.png']];
+  var EX=[['MEXC','MX','https://www.mexc.com/exchange/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/544.png'],
+          ['KuCoin','KC','https://www.kucoin.com/trade/QORPO-USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/311.png'],
+          ['Gate','GT','https://www.gate.com/trade/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/302.png']];
   var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
-    EX.map(function(e){return '<a href="'+e[2]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[3]+'" alt="'+e[0]+'">'+e[0]+'</a>';}).join('');
+    EX.map(function(e){return '<a href="'+e[2]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[3]+'" alt="'+e[0]+'" data-mk="'+e[1]+'" onerror="var s=document.createElement(\'span\');s.className=\'mk\';s.textContent=this.dataset.mk;this.parentNode.insertBefore(s,this);this.remove();">'+e[0]+'</a>';}).join('');
   document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
   // click-to-open on touch
   document.querySelectorAll('.buydrop').forEach(function(d){var _t=d.querySelector('button');if(!_t)return;_t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();document.querySelectorAll('.buydrop').forEach(function(x){if(x!==d)x.classList.remove('open')});d.classList.toggle('open');});});
@@ -729,9 +729,9 @@ html{overflow-x:clip}
       </ul>
       <p class="qp-buylab">Buy $QORPO on</p>
       <div class="qp-buys">
-        <a class="qp-buy" href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/mexc-ex-logo.png" alt="MEXC" onerror="this.parentNode.style.display='none'"></span><span>MEXC</span></a>
-        <a class="qp-buy" href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/kucoin-ex-logo.png" alt="KuCoin" onerror="this.parentNode.style.display='none'"></span><span>KuCoin</span></a>
-        <a class="qp-buy" href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://www.qorpo.world/assets/images/logos/gateio.png" alt="Gate" onerror="this.parentNode.style.display='none'"></span><span>Gate</span></a>
+        <a class="qp-buy" href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/544.png" alt="MEXC" onerror="this.parentNode.style.display='none'"></span><span>MEXC</span></a>
+        <a class="qp-buy" href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/311.png" alt="KuCoin" onerror="this.parentNode.style.display='none'"></span><span>KuCoin</span></a>
+        <a class="qp-buy" href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/302.png" alt="Gate" onerror="this.parentNode.style.display='none'"></span><span>Gate</span></a>
       </div>
       <div class="qp-foot">
         <a class="qp-why" href="token">Why $QORPO? →</a>
