@@ -177,6 +177,7 @@
 
 
 
+
 /* ================= PREMIUM DARK RETHEME ================= */
 :root{
   --white:#13131d;--grey:#181824;--ink:#ffffff;--muted:#b4b4c9;--faint:#9a9ab5;
@@ -407,10 +408,14 @@ html{overflow-x:clip}
   const isProduct=c=>PRODUCTS.indexOf(c.title)>=0;
   const render=c=>{
     const social=(c.x?'<a href="'+c.x+'" target="_blank" rel="noopener" title="'+c.title+' on X" aria-label="'+c.title+' on X">'+XSVG+'</a>':'')+'<a href="'+c.link+'" target="_blank" rel="noopener" title="'+c.title+' website" aria-label="'+c.title+' website">'+WSVG+'</a>';
+    var host=(function(){try{return new URL(c.link).hostname.replace(/^www\./,'');}catch(e){return '';}})();
+    var ico=host?('https://www.google.com/s2/favicons?domain='+host+'&sz=128'):c.icon;
+    var hue=0;for(var _i=0;_i<c.title.length;_i++)hue=(hue+c.title.charCodeAt(_i)*7)%360;
+    var cbg='linear-gradient(135deg,hsl('+hue+',42%,17%),#0f0913 78%)';
     return '<div class="ecard">'+
-      '<div class="cover"><img class="coverimg" data-cv="'+c.title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+'" src="'+c.bg+'" alt="" onerror="this.remove()">'+
+      '<div class="cover" style="background:'+cbg+'"><img class="coverimg" data-cv="'+c.title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+'" src="'+c.bg+'" alt="" onerror="this.remove()">'+
       '<span class="cat">'+c.tag+'</span><span class="social">'+social+'</span></div>'+
-      '<div class="body"><div class="pic" data-i="'+initials(c.title)+'"><img src="'+c.icon+'" alt="'+c.title+'" onerror="this.replaceWith(document.createTextNode(this.parentNode.dataset.i))"></div>'+
+      '<div class="body"><div class="pic" data-i="'+initials(c.title)+'"><img src="'+ico+'" alt="'+c.title+'" referrerpolicy="no-referrer" onerror="this.replaceWith(document.createTextNode(this.parentNode.dataset.i))"></div>'+
       '<h3>'+c.title+'</h3><p class="desc">'+c.desc+'</p><div class="tags"><span class="t">'+c.tag+'</span></div></div></div>';
   };
   document.getElementById('ecogridProducts').innerHTML=cards.filter(isProduct).map(render).join('');
