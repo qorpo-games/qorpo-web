@@ -35,7 +35,7 @@
   a{color:inherit}
   .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(46rem 34rem at 82% -6%,rgba(224,81,199,.16),transparent 60%),radial-gradient(40rem 30rem at 4% 12%,rgba(123,90,240,.12),transparent 60%)}
   main{position:relative;z-index:2}
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.6);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
+  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
   .nav{max-width:74rem;margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
   .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;text-decoration:none;color:#fff}
   .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
@@ -44,13 +44,28 @@
   .nav-links a:hover,.nav-links a.active{opacity:1;background:rgba(255,255,255,.07)}
   .cta{font-family:var(--body);font-weight:600;font-size:.86rem;padding:.55rem 1.1rem;border-radius:2.5rem;background:var(--grad);color:#fff;text-decoration:none;white-space:nowrap;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
   @media(max-width:820px){.nav-links{display:none}}
+
+  /* full-bleed hero */
+  .hero{position:relative;width:100%;min-height:min(86vh,46rem);display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line2)}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:#0a0710 center/cover no-repeat;background-image:url(assets/about-hero-v2.jpg)}
+  .hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(6,6,11,.94) 0%,rgba(6,6,11,.7) 32%,rgba(6,6,11,.26) 58%,rgba(6,6,11,0) 80%),linear-gradient(0deg,rgba(6,6,11,.92) 0%,rgba(6,6,11,0) 40%)}
+  .hero-inner{position:relative;z-index:2;max-width:74rem;width:100%;margin:0 auto;padding:6rem 1.5rem 3.4rem}
+  .hero .eyebrow{color:var(--pink);margin-bottom:1rem}
+  .hero h1{font-size:clamp(2.2rem,6.2vw,4.4rem);font-weight:900;letter-spacing:-.035em;line-height:.98;color:#fff;max-width:20ch;text-shadow:0 8px 50px rgba(0,0,0,.65)}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{margin-top:1.3rem;font-size:clamp(1.05rem,2vw,1.4rem);line-height:1.45;color:#e2e2ee;max-width:44rem;text-shadow:0 4px 24px rgba(0,0,0,.75)}
+  .hero-sub b{color:#fff}
+  .hero-cta{display:flex;gap:.8rem;margin-top:1.9rem;flex-wrap:wrap}
+  .btn{font-weight:700;font-size:1rem;padding:.85rem 1.5rem;border-radius:2.5rem;display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 14px 40px -12px rgba(224,81,199,.85)}
+  .btn.glass{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(10px)}
+  @media(max-width:640px){.hero{min-height:auto}.hero-inner{padding:4rem 1.3rem 2.6rem}}
+
   .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .doc{padding:3.5rem 0 4rem}
+  .doc{padding:3.2rem 0 4rem}
   .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--pink)}
-  h1{font-size:clamp(2.1rem,5vw,3.1rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .3rem;line-height:1.05}
-  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .updated{font-family:var(--mono);font-size:.8rem;color:var(--faint);margin-bottom:1.4rem}
-  .hero-img{width:100%;aspect-ratio:1920/823;object-fit:cover;border-radius:1.1rem;border:1px solid var(--card-bd);box-shadow:0 40px 90px -55px rgba(224,81,199,.7);margin:.2rem 0 2rem;display:block}
+  h1{font-weight:900;letter-spacing:-.03em}
   h2{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;margin:2.4rem 0 .6rem}
   h3{font-size:1.05rem;font-weight:700;margin:0 0 .2rem}
   p{margin:.7rem 0;color:#d7d7e6}
@@ -87,14 +102,19 @@
   </nav>
 </header>
 
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">QORPO &middot; Entertainment Studio</p>
+    <h1>The studio behind <span class="g">AneeMate, One&nbsp;Life &amp; Citizen&nbsp;Conflict</span>.</h1>
+    <p class="hero-sub">On-chain games. One attention-economy token. As the products succeed, revenue drives <b>automatic $QORPO buybacks</b>.</p>
+    <div class="hero-cta"><a class="btn primary" href="ecosystem">Explore the ecosystem &rarr;</a><a class="btn glass" href="token">Why $QORPO?</a></div>
+  </div>
+</section>
+
 <main>
   <div class="wrap doc">
-    <p class="eyebrow">About</p>
-    <h1>QORPO — the studio behind <span class="g">AneeMate, One Life &amp; Citizen Conflict</span>.</h1>
-    <p class="updated">Entertainment studio · on-chain gaming · attention economy · Live on Ethereum &amp; BNB Chain</p>
-
-    <img class="hero-img" src="assets/about-hero.jpg" alt="QORPO — the entertainment studio behind AneeMate, One Life and Citizen Conflict" onerror="this.style.display='none'">
-
     <p class="lead">QORPO is an <b>entertainment studio</b> building on-chain games and interactive experiences — the studio behind <b>AneeMate</b>, <b>One Life</b>, <b>Citizen Conflict</b> and the upcoming <b>Tamitos</b> series. QORPO is a studio, not a single-game token: as each product succeeds, the revenue it generates is used to automatically buy back <a class="inline" href="token">$QORPO</a> — the attention-economy token that captures the value the whole studio creates.</p>
 
     <div class="facts">
