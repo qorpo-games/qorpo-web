@@ -94,7 +94,7 @@
     <div class="card">
       <div class="ctrhead">
         <div><span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4v6c0 4.5-3 7.5-8 9-5-1.5-8-4.5-8-9z" stroke="currentColor" stroke-width="1.5"/></svg>Investor Claim</span></div>
-        <div id="acctPill" class="pill hidden"><span class="dot"></span><span id="acctShort">—</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><span id="acctPill" class="pill hidden"><span class="dot"></span><span id="acctShort">—</span></span><button id="disconnectBtn" class="pill hidden" title="Disconnect wallet" style="cursor:pointer;font-family:var(--mono);font-size:.72rem;color:#ff8fae">Disconnect</button></div>
       </div>
 
       <!-- disconnected -->
@@ -182,8 +182,10 @@
       account=ethers.getAddress(accs[0]);
       $('acctShort').textContent=short(account);
       $('acctPill').classList.remove('hidden');
+      $('disconnectBtn').classList.remove('hidden');
+      try{localStorage.removeItem('qorpo_claim_dc');}catch(e){}
       inj.removeAllListeners&&inj.removeAllListeners('accountsChanged');
-      inj.on&&inj.on('accountsChanged',function(a){if(a&&a.length){account=ethers.getAddress(a[0]);$('acctShort').textContent=short(account);load();}else{account=null;$('acctPill').classList.add('hidden');show('viewConnect');}});
+      inj.on&&inj.on('accountsChanged',function(a){if(a&&a.length){account=ethers.getAddress(a[0]);$('acctShort').textContent=short(account);load();}else{account=null;$('acctPill').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');}});
       load();
     }catch(e){setStatus('Connection cancelled.','');}
   }
@@ -246,17 +248,19 @@
       else if(/user rejected|denied|action_rejected/i.test(m))m='You rejected the transaction in your wallet.';
       else if(/insufficient funds/i.test(m))m='Not enough ETH to cover the gas fee.';
       else if(/missing revert data|CALL_EXCEPTION|execution reverted/i.test(m))m='The contract rejected this claim (nothing claimable yet, or not eligible).';
-      setStatus('Claim failed: '+m,'err');
+      setStatus('Claim failed','err');
       btn.disabled=false;
     }
   }
 
+  function disconnect(){account=null;try{localStorage.setItem('qorpo_claim_dc','1');}catch(e){}$('acctPill').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');setStatus('');}
+  $('disconnectBtn').addEventListener('click',disconnect);
   $('connectBtn').addEventListener('click',connect);
   $('switchBtn').addEventListener('click',async function(){var inj=injected();if(inj&&await ensureChain(inj))load();});
   $('switchAcctBtn').addEventListener('click',connect);
   $('claimBtn').addEventListener('click',doClaim);
 
   // auto-connect if wallet already authorized
-  (function(){var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){connect();}}).catch(function(){});}})();
+  (function(){try{if(localStorage.getItem('qorpo_claim_dc')==='1')return;}catch(e){}var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){connect();}}).catch(function(){});}})();
 })();
 </script>
