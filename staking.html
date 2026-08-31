@@ -361,6 +361,16 @@ html{overflow-x:clip}
     <h2 class="bigh">Choose your pool</h2>
     <p class="lead" style="margin-top:.8rem">Two ways to earn from the same token. Pick a pool, connect your wallet, and stake — every action is a real transaction you sign yourself.</p>
 
+    <div class="verifybar" style="display:flex;flex-wrap:wrap;align-items:center;gap:.55rem .7rem;margin:1rem 0 0;padding:.7rem .9rem;border:1px solid rgba(255,255,255,.12);border-radius:.8rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))">
+      <span style="color:#8fe6a3;font-weight:700;font-size:.82rem;letter-spacing:.02em">✓ VERIFY BEFORE YOU STAKE</span>
+      <span style="color:#b8b8cc;font-size:.86rem">$QORPO token contract:</span>
+      <code style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.84rem;color:#f0f0f8;word-break:break-all">0x22514fFb0d7232a56F0c24090E7B68f179FAA940</code>
+      <button type="button" id="copyCA" style="cursor:pointer;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:.5rem;padding:.24rem .62rem;font:600 .8rem/1 inherit">Copy</button>
+      <a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener" style="color:#FF9ED0;text-decoration:none;font-size:.84rem;font-weight:600">Etherscan ↗</a>
+      <a href="https://bscscan.com/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener" style="color:#FF9ED0;text-decoration:none;font-size:.84rem;font-weight:600">BscScan ↗</a>
+    </div>
+    <script>(function(){var b=document.getElementById('copyCA');if(!b)return;b.addEventListener('click',function(){var ca='0x22514fFb0d7232a56F0c24090E7B68f179FAA940';var done=function(){var t=b.textContent;b.textContent='Copied ✓';setTimeout(function(){b.textContent=t;},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ca).then(done).catch(done);}else{try{var ta=document.createElement('textarea');ta.value=ca;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){}}});})();</script>
+
     <div class="poolcards" id="poolSeg">
       <button data-pool="apy" class="poolcard on" type="button">
         <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
