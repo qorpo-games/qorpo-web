@@ -7,7 +7,7 @@
  *   Secret        -> env.ACCRUE_KEY  (admin key for /admin/accrue, also used by the daily cron)
  *
  * KV schema (UNCHANGED — preserves existing balances):
- *   key   = lowercased wallet address ("0x...")
+ *   key   = "bal:<lowercased wallet address>"   (e.g. "bal:0x1234...") — matches the original store
  *   value = {"points":number,"updatedDay":"YYYY-MM-DD"|"","firstDay":"YYYY-MM-DD","staked":number,"lvl":number}
  *   plus helper keys:  "seed:<day>" (daily provably-fair seed),  "used:<wallet>:<day>" (spins used that day)
  *
@@ -142,20 +142,24 @@ async function readStakedMany(wallets) {
   return map;
 }
 
-/* ---------------- KV record helpers ---------------- */
+/* ---------------- KV record helpers ----------------
+ * IMPORTANT: existing records are stored under the key "bal:<wallet>" (NOT the bare address).
+ * Keep this prefix so the ~70 live balances are read/updated in place, never orphaned.
+ */
+const BAL = 'bal:';
 async function loadRec(env, wallet) {
-  const raw = await env.POINTS.get(wallet);
+  const raw = await env.POINTS.get(BAL + wallet);
   if (raw) { try { return JSON.parse(raw); } catch (e) {} }
   return { points: 0, updatedDay: '', firstDay: dayKeyUTC(), staked: 0, lvl: 0 };
 }
 async function saveRec(env, wallet, rec) {
-  await env.POINTS.put(wallet, JSON.stringify({
-    points: rec.points || 0,
-    updatedDay: rec.updatedDay || '',
-    firstDay: rec.firstDay || dayKeyUTC(),
-    staked: rec.staked || 0,
-    lvl: rec.lvl || 0
-  }));
+  // preserve any extra fields the original record had (e.g. "eth"); only ensure the known ones exist
+  rec.points = rec.points || 0;
+  rec.updatedDay = rec.updatedDay || '';
+  rec.firstDay = rec.firstDay || dayKeyUTC();
+  rec.staked = rec.staked || 0;
+  rec.lvl = rec.lvl || 0;
+  await env.POINTS.put(BAL + wallet, JSON.stringify(rec));
 }
 
 /* provably-fair daily seed */
@@ -246,8 +250,8 @@ async function handleLeaderboard(env) {
   const wallets = [];
   let cursor;
   do {
-    const list = await env.POINTS.list({ cursor, limit: 1000 });
-    for (const k of list.keys) if (/^0x[0-9a-f]{40}$/.test(k.name)) wallets.push(k.name);
+    const list = await env.POINTS.list({ cursor, prefix: BAL, limit: 1000 });
+    for (const k of list.keys) { const w = k.name.slice(BAL.length); if (/^0x[0-9a-f]{40}$/.test(w)) wallets.push(w); }
     cursor = list.list_complete ? null : list.cursor;
   } while (cursor);
 
@@ -268,8 +272,8 @@ async function handleAccrue(env) {
   const wallets = [];
   let cursor;
   do {
-    const list = await env.POINTS.list({ cursor, limit: 1000 });
-    for (const k of list.keys) if (/^0x[0-9a-f]{40}$/.test(k.name)) wallets.push(k.name);
+    const list = await env.POINTS.list({ cursor, prefix: BAL, limit: 1000 });
+    for (const k of list.keys) { const w = k.name.slice(BAL.length); if (/^0x[0-9a-f]{40}$/.test(w)) wallets.push(w); }
     cursor = list.list_complete ? null : list.cursor;
   } while (cursor);
 
