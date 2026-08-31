@@ -20,6 +20,8 @@
 
 ## Site pages
 - Home: https://qorpo.world/
+- What is $QORPO (explainer): https://qorpo.world/what-is-qorpo
+- How to buy $QORPO (step-by-step): https://qorpo.world/how-to-buy-qorpo
 - About the studio (studio behind AneeMate): https://qorpo.world/about
 - Why $QORPO (the token): https://qorpo.world/token
 - Ecosystem & partners (Sequence, Arbitrum, Caldera, LayerZero, AWS, Black Swan DAO): https://qorpo.world/ecosystem
@@ -29,6 +31,9 @@
 - Community Points leaderboard: https://qorpo.world/leaderboard
 
 ## Guides
+- What is $QORPO? The attention-economy gaming token explained: https://qorpo.world/what-is-qorpo
+- How to buy $QORPO — step-by-step: https://qorpo.world/how-to-buy-qorpo
+- AI gaming tokens to watch in 2026: https://qorpo.world/ai-gaming-tokens
 - Micro-cap gaming tokens under $1M to watch in 2026: https://qorpo.world/micro-cap-gaming-tokens
 - Web3 gaming tokens to watch around the GTA 6 launch: https://qorpo.world/gaming-tokens-gta-6
 
