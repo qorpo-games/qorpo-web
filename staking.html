@@ -423,6 +423,7 @@ html{overflow-x:clip}
         <div class="lab">Your position</div>
         <h2>Staking overview</h2>
         <p class="intro">Live, straight from QORPO's contracts — no custody layer, no platform risk.</p>
+        <div class="oline" style="border-bottom:1px solid rgba(224,81,199,.28);padding-bottom:.7rem;margin-bottom:.2rem"><span class="k">Your total Community Points <span style="color:var(--faint);font-weight:400">(staking + spins)</span></span><span class="v" id="sCP" style="color:var(--pink);font-weight:800">—</span></div>
         <div class="oline"><span class="k">Wallet balance</span><span class="v" id="sBal">0.00 $QORPO</span></div>
         <div class="oline"><span class="k">Total staked</span><span class="v" id="sTotal">0.00 $QORPO</span></div>
         <div class="oline"><span class="k">Staked · this pool</span><span class="v" id="sPool">0.00 $QORPO</span></div>
@@ -561,6 +562,8 @@ html{overflow-x:clip}
   var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
   var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1'},
               56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38'}};
+  // Community Points backend — one combined accumulated balance (daily staking points + Spin points)
+  var BACKEND='https://qorpo-points.ceo-b3f.workers.dev';
   var ERC20=['function balanceOf(address) view returns (uint256)','function decimals() view returns (uint8)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)'];
   var STAKE_ABI=[
     'function getStakeWithNoApy(address) view returns (uint256)',
@@ -626,6 +629,7 @@ html{overflow-x:clip}
     $('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';
     $('mainTxt').textContent='Connect Wallet';setHero();closeWcMenu();
     $('positions').innerHTML='<div class="empty">Connect your wallet to see your stakes.</div>';
+    if($('sCP'))$('sCP').textContent='—';
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
   }
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);updateMainBtn();setHero();}
@@ -710,7 +714,21 @@ html{overflow-x:clip}
       $('sPool').textContent=(pool==='apy'?fmt(apySum):fmt(noApy))+' $QORPO';
       renderPositions(noApy,active);
     }catch(e){console.log(e);}
+    loadCP();
     updateMainBtn();
+  }
+
+  // One combined accumulated Community Points balance (daily staking points + Spin points),
+  // registered/refreshed on read. Same source as the leaderboard and the Spin page.
+  async function loadCP(){
+    if(!account){ $('sCP').textContent='—'; return; }
+    try{
+      var r=await fetch(BACKEND+'/status?wallet='+account,{cache:'no-store'});
+      if(!r.ok) return;
+      var j=await r.json();
+      var pts=Number(j&&j.points)||0;
+      $('sCP').textContent=ptsFmt(pts)+' CP';
+    }catch(e){}
   }
 
   function renderPositions(noApy,active){
