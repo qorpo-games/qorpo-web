@@ -432,6 +432,9 @@ html{overflow-x:clip}
     for(var i=0;i<CIDS.length;i++){ try{ sum+=await readStake(readProvider(CIDS[i]),account,CIDS[i]); }catch(e){} }
     myStake=sum;
     render();
+    // register/refresh this wallet in the backend so the connected view and the
+    // public leaderboard agree (both rank by accumulated Community Points)
+    try{ await fetch(BACKEND+'/status?wallet='+account,{cache:'no-store'}); await loadBackend(); render(); }catch(e){}
   }
 
   /* ---------- core reads ---------- */
@@ -742,15 +745,18 @@ html{overflow-x:clip}
       var r=await fetch(BACKEND+'/leaderboard',{cache:'no-store'});
       if(!r.ok) return false;
       var j=await r.json();
-      if(!j||!j.rows||!j.rows.length) return false;
-      var rows=j.rows.map(function(x){
-        var e=BigInt(x.eth||'0'), b=BigInt(x.bnb||'0');
-        return {a:(x.a||'').toLowerCase(), pts:e+b, eth:e, bnb:b,
-                acc:Number(x.points)||0, lvl:x.lvl||0, staked:Number(x.staked)||0};
+      var arr=(j&&(j.leaderboard||j.rows))||null;   // worker returns {leaderboard:[{wallet,points,staked,level}]}
+      if(!arr||!arr.length) return false;
+      var WEI=1000000000000000000n;
+      var rows=arr.map(function(x){
+        var st=Number(x.staked)||0, wei;
+        try{wei=BigInt(Math.round(st))*WEI;}catch(e){wei=0n;}
+        return {a:(x.wallet||x.a||'').toLowerCase(), pts:wei, eth:wei, bnb:0n,
+                acc:Number(x.points)||0, lvl:(x.level||x.lvl||0), staked:st};
       });
       rows.sort(function(p,q){ return (q.acc-p.acc) || (q.pts>p.pts?1:q.pts<p.pts?-1:0); });
       var totalAcc=0; rows.forEach(function(rw){ totalAcc+=rw.acc; });
-      board={ts:(j.ts||Date.now()), rows:rows, total:totalAcc, mode:'backend', retainMin:j.retainMin||RETAIN_MIN};
+      board={ts:(j.updated?Date.parse(j.updated):(j.ts||Date.now())), rows:rows, total:totalAcc, mode:'backend', retainMin:(j.retainMin||RETAIN_MIN)};
       render();
       return true;
     }catch(e){ return false; }
