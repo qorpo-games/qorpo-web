@@ -1,764 +1,527 @@
-<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QORPO ($QORPO) — The Attention Economy Token for Games, AI &amp; Entertainment</title>
-<meta name="description" content="$QORPO powers real Web3 games, AI and entertainment. Hold $QORPO to earn airdrops, stake for rewards, and bridge across Ethereum & BNB Chain.">
-<meta name="keywords" content="QORPO, $QORPO, attention economy, web3 games, AI, entertainment, crypto token, airdrop, staking, bridge, Ethereum, BNB Chain">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>QORPO Studio: AneeMate, One Life, Tamitos and the $QORPO token</title>
+<meta name="description" content="An independent game studio. Citizen Conflict proved we could build games before AI, AneeMate is scaling now, One Life is our AI-native experiment and Tamitos is our own IP. One token, $QORPO, sits behind every game we ship.">
+<meta name="theme-color" content="#10131a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/webp" href="assets/img/logo.webp">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.ol-grid{grid-template-columns:2fr 1fr;gap:18px}
+.ol-big{aspect-ratio:auto;align-self:stretch;min-height:100%}
+.ol-big img{transition:transform 1.2s var(--ease)}.ol-big:hover img{transform:scale(1.04)}
+.ol-side{grid-template-rows:auto auto;gap:18px}
+.ol-side figure{aspect-ratio:16/9}
+@media (max-width:960px){.ol-grid{grid-template-columns:1fr}.ol-big{aspect-ratio:16/9;min-height:0}.ol-side{grid-template-rows:none}}
+.cc-row{grid-template-columns:1fr 1fr}
+@media (max-width:960px){.cc-row{grid-template-columns:1fr}}
+.tm-move{position:relative;display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:center;margin-top:34px;padding:16px;border-radius:34px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8),0 40px 80px -40px rgba(90,59,143,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.tm-move-art{border-radius:24px;overflow:hidden;aspect-ratio:16/9}
+.tm-move-art img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}.tm-move:hover .tm-move-art img{transform:scale(1.04)}
+.tm-move-tx{padding:8px 14px 8px 0;min-width:0}
+.tm-move h3{font-size:clamp(28px,3.2vw,44px);font-weight:900;color:#2a1d3f;margin:14px 0 10px}
+.tm-move p{color:#5b4a75;font-size:16.5px;margin:0 0 16px;max-width:46ch}
+.tm-move-pts{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.tm-move-pts li{display:flex;gap:10px;align-items:baseline;padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.7);color:#5b4a75;font-size:14.5px}
+.tm-move-pts b{color:#2a1d3f;min-width:70px}
+.tm-btn{background:linear-gradient(160deg,#ff9fd6,#f07cc4);color:#2a1d3f;box-shadow:0 14px 30px -12px rgba(240,124,196,.8)}
+@media (max-width:960px){.tm-move{grid-template-columns:1fr;padding:12px}.tm-move-tx{padding:4px 8px 10px}}
+.crew-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:48px;color:var(--muted);font-size:15px}
+.mates.crew{grid-template-columns:repeat(5,1fr);margin-top:18px}
+.mates.crew .mate{height:340px}
+.mates.crew .pcard .pc-art.cut{height:84%;padding-top:34px}
+.mates.crew .pcard .pc-ghost{top:40px;font-size:40px}
+.qx{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:34px;padding:40px;border-radius:36px;overflow:hidden;
+  background:radial-gradient(120% 90% at 0% 0%,rgba(255,198,58,.16),transparent 55%),linear-gradient(160deg,#211a0c,#121620 60%);box-shadow:inset 0 0 0 1px rgba(255,198,58,.22),0 40px 90px -40px rgba(255,159,28,.35)}
+.qx-art{position:absolute;right:-4%;top:-6%;bottom:-6%;width:46%;opacity:.22;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+.qx-art img{width:100%;height:100%;object-fit:cover}
+.qx-l,.qx-r{position:relative;z-index:1;min-width:0}
+.qx .h2{max-width:13ch}
+.qx-games{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:26px}
+.qx-games a{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:18px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);color:#fff;text-decoration:none;font-weight:700;font-size:15px;line-height:1.15;transition:transform .25s,box-shadow .25s}
+.qx-games a:hover{transform:translateY(-3px);box-shadow:inset 0 0 0 1.5px var(--c)}
+.qx-games img{width:46px;height:46px;border-radius:13px;object-fit:cover;object-position:center 20%;background:linear-gradient(160deg,var(--c),#111);flex:none}
+.qx-games small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--c);font-weight:700;margin-top:3px}
+.qx-r{padding:26px;border-radius:28px;background:rgba(10,12,18,.72);box-shadow:inset 0 0 0 1px rgba(255,198,58,.2);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.qx-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(94,240,176,.12);color:var(--mint);font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.qx-r h3{font-family:var(--disp);font-size:clamp(24px,2.6vw,32px);font-weight:900;letter-spacing:-.02em;margin:14px 0 16px}
+.qx-flow{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:q}
+.qx-flow li{position:relative;display:grid;grid-template-columns:34px 1fr;column-gap:12px;align-items:center;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.035);counter-increment:q}
+.qx-flow li::before{content:counter(q);grid-row:span 2;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:900;font-size:14px;color:#2a1a02;background:linear-gradient(160deg,#ffe58a,var(--gold))}
+.qx-flow li:not(:last-child)::after{content:"";position:absolute;left:28px;bottom:-9px;width:2px;height:10px;background:linear-gradient(var(--gold),transparent)}
+.qx-flow li.end{background:linear-gradient(90deg,rgba(255,122,26,.18),rgba(255,198,58,.08));box-shadow:inset 0 0 0 1px rgba(255,122,26,.35)}
+.qx-flow li.end::before{background:linear-gradient(160deg,#ffb13b,#ff5a1a);color:#fff}
+.qx-flow b{font-size:15.5px}.qx-flow span{font-size:13.5px;color:var(--muted)}
+.qx-note{font-size:14px;color:var(--muted);margin:16px 0 18px}
+.btn-gold{background:linear-gradient(160deg,#ffe58a,var(--gold));color:#2a1a02}
+.qx-subs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.qx-sub{position:relative;display:flex;flex-direction:column;gap:4px;padding:20px;border-radius:24px;color:#fff;text-decoration:none;overflow:hidden;background:linear-gradient(160deg,var(--c1),var(--c2));transition:transform .25s}
+.qx-sub:hover{transform:translateY(-4px)}
+.qx-sub i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;opacity:.75}
+.qx-sub b{font-family:var(--disp);font-size:20px;font-weight:900}
+.qx-sub span{font-size:13.5px;opacity:.85}
+@media (max-width:960px){.qx{grid-template-columns:1fr;padding:26px}.qx-art{width:80%;opacity:.14}.qx-subs{grid-template-columns:repeat(2,1fr)}.mates.crew{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:600px){.qx{padding:18px;border-radius:28px}.qx-r{padding:18px}.qx-games{grid-template-columns:1fr}.mates.crew{grid-template-columns:repeat(2,1fr)}.mates.crew .mate{height:280px}.qx-r .hero-cta{flex-direction:column;align-items:stretch}.qx-r .hero-cta .btn{justify-content:center;width:100%}.qx-sub{padding:16px}.qx-sub b{font-size:16px;overflow-wrap:anywhere}}
+@media (max-width:380px){.qx-subs{grid-template-columns:1fr}}
+.show{margin-top:34px}
+.show-stage{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:16/9;background:#0b0e14;box-shadow:inset 0 0 0 1px var(--line2),0 50px 100px -50px var(--am1)}
+.show-slide{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .9s var(--ease);pointer-events:none}
+.show-slide.on{opacity:1}
+.show-slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 6s linear}
+.show-slide.on img{transform:scale(1)}
+.show-slide::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,10,14,.85),transparent 42%)}
+.show-slide figcaption{position:absolute;left:clamp(16px,3vw,34px);bottom:clamp(16px,3vw,30px);z-index:2;display:flex;flex-direction:column;gap:4px}
+.show-slide figcaption span{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--am3)}
+.show-slide figcaption b{font-family:var(--disp);font-size:clamp(22px,3.4vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.02;text-shadow:0 2px 18px rgba(0,0,0,.6);transform:translateY(14px);opacity:0;transition:transform .7s var(--ease) .15s,opacity .7s .15s}
+.show-slide.on figcaption b{transform:none;opacity:1}
+.show-num{position:absolute;right:clamp(16px,3vw,30px);top:clamp(14px,2.4vw,24px);z-index:3;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:rgba(255,255,255,.7);padding:6px 12px;border-radius:999px;background:rgba(8,10,14,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.show-num b{color:#fff}
+.show-arr{position:absolute;top:50%;z-index:3;width:48px;height:48px;margin-top:-24px;border:0;border-radius:16px;background:rgba(8,10,14,.5);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .3s,background .2s}
+.show-arr.prev{left:16px}.show-arr.next{right:16px}
+.show-stage:hover .show-arr,.show-arr:focus-visible{opacity:1}.show-arr:hover{background:rgba(8,10,14,.8)}
+.show-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.show-tab{position:relative;display:flex;gap:12px;align-items:center;padding:10px;border:0;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);cursor:pointer;text-align:left;font:inherit;overflow:hidden;transition:background .25s,color .25s,transform .25s}
+.show-tab:hover{background:var(--panel2);color:#fff}
+.show-tab.on{background:var(--panel2);color:#fff;box-shadow:inset 0 0 0 1.5px var(--am3)}
+.show-tab .th{flex:none;width:64px;aspect-ratio:16/10;border-radius:11px;overflow:hidden;opacity:.6;transition:opacity .25s}
+.show-tab.on .th,.show-tab:hover .th{opacity:1}
+.show-tab .th img{width:100%;height:100%;object-fit:cover}
+.show-tab .tx{min-width:0;display:flex;flex-direction:column;gap:2px}
+.show-tab i{font-style:normal;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--am3)}
+.show-tab b{font-size:13.5px;font-weight:700;line-height:1.2;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.show-tab .bar{position:absolute;left:10px;right:10px;bottom:5px;height:3px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;opacity:0}
+.show-tab.on .bar{opacity:1}
+.show-tab .bar u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--am3),#ffe58a)}
+.show-tab.on.run .bar u{width:100%;transition:width var(--dur,5s) linear}
+@media (max-width:1100px){.show-tab .tx b{font-size:12.5px}.show-tab .th{width:52px}}
+@media (max-width:960px){.show-tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:12px -16px 0;padding:0 16px 4px}.show-tabs::-webkit-scrollbar{display:none}.show-tab{flex:0 0 200px;scroll-snap-align:start}.show-arr{opacity:1;width:40px;height:40px;margin-top:-20px;border-radius:13px}.show-arr.prev{left:10px}.show-arr.next{right:10px}}
+@media (max-width:600px){.show-stage{border-radius:22px;aspect-ratio:4/3}.show-slide figcaption b{font-size:24px}.show-tab{flex-basis:168px}}
+@media (prefers-reduced-motion:reduce){.show-slide img,.show-slide.on img{transform:none;transition:none}}
+</style>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
 <link rel="canonical" href="https://qorpo.world/">
-<meta name="theme-color" content="#06060b">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="preload" as="image" href="./assets/hero-bear.jpg" fetchpriority="high">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="QORPO">
-<meta property="og:title" content="QORPO ($QORPO) — Own the Attention Economy">
-<meta property="og:description" content="One token behind the games, AI and entertainment the world can't stop watching. Hold $QORPO to earn the airdrop. Live on Ethereum & BNB Chain.">
+<meta property="og:title" content="QORPO Studio: AneeMate, One Life, Tamitos and the $QORPO token">
+<meta property="og:description" content="An independent game studio. Citizen Conflict proved we could build games before AI, AneeMate is scaling now, One Life is our AI-native experiment and Tamitos is our own IP. One token, $QORPO, sits behind every game we ship.">
 <meta property="og:url" content="https://qorpo.world/">
 <meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@QORPOworld">
-<meta name="twitter:title" content="QORPO ($QORPO) — Own the Attention Economy">
-<meta name="twitter:description" content="Games, AI and entertainment, powered by one token. Hold $QORPO, earn the airdrop.">
+<meta name="twitter:title" content="QORPO Studio: AneeMate, One Life, Tamitos and the $QORPO token">
+<meta name="twitter:description" content="An independent game studio. Citizen Conflict proved we could build games before AI, AneeMate is scaling now, One Life is our AI-native experiment and Tamitos is our own IP. One token, $QORPO, sits behind every game we ship.">
 <meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://qorpo.world/#org","name":"QORPO","alternateName":["QORPO World","QORPO Games","QORPO s.r.o."],"url":"https://qorpo.world/","logo":"https://qorpo.world/assets/favicon-512.png","image":"https://qorpo.world/assets/og-image.jpg","description":"QORPO is a Web3 gaming and entertainment company building games, AI experiences and interactive entertainment powered by the $QORPO token. QORPO is the studio behind AneeMate, One Life and Citizen Conflict.","foundingLocation":{"@type":"Place","name":"Slovakia"},"knowsAbout":["Web3 gaming","Blockchain games","GameFi","Artificial intelligence","Attention economy","Crypto gaming tokens"],"sameAs":["https://x.com/QORPOworld","https://t.me/qorpoworld","https://discord.gg/qorpo","https://youtube.com/@qorpoworld","https://etherscan.io/token/0x22514fFb0d7232a56F0c24090E7B68f179FAA940"]},{"@type":"WebSite","@id":"https://qorpo.world/#website","name":"QORPO","url":"https://qorpo.world/","publisher":{"@id":"https://qorpo.world/#org"},"about":"$QORPO — the attention economy token for Web3 games, AI and entertainment"},{"@type":"VideoGame","name":"AneeMate","url":"https://x.com/playaneemate","genre":["Monster-collecting RPG","Web3 game"],"gamePlatform":["PC","Web3"],"publisher":{"@id":"https://qorpo.world/#org"},"author":{"@id":"https://qorpo.world/#org"}},{"@type":"VideoGame","name":"One Life","alternateName":"OLL","url":"https://x.com/playOLLgame","genre":["Collection shooter","Extraction shooter","Web3 game"],"gamePlatform":["PC","Web3"],"publisher":{"@id":"https://qorpo.world/#org"},"author":{"@id":"https://qorpo.world/#org"}},{"@type":"VideoGame","name":"Citizen Conflict","genre":["Third-person shooter","Looter shooter","Web3 game"],"gamePlatform":["PC","Web3"],"publisher":{"@id":"https://qorpo.world/#org"},"author":{"@id":"https://qorpo.world/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is $QORPO?","acceptedAnswer":{"@type":"Answer","text":"$QORPO is the token behind QORPO's ecosystem of Web3 games, AI and entertainment. Holding $QORPO qualifies you for airdrops, staking rewards and access across the ecosystem. It is live on Ethereum and BNB Chain."}},{"@type":"Question","name":"Who is behind QORPO and which games has it made?","acceptedAnswer":{"@type":"Answer","text":"QORPO is a Web3 gaming and entertainment studio. It is the studio behind AneeMate (a monster-collecting RPG), One Life (a collection shooter) and Citizen Conflict (a third-person looter shooter), all powered by the $QORPO token."}},{"@type":"Question","name":"Is $QORPO a gaming and AI token?","acceptedAnswer":{"@type":"Answer","text":"Yes. $QORPO is a gaming, AI and entertainment token — an attention-economy token that powers QORPO's games, AI features and rewards. It is a LayerZero OFT available on Ethereum and BNB Chain."}},{"@type":"Question","name":"Where can I buy $QORPO?","acceptedAnswer":{"@type":"Answer","text":"$QORPO trades on major exchanges including MEXC, KuCoin and Gate, and on-chain via decentralized exchanges. You can also buy directly and bridge between Ethereum and BNB Chain from the QORPO website."}},{"@type":"Question","name":"How do I earn rewards with $QORPO?","acceptedAnswer":{"@type":"Answer","text":"Stake $QORPO to earn rewards, and hold it to qualify for ecosystem airdrops such as the upcoming $TAMITOS animated-series airdrop."}},{"@type":"Question","name":"Which blockchains is $QORPO on?","acceptedAnswer":{"@type":"Answer","text":"$QORPO is a LayerZero OFT token available on both Ethereum and BNB Chain, and can be bridged between the two natively."}}]}]}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
-<style>
-  :root{
-    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#a6a6bd;
-    --mag:#E051C7;--pink:#FF709E;--violet:#B06FE2;--eth:#627eea;--gold:#F0B90B;--green:#38d39f;
-    /* contrast pass: lighter faint so microcopy passes AA on #06060b */
-    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
-    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
-    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
-    --max:78rem;
-    /* ONE card token — same radius/border/bg/hover everywhere */
-    --card-r:1.1rem;
-    --card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-    --card-bd:rgba(255,255,255,.10);
-    --card-bd-h:rgba(255,255,255,.24);
-    --card-sh:0 24px 60px -40px rgba(0,0,0,.9);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
-  a{color:inherit;text-decoration:none}
-  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
-  p{margin:0}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
-  .serif{font-weight:600;font-style:normal}
-  .chrome{background:linear-gradient(100deg,#fff 0%,#f2f2fb 22%,#dcdcf0 42%,#fff 50%,#f2f2fb 60%,#dcdcf0 80%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
-  @keyframes shine{to{background-position:220% center}}
-
-  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-    radial-gradient(46rem 34rem at 80% 4%,rgba(224,81,199,.22),transparent 60%),
-    radial-gradient(40rem 30rem at 8% 26%,rgba(123,90,240,.16),transparent 60%),
-    radial-gradient(60rem 44rem at 50% 116%,rgba(255,112,158,.10),transparent 60%)}
-  main{position:relative;z-index:2}
-  .nav-tok{display:inline-block}
-  .nav-tok-btn{font-family:var(--body);font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;transition:.2s}
-  .nav-tok-btn:hover,.nav-tok:hover .nav-tok-btn,.nav-tok.open .nav-tok-btn{opacity:1;background:rgba(255,255,255,.07)}
-  .nav-tok-btn svg{transition:transform .2s}.nav-tok:hover .nav-tok-btn svg,.nav-tok.open .nav-tok-btn svg{transform:rotate(180deg)}
-
-  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.5rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
-  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -10px rgba(224,81,199,.75)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
-  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line);backdrop-filter:blur(10px)}
-  .btn-glass:hover{background:rgba(255,255,255,.09)}
-  /* tertiary: plain text link with arrow */
-  .btn-text{background:none;border:0;padding:.5rem .2rem;color:#cfcfe0;font-weight:600;font-size:.95rem;border-radius:0}
-  .btn-text:hover{color:#fff;box-shadow:none;transform:none}
-  .diamond{width:.75rem;height:.75rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%)}
-  .arrow::after{content:"→";margin-left:.15rem;transition:transform .2s}.arrow:hover::after{transform:translateX(3px)}
-  .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
-
-  /* buy dropdown */
-  .buydrop{position:relative;display:inline-block}
-  .buydrop>.btn svg{transition:transform .2s}
-  .buydrop.open>.btn svg,.buydrop:hover>.btn svg{transform:rotate(180deg)}
-  .bd-menu{position:absolute;top:calc(100% + .5rem);left:50%;transform:translateX(-50%) translateY(8px);min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
-  .buydrop:hover .bd-menu,.buydrop:focus-within .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible;transform:translateX(-50%)}
-  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
-  .bd-menu a:hover{background:rgba(255,255,255,.08)}
-  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
-  .bd-sep{height:1px;background:var(--line2);margin:.3rem .4rem}
-  .bd-menu.right{left:auto;right:0;transform:translateY(8px)}
-  .buydrop:hover .bd-menu.right,.buydrop.open .bd-menu.right{transform:none}
-  /* a section with an open/hovered buy dropdown overlays following sections */
-  main .sec:has(.buydrop:hover),main .sec:has(.buydrop.open){z-index:50}
-
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
-  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
-  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
-  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
-  .nav-links{display:flex;align-items:center;gap:.2rem;margin:0 auto}
-  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
-  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
-  .nav .cta{font-size:.86rem;padding:.55rem 1.1rem}
-  .burger{display:none;background:none;border:0;color:#fff;font-size:1.75rem;line-height:1;cursor:pointer;padding:.1rem .3rem;-webkit-tap-highlight-color:transparent}
-
-  /* floating fun icons */
-  .funi{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 26px rgba(224,81,199,.4));opacity:.9;animation:float 8s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(4deg)}}
-
-  /* HERO (fullscreen video) */
-  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:6rem 1.5rem 3.4rem;overflow:hidden}
-  .hero-media{position:absolute;inset:0;z-index:0}
-  .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 32%;display:block}
-  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.58) 0%,rgba(6,6,11,.12) 22%,rgba(6,6,11,.14) 46%,rgba(6,6,11,.72) 76%,rgba(6,6,11,.98) 100%)}
-  .hero-inner{position:relative;z-index:2;width:100%;max-width:46rem;margin:0 auto}
-  .hero .eyebrow{color:var(--pink)}
-  .hero h1{font-size:clamp(2rem,4.4vw,3.6rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.5rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 55%,#d7d7ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 40px rgba(0,0,0,.45)}
-  .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
-  /* price ticker floating in the hero bottom-right */
-  .pricecard.hero-ticker{position:absolute;right:1.5rem;bottom:1.5rem;z-index:3;width:16.5rem;max-width:calc(100vw - 3rem)}
-  @media(max-width:1280px){.pricecard.hero-ticker{position:static;width:100%;max-width:21rem;margin:1.6rem auto 0;right:auto;bottom:auto}}
-  .lead .serif{color:#fff}
-  /* hero buy dropdown opens UPWARD so the hero's overflow:hidden doesn't clip it */
-  @media(min-width:641px){
-  .hero .cta-row .bd-menu{top:auto;bottom:calc(100% + .5rem);transform:translateX(-50%) translateY(-8px)}
-  .hero .cta-row .buydrop.open .bd-menu,.hero .cta-row .buydrop:hover .bd-menu,.hero .cta-row .buydrop:focus-within .bd-menu{transform:translateX(-50%)}
-  }
-  .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
-  .scrollcue:hover{opacity:1}
-  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
-  @media (prefers-reduced-motion:reduce){.scrollcue{animation:none}}
-  /* below the hero: lead + trust, moved lower */
-  .herobelow{text-align:center;padding-top:3.6rem}
-  .herobelow .lead{font-size:clamp(1.02rem,1.9vw,1.28rem);color:var(--muted);max-width:40rem;margin:0 auto;font-weight:400}
-  .hero-diamond{width:100%;max-width:26rem;justify-self:center;display:block;filter:drop-shadow(0 26px 70px rgba(224,81,199,.6));animation:float 7s ease-in-out infinite}
-  .pricecard{width:100%;max-width:20rem;justify-self:start;text-align:left;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);box-shadow:0 34px 90px -44px rgba(0,0,0,.9);overflow:hidden}
-  .pc-top{padding:1.1rem 1.2rem .9rem;border-bottom:1px solid var(--line2)}
-  .pc-k{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .pc-p{display:flex;align-items:baseline;gap:.5rem;margin-top:.3rem}
-  .pc-p .v{font-family:var(--mono);font-size:1.4rem;font-weight:700}
-  .pc-p .c{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--green)}
-  .spark{display:block;width:100%;height:2.7rem;margin-top:.55rem}
-  #spk{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2s ease-out .3s forwards}@keyframes draw{to{stroke-dashoffset:0}}
-  .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem 1rem;padding:1rem 1.2rem}
-  .pc-grid .k{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-  .pc-grid .v{font-family:var(--mono);font-size:.95rem;font-weight:600;margin-top:.15rem}
-  @media(max-width:900px){.showcase{grid-template-columns:1fr;gap:1.5rem}.pricecard{justify-self:center;margin:0 auto}}
-
-  .trust{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;opacity:.9}
-  .trust .t{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:.5rem}
-  .trust .t b{color:#fff;font-size:1rem;font-family:var(--body);letter-spacing:-.01em}
-
-  .sec{padding:6rem 0;position:relative}
-  .kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
-  .bigh{font-size:clamp(2.2rem,6vw,4.2rem);letter-spacing:-.04em;font-weight:900;margin-top:.5rem}
-  .lead{color:var(--muted);font-size:1.15rem;max-width:36rem}
-
-  /* bridge */
-  .bridge{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
-  .rh-scene{position:relative;border-radius:var(--card-r);overflow:hidden;min-height:24rem;display:grid;place-items:center;background:radial-gradient(120% 90% at 50% 30%,#14141e,#07070c 70%);border:1px solid var(--card-bd);transition:background .8s}
-  .rh-scene.bnb{background:radial-gradient(120% 90% at 50% 30%,#1a1608,#07070c 72%)}
-  .rh-glow{position:absolute;width:26rem;height:26rem;border-radius:50%;filter:blur(60px);opacity:.5;background:radial-gradient(circle,var(--eth),transparent 62%);transition:background .8s,opacity .8s}
-  .rh-scene.bnb .rh-glow{background:radial-gradient(circle,var(--gold),transparent 62%)}
-  .rh-toggle{position:relative;width:19rem;height:7.6rem;border-radius:4rem;cursor:pointer;background:linear-gradient(180deg,#20202c,#08080f);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 5px rgba(255,255,255,.14),inset 0 -14px 34px rgba(0,0,0,.85),0 34px 60px -28px rgba(0,0,0,.9)}
-  .rh-ends{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 1.7rem;pointer-events:none}
-  .rh-ends img{width:2.5rem;height:2.5rem;object-fit:contain;opacity:.5;transition:opacity .5s;filter:drop-shadow(0 3px 8px rgba(0,0,0,.6))}
-  .rh-toggle:not(.bnb) .rh-ends img:first-child{opacity:1}.rh-toggle.bnb .rh-ends img:last-child{opacity:1}
-  .rh-ball{position:absolute;top:.7rem;left:.7rem;width:6.2rem;height:6.2rem;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 28%,#fff,#e7ebff 18%,#7b84d6 55%,#2a2f5a 100%);box-shadow:0 12px 30px -6px rgba(0,0,0,.85),inset 0 -7px 15px rgba(0,0,0,.5),inset 0 5px 12px rgba(255,255,255,.55);transition:transform .7s cubic-bezier(.6,0,.2,1),background .7s}
-  .rh-toggle.bnb .rh-ball{transform:translateX(11.4rem);background:radial-gradient(circle at 34% 28%,#fff,#fff0c2 18%,#f0b90b 55%,#7a5c00 100%)}
-  .rh-ball img{width:3rem;height:3rem;object-fit:contain;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}
-  .bridge-ui{margin-top:1.6rem;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.1rem;backdrop-filter:blur(16px);max-width:26rem}
-  .bswitch{display:flex;align-items:center;justify-content:space-between;gap:.8rem}
-  .bchain .lab{font-size:.66rem;color:var(--faint);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
-  .bchain .nm{font-size:1.05rem;font-weight:700}
-  .bflip{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--card-bd);background:rgba(255,255,255,.07);color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
-  .bflip:hover{transform:rotate(180deg)}
-  .bmeta{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--line2)}
-  .bmeta b{color:#fff;font-family:var(--mono)}
-
-  /* ecosystem products (AneeMate / One Life / Tamitos) */
-  .prods{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.6rem}
-  .prod{position:relative;border-radius:var(--card-r);overflow:hidden;border:1px solid var(--card-bd);background:#0c0c14;min-height:22rem;display:flex;flex-direction:column;transition:transform .3s,border-color .3s}
-  .prod:hover{transform:translateY(-6px);border-color:var(--card-bd-h)}
-  .prod .txt{padding:1.5rem 1.4rem .6rem;position:relative;z-index:2}
-  .prod .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pink)}
-  .prod h3{font-size:1.4rem;margin-top:.35rem}
-  .prod p{color:var(--muted);font-size:.92rem;margin-top:.4rem}
-  .prod .art{margin-top:auto;width:100%;height:auto;display:block}
-  .prod.vid .art{aspect-ratio:16/10;object-fit:cover}
-  .duo2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.4rem}
-  .duocard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);overflow:hidden;text-align:center;padding:2rem 1.5rem 0;display:flex;flex-direction:column;min-height:26rem;transition:transform .3s,border-color .3s}
-  .duocard:hover{transform:translateY(-6px);border-color:var(--card-bd-h)}
-  .duocard .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pink)}
-  .duocard h3{font-size:1.8rem;margin-top:.35rem}
-  .duocard p{color:var(--muted);margin-top:.5rem;max-width:24rem;margin-left:auto;margin-right:auto;font-size:1rem}
-  .duocard .links{margin-top:1rem;margin-bottom:1.6rem;display:flex;align-items:center;justify-content:center;gap:.55rem}
-  .duocard .xln{display:inline-grid;place-items:center;width:2.15rem;height:2.15rem;border-radius:50%;border:1px solid var(--card-bd);color:var(--muted);transition:color .2s,border-color .2s,transform .2s}
-  .duocard .xln:hover{color:#fff;border-color:var(--card-bd-h);transform:translateY(-2px)}
-  .duocard .xln svg{display:block}
-  .duocard .banner{margin-top:auto;width:100%;height:16rem;object-fit:cover;object-position:center;display:block}
-  @media(max-width:760px){.duo2{grid-template-columns:1fr}}
-
-  /* big video (glass, rounded) */
-  .feat{position:relative;width:100%;border-radius:var(--card-r);overflow:hidden;aspect-ratio:16/9;border:1px solid var(--card-bd);box-shadow:0 50px 120px -70px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.05)}
-  .feat video,.feat img{width:100%;height:100%;object-fit:cover;display:block}
-
-  /* object cards */
-  .objs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.6rem}
-  .obj{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.6rem;text-align:center;transition:transform .3s,border-color .3s;display:flex;flex-direction:column}
-  .obj:hover{transform:translateY(-6px);border-color:var(--card-bd-h)}
-  .obj .im{height:11rem;display:grid;place-items:center;margin-bottom:.4rem}
-  .obj .im img{max-height:11rem;max-width:100%;object-fit:contain;filter:drop-shadow(0 16px 40px rgba(224,81,199,.45));animation:float 8s ease-in-out infinite}
-  .obj h3{font-size:1.2rem;margin-top:.4rem}
-  .obj p{color:var(--muted);font-size:.92rem;margin-top:.4rem;flex:1}
-  .obj .act{margin-top:1rem}
-
-  /* fun statement section */
-  .statement{text-align:center;position:relative;padding:7rem 1.5rem}
-  .statement h2{font-size:clamp(2.6rem,9vw,6.5rem);letter-spacing:-.05em;font-weight:900;line-height:.95}
-  .statement p{color:var(--muted);max-width:34rem;margin:1.2rem auto 0;font-size:1.15rem}
-  .fun-row{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:2.4rem}
-  .fun-row img{width:5.5rem;height:5.5rem;object-fit:contain;filter:drop-shadow(0 12px 30px rgba(224,81,199,.5));animation:float 7s ease-in-out infinite}
-
-  /* blog grid (ref-6 style, 3x2) */
-  .blogs h2{font-size:clamp(2rem,5vw,3.4rem)}
-  .blogrow{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.4rem}
-  .blog{border-radius:var(--card-r);overflow:hidden;background:#0c0c14;border:1px solid var(--card-bd);transition:transform .3s,border-color .3s;display:block}
-  .blog:hover{transform:translateY(-5px);border-color:var(--card-bd-h)}
-  .blog .cover{height:12rem;background-size:cover;background-position:center;position:relative}
-  .blog .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,12,20,.6),transparent 55%)}
-  .blog .cover.g1{background-image:linear-gradient(135deg,#ff709e,#c83dd0)}
-  .blog .cover.g2{background-image:linear-gradient(135deg,#b06fe2,#7a5af0)}
-  .blog .cover.g3{background-image:linear-gradient(135deg,#5aa7f0,#8f7ae6)}
-  .blog .cover.g4{background-image:linear-gradient(135deg,#f0b90b,#e0518c)}
-  .blog .cover.g5{background-image:linear-gradient(135deg,#38d39f,#5b7cfa)}
-  .blog .cover.g6{background-image:linear-gradient(135deg,#c83dd0,#5b4be0)}
-  .blog .b-body{padding:1.1rem 1.3rem 1.4rem}
-  .blog .cat{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
-  .blog h3{font-size:1.15rem;margin-top:.5rem}
-  .blog .date{color:var(--faint);font-size:.82rem;margin-top:.6rem}
-
-  /* reveal */
-  .reveal{opacity:0;transform:translateY(36px) scale(.99);transition:opacity 1s cubic-bezier(.16,.84,.44,1),transform 1s cubic-bezier(.16,.84,.44,1)}
-  .reveal.in{opacity:1;transform:none}
-  .hero .eyebrow,.hero h1,.hero .lead,.hero .cta-row,.hero .showcase,.hero .trust{transition:opacity 1.1s cubic-bezier(.16,.84,.44,1),transform 1.1s cubic-bezier(.16,.84,.44,1)}
-  .hero:not(.go) h1,.hero:not(.go) .lead,.hero:not(.go) .cta-row,.hero:not(.go) .showcase,.hero:not(.go) .trust{opacity:0;transform:translateY(28px)}
-  .hero:not(.go) .eyebrow{opacity:0}
-  .hero.go h1{transition-delay:.08s}.hero.go .lead{transition-delay:.16s}.hero.go .cta-row{transition-delay:.24s}.hero.go .showcase{transition-delay:.32s}.hero.go .trust{transition-delay:.44s}
-  .hero.shown .eyebrow,.hero.shown h1,.hero.shown .lead,.hero.shown .cta-row,.hero.shown .showcase,.hero.shown .trust{opacity:1!important;transform:none!important}
-
-  footer{background:#08080f;border-top:1px solid var(--line);margin-top:5rem;padding:3.4rem 0 2rem;font-size:.85rem;color:rgba(255,255,255,.72);position:relative;z-index:2}
-  .fcols{max-width:var(--max);margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:1.6rem}
-  .fbrand .fw{font-weight:900;font-size:1.3rem}
-  .fbrand p{color:rgba(255,255,255,.62);margin:.5rem 0 .9rem;max-width:20rem}
-  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap}
-  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
-  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
-  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
-  .fcol{display:flex;flex-direction:column;gap:.5rem}.fcol .h{font-weight:700;margin-bottom:.2rem}
-  .fcol a{color:rgba(255,255,255,.9)}.fcol a:hover{text-decoration:underline}
-  .flegal{max-width:var(--max);margin:2rem auto 0;padding:1.3rem 1.5rem 0;border-top:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);font-size:.78rem}
-
-  @media(max-width:900px){.bridge{grid-template-columns:1fr}.objs,.prods,.blogrow{grid-template-columns:1fr}.fcols{grid-template-columns:1fr 1fr}}
-  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.funi{display:none}}
-  @media(max-width:420px){.rh-toggle{width:15rem;height:6.4rem}.rh-ball{width:5.2rem;height:5.2rem}.rh-toggle.bnb .rh-ball{transform:translateX(8.6rem)}}
-
-  /* ============ brand diamond motif ============ */
-  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
-  .kicker .dmark{margin-right:.5rem}
-
-  /* ============ brand splash loader ============ */
-  #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
-  #splash img{width:4.6rem;height:4.6rem;object-fit:contain;filter:drop-shadow(0 10px 34px rgba(224,81,199,.75));animation:spinpop 1.1s ease-in-out infinite alternate}
-  @keyframes spinpop{from{transform:scale(.9) rotate(-6deg);opacity:.65}to{transform:scale(1.06) rotate(6deg);opacity:1}}
-  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
-  @media(prefers-reduced-motion:reduce){#splash{display:none}}
-
-  /* ============ live price extras ============ */
-  .pc-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-  .livepill{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;color:#8affc8;border:1px solid rgba(56,211,159,.35);border-radius:2rem;padding:.14rem .5rem}
-  .livepill .dot{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f;animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(56,211,159,.55)}70%{box-shadow:0 0 0 .5rem rgba(56,211,159,0)}100%{box-shadow:0 0 0 0 rgba(56,211,159,0)}}
-  .pc-src{display:block;padding:.5rem 1.2rem;border-top:1px solid var(--line2);font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:var(--faint)}
-  .pc-src:hover{color:#cfcfe0}
-  .dia-wrap{display:block;will-change:transform}
-
-  /* ============ TRUST STRIP ============ */
-  .trustbar{width:100%;max-width:74rem;margin:1.7rem auto 0;display:flex;flex-direction:column;gap:.8rem}
-  .tb-badges{display:flex;flex-wrap:nowrap;gap:.55rem;justify-content:center}
-  .tbadge{display:inline-flex;align-items:center;gap:.42rem;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:2rem;padding:.44rem .8rem;font-size:.78rem;color:#d7d7e6;transition:.18s;line-height:1.1;white-space:nowrap}
-  .tbadge:hover{border-color:var(--card-bd-h);transform:translateY(-2px)}
-  .tbadge b{font-weight:700;color:#fff;font-size:.78rem}
-  .tbadge .sub{color:var(--faint);font-size:.66rem;font-family:var(--mono);letter-spacing:.02em}
-  .tbadge .stars{color:#F0B90B;font-size:.74rem;letter-spacing:.5px;line-height:1}
-  .tbadge .stars .off{color:rgba(255,255,255,.24)}
-  .tbadge .rt{color:#fff;font-weight:700;font-family:var(--mono);font-size:.72rem}
-  @media(max-width:820px){.tb-badges{flex-wrap:wrap}}
-  .tb-contract{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.55rem;font-size:.78rem;color:var(--muted)}
-  .cc-lab{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-  .cc-chip{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.06);border:1px solid var(--card-bd);border-radius:.6rem;padding:.36rem .62rem;color:#fff;font-family:var(--mono);font-size:.76rem;cursor:pointer;transition:.18s}
-  .cc-chip:hover{background:rgba(255,255,255,.1)}
-  .cc-chip.copied{border-color:#38d39f;color:#8affc8}
-  .cc-chip svg{width:.85rem;height:.85rem;opacity:.7}
-  .cc-scan{font-weight:600;color:#cfcfe0}.cc-scan:hover{color:#fff}
-  .cc-cex{color:var(--faint);font-family:var(--mono);font-size:.7rem}
-  .cc-cex a{color:#cfcfe0;font-weight:600;font-family:var(--body)}.cc-cex a:hover{color:#fff}
-  @media(max-width:640px){.hide-mobile{display:none}.tbadge .sub{display:none}}
-
-  /* ============ statement -> working stat band ============ */
-  .statement2{text-align:center}
-  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:2.2rem auto 0;max-width:54rem}
-  .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.3rem 1rem}
-  .statcard b{display:block;font-size:1.7rem;font-weight:900;letter-spacing:-.02em}
-  .statcard span{color:var(--muted);font-size:.8rem;margin-top:.25rem;display:block}
-  .st-cta{display:flex;gap:.8rem;justify-content:center;align-items:center;margin-top:2rem;flex-wrap:wrap}
-  @media(max-width:760px){.statrow{grid-template-columns:1fr 1fr}}
-
-  /* sticky price + Buy bar (appears on scroll) */
-  #buybar{position:fixed;left:0;right:0;bottom:0;z-index:80;transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.8,.2,1);padding:.55rem 1rem;pointer-events:none}
-  #buybar.show{transform:none}
-  .bb-in{pointer-events:auto;max-width:33rem;margin:0 auto;display:flex;align-items:center;gap:.6rem;background:rgba(16,16,24,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:2rem;padding:.45rem .5rem .45rem 1rem;box-shadow:0 20px 50px -22px rgba(0,0,0,.9)}
-  .bb-in .dmark{margin:0}
-  .bb-t{font-weight:700;font-size:.92rem}
-  .bb-p{font-family:var(--mono);font-weight:700;font-size:.92rem}
-  .bb-c{font-family:var(--mono);font-size:.78rem;color:var(--green)}
-  .bb-buy{margin-left:auto}
-  .bb-buy .btn{padding:.55rem 1.1rem;font-size:.9rem}
-  .bb-buy .bd-menu{top:auto;bottom:calc(100% + .6rem)}
-  @media(max-width:460px){.bb-t{display:none}}
-
-  /* mobile hero: headline, one CTA, price — trim the rest */
-  @media(max-width:640px){
-    .hero{min-height:auto;padding-top:2.2rem}
-    .hero h1{font-size:clamp(2.1rem,9vw,3rem)}
-    .hero .lead{font-size:1rem}
-    .hero-diamond{max-width:15rem}
-    .pc-grid{grid-template-columns:1fr 1fr}
-  }
-  /* mobile: center the left-aligned section text blocks */
-  @media(max-width:900px){
-    .bridge{text-align:center}
-    .bridge > div:first-child{display:flex;flex-direction:column;align-items:center}
-    .bridge .lead,.bridge .bridge-ui{margin-left:auto;margin-right:auto}
-    #stake,#news{text-align:center}
-    #stake .lead,#news .lead{margin-left:auto;margin-right:auto}
-    /* footer: brand full-width & centered, links in a tidy row below */
-    .fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}
-    .fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}
-    .fbrand p{margin-left:auto;margin-right:auto}
-    .fsoc{justify-content:center}
-  }
-  @media(max-width:460px){
-    .fcols{grid-template-columns:1fr;text-align:center}
-    .fcol{align-items:center}
-    .flegal{text-align:center}
-  }
-@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
-
-html{overflow-x:clip}
-
-/* uniform mobile header: brand left, burger right, buy hidden on mobile */
-@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
-
-  /* ===== buy-$QORPO promo popup (5s, once/day) — glass ===== */
-  .qp-overlay{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(3,3,8,.6);backdrop-filter:blur(12px) saturate(120%);-webkit-backdrop-filter:blur(12px) saturate(120%)}
-  .qp-overlay.show{display:flex}
-  .qp-card{position:relative;width:100%;max-width:25rem;background:linear-gradient(180deg,rgba(40,34,56,.62),rgba(14,12,22,.66));backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%);border:1px solid rgba(255,255,255,.14);border-radius:1.5rem;box-shadow:0 40px 120px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.14),0 0 0 1px rgba(224,81,199,.1);overflow:hidden;animation:qp-pop .45s cubic-bezier(.2,.9,.3,1.2)}
-  .qp-card::before{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);pointer-events:none;z-index:4}
-  @keyframes qp-pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
-  @media(prefers-reduced-motion:reduce){.qp-card{animation:none}}
-  .qp-glow{position:absolute;top:-45%;left:50%;transform:translateX(-50%);width:130%;height:65%;background:radial-gradient(58% 58% at 50% 100%,rgba(224,81,199,.42),transparent 72%);pointer-events:none;opacity:.85}
-  .qp-x{position:absolute;top:.8rem;right:.85rem;z-index:3;width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#e6e6f0;font-size:1.15rem;line-height:1;cursor:pointer;transition:.15s}
-  .qp-x:hover{background:rgba(255,255,255,.16);color:#fff}
-  .qp-body{position:relative;z-index:2;padding:2rem 1.55rem 1.55rem;text-align:center;font-family:"Inter",-apple-system,system-ui,sans-serif}
-  .qp-mark{display:inline-flex;align-items:center;justify-content:center;width:3.4rem;height:3.4rem;border-radius:1rem;background:rgba(224,81,199,.12);border:1px solid rgba(224,81,199,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
-  .qp-mark img{width:2.2rem;height:2.2rem;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(224,81,199,.7))}
-  .qp-mark svg{width:2rem;height:2rem;filter:drop-shadow(0 4px 14px rgba(224,81,199,.7))}
-  .qp-eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#FF709E;margin:.75rem 0 0}
-  .qp-title{font-size:1.7rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin:.5rem 0 0;color:#fff}
-  .qp-title .grad{background:linear-gradient(100deg,#FF709E,#E051C7 52%,#C83DD0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .qp-sub{color:#c2c2d4;font-size:.92rem;margin:.6rem auto 0;max-width:22rem;line-height:1.5}
-  .qp-list{list-style:none;margin:1.25rem 0 0;padding:0;display:flex;flex-direction:column;gap:.55rem;text-align:left}
-  .qp-list li{display:flex;align-items:center;gap:.85rem;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:.9rem;padding:.75rem .9rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:.15s}
-  .qp-list li:hover{background:rgba(255,255,255,.09);border-color:rgba(224,81,199,.3)}
-  .qp-i{width:2.3rem;height:2.3rem;border-radius:.7rem;background:rgba(224,81,199,.14);border:1px solid rgba(224,81,199,.3);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
-  .qp-i svg{display:block;width:1.2rem;height:1.2rem;fill:none;stroke:#FF8FB4;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .qp-list b{display:block;font-size:.92rem;font-weight:700;color:#fff}
-  .qp-list li span{display:block;color:#a3a3ba;font-size:.78rem;margin-top:.05rem}
-  .qp-buylab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#9292a8;margin:1.35rem 0 .6rem}
-  .qp-buys{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem}
-  .qp-buy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;min-height:4.6rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:.95rem;padding:.8rem .4rem;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);transition:.15s}
-  .qp-buy:hover{background:rgba(255,255,255,.11);transform:translateY(-2px);border-color:rgba(224,81,199,.5)}
-  .qp-buy .lg{width:2.1rem;height:2.1rem;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;padding:3px;flex:none}
-  .qp-buy .lg img{width:100%;height:100%;object-fit:contain}
-  .qp-buy>span{font-weight:700;font-size:.82rem;color:#fff}
-  .qp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem;gap:.5rem}
-  .qp-why{color:#eaeaf3;font-weight:600;font-size:.85rem;text-decoration:none;border-bottom:1px solid transparent}
-  .qp-why:hover{border-color:rgba(255,255,255,.3)}
-  .qp-secure{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;color:#9292a8;display:flex;align-items:center;gap:.35rem}
-  .qp-secure .d{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f;box-shadow:0 0 8px #38d39f}
-</style>
-
-<div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
-<canvas id="stars"></canvas>
-<div class="glowfix"></div>
-
-<header>
-  <nav class="nav">
-    <a class="brand" href="#"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="spin">Spin</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
-    <div class="buydrop">
-      <button class="btn btn-primary cta">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
-      <div class="bd-menu right" data-buymenu></div>
-    </div>
-    <button class="burger" id="burger">☰</button>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://qorpo.world/#org", "name": "QORPO", "alternateName": ["QORPO World", "QORPO Games", "QORPO s.r.o."], "url": "https://qorpo.world/", "logo": "https://qorpo.world/assets/favicon-512.png", "image": "https://qorpo.world/assets/og-image.jpg", "description": "QORPO is an independent game studio behind Citizen Conflict, AneeMate, One Life and Tamitos. The $QORPO token sits behind every game it ships.", "foundingLocation": {"@type": "Place", "name": "Slovakia"}, "sameAs": ["https://x.com/QORPOworld", "https://www.coingecko.com/en/coins/qorpo-world", "https://coinmarketcap.com/currencies/qorpo/"]}, {"@type": "WebSite", "@id": "https://qorpo.world/#website", "name": "QORPO", "url": "https://qorpo.world/", "publisher": {"@id": "https://qorpo.world/#org"}}, {"@type": "VideoGame", "name": "AneeMate", "url": "https://aneemate.com/", "genre": ["Creature collecting", "Action adventure"], "gamePlatform": ["PC"], "publisher": {"@id": "https://qorpo.world/#org"}}, {"@type": "VideoGame", "name": "One Life", "url": "https://x.com/playOLLgame", "genre": ["Shooter"], "gamePlatform": ["PC"], "publisher": {"@id": "https://qorpo.world/#org"}}, {"@type": "VideoGame", "name": "Citizen Conflict", "genre": ["Third-person shooter"], "gamePlatform": ["PC"], "publisher": {"@id": "https://qorpo.world/#org"}}]}</script>
+</head>
+<body data-page="games">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
   </nav>
-</header>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
 
 <main>
-  <section class="hero" id="hero">
-    <div class="hero-media">
-      <img src="./assets/hero-bear.jpg" alt="QORPO">
-    </div>
-    <div class="hero-inner">
-    <p class="eyebrow"><span class="dmark"></span>$QORPO · Games · AI · Entertainment</p>
-    <h1>Own the attention&nbsp;economy.</h1>
-    <div class="cta-row">
-      <div class="buydrop">
-        <button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
-        <div class="bd-menu" data-buymenu></div>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-chips">
+        <a class="chip on" href="#top"><span class="dot live-dot"></span>Studio live</a>
+        <a class="chip" href="#aneemate">AneeMate</a><a class="chip" href="#onelife">One Life</a><a class="chip" href="#tamitos">Tamitos</a><a class="chip" href="#citizen">Citizen Conflict</a>
       </div>
-      <a class="btn btn-glass hide-mobile" href="staking">Stake &amp; earn</a>
+      <h1><span class="ln"><span style="--d:0">We build games</span></span><span class="ln"><span style="--d:1">worth your</span></span><span class="ln"><span class="hot" style="--d:2">attention.</span></span></h1>
+      <p class="lede">Six years of shipping, zero hacks. Citizen Conflict proved we could build games before AI. AneeMate is scaling now. One Life shows how fast we move with AI. Watch every build happen live.</p>
+      <div class="hero-cta">
+        <a class="btn btn-mint" href="https://aneemate.com/" target="_blank" rel="noopener">Play AneeMate free</a>
+        <a class="btn btn-ghost" href="#aneemate">Watch the studio live</a>
+      </div>
+      <div class="bonus">
+        <div style="--i:0"><b data-count="6">6</b><span>years building</span></div>
+        <div style="--i:1"><b data-count="0">0</b><span>hacks</span></div>
+        <div style="--i:2"><b data-count="190" data-suffix="K+">190K+</b><span>community</span></div>
+        <div style="--i:3"><b data-count="4">4</b><span>worlds built</span></div>
+      </div>
     </div>
-    </div><!-- /hero-inner -->
-      <div class="pricecard hero-ticker">
-        <div class="pc-top">
-          <div class="pc-row"><div class="pc-k">$QORPO price</div><div class="livepill"><span class="dot"></span>LIVE</div></div>
-          <div class="pc-p"><span class="v" id="pcPrice">$0.00073</span><span class="c" id="pcChg" style="color:var(--green)">+3.8%</span></div>
-          <svg class="spark" viewBox="0 0 300 60" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E051C7" stop-opacity=".4"/><stop offset="1" stop-color="#E051C7" stop-opacity="0"/></linearGradient><linearGradient id="sl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF709E"/><stop offset="1" stop-color="#C83DD0"/></linearGradient></defs>
-            <path id="spkfill" d="M0,44 L25,46 L50,40 L75,42 L100,35 L125,38 L150,30 L175,33 L200,25 L225,28 L250,19 L275,22 L300,13 L300,60 L0,60 Z" fill="url(#sg)"/>
-            <path id="spk" d="M0,44 L25,46 L50,40 L75,42 L100,35 L125,38 L150,30 L175,33 L200,25 L225,28 L250,19 L275,22 L300,13" fill="none" stroke="url(#sl)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="deck" aria-label="QORPO products">
+      <div class="slot"><div class="bob"><article class="pcard t-cc" data-href="#citizen" data-tilt>
+        <div class="pc-top"><span class="pc-meta">Legacy</span><span class="pc-ico">↗</span></div><span class="pc-code">CC</span>
+        <div class="pc-art full"><img src="assets/img/cc_hero.webp" alt="Citizen Conflict soldier"></div><div class="pc-ghost">Conflict</div>
+        <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b class="sm">PRE-AI</b></span><div class="pc-row"><span class="l">SHOOTER</span><span class="r">PAST</span></div>
+          <div class="pc-title"><b>Citizen Conflict</b><span>We did this before AI</span></div></div>
+        <div class="pc-tabs"><a href="#citizen">Watch</a><a href="#products">Story</a></div><i class="pc-glare"></i></article></div></div>
+      <div class="slot"><div class="bob"><article class="pcard t-tm" data-href="#tamitos" data-tilt>
+        <div class="pc-top"><span class="pc-meta">Original IP</span><span class="pc-ico">↗</span></div><span class="pc-code">TM</span>
+        <div class="pc-art full"><img src="assets/img/tam_lumi.webp" alt="Tamitos character Lumi"></div><div class="pc-ghost">Tamitos</div>
+        <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b>IP</b></span><div class="pc-row"><span class="l">SERIES</span><span class="r">APP</span></div>
+          <div class="pc-title"><b>Tamitos</b><span>Our own world</span></div></div>
+        <div class="pc-tabs"><a href="#tamitos">Builds</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Site</a></div><i class="pc-glare"></i></article></div></div>
+      <div class="slot"><div class="bob"><article class="pcard t-ol" data-href="#onelife" data-tilt>
+        <div class="pc-top"><span class="pc-meta">Experiment</span><span class="pc-ico">↗</span></div><span class="pc-code">OL</span>
+        <div class="pc-art full"><img src="assets/img/ol_mask.webp" alt="One Life firefighter"></div><div class="pc-ghost">One Life</div>
+        <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b>AI</b></span><div class="pc-row"><span class="l">SHOOTER</span><span class="r">WIP</span></div>
+          <div class="pc-title"><b>One Life</b><span>AI-native experiment</span></div></div>
+        <div class="pc-tabs"><a href="#onelife">Builds</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X</a></div><i class="pc-glare"></i></article></div></div>
+      <div class="slot"><div class="bob"><article class="pcard t-am" data-href="#aneemate" data-tilt>
+        <div class="pc-top"><span class="pc-meta">Live now</span><span class="pc-ico">↗</span></div><span class="pc-code">AM</span>
+        <div class="pc-ghost">AneeMate</div><div class="pc-art cut"><img src="assets/img/m_Flamisaur.webp" alt="AneeMate creature Flamisaur"></div>
+        <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b>LIVE</b></span><div class="pc-row"><span class="l">EPIC</span><span class="r">FREE</span></div>
+          <div class="pc-title"><b>AneeMate</b><span>Now we scale</span></div></div>
+        <div class="pc-tabs"><a href="https://aneemate.com/" target="_blank" rel="noopener">Play</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X</a></div><i class="pc-glare"></i></article></div></div>
+    </div>
+  </div>
+  <div class="ticker" aria-label="Latest builds from the studio">
+    <div class="tk-label"><span class="dot live-dot"></span>BUILDS</div>
+    <div class="tk-track" id="ticker"></div>
+  </div>
+</section>
+
+<!-- ANEEMATE -->
+<section class="sec" id="aneemate" style="--c1:var(--am1);--c2:#145f72;--acc:var(--am3)">
+  <div class="wrap rv">
+    <div class="kicker"><span class="status" style="color:var(--am3)"><span class="dot live-dot"></span>Live · scaling</span><span class="status">Flagship</span></div>
+    <h2 class="h2" data-split>Now we scale it.</h2>
+    <p class="sub">A creature adventure on a living island. Catch them, raise them, then become them. It is live, it is playable, and every week the team ships more of it.</p>
+  </div>
+  <div class="stage" style="margin-top:44px;--glow:#2f6fd8">
+    <div class="stage-art wipe"><img src="assets/img/am_key.webp" alt="AneeMate key art: the AneeMate logo over the island, a player creature facing a scout drone">
+      <div class="stage-cap"><span class="pill"><span class="dot live-dot"></span>Playable now on Epic</span><a class="btn btn-mint" href="https://aneemate.com/" target="_blank" rel="noopener">Play free</a></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="show rv" id="amshow" aria-label="AneeMate gameplay">
+      <div class="show-stage"><figure class="show-slide on" data-i="0"><img src="assets/img/h_catch.webp" alt="Weakening a wild AneeMate before the catch"><figcaption><span>Catch</span><b>Weaken it, throw a Yipee</b></figcaption></figure><figure class="show-slide" data-i="1"><img src="assets/img/h_become.webp" alt="Playing as a caught AneeMate on the beach" loading="lazy"><figcaption><span>Become</span><b>Play as your AneeMate</b></figcaption></figure><figure class="show-slide" data-i="2"><img src="assets/img/h_fight.webp" alt="Two AneeMates fighting" loading="lazy"><figcaption><span>Fight</span><b>Elemental battles</b></figcaption></figure><figure class="show-slide" data-i="3"><img src="assets/img/p_camp.webp" alt="Home camp with a guardian AneeMate" loading="lazy"><figcaption><span>Home camp</span><b>Build your camp</b></figcaption></figure><figure class="show-slide" data-i="4"><img src="assets/img/p_staff.webp" alt="Player with a staff facing a guardian" loading="lazy"><figcaption><span>Staff mastery</span><b>Master your staff</b></figcaption></figure><div class="show-num"><b>01</b> / 05</div>
+        <button class="show-arr prev" type="button" aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 6l-6 6 6 6"/></svg></button><button class="show-arr next" type="button" aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      <div class="show-tabs" role="tablist"><button class="show-tab on" type="button" role="tab" aria-selected="true" data-i="0"><span class="th"><img src="assets/img/h_catch.webp" alt="" loading="lazy"></span><span class="tx"><i>Catch</i><b>Weaken it, throw a Yipee</b></span><em class="bar"><u></u></em></button><button class="show-tab" type="button" role="tab" aria-selected="false" data-i="1"><span class="th"><img src="assets/img/h_become.webp" alt="" loading="lazy"></span><span class="tx"><i>Become</i><b>Play as your AneeMate</b></span><em class="bar"><u></u></em></button><button class="show-tab" type="button" role="tab" aria-selected="false" data-i="2"><span class="th"><img src="assets/img/h_fight.webp" alt="" loading="lazy"></span><span class="tx"><i>Fight</i><b>Elemental battles</b></span><em class="bar"><u></u></em></button><button class="show-tab" type="button" role="tab" aria-selected="false" data-i="3"><span class="th"><img src="assets/img/p_camp.webp" alt="" loading="lazy"></span><span class="tx"><i>Home camp</i><b>Build your camp</b></span><em class="bar"><u></u></em></button><button class="show-tab" type="button" role="tab" aria-selected="false" data-i="4"><span class="th"><img src="assets/img/p_staff.webp" alt="" loading="lazy"></span><span class="tx"><i>Staff mastery</i><b>Master your staff</b></span><em class="bar"><u></u></em></button></div>
+    </div>
+
+    <div class="mates">
+      <div class="mate rv" style="--d:0"><article class="pcard t-am" data-tilt style="--c1:#d2541c;--c2:#5a1d0e;--acc:#ffb13b"><div class="pc-ghost">Flamisaur</div><div class="pc-art cut"><img src="assets/img/m_Flamisaur.webp" alt="Flamisaur"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Flamisaur</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:1"><article class="pcard" data-tilt style="--c1:#3d63d8;--c2:#1b2a6b;--acc:#ffe04a"><div class="pc-ghost">Voltori</div><div class="pc-art cut"><img src="assets/img/m_Voltori.webp" alt="Voltori"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Voltori</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:2"><article class="pcard" data-tilt style="--c1:#2b8fd6;--c2:#123f63;--acc:#7fe3ff"><div class="pc-ghost">Eldrion</div><div class="pc-art cut"><img src="assets/img/m_Eldrion.webp" alt="Eldrion"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Eldrion</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:3"><article class="pcard" data-tilt style="--c1:#1fa58c;--c2:#0e4a44;--acc:#8dffcf"><div class="pc-ghost">Lixarina</div><div class="pc-art cut"><img src="assets/img/m_Lixarina.webp" alt="Lixarina"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Lixarina</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:4"><article class="pcard" data-tilt style="--c1:#7a4fd6;--c2:#2f1d63;--acc:#d5a8ff"><div class="pc-ghost">Ginbu</div><div class="pc-art cut"><img src="assets/img/m_Ginbu.webp" alt="Ginbu"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Ginbu</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:5"><article class="pcard" data-tilt style="--c1:#c43b7a;--c2:#4f1534;--acc:#ff9fd0"><div class="pc-ghost">Batine</div><div class="pc-art cut"><img src="assets/img/m_Batine.webp" alt="Batine"></div><div class="pc-panel"><span class="pc-hex"><b>CATCH</b></span><span class="pc-name">Batine</span></div><i class="pc-glare"></i></article></div>
+    </div>
+
+    <div class="console" data-product="aneemate" style="--c1:var(--am1);--acc:var(--am3)">
+      <div class="cbox rv"><h4>Official on X</h4>
+        <div class="xid"><span class="xav"><svg viewBox="0 0 24 24" fill="#fff"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.5 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg></span><span><b>@playaneemate</b><span>AneeMate</span></span></div>
+        <p class="note">Clips, patch notes and events from the game.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/playaneemate" target="_blank" rel="noopener">Follow @playaneemate</a></div>
+      <div class="cbox rv" style="--d:1"><h4><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 011.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>AneeMate builds<span class="feedstate" data-feedstate>LATEST</span></h4>
+        <ul class="commits" data-commits="aneemate"></ul></div>
+      <div class="cbox founder rv" style="--d:2"><h4>From the founder</h4>
+        <div class="xid"><span class="xav">RB</span><span><b>Rastislav Bakala</b><span>CEO, QORPO · @RastislavBakala</span></span></div>
+        <p class="note">His posts about AneeMate land here, next to the builds.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/RastislavBakala" target="_blank" rel="noopener">Follow @RastislavBakala</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ONE LIFE -->
+<section class="sec ol-wrap" id="onelife" style="--c1:var(--ol1);--c2:#5c130e;--acc:var(--ol2)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="kicker"><span class="status" style="color:var(--ol3)"><span class="dot" style="background:var(--ol2)"></span>Experimental</span><span class="status">AI-native</span></div>
+      <h2 class="h2" data-split>Built with AI. In public.</h2>
+      <p class="sub">One Life is our experiment: an experienced team, existing tech from Citizen Conflict and an AI-native workflow. How fast does an idea become a playable game? Follow it day by day.</p>
+    </div>
+    <div class="ol-grid">
+      <div class="ol-big wipe"><img src="assets/img/ol_key.webp" alt="One Life key art: We all have one life left"><span class="pill vchip" style="left:18px;top:18px;position:absolute"><span class="dot" style="background:var(--ol2)"></span>One Life</span></div>
+      <div class="ol-side">
+        <figure class="rv"><img src="assets/img/ol_mask.webp" alt="Firefighter in a gas mask in front of a burning building"><figcaption>Art direction</figcaption></figure>
+        <figure class="rv" style="--d:1"><img src="assets/img/ol_back.webp" alt="Firefighter with oxygen tanks walking into the fire" loading="lazy"><figcaption>Into the fire</figcaption></figure>
+      </div>
+    </div>
+    <div class="crew-head rv"><span class="status" style="color:var(--ol3)">The crew</span><span>Five characters so far, each one rendered, rigged and in the build.</span></div>
+    <div class="mates crew">
+      <div class="mate rv" style="--d:0"><article class="pcard" style="--c1:#e0571b;--c2:#5a1d0e;--acc:#ffb13b"><div class="pc-ghost">Crew</div><div class="pc-art cut"><img src="assets/img/ol_crew1.webp" alt="One Life crew character 1" loading="lazy"></div><div class="pc-panel"><span class="pc-hex"><b>01</b></span><span class="pc-name">Crew 01</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:1"><article class="pcard" style="--c1:#b8521f;--c2:#4a1c0c;--acc:#ffd08a"><div class="pc-ghost">Crew</div><div class="pc-art cut"><img src="assets/img/ol_crew2.webp" alt="One Life crew character 2" loading="lazy"></div><div class="pc-panel"><span class="pc-hex"><b>02</b></span><span class="pc-name">Crew 02</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:2"><article class="pcard" style="--c1:#c9a21a;--c2:#1d4a52;--acc:#ffe14d"><div class="pc-ghost">Crew</div><div class="pc-art cut"><img src="assets/img/ol_crew3.webp" alt="One Life crew character 3" loading="lazy"></div><div class="pc-panel"><span class="pc-hex"><b>03</b></span><span class="pc-name">Crew 03</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:3"><article class="pcard" style="--c1:#7a3fd0;--c2:#2c145e;--acc:#e7ff5a"><div class="pc-ghost">Crew</div><div class="pc-art cut"><img src="assets/img/ol_crew4.webp" alt="One Life crew character 4" loading="lazy"></div><div class="pc-panel"><span class="pc-hex"><b>04</b></span><span class="pc-name">Crew 04</span></div><i class="pc-glare"></i></article></div>
+      <div class="mate rv" style="--d:4"><article class="pcard" style="--c1:#1e8fc4;--c2:#0c3550;--acc:#8be9ff"><div class="pc-ghost">Crew</div><div class="pc-art cut"><img src="assets/img/ol_crew5.webp" alt="One Life crew character 5" loading="lazy"></div><div class="pc-panel"><span class="pc-hex"><b>05</b></span><span class="pc-name">Crew 05</span></div><i class="pc-glare"></i></article></div>
+    </div>
+    <div class="days">
+      <div class="day rv"><span class="n">DAY 1</span><b>Idea to playable</b><span>Core loop on top of Citizen Conflict tech.</span></div>
+      <div class="day rv" style="--d:1"><span class="n">DAY 2</span><b>Movement and weapons</b><span>Shooting, traversal, first vehicle.</span></div>
+      <div class="day rv" style="--d:2"><span class="n">WEEK 1</span><b>Characters and art</b><span>Firefighter crew and the fire look.</span></div>
+      <div class="day now rv" style="--d:3"><span class="n">NEXT</span><b>First playtest</b><span>Open build for the community.</span></div>
+    </div>
+    <div class="console" data-product="onelife" style="--c1:var(--ol1);--acc:var(--ol2)">
+      <div class="cbox rv"><h4>Official on X</h4>
+        <div class="xid"><span class="xav"><svg viewBox="0 0 24 24" fill="#fff"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.5 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg></span><span><b>@playOLLgame</b><span>One Life</span></span></div>
+        <p class="note">Daily dev clips from the experiment.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/playOLLgame" target="_blank" rel="noopener">Follow @playOLLgame</a></div>
+      <div class="cbox rv" style="--d:1"><h4><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 011.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>One Life builds<span class="feedstate" data-feedstate>LATEST</span></h4>
+        <ul class="commits" data-commits="onelife"></ul></div>
+      <div class="cbox founder rv" style="--d:2"><h4>From the founder</h4>
+        <div class="xid"><span class="xav">RB</span><span><b>Rastislav Bakala</b><span>CEO, QORPO · @RastislavBakala</span></span></div>
+        <p class="note">His posts about One Life land here, next to the builds.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/RastislavBakala" target="_blank" rel="noopener">Follow @RastislavBakala</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAMITOS -->
+<section class="tm-band" id="tamitos" style="--c1:var(--tm1);--acc:var(--tm1)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="kicker"><span class="status"><span class="dot" style="background:var(--tm1)"></span>Original IP</span><span class="status">Series · Books · Games · App</span></div>
+      <h2 class="h2" data-split>We build worlds, not just games.</h2>
+      <p class="sub">Tamitos is our own children's IP about neurodiversity and emotions: an animated series, a book trilogy, games and the TAMITOS Move app.</p>
+    </div>
+    <div class="tm-grid">
+      <div class="tm-card wipe"><img src="assets/img/tam_all.webp" alt="The Tamitos characters"><span class="nm">The Tamitos</span></div>
+      <div class="tm-card rv"><img src="assets/img/tam_ela.webp" alt="Ela, a Tamitos character"><span class="nm">Ela</span></div>
+      <div class="tm-card rv" style="--d:1"><img src="assets/img/tam_lumi.webp" alt="Lumi, a Tamitos character"><span class="nm">Lumi</span></div>
+    </div>
+    <div class="tm-pills rv"><span>Animated series</span><span>Book trilogy</span><span>Games</span><span>TAMITOS Move app</span><a class="btn btn-mint btn-sm" href="https://www.tamitos.com/" target="_blank" rel="noopener">Visit tamitos.com</a></div>
+    <div class="tm-move rv">
+      <div class="tm-move-art"><img src="assets/img/tm_move.webp" alt="TAMITOS Move app: leaderboard, converting points into help, and the character Mellowiet" loading="lazy"></div>
+      <div class="tm-move-tx">
+        <div class="kicker"><span class="status"><span class="dot live-dot" style="background:#3bbf6a"></span>On Google Play</span><span class="status">AI health · Donations</span></div>
+        <h3>TAMITOS Move</h3>
+        <p>An AI health and donation app. Every step you take becomes points, and partners turn those points into real money for families of children on the autism spectrum.</p>
+        <ul class="tm-move-pts"><li><b>Move</b><span>Walk, run, play. The app counts it.</span></li><li><b>Convert</b><span>Points become euros for families.</span></li><li><b>Climb</b><span>Monthly ranks and team groups.</span></li></ul>
+        <div class="hero-cta"><a class="btn tm-btn" href="https://help.tamitos.com/" target="_blank" rel="noopener">Open TAMITOS Move</a></div>
+      </div>
+    </div>
+    <div class="console" data-product="tamitos">
+      <div class="cbox rv"><h4>Official on X</h4>
+        <div class="xid"><span class="xav" style="--acc:var(--tm2);--c1:var(--tm1)"><svg viewBox="0 0 24 24" fill="#fff"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.5 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg></span><span><b>@TamitosWorld</b><span>Tamitos</span></span></div>
+        <p class="note">Series, books, games and the Move app, straight from the team.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/TamitosWorld" target="_blank" rel="noopener">Follow @TamitosWorld</a></div>
+      <div class="cbox rv" style="--d:1"><h4><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 011.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>Tamitos builds<span class="feedstate" data-feedstate>LATEST</span></h4>
+        <ul class="commits" data-commits="tamitos" style="--acc:var(--tm1)"></ul></div>
+      <div class="cbox founder rv" style="--d:2"><h4>From the founder</h4>
+        <div class="xid"><span class="xav">RB</span><span><b>Rastislav Bakala</b><span>CEO, QORPO · @RastislavBakala</span></span></div>
+        <p class="note">His posts about Tamitos land here, next to the builds.</p>
+        <a class="btn btn-ghost btn-sm" href="https://x.com/RastislavBakala" target="_blank" rel="noopener">Follow @RastislavBakala</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- CITIZEN CONFLICT -->
+<section class="cc" id="citizen">
+  <div class="cinema" id="cinema">
+    <canvas id="ambient" data-ambient="#ccvid" width="64" height="36" aria-hidden="true"></canvas>
+    <div class="cinema-in">
+      <div class="cine-l rv">
+        <div class="kicker"><span class="status" style="color:var(--cc3)">Legacy · no commits needed</span></div>
+        <h2>We did this <em>before AI.</em></h2>
+        <p>Citizen Conflict: our own shooter, characters, maps and vehicles, built the old way by the same team. Everything we ship faster today stands on it.</p>
+      </div>
+      <figure class="cine-vid vid" id="ccvid" style="margin:0">
+        <video poster="assets/img/cc_big_poster.jpg" muted loop playsinline preload="metadata"><source src="assets/video/cc_big.webm" type="video/webm"><source src="assets/video/cc_big.mp4" type="video/mp4"></video>
+        <span class="vchip"><span class="rec"></span>Real gameplay</span>
+        <button class="vplay" type="button" aria-label="Play video"><svg width="26" height="26" viewBox="0 0 24 24" fill="#04261a"><path d="M8 5v14l11-7z"/></svg></button>
+      </figure>
+      <div class="cine-r rv" style="--d:1">
+        <div class="cc-stat"><b>Shooter</b><span>Built by our team, pre-AI</span></div>
+        <div class="cc-stat"><b>Own tech</b><span>Characters, maps, vehicles</span></div>
+        <div class="cc-stat"><b>The base</b><span>One Life is built on it</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="products">
+    <div class="cc-row">
+      <div class="cc-tile wipe"><img src="assets/img/cc_hero.webp" alt="Citizen Conflict soldier pointing, explosion behind"><span class="cap">Citizen Conflict</span></div>
+      <figure class="cc-tile vid rv" style="margin:0"><video poster="assets/img/cc_cars_poster.jpg" muted loop playsinline preload="metadata"><source src="assets/video/cc_cars.webm" type="video/webm"><source src="assets/video/cc_cars.mp4" type="video/mp4"></video><span class="vchip"><span class="rec"></span>Our own vehicles</span><button class="vplay" type="button" aria-label="Play video"><svg width="26" height="26" viewBox="0 0 24 24" fill="#04261a"><path d="M8 5v14l11-7z"/></svg></button></figure>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="sec" id="community">
+  <div class="wrap">
+    <div class="rv">
+      <div class="kicker"><span class="status" style="color:var(--mint)"><span class="dot live-dot"></span>Community Points</span></div>
+      <h2 class="h2" data-split>Don't just watch. Play the ecosystem.</h2>
+      <p class="sub">Stake, spin and show up. Points and ranks are live today. Future ecosystem rewards are possible, never promised, and we will say clearly when something is confirmed.</p>
+    </div>
+    <div class="comm">
+      <div class="missions">
+        <div class="mis rv" style="--c1:#2f6fd8;--c2:#173a7a"><i>DAILY</i><b>Spin the wheel</b><span>Free spins every day for stakers.</span><span class="big">01</span></div>
+        <div class="mis rv" style="--d:1;--c1:#17a58c;--c2:#0c4d45"><i>EARN</i><b>Stake $QORPO</b><span>Your stake earns points every day.</span><span class="big">02</span></div>
+        <div class="mis rv" style="--d:2;--c1:#9a6ae0;--c2:#45287a"><i>CLIMB</i><b>Hold your rank</b><span>The leaderboard is public and live.</span><span class="big">03</span></div>
+        <div class="mis rv" style="--d:3;--c1:#c2281a;--c2:#5c130e"><i>SOON</i><b>Play to earn badges</b><span>AneeMate events award badges and points.</span><span class="big">04</span></div>
+      </div>
+      <div class="trophy rv" style="--d:1">
+        <h3><a href="/leaderboard" style="color:inherit;text-decoration:none">Leaderboard</a></h3><p class="s">Community Points, live from the chain</p>
+        <ol class="lb" id="lb">
+          <li><span class="rk">#1</span><span class="w">0x3757…70b2</span><span class="p">2.42M</span></li>
+          <li><span class="rk">#2</span><span class="w">0x7b50…3617</span><span class="p">749K</span></li>
+          <li><span class="rk">#3</span><span class="w">0xef4f…9c6d</span><span class="p">561K</span></li>
+        </ol>
+        <a class="btn btn-mint" href="/spin">Start earning</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- $QORPO: one token, every game -->
+<section class="sec" id="token" style="padding-top:70px">
+  <div class="wrap">
+    <div class="qx rv">
+      <div class="qx-art" aria-hidden="true"><img src="assets/img/loop_hero.webp" alt="" loading="lazy"></div>
+      <div class="qx-l">
+        <div class="kicker"><span class="status" style="color:var(--gold)"><span class="dot" style="background:var(--gold)"></span>$QORPO</span><span class="status">Ethereum · BNB Chain</span></div>
+        <h2 class="h2" data-split>One token. Every game we ship.</h2>
+        <p class="sub">Holding $QORPO is not a bet on one title. It sits behind AneeMate, One Life, Tamitos and every game that comes next, built by a team that already shipped Citizen Conflict.</p>
+        <div class="qx-games">
+          <a href="#aneemate" style="--c:var(--am3)"><img src="assets/img/m_Flamisaur.webp" alt="">AneeMate<small>Scaling</small></a>
+          <a href="#onelife" style="--c:var(--ol2)"><img src="assets/img/ol_crew1.webp" alt="">One Life<small>In build</small></a>
+          <a href="#tamitos" style="--c:var(--tm1)"><img src="assets/img/tam_lumi.webp" alt="">Tamitos<small>Original IP</small></a>
+          <a href="#citizen" style="--c:var(--cc3)"><img src="assets/img/cc_hero.webp" alt="">Citizen Conflict<small>Proof</small></a>
         </div>
-        <div class="pc-grid"><div><div class="k">Market cap</div><div class="v" id="pcMc">$471K</div></div><div><div class="k">24h volume</div><div class="v" id="pcVol">$56.0K</div></div><div><div class="k">Circulating</div><div class="v" id="pcCirc">644.2M</div></div><div><div class="k">Chains</div><div class="v">ETH · BSC</div></div></div>
-        <a class="pc-src" href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">Live market data · CoinGecko ↗</a>
       </div>
-    <a class="scrollcue" href="#learn" aria-label="Scroll down">↓</a>
-  </section>
+      <div class="qx-r">
+        <div class="qx-badge"><span class="dot live-dot"></span>Confirmed since launch</div>
+        <h3>Buyback &amp; burn</h3>
+        <ol class="qx-flow">
+          <li style="--k:0"><b>Games earn</b><span>Players buy packs, items and passes.</span></li>
+          <li style="--k:1"><b>Revenue</b><span>Studio revenue comes in from every title.</span></li>
+          <li style="--k:2"><b>Buyback</b><span>$QORPO is bought back from the open market.</span></li>
+          <li style="--k:3" class="end"><b>Burn + treasury</b><span>Part is burned for good, part funds the next games.</span></li>
+        </ol>
+        <p class="qx-note">More games that succeed means more revenue flowing into the same loop. Every buyback will be public with its transaction.</p>
+        <div class="hero-cta"><a class="btn btn-gold" href="/token#engine">See the engine</a><a class="btn btn-ghost" href="/token">Token page</a></div>
+      </div>
+    </div>
+    <div class="qx-subs">
+      <a class="qx-sub rv" href="/staking" style="--c1:#17a58c;--c2:#0c4d45"><i>STAKE</i><b>Staking</b><span>Non-custodial on ETH and BNB. Earn points daily.</span></a>
+      <a class="qx-sub rv" href="/spin" style="--d:1;--c1:#2f6fd8;--c2:#173a7a"><i>DAILY</i><b>Spin</b><span>Free spins for stakers, every day.</span></a>
+      <a class="qx-sub rv" href="/leaderboard" style="--d:2;--c1:#9a6ae0;--c2:#45287a"><i>LIVE</i><b>Leaderboard</b><span>Community Points, ranked live.</span></a>
+      <a class="qx-sub rv" href="/token#buy" style="--d:3;--c1:#8a6312;--c2:#3b2a08"><i>GET</i><b>Buy $QORPO</b><span>MEXC, KuCoin, Gate and more.</span></a>
+    </div>
+  </div>
+</section>
 
-  <!-- LEAD + TRUST (below the hero) -->
-  <section class="sec wrap herobelow reveal" id="learn">
-    <p class="lead">One token behind the <span class="serif">games, AI and entertainment</span> the world can't stop watching. Stake for up to <b style="color:#fff">30% APY</b> and hold $QORPO to qualify for the <b style="color:#fff">airdrop</b> — live on Ethereum &amp; BNB&nbsp;Chain.</p>
-    <div class="trustbar">
-      <div class="tb-badges">
-        <a class="tbadge" href="token" title="Audited by CertiK — 3.9 / 5"><span class="dmark"></span><b>CertiK audited</b><span class="stars">★★★★<span class="off">★</span></span><span class="rt">3.9</span></a>
-        <a class="tbadge" href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener"><span class="dmark"></span><b>Verified contract</b><span class="sub">Etherscan</span></a>
-        <a class="tbadge" href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener"><span class="dmark"></span><b>CoinGecko</b><span class="sub">Listed</span></a>
-        <a class="tbadge" href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener"><span class="dmark"></span><b>CoinMarketCap</b><span class="sub">Listed</span></a>
-        <a class="tbadge" href="https://x.com/QORPOworld" target="_blank" rel="noopener"><span class="dmark"></span><b><span id="commCount">190K+</span> community</b><span class="sub">Verified team</span></a>
-      </div>
-      <div class="tb-contract">
-        <span class="cc-lab">$QORPO · ETH contract</span>
-        <button class="cc-chip" id="ccCopy" data-addr="0x22514ffb0d7232a56f0c24090e7b68f179faa940"><span class="cc-addr">0x2251…a940</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
-        <a class="cc-scan" href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan ↗</a>
-        <span class="cc-cex">Trade <a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a> · <a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a> · <a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></span>
-      </div>
-    </div>
-  </section>
-
-  <!-- BRIDGE -->
-  <section class="sec wrap reveal" id="bridge">
-    <div class="bridge">
-      <div>
-        <p class="kicker">QORPO Bridge</p>
-        <h2 class="bigh">Move $QORPO<br>across chains</h2>
-        <p class="lead" style="margin-top:1rem">Move your $QORPO to the chain with the cheapest fees and deepest liquidity — then trade, stake or spend it there. <span style="color:#fff">Same token, 1:1, non-custodial</span>, in ~3–5 minutes.</p>
-        <div class="bridge-ui">
-          <div class="bswitch">
-            <div class="bchain"><div><div class="lab">From</div><div class="nm" id="c1nm">Ethereum</div></div></div>
-            <button class="bflip" id="bflip" aria-label="Swap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></button>
-            <div class="bchain"><div style="text-align:right"><div class="lab">To</div><div class="nm" id="c2nm">BNB Chain</div></div></div>
-          </div>
-          <div class="bmeta"><span>Rate <b>1 : 1</b></span><span>Time <b>~3–5 min</b></span></div>
-        </div>
-        <div style="margin-top:1.4rem"><a class="btn btn-glass arrow" href="bridge">Open QORPO Bridge</a></div>
-      </div>
-      <div class="rh-scene" id="rhscene">
-        <div class="rh-glow"></div>
-        <div class="rh-toggle" id="rhtoggle">
-          <div class="rh-ends"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103608_d2843171-0b77-4c4b-aea6-b389b6130271.png" alt="ETH"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103628_8fd43627-43ea-42ce-83ba-5aa01236171e.png" alt="BNB"></div>
-          <div class="rh-ball"><img id="rhball" src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103608_d2843171-0b77-4c4b-aea6-b389b6130271.png" alt=""></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TAMITOS big video -->
-  <section class="sec wrap reveal" id="eco" style="text-align:center">
-    <p class="kicker">Upcoming animated series</p>
-    <h2 class="bigh" style="margin-top:.3rem">Tamitos</h2>
-    <p class="lead" style="margin:.9rem auto 0">The animated series the world will fall for. Hold $QORPO to qualify for the $TAMITOS airdrop.</p>
-    <div style="margin-top:1rem"><a class="btn btn-text arrow" href="https://www.tamitos.com/" target="_blank" rel="noopener">Check Tamitos website</a></div>
-    <div class="feat" style="margin-top:2.2rem">
-      <video data-src="./assets/tamitos.mp4" muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_102217_c0ffbd9c-2219-4897-8814-f43c047ef737.png"></video>
-    </div>
-    <!-- Games below -->
-    <div class="duo2">
-      <div class="duocard">
-        <div class="k">On-chain collectible</div>
-        <h3>AneeMate</h3>
-        <p>Catch them all, on-chain. A creature world where $QORPO is the main token.</p>
-        <div class="links"><a class="btn btn-text arrow" href="https://aneemate.com/" target="_blank" rel="noopener">Explore AneeMate</a><a class="xln" href="https://x.com/playaneemate" target="_blank" rel="noopener" aria-label="AneeMate on X"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/></svg></a></div>
-        <img class="banner" src="assets/aneemate-keyart.jpg" alt="AneeMate — catch them all, on-chain" loading="lazy">
-      </div>
-      <div class="duocard">
-        <div class="k">Collection shooter</div>
-        <h3>One Life</h3>
-        <p>One shot, total collection. Set in the QORPO universe.</p>
-        <div class="links"><a class="btn btn-text arrow" href="https://x.com/playOLLgame" target="_blank" rel="noopener">Learn more</a><a class="xln" href="https://x.com/playOLLgame" target="_blank" rel="noopener" aria-label="One Life on X"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/></svg></a></div>
-        <img class="banner" src="assets/one-life-cover.jpg" onerror="this.onerror=null;this.src='assets/one-life-cover.svg'" alt="One Life" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <!-- BUILT ON QORPO objects -->
-  <section class="sec wrap reveal" id="stake">
-    <p class="kicker">Built on $QORPO</p>
-    <h2 class="bigh">Utility you use today</h2>
-    <div class="objs">
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103718_720aeec0-da0e-45aa-b399-67cf685496aa.png" alt=""></div><h3>Stake &amp; earn</h3><p>Earn daily Community Points by your QORPO Power level, or lock for APY tiers 15% / 30% — straight from the on-chain contract.</p><div class="act"><a class="btn btn-glass arrow" href="staking">Open Staking</a></div></div>
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103722_eddb6c75-4479-4015-a28b-dc5560263363.png" alt=""></div><h3>Trade anywhere</h3><p>$QORPO is live on MEXC, KuCoin and Gate — easy to enter, easy to hold.</p><div class="act"><div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div></div></div>
-      <div class="obj"><div class="im"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103720_4cb10d81-a9e9-42d7-953b-3df42c3a503a.png" alt=""></div><h3>Own the ecosystem</h3><p>Games, on-chain collectibles and an animated series — every drop routes value back to the token.</p><div class="act"><a class="btn btn-text arrow" href="#eco">See ecosystem</a></div></div>
-    </div>
-  </section>
-
-  <!-- ATTENTION ECONOMY — working stat band -->
-  <section class="sec wrap reveal statement2" id="attention">
-    <p class="kicker">The attention economy</p>
-    <h2 class="bigh chrome" style="margin:.4rem auto 0;max-width:18ch">Attention is the asset. $QORPO is the token.</h2>
-    <p class="lead" style="margin:1rem auto 0">Games, on-chain collectibles and an animated series — every drop routes attention back into one token that players, collectors and viewers share.</p>
-    <div class="statrow">
-      <div class="statcard"><b>3</b><span>live products: AneeMate, One Life, Tamitos</span></div>
-      <div class="statcard"><b>6 yrs</b><span>building · 0 hacks</span></div>
-      <div class="statcard"><b>190K+</b><span>community</span></div>
-      <div class="statcard"><b>ETH · BSC</b><span>live on 2 chains</span></div>
-    </div>
-    <div class="st-cta">
-      <div class="buydrop"><button class="btn btn-primary"><span class="diamond"></span>Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
-      <a class="btn btn-text arrow" href="staking">See staking rewards</a>
-    </div>
-  </section>
-
-  <!-- BLOGS (grid 3x2) -->
-  <section class="sec wrap blogs reveal" id="news">
-    <p class="kicker">Newsroom</p>
-    <h2 class="bigh">From the QORPO world</h2>
-    <div class="blogrow" id="blogrow">
-      <a class="blog"><div class="cover g1"></div><div class="b-body"><div class="cat">Tamitos</div><h3>Tamitos heads to TV with an animated series</h3><div class="date">Read on qorpo.world →</div></div></a>
-      <a class="blog"><div class="cover g2"></div><div class="b-body"><div class="cat">$QORPO</div><h3>$QORPO now trading on KuCoin, MEXC and Gate</h3><div class="date">Read on qorpo.world →</div></div></a>
-      <a class="blog"><div class="cover g3"></div><div class="b-body"><div class="cat">AneeMate</div><h3>AneeMate brings on-chain collectibles to life</h3><div class="date">Read on qorpo.world →</div></div></a>
-      <a class="blog"><div class="cover g4"></div><div class="b-body"><div class="cat">Staking</div><h3>Stake $QORPO for Power and APY rewards</h3><div class="date">Read on qorpo.world →</div></div></a>
-      <a class="blog"><div class="cover g5"></div><div class="b-body"><div class="cat">Bridge</div><h3>Move $QORPO between Ethereum and BNB Chain</h3><div class="date">Read on qorpo.world →</div></div></a>
-      <a class="blog"><div class="cover g6"></div><div class="b-body"><div class="cat">Ecosystem</div><h3>Building the attention economy, one drop at a time</h3><div class="date">Read on qorpo.world →</div></div></a>
-    </div>
-  </section>
+<div class="final rv">
+  <h2>Pick your world. We keep shipping.</h2>
+  <p>Play AneeMate today, follow One Life as it gets built, and earn your place in the community while it is early.</p>
+  <div class="hero-cta"><a class="btn btn-mint" href="https://aneemate.com/" target="_blank" rel="noopener">Play AneeMate free</a><a class="btn btn-ghost" href="/token">Why $QORPO</a></div>
+</div>
 </main>
 
-<div id="buybar">
-  <div class="bb-in">
-    <span class="dmark"></span>
-    <span class="bb-t">$QORPO</span>
-    <span class="bb-p" id="bbPrice">$0.00073</span>
-    <span class="bb-c" id="bbChg" style="color:var(--green)">+3.8%</span>
-    <div class="buydrop bb-buy">
-      <button class="btn btn-primary">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
-      <div class="bd-menu right" data-buymenu></div>
-    </div>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/about">About</a><a href="/blog">Blog</a></div>
   </div>
-</div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
 
-<footer>
-  <div class="fcols">
-    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
-    <div class="fcol"><span class="h">Main pages</span><a href="bridge">QORPO Bridge</a><a href="staking">QORPO Staking</a><a href="#">QORPO Brand Kit</a></div>
-    <div class="fcol"><span class="h">Ecosystem</span><a href="about">About QORPO</a><a href="ecosystem">Ecosystem</a><a href="token">Why $QORPO</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
-    <div class="fcol"><span class="h">Legal</span><a href="privacy">Privacy Policy</a><a href="terms">Terms of Service</a></div>
-  </div>
-  <div class="flegal">© 2026 QORPO World. All rights reserved. · $QORPO the attention economy token</div>
-</footer>
-
+<script src="assets/ui.js"></script>
 <script>
-  var P='https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/';
-  var ICONS={
-    smiley:'hf_20260823_105620_4975170d-9ffd-4013-ad48-797e0b885f2f.png',
-    cursor:'hf_20260823_105622_f780aeaa-454d-46f8-bfb7-e93ee6fe5997.png',
-    sparkle:'hf_20260823_105623_e40b77fa-e071-4b01-8c99-6538e9013fe7.png',
-    lightning:'hf_20260823_105625_4988350c-421a-4bd9-98dd-d88fbf0d0a55.png',
-    rocket:'hf_20260823_105628_d3ac2bc6-b368-4e3b-9ba8-60b2e715c35e.png',
-    heart:'hf_20260823_105630_d5aef451-3f33-4e99-8b03-5cd890d9ff49.png',
-    controller:'hf_20260823_105632_74ffa8f4-528e-4a47-9765-5454985876e6.png',
-    dollarcoin:'hf_20260823_105634_06eb38bd-9280-478a-8003-ca5f97c2f738.png'
-  };
-  document.querySelectorAll('img[data-i]').forEach(function(im){im.src=P+ICONS[im.dataset.i];});
-  // Buy dropdown menus
-  var EX=[['MEXC','MX','https://www.mexc.com/exchange/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/544.png'],
-          ['KuCoin','KC','https://www.kucoin.com/trade/QORPO-USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/311.png'],
-          ['Gate','GT','https://www.gate.com/trade/QORPO_USDT','https://s2.coinmarketcap.com/static/img/exchanges/128x128/302.png']];
-  var BM='<a href="token"><span class="mk"><svg viewBox="0 0 24 24" style="width:.9rem"><path d="M4 9l4-5h8l4 5-8 12z" fill="#fff"/></svg></span>Why $QORPO?</a><div class="bd-sep"></div>'+
-    EX.map(function(e){return '<a href="'+e[2]+'" target="_blank" rel="noopener"><img class="exlogo" src="'+e[3]+'" alt="'+e[0]+'" data-mk="'+e[1]+'" onerror="var s=document.createElement(\'span\');s.className=\'mk\';s.textContent=this.dataset.mk;this.parentNode.insertBefore(s,this);this.remove();">'+e[0]+'</a>';}).join('');
-  document.querySelectorAll('[data-buymenu]').forEach(function(m){m.innerHTML=BM;});
-  // click-to-open on touch
-  document.querySelectorAll('.buydrop').forEach(function(d){var _t=d.querySelector('button');if(!_t)return;_t.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();document.querySelectorAll('.buydrop').forEach(function(x){if(x!==d)x.classList.remove('open')});d.classList.toggle('open');});});
-  document.addEventListener('click',function(){document.querySelectorAll('.buydrop').forEach(function(x){x.classList.remove('open')});});
-
-  // starfield
-  (function(){var c=document.getElementById('stars'),x=c.getContext('2d'),w,h,st=[];
-    function rs(){w=c.width=innerWidth;h=c.height=innerHeight;st=[];var n=Math.min(110,Math.floor(w*h/13000));for(var i=0;i<n;i++)st.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*.8+.2,s:Math.random()*1.3+.3})}
-    rs();addEventListener('resize',rs);var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0;
-    (function loop(){t+=.02;x.clearRect(0,0,w,h);for(var i=0;i<st.length;i++){var p=st[i];p.y+=p.z*.14;if(p.y>h)p.y=0;var tw=rm?.6:(.4+.6*Math.abs(Math.sin(t+p.x)));x.globalAlpha=tw*p.z;x.fillStyle=(p.x%7<3)?'#E051C7':'#fff';x.beginPath();x.arc(p.x,p.y,p.s,0,7);x.fill()}x.globalAlpha=1;if(!rm)requestAnimationFrame(loop);})();})();
-  (function(){var hero=document.getElementById('hero');if(!hero)return;
-    requestAnimationFrame(function(){requestAnimationFrame(function(){hero.classList.add('go')})});
-    // safety net: never leave the hero blank if the entrance transition is paused (e.g. loaded in a background tab)
-    function showNow(){hero.classList.add('shown');}
-    setTimeout(showNow,2600);
-    document.addEventListener('visibilitychange',function(){if(!document.hidden)showNow();});
-    if(document.visibilityState&&document.visibilityState!=='visible')showNow();
-  })();
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
-  var dia=document.querySelector('.hero-diamond');if(dia){addEventListener('mousemove',function(e){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;var dx=(e.clientX/innerWidth-.5),dy=(e.clientY/innerHeight-.5);dia.style.translate=(dx*16)+'px '+(dy*12)+'px';});}
-  // bridge toggle
-  (function(){var ETH=P+'hf_20260823_103608_d2843171-0b77-4c4b-aea6-b389b6130271.png',BNB=P+'hf_20260823_103628_8fd43627-43ea-42ce-83ba-5aa01236171e.png';
-    var tg=document.getElementById('rhtoggle'),sc=document.getElementById('rhscene'),ball=document.getElementById('rhball'),c1=document.getElementById('c1nm'),c2=document.getElementById('c2nm');var bnb=false,timer;
-    function apply(){tg.classList.toggle('bnb',bnb);sc.classList.toggle('bnb',bnb);c1.textContent=bnb?'BNB Chain':'Ethereum';c2.textContent=bnb?'Ethereum':'BNB Chain';setTimeout(function(){ball.src=bnb?BNB:ETH;},350);}
-    function flip(){bnb=!bnb;apply();}function auto(){clearInterval(timer);timer=setInterval(flip,2600);}
-    tg.addEventListener('click',function(){flip();auto();});document.getElementById('bflip').addEventListener('click',function(){flip();auto();});apply();auto();})();
-  // socials
-  var SVGG={
-    Discord:'<path d="M20.3 4.4A19 19 0 0 0 15.6 3l-.2.5c1.6.4 2.9 1 4.1 1.8a13 13 0 0 0-11 0C9.7 4.5 11 3.9 12.6 3.5L12.4 3A19 19 0 0 0 7.7 4.4C4.8 8.7 4 12.9 4.4 17a19 19 0 0 0 5.8 3l.8-1.3c-.7-.3-1.4-.6-2-1l.5-.4a13.6 13.6 0 0 0 11 0l.5.4c-.6.4-1.3.7-2 1L21 20a19 19 0 0 0 5.8-3h-.4c.5-4.8-.7-9-3.1-12.6zM10 14.6c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.3 0c-.9 0-1.7-.9-1.7-1.9s.8-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>',
-    X:'<path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.9L1.9 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z"/>',
-    Telegram:'<path d="M21.9 4.3 2.6 11.8c-1 .4-1 1.8 0 2.1l4.9 1.5 1.9 6c.2.8 1.2 1 1.8.4l2.7-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7l3.4-15.9c.2-1-.8-1.8-1.8-1.3zM9.7 15.3l9-5.6c.2-.1.4.1.2.3l-7.4 6.9-.3 3.1-1.5-4.7z"/>',
-    Instagram:'<path d="M12 8.9A3.1 3.1 0 1 0 15.1 12 3.1 3.1 0 0 0 12 8.9zm0 5.1A2 2 0 1 1 14 12a2 2 0 0 1-2 2zm4-6.4a.72.72 0 1 0 .72.72.72.72 0 0 0-.72-.72zM20 7.6a4.9 4.9 0 0 0-.33-1.62 3.28 3.28 0 0 0-1.87-1.87A4.9 4.9 0 0 0 16.18 3.8C15.46 3.77 15.23 3.76 12 3.76s-3.46 0-4.18.04a4.9 4.9 0 0 0-1.62.33 3.28 3.28 0 0 0-1.87 1.87A4.9 4.9 0 0 0 4 7.6C3.97 8.32 3.96 8.55 3.96 12s0 3.46.04 4.18a4.9 4.9 0 0 0 .33 1.62 3.28 3.28 0 0 0 1.87 1.87 4.9 4.9 0 0 0 1.62.33c.72.03.95.04 4.18.04s3.46 0 4.18-.04a4.9 4.9 0 0 0 1.62-.33 3.28 3.28 0 0 0 1.87-1.87 4.9 4.9 0 0 0 .33-1.62c.03-.72.04-.95.04-4.18s0-3.46-.04-4.18zm-1.2 8.31a3.7 3.7 0 0 1-.24 1.24 2.2 2.2 0 0 1-1.25 1.25 3.7 3.7 0 0 1-1.24.24c-.71.03-.92.04-4.07.04s-3.36 0-4.07-.04a3.7 3.7 0 0 1-1.24-.24 2.2 2.2 0 0 1-1.25-1.25 3.7 3.7 0 0 1-.24-1.24c-.03-.71-.04-.92-.04-4.07s0-3.36.04-4.07a3.7 3.7 0 0 1 .24-1.24A2.2 2.2 0 0 1 6.69 5.29a3.7 3.7 0 0 1 1.24-.24c.71-.03.92-.04 4.07-.04s3.36 0 4.07.04a3.7 3.7 0 0 1 1.24.24 2.2 2.2 0 0 1 1.25 1.25 3.7 3.7 0 0 1 .24 1.24c.03.71.04.92.04 4.07s-.01 3.36-.04 4.07z"/>',
-    TikTok:'<path d="M16.6 3h-2.9v12.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .4 0 .6.1V10a5.3 5.3 0 1 0 4.6 5.3V8.9a6.3 6.3 0 0 0 3.6 1.1V7.1a3.5 3.5 0 0 1-3.6-3.5z"/>',
-    Twitch:'<path d="M4.3 3 3 6.4v13.1h4.5V22h2.5l2.5-2.5h3.6L21 15.1V3zm14.8 11.3-2.6 2.6h-3.9l-2.3 2.3v-2.3H6.7V4.6h12.4zM15.3 7.6h-1.6v4.8h1.6zm-4.3 0H9.4v4.8H11z"/>',
-    YouTube:'<path d="M22.5 7.2a2.7 2.7 0 0 0-1.9-1.9C18.9 4.8 12 4.8 12 4.8s-6.9 0-8.6.5A2.7 2.7 0 0 0 1.5 7.2 28 28 0 0 0 1 12a28 28 0 0 0 .5 4.8 2.7 2.7 0 0 0 1.9 1.9c1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9A28 28 0 0 0 23 12a28 28 0 0 0-.5-4.8zM9.8 15.3V8.7l5.7 3.3z"/>'
-  };
-  var SOC=[['Discord','https://discord.gg/qorpo'],['X','https://x.com/QORPOworld'],['Telegram','https://t.me/qorpoworld'],['Instagram','https://instagram.com/qorpoworld'],['TikTok','https://tiktok.com/@qorpoworld'],['Twitch','https://twitch.tv/qorpoworld'],['YouTube','https://youtube.com/@qorpoworld']];
-  document.getElementById('fsoc').innerHTML=SOC.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'"><svg viewBox="0 0 24 24">'+SVGG[s[0]]+'</svg></a>';}).join('');
-  (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
-  // BLOG via shared Nucleus CMS — real QORPO posts (category qorpo-game-studio).
-  // Falls back to the static cards below if offline or the origin isn't CORS-allowed yet.
-  (function(){var CMS='https://blog.tamitos.com/api/v1',covers=['g1','g2','g3','g4','g5','g6'];
-    var IMG_HOST='https://blog.tamitos.com';
-    function fixImg(u){if(!u||typeof u!=='string')return u;try{if(/^https?:\/\//i.test(u)){var a=document.createElement('a');a.href=u;return IMG_HOST+a.pathname+(a.search||'');}if(u.charAt(0)==='/')return IMG_HOST+u;return u;}catch(e){return u;}}
-    var q='/blog-posts?filter[blog_categories.slug]=qorpo-game-studio&per_page=6&fields[blog_posts]=title,slug,published_at,thumbnail_image,feature_image';
-    fetch(CMS+q).then(function(r){return r.ok?r.json():null;}).then(function(j){
-      if(!j)return;var posts=(j.data||[]).slice(0,6);if(!posts.length)return;
-      var row=document.getElementById('blogrow');
-      row.innerHTML=posts.map(function(p,i){var date=p.published_at?new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';return '<a class="blog" data-i="'+i+'" href="blog?slug='+encodeURIComponent(p.slug)+'"><div class="cover '+covers[i]+'"></div><div class="b-body"><div class="cat">QORPO</div><h3>'+p.title+'</h3><div class="date">'+date+'</div></div></a>';}).join('');
-      // real cover only if it actually loads (CMS image host may 404); otherwise the brand gradient stays
-      posts.forEach(function(p,i){var img=fixImg((p.thumbnail_image&&p.thumbnail_image.url)||(p.feature_image&&p.feature_image.url)||'');if(!img)return;var pre=new Image();pre.onload=function(){var el=row.querySelector('.blog[data-i="'+i+'"] .cover');if(el){el.style.backgroundImage='url('+img+')';el.classList.remove(covers[i]);}};pre.src=img;});
-    }).catch(function(){});
-  })();
-
-  /* ============ brand diamond marker on every kicker ============ */
-  document.querySelectorAll('.kicker').forEach(function(k){if(k.querySelector('.dmark'))return;var s=document.createElement('span');s.className='dmark';k.insertBefore(s,k.firstChild);});
-
-  /* ============ sticky Buy bar on scroll ============ */
-  (function(){var bar=document.getElementById('buybar'),hero=document.getElementById('hero');if(!bar||!hero)return;
-    function upd(){var b=hero.getBoundingClientRect();if(b.bottom<70)bar.classList.add('show');else bar.classList.remove('show');}
-    addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
-
-  /* ============ splash loader ============ */
-  (function(){var s=document.getElementById('splash');if(!s)return;function go(){s.classList.add('gone');}addEventListener('load',function(){setTimeout(go,300);});setTimeout(go,1400);})();
-
-  /* ============ click-to-copy verified contract ============ */
-  (function(){var b=document.getElementById('ccCopy');if(!b)return;b.addEventListener('click',function(){var a=b.dataset.addr,s=b.querySelector('.cc-addr'),old=s.textContent;function done(){b.classList.add('copied');s.textContent='Copied ✓';setTimeout(function(){b.classList.remove('copied');s.textContent=old;},1400);}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(a).then(done).catch(function(){done();});}else{done();}});})();
-
-  /* ============ community count-up (real: 190K) ============ */
-  (function(){var el=document.getElementById('commCount');if(!el)return;var start=null;
-    function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/1400,1);var v=Math.floor(190*(0.35+0.65*p));el.textContent=v+'K+';if(p<1)requestAnimationFrame(step);}
-    var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){requestAnimationFrame(step);io.disconnect();}});io.observe(el);})();
-
-  /* ============ LIVE market data from CoinGecko ============ */
-  (function(){
-    var el=function(id){return document.getElementById(id);};
-    function fmtUsd(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
-    function fmtBig(n){if(n==null)return '—';if(n>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return '$'+(n/1e3).toFixed(1)+'K';return '$'+n.toFixed(0);}
-    function fmtNum(n){if(n==null)return '—';if(n>=1e9)return (n/1e9).toFixed(2)+'B';if(n>=1e6)return (n/1e6).toFixed(1)+'M';if(n>=1e3)return (n/1e3).toFixed(1)+'K';return Math.round(n).toLocaleString('en-US');}
-    function drawSpark(vals){var path=el('spk'),fill=el('spkfill');if(!path||!vals||!vals.length)return;var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals),rng=(max-min)||1,W=300,H=60,n=vals.length;
-      var d=vals.map(function(v,i){var x=(i/(n-1))*W;var y=H-6-((v-min)/rng)*(H-14);return (i?'L':'M')+x.toFixed(1)+','+y.toFixed(1);}).join(' ');
-      path.setAttribute('d',d);if(fill)fill.setAttribute('d',d+' L'+W+','+H+' L0,'+H+' Z');}
-    fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=true')
-      .then(function(r){return r.ok?r.json():null;}).then(function(d){
-        if(!d||!d.market_data)return;var m=d.market_data;
-        var pr=fmtUsd(m.current_price&&m.current_price.usd);
-        if(el('pcPrice'))el('pcPrice').textContent=pr;
-        if(el('bbPrice'))el('bbPrice').textContent=pr;
-        var ch=m.price_change_percentage_24h;
-        if(ch!=null){var ct=(ch>=0?'+':'')+ch.toFixed(2)+'%',cc=ch>=0?'var(--green)':'#ff6b8b';
-          if(el('pcChg')){el('pcChg').textContent=ct;el('pcChg').style.color=cc;}
-          if(el('bbChg')){el('bbChg').textContent=ct;el('bbChg').style.color=cc;}}
-        if(el('pcMc'))el('pcMc').textContent=fmtBig(m.market_cap&&m.market_cap.usd);
-        if(el('pcVol'))el('pcVol').textContent=fmtBig(m.total_volume&&m.total_volume.usd);
-        if(el('pcCirc'))el('pcCirc').textContent=fmtNum(m.circulating_supply);
-        drawSpark(m.sparkline_7d&&m.sparkline_7d.price);
-      }).catch(function(){});
-  })();
-
-  /* ============ lazy-load + autoplay heavy video only when near viewport ============ */
-  (function(){var vids=document.querySelectorAll('video[data-src]');if(!vids.length)return;
-    function load(v){if(v.dataset.loaded)return;v.dataset.loaded='1';v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}
-    if(!('IntersectionObserver' in window)){vids.forEach(load);return;}
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);io.unobserve(e.target);}});},{rootMargin:'300px 0px'});
-    vids.forEach(function(v){io.observe(v);});})();
-</script>
-
-<!-- ===== buy-$QORPO promo popup (shows once/day, 5s after landing) ===== -->
-<div class="qp-overlay" id="qpOverlay">
-  <div class="qp-card" role="dialog" aria-modal="true" aria-label="Buy $QORPO">
-    <button class="qp-x" id="qpX" aria-label="Close">×</button>
-    <div class="qp-glow"></div>
-    <div class="qp-body">
-      <span class="qp-mark">
-        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <svg viewBox="0 0 24 24" style="display:none"><defs><linearGradient id="qpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF709E"/><stop offset=".55" stop-color="#E051C7"/><stop offset="1" stop-color="#C83DD0"/></linearGradient></defs><path d="M12 2l7.5 7L12 22 4.5 9z" fill="url(#qpg)"/></svg>
-      </span>
-      <p class="qp-eyebrow">$QORPO · The attention economy token</p>
-      <h3 class="qp-title">Buy <span class="grad">$QORPO</span>.<br>Get the upside.</h3>
-      <p class="qp-sub">One token across QORPO's games and shows. Hold &amp; stake to unlock all three:</p>
-      <ul class="qp-list">
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><div><b>Tamitos airdrop</b><span>Stake $QORPO to qualify</span></div></li>
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/></svg></span><div><b>Share of AneeMate</b><span>Be part of the game's economy</span></div></li>
-        <li><span class="qp-i"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><div><b>Stake &amp; earn</b><span>Daily Community Points + APY</span></div></li>
-      </ul>
-      <p class="qp-buylab">Buy $QORPO on</p>
-      <div class="qp-buys">
-        <a class="qp-buy" href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/544.png" alt="MEXC" onerror="this.parentNode.style.display='none'"></span><span>MEXC</span></a>
-        <a class="qp-buy" href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/311.png" alt="KuCoin" onerror="this.parentNode.style.display='none'"></span><span>KuCoin</span></a>
-        <a class="qp-buy" href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener"><span class="lg"><img src="https://s2.coinmarketcap.com/static/img/exchanges/128x128/302.png" alt="Gate" onerror="this.parentNode.style.display='none'"></span><span>Gate</span></a>
-      </div>
-      <div class="qp-foot">
-        <a class="qp-why" href="token">Why $QORPO? →</a>
-        <span class="qp-secure"><span class="d"></span>Live on ETH &amp; BNB</span>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-(function(){
-  try{
-    var KEY='qorpo_promo_seen';
-    var today=new Date().toISOString().slice(0,10);
-    var ov=document.getElementById('qpOverlay'); if(!ov) return;
-    function seen(){try{localStorage.setItem(KEY,today);}catch(e){}}
-    function hide(){ov.classList.remove('show');seen();}
-    var already=false; try{already=(localStorage.getItem(KEY)===today);}catch(e){}
-    if(!already){ setTimeout(function(){ov.classList.add('show');},5000); }
-    var x=document.getElementById('qpX'); if(x)x.addEventListener('click',hide);
-    ov.addEventListener('click',function(e){if(e.target===ov)hide();});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('show'))hide();});
-    var links=ov.querySelectorAll('a[href]'); for(var i=0;i<links.length;i++){links[i].addEventListener('click',seen);}
-  }catch(e){}
+/* AneeMate showcase: one big stage, tabs with progress, auto-advance, swipe */
+(function(){var root=document.getElementById('amshow');if(!root)return;
+  var slides=[].slice.call(root.querySelectorAll('.show-slide')),tabs=[].slice.call(root.querySelectorAll('.show-tab')),num=root.querySelector('.show-num b'),strip=root.querySelector('.show-tabs');
+  var cur=0,timer=null,DUR=5000,inView=false,hover=false,rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(i,user){cur=(i+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===cur)});
+    tabs.forEach(function(t,k){t.classList.toggle('on',k===cur);t.classList.remove('run');t.setAttribute('aria-selected',k===cur?'true':'false')});
+    num.textContent=('0'+(cur+1)).slice(-2);
+    var t=tabs[cur];if(strip.scrollWidth>strip.clientWidth){strip.scrollTo({left:t.offsetLeft-strip.offsetLeft-16,behavior:'smooth'})}
+    schedule()}
+  function schedule(){clearTimeout(timer);var t=tabs[cur];t.classList.remove('run');if(rm||!inView||hover)return;
+    t.style.setProperty('--dur',DUR+'ms');void t.offsetWidth;t.classList.add('run');timer=setTimeout(function(){go(cur+1)},DUR)}
+  tabs.forEach(function(t,k){t.addEventListener('click',function(){go(k,true)})});
+  root.querySelector('.show-arr.prev').addEventListener('click',function(){go(cur-1,true)});
+  root.querySelector('.show-arr.next').addEventListener('click',function(){go(cur+1,true)});
+  var stage=root.querySelector('.show-stage');stage.addEventListener('mouseenter',function(){hover=true;schedule()});stage.addEventListener('mouseleave',function(){hover=false;schedule()});
+  var sx=null;stage.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+  stage.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1),true)},{passive:true});
+  root.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(cur+1,true);if(e.key==='ArrowLeft')go(cur-1,true)});
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){inView=es[0].isIntersecting;schedule()},{threshold:.35}).observe(stage);else{inView=true;schedule()}
 })();
 </script>
+<script>
+/* ---------- builds data: live endpoint, falls back to a real snapshot ---------- */
+var FEED_URL='https://qorpo-points.ceo-b3f.workers.dev/feed';
+var PROD={aneemate:['AneeMate','var(--am3)'],onelife:['One Life','var(--ol2)'],tamitos:['Tamitos','var(--tm1)']};
+function pill(k){var p=PROD[k];return '<span class="pp" style="--pc:'+p[1]+'">'+p[0]+'</span>'}
+var SNAP={
+ aneemate:[
+  {r:'aneemate-web',t:'2026-10-01T04:35:43Z',m:'Events with badges and points, island records page'},
+  {r:'aneemate-web',t:'2026-09-27T09:37:29Z',m:'Real in-game screenshots on the home page and 12 AneeMate pages'},
+  {r:'aneemate-web',t:'2026-09-27T06:12:14Z',m:'Pack art that fits its card, key art, clean URLs'},
+  {r:'AneeMateV2',t:'2026-09-18T12:47:15Z',m:'Swim animations for quadrupeds and serpent'},
+  {r:'AneeMateV2',t:'2026-09-18T12:13:22Z',m:'Swim animations for all bipeds'}],
+ tamitos:[
+  {r:'tamitos-mobileapp',t:'2026-09-30T08:21:05Z',m:'New animated tutorial after the first sign-in'},
+  {r:'tamitos-mobileapp',t:'2026-09-30T05:47:10Z',m:'Profile: "How it works" replays the tutorial'},
+  {r:'tamitos-mobileapp',t:'2026-09-30T05:45:51Z',m:'Tutorial tests and camera'}],
+ onelife:[]
+};
+/* One Life has no repo of its own: it is pushed into the Citizen Conflict repos.
+   Commits from there count as One Life when the branch or message says so; the rest is CC and stays off the site. */
+var OL_RULE=/one ?life|onelife|^\s*\[?OL\]?[:\s]|firefight|rescue/i;
+function splitCC(d){if(d&&d.cc){d.onelife=(d.onelife||[]).concat(d.cc.filter(function(c){return OL_RULE.test(c.m)||OL_RULE.test(c.b||'')}));delete d.cc}return d}
+function ago(t){var s=(Date.now()-new Date(t))/1000;if(s<3600)return Math.max(1,Math.round(s/60))+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function renderFeed(data,live){
+  document.querySelectorAll('[data-commits]').forEach(function(ul){var k=ul.getAttribute('data-commits'),list=(data[k]||[]).slice(0,5);
+    var st=ul.parentNode.querySelector('[data-feedstate]');if(st){st.textContent=live?'LIVE':'LATEST';st.classList.toggle('ok',!!live);if(live)st.insertAdjacentHTML('afterbegin','<span class="dot live-dot"></span>')}
+    if(!list.length){ul.outerHTML='<p class="empty">'+(k==='onelife'?'One Life is built on top of Citizen Conflict. Its builds land here the moment they are pushed.':'New builds land here the moment they are pushed.')+'</p>';return}
+    ul.innerHTML=list.map(function(c,i){return '<li style="--k:'+i+';--pc:'+PROD[k][1]+'"><span class="cd"></span><span><span class="cm">'+esc(c.m)+'</span><span class="meta">'+pill(k)+'<span>'+esc(c.r)+'</span>'+'</span></span><span class="ago">'+ago(c.t)+'</span></li>'}).join('')});
+  var tk=document.getElementById('ticker');if(tk){var items=[];['aneemate','tamitos','onelife'].forEach(function(k){(data[k]||[]).forEach(function(c){items.push('<span class="tk-item">'+pill(k)+'<b>'+esc(c.m)+'</b><span class="rp">'+esc(c.r)+' · '+ago(c.t)+'</span></span>')})});
+    var h=items.join('');tk.innerHTML=h+h}
+}
+renderFeed(SNAP,false);
+(function(){if(!window.fetch)return;var ctl=window.AbortController?new AbortController():null;var to=setTimeout(function(){ctl&&ctl.abort()},4000);
+  fetch(FEED_URL,{signal:ctl&&ctl.signal}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){clearTimeout(to);if(d&&(d.aneemate||d.tamitos||d.onelife||d.cc))renderFeed(splitCC(d),true)}).catch(function(){})})();
+
+/* live leaderboard from the points worker */
+(function(){if(!window.fetch)return;fetch('https://qorpo-points.ceo-b3f.workers.dev/leaderboard').then(function(r){return r.json()}).then(function(d){
+  var rows=(d.leaderboard||[]).slice(0,5);if(!rows.length)return;function f(n){return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n/1e3)+'K':Math.round(n)}
+  document.getElementById('lb').innerHTML=rows.map(function(r){return '<li><span class="rk">#'+r.rank+'</span><span class="w">'+r.wallet.slice(0,6)+'…'+r.wallet.slice(-4)+'</span><span class="p">'+f(r.points)+'</span></li>'}).join('')}).catch(function(){})})();
+
+</script>
+</body>
+</html>

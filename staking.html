@@ -1,559 +1,666 @@
-<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QORPO Staking — Stake $QORPO for Power &amp; APY</title>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<title>QORPO Staking: stake $QORPO for APY and Community Points</title>
+<meta name="description" content="Stake $QORPO directly on-chain from MetaMask or OKX. Non-custodial, no middlemen. Earn daily Community Points by your QORPO Power level and APY up to 30% on Ethereum and BNB Chain.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QORPO Staking">
-<meta property="og:description" content="Stake $QORPO for Community Points and up to 30% APY. Ethereum & BNB Chain.">
+<meta property="og:description" content="Stake $QORPO for Community Points and up to 30% APY. Ethereum &amp; BNB Chain.">
 <meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
+<meta property="og:url" content="https://qorpo.world/staking">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QORPO Staking">
 <meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
-<meta name="description" content="Stake $QORPO directly on-chain — MetaMask, OKX & WalletConnect. Non-custodial, no middlemen. Earn daily Community Points by your QORPO Power level and APY up to 30% on Ethereum & BNB Chain.">
+<meta name="theme-color" content="#10131a">
 <link rel="canonical" href="https://qorpo.world/staking">
+<link rel="icon" type="image/webp" href="assets/img/logo.webp">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://qorpo.world/#org","name":"QORPO","url":"https://qorpo.world/","logo":"https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png","sameAs":["https://x.com/QORPOworld","https://discord.gg/qorpo","https://t.me/qorpoworld"]},
 {"@type":"FAQPage","@id":"https://qorpo.world/staking#faq","mainEntity":[
 {"@type":"Question","name":"How does QORPO staking work?","acceptedAnswer":{"@type":"Answer","text":"Stake $QORPO at qorpo.world/staking, flexible or locked. Every staked token earns Community Points, and you can earn APY paid in more $QORPO straight from the on-chain contract."}},
-{"@type":"Question","name":"What are Community Points?","acceptedAnswer":{"@type":"Answer","text":"A loyalty score - 1 staked $QORPO equals 1 Community Point - that ranks you on the leaderboard. They are off-chain rewards, not a financial return."}},
+{"@type":"Question","name":"What are Community Points?","acceptedAnswer":{"@type":"Answer","text":"A loyalty score that ranks you on the leaderboard. Your stake earns points every day, and the daily amount grows with your QORPO Power level. They are off-chain rewards, not a financial return."}},
 {"@type":"Question","name":"What is the QORPO daily Spin?","acceptedAnswer":{"@type":"Answer","text":"A free, provably-fair daily reward for wallets staking at least 10,000 $QORPO. Higher QORPO Power levels unlock more spins per day. Rewards are Community Points, not money."}},
 {"@type":"Question","name":"What APY does QORPO staking pay?","acceptedAnswer":{"@type":"Answer","text":"APY tiers pay additional $QORPO, roughly 15% (Low) to 30% (High), set on-chain by the staking contract and subject to change."}},
 {"@type":"Question","name":"Is QORPO staking custodial?","acceptedAnswer":{"@type":"Answer","text":"No. Staking is non-custodial through your own wallet; QORPO never holds your private keys or funds."}}
 ]}
 ]}
 </script>
-<meta property="og:url" content="https://qorpo.world/staking">
-<meta name="theme-color" content="#06060b">
-<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
 <style>
-  :root{
-    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
-    --mag:#E051C7;--pink:#FF709E;--green:#38d39f;--eth:#627eea;--gold:#F0B90B;
-    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
-    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
-    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
-    --max:78rem;
-    --card-r:1.1rem;--card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-    --card-bd:rgba(255,255,255,.10);--card-bd-h:rgba(255,255,255,.24);--card-sh:0 24px 60px -40px rgba(0,0,0,.9);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
-  a{color:inherit;text-decoration:none}
-  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
-  p{margin:0}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .mono{font-family:var(--mono)}
-  .serif{color:#fff;font-weight:600;font-style:normal}
-  .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
-  .kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
-  .bigh{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.04em;font-weight:900;margin-top:.5rem}
-  .lead{color:var(--muted);font-size:1.12rem;max-width:38rem}
+/* ===== staking page ===== */
+:root{--faint:#7d8699;--pink:var(--mint);--green:var(--mint);--stk1:#17a58c;--stk2:#0c4d45}
+main{position:relative;z-index:1}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.32}
+.mono{font-family:var(--mono)}
+.dmark{display:inline-block;width:9px;height:9px;border-radius:2px;transform:rotate(45deg);background:linear-gradient(135deg,#7df7c4,var(--mint2));box-shadow:0 0 12px -2px var(--mint);flex:none}
+.kicker .dmark{margin-right:2px}
+.lab{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lab small{font-family:var(--ui);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--faint)}
 
-  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-    radial-gradient(46rem 34rem at 82% -4%,rgba(224,81,199,.20),transparent 60%),
-    radial-gradient(40rem 30rem at 4% 16%,rgba(123,90,240,.15),transparent 60%),
-    radial-gradient(54rem 40rem at 50% 118%,rgba(255,112,158,.09),transparent 60%)}
-  main{position:relative;z-index:2}
+/* hero */
+.page-hero{--ph1:rgba(23,165,140,.30);--ph2:rgba(255,198,58,.14)}
+.sh-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:44px;align-items:center}
+.sh-copy .sub{max-width:52ch}
+.sh-copy h1{font-size:clamp(38px,5.4vw,74px)}
+.backs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:24px 0 0}
+.backs > span{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-right:4px}
+.backs .chip{height:36px;font-size:14px}
+.backs .chip b{color:var(--text);font-weight:700}
+.sh-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px;max-width:640px}
+.hstats div{border-radius:18px;padding:14px 14px 12px;background:linear-gradient(160deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line)}
+.hstats b{display:block;font-family:var(--disp);font-size:20px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.hstats span{display:block;font-size:12.5px;color:var(--dim);font-weight:600;line-height:1.35;margin-top:2px}
 
-  .diamond{width:.72rem;height:.72rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);flex:none}
-  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
-  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.4rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
-  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
-  .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line);backdrop-filter:blur(10px)}
-  .btn-glass:hover{background:rgba(255,255,255,.09)}
-  .btn-block{width:100%}
-  .arrow::after{content:"→";margin-left:.15rem;transition:transform .2s}.arrow:hover::after{transform:translateX(3px)}
+/* Community Points stat tile */
+.cp-card{--c1:#c98a12;--c2:#4a2f06;--acc:var(--gold);position:relative;border-radius:32px;overflow:hidden;min-height:420px;padding:26px 24px 84px;
+  background:radial-gradient(70% 55% at 50% 38%,rgba(255,214,102,.28),transparent 70%),linear-gradient(170deg,var(--c1) 0%,var(--c2) 62%,#151a23 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.16),0 40px 80px -36px var(--gold2),0 14px 30px -12px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;text-align:center}
+.cp-card .pc-ghost{top:62px;font-size:clamp(64px,9vw,104px);color:rgba(255,255,255,.12)}
+.cp-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.cp-coin{position:relative;z-index:2;width:92px;height:92px;margin:30px auto 18px;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,#fff6c4,var(--gold) 42%,var(--gold2) 78%,#b86a00);box-shadow:0 18px 40px -10px rgba(255,159,28,.85),inset 0 -6px 0 rgba(0,0,0,.14),inset 0 0 0 5px rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:900;font-size:24px;color:#5a3500;letter-spacing:-.03em;animation:cpbob 5s ease-in-out infinite}
+@keyframes cpbob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+.cp-k{position:relative;z-index:2;font-weight:800;font-size:16px;line-height:1.3}
+.cp-k small{display:block;font-weight:600;font-size:13px;color:rgba(255,255,255,.7)}
+.cp-v{position:relative;z-index:2;display:block;margin-top:10px;font-family:var(--disp);font-weight:900;font-size:clamp(38px,6vw,58px);letter-spacing:-.04em;line-height:1.05;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.35);overflow-wrap:anywhere;max-width:100%}
+.cp-note{position:relative;z-index:2;margin:12px 0 0;font-size:13.5px;color:rgba(255,255,255,.72);max-width:32ch}
+.cp-card .pc-tabs{width:72%}
 
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
-  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
-  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
-  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
-  .nav-links{display:flex;align-items:center;gap:.2rem;margin:0 auto}
-  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
-  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
-  .nav-links a.active{opacity:1;color:#fff;background:rgba(224,81,199,.16)}
-  .wc{font-family:var(--mono);font-size:.76rem;padding:.5rem .85rem;border-radius:1.6rem;border:1px solid var(--card-bd);background:rgba(255,255,255,.05);cursor:pointer;color:#fff;display:flex;align-items:center;gap:.45rem;white-space:nowrap}
-  .wc:hover{background:rgba(255,255,255,.09)}
-  .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
-  .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
-  .wc.on::after{content:"▾";margin-left:.15rem;opacity:.6;font-size:.7rem}
-  .wcwrap{position:relative}
-  .wc-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:11rem;background:rgba(18,18,26,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:.8rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);padding:.35rem;display:none;flex-direction:column;z-index:95}
-  .wc-menu.open{display:flex}
-  .wc-menu button{background:none;border:0;color:#eaeaf3;font-family:var(--body);font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
-  .wc-menu button:hover{background:rgba(255,255,255,.08)}
-  .wc-menu button.disc{color:#ff8fb0}
-  .burger{display:none;background:none;border:0;color:#fff;font-size:1.75rem;line-height:1;cursor:pointer;padding:.1rem .3rem;-webkit-tap-highlight-color:transparent}
+/* section heads */
+.sec .h2{font-size:clamp(32px,4.4vw,62px)}
 
-  /* HERO */
-  /* hero — fullscreen render */
-  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:5.5rem 1.5rem 2rem;overflow:hidden;background:#06060b}
-  .hero-media{position:absolute;inset:0;z-index:0}
-  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
-  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.28) 0%,rgba(6,6,11,0) 30%,rgba(6,6,11,.5) 66%,rgba(6,6,11,.98) 100%)}
-  .hero-inner{position:relative;z-index:1;width:100%;max-width:52rem;margin:0 auto}
-  .hero h1{font-size:clamp(1.5rem,3.2vw,2.6rem);letter-spacing:-.035em;font-weight:900;line-height:1;margin:.4rem auto 0;max-width:16ch;color:#fff;text-shadow:0 2px 34px rgba(0,0,0,.75)}
-  .hero .scrollcue{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
-  @media (prefers-reduced-motion:reduce){.hero .scrollcue{animation:none}}
-  /* intro block moved below the render */
-  .hero-intro{text-align:center;padding:2.8rem 1.5rem 0;display:flex;flex-direction:column;align-items:center}
-  .hero-intro .lead{font-size:clamp(1.02rem,1.8vw,1.28rem);color:var(--muted);max-width:42rem;margin:0 auto;font-weight:400}
-  .hero-intro .lead b{color:#fff}
-  .hero-intro .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
-  .hero .lead b{color:#fff;font-weight:700}
-  .hero .cta-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.3rem;flex-wrap:wrap}
-  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:2.4rem auto 0;max-width:54rem;width:100%}
-  .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.2rem 1rem}
-  .statcard b{display:block;font-size:1.55rem;font-weight:900;letter-spacing:-.02em;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .statcard span{color:var(--muted);font-size:.78rem;margin-top:.25rem;display:block}
-  @media(max-width:760px){.statrow{grid-template-columns:1fr 1fr}}
+/* verify bar */
+.verify{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-top:28px;padding:14px 16px;border-radius:20px;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2)}
+.verify .status{color:var(--mint);background:rgba(94,240,176,.08);box-shadow:inset 0 0 0 1px rgba(94,240,176,.28)}
+.verify code{font-family:var(--mono);font-size:13px;color:var(--text);overflow-wrap:anywhere;word-break:break-all;min-width:0;flex:1 1 260px}
+.verify .vbtns{display:flex;flex-wrap:wrap;gap:8px}
+.verify .chip{height:36px;font-size:13.5px;cursor:pointer;border:0}
 
-  .sec{padding:4.5rem 0;position:relative}
-  .sec.tight{padding-top:1rem}
+/* pool cards (reference pcard style) */
+.pools{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px;perspective:1200px}
+.pool.pcard{display:block;width:100%;height:440px;padding:0;margin:0;border:0;text-align:left;font:inherit;color:#fff;-webkit-appearance:none;appearance:none}
+.pool.t-hold{--c1:var(--stk1);--c2:var(--stk2);--acc:var(--gold)}
+.pool.t-trade{--c1:var(--am1);--c2:#173a7a;--acc:#7fe3ff}
+.pool:not(.on){filter:saturate(.55) brightness(.82)}
+.pool:not(.on):hover{filter:none}
+.pool.on{box-shadow:inset 0 0 0 2.5px rgba(255,255,255,.75),0 0 0 4px rgba(94,240,176,.35),0 40px 80px -26px var(--c1),0 12px 30px -12px rgba(0,0,0,.6)}
+.pool .pc-code{background:linear-gradient(135deg,var(--acc),var(--c1));color:#0d1118}
+.pool .pc-ghost{top:76px;font-size:clamp(54px,6.4vw,82px)}
+.pool .ptick{position:absolute;left:16px;top:12px;z-index:4;width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3);transition:.25s}
+.pool .ptick svg{width:16px;height:16px;opacity:0;transition:.2s}
+.pool.on .ptick{background:linear-gradient(180deg,#7df7c4,var(--mint2));box-shadow:0 6px 18px -6px var(--mint)}
+.pool.on .ptick svg{opacity:1}
+.pool-art{position:absolute;left:0;right:0;top:92px;height:104px;z-index:2;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.pcoin{position:relative;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 34% 28%,#fff6c4,var(--gold) 42%,var(--gold2) 78%,#b86a00);box-shadow:0 20px 40px -12px rgba(0,0,0,.55),inset 0 -6px 0 rgba(0,0,0,.14),inset 0 0 0 5px rgba(255,255,255,.2);animation:cpbob 5.5s ease-in-out infinite}
+.pcoin svg{width:36px;height:36px;stroke:#5a3500}
+.t-trade .pcoin{background:radial-gradient(circle at 34% 28%,#e7fbff,#7fe3ff 42%,#3a9fe0 78%,#1d5fa8)}
+.t-trade .pcoin svg{stroke:#0c2c55}
+.pcoin.b{position:absolute;width:54px;height:54px;transform:translate(78px,26px);animation-delay:-2s;opacity:.9}
+.pcoin.b svg{display:none}
+.pcoin.c{position:absolute;width:40px;height:40px;transform:translate(-84px,-22px);animation-delay:-3.4s;opacity:.75}
+.pool .pc-panel{height:150px}
+.pool .pc-row .l,.pool .pc-row .r{font-size:12.5px}
+.pool .pc-title{top:52px;padding:0 18px}
+.pool .pc-title b{font-size:19px}
+.pool .pc-title span{display:block;margin-top:2px;font-size:14px;line-height:1.35;color:#c3cad8}
+.pool .pc-tabs span{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.pool .pt-on{display:none!important;color:var(--mint)!important}
+.pool.on .pt-on{display:flex!important}
+.pool.on .pt-off{display:none!important}
 
-  /* pool cards */
-  .poolcards{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:2rem}
-  .poolcard{text-align:left;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.4rem 1.5rem;cursor:pointer;color:#fff;font-family:var(--body);transition:transform .25s,border-color .25s,box-shadow .25s;position:relative;overflow:hidden;display:block}
-  .poolcard:hover{transform:translateY(-4px);border-color:var(--card-bd-h)}
-  .poolcard.on{border-color:transparent;box-shadow:0 0 0 1.5px var(--mag),0 24px 60px -40px rgba(224,81,199,.7)}
-  .poolcard.on::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 100% 0,rgba(224,81,199,.16),transparent 60%);pointer-events:none}
-  .poolcard .pk{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
-  .poolcard h3{font-size:1.35rem;margin-top:.45rem;display:flex;align-items:center;gap:.5rem}
-  .poolcard .big{font-family:var(--mono);font-weight:700;font-size:1.05rem;margin-top:.6rem}
-  .poolcard .big em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .poolcard p{color:var(--muted);font-size:.9rem;margin-top:.5rem}
-  .poolcard .tick{position:absolute;top:1.2rem;right:1.3rem;width:1.3rem;height:1.3rem;border-radius:50%;border:1.5px solid var(--card-bd);display:grid;place-items:center;transition:.2s}
-  .poolcard.on .tick{background:var(--grad);border-color:transparent}
-  .poolcard .tick svg{width:.75rem;height:.75rem;opacity:0;transition:.2s}
-  .poolcard.on .tick svg{opacity:1}
-  @media(max-width:720px){.poolcards{grid-template-columns:1fr}}
+/* app grid */
+.appgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;margin-top:20px;align-items:start}
+.stakebox,.ovbox{position:relative;border-radius:30px;padding:26px;min-width:0;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2)}
+.stakebox{background:radial-gradient(90% 60% at 100% 0%,rgba(23,165,140,.22),transparent 60%),linear-gradient(170deg,var(--panel2),var(--panel))}
+.sb-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.sb-title{display:flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:900;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.03em}
+.sb-title .coin{width:30px;height:30px}
+.wcwrap{position:relative}
+.wc{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:12px;border:0;cursor:pointer;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px var(--line2);font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--text);white-space:nowrap;transition:.2s}
+.wc:hover{background:rgba(255,255,255,.08)}
+.wc .dot{background:var(--gold);transition:.2s}
+.wc.on .dot{background:var(--mint);box-shadow:0 0 0 3px rgba(94,240,176,.2)}
+.wc.on::after{content:"\25BE";opacity:.6;font-size:11px}
+.wc-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:180px;padding:6px;border-radius:16px;background:rgba(22,26,35,.97);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -20px rgba(0,0,0,.85);display:none;flex-direction:column;z-index:20}
+.wc-menu.open{display:flex}
+.wc-menu button{background:none;border:0;text-align:left;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14.5px;color:var(--text)}
+.wc-menu button:hover{background:rgba(255,255,255,.07)}
+.wc-menu button.disc{color:#ff8a8a}
 
-  .appgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:1.1rem;margin-top:1.1rem;align-items:start}
-  @media(max-width:860px){.appgrid{grid-template-columns:1fr}}
-  .card{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.5rem;box-shadow:var(--card-sh)}
-  .lab{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.5rem}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px;padding:5px;border-radius:16px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px var(--line);max-width:100%}
+.seg button{height:40px;padding:0 16px;border:0;border-radius:12px;background:none;cursor:pointer;font-weight:700;font-size:14.5px;color:var(--muted);transition:.2s}
+.seg button:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.seg.chain button.on{color:#04261a;background:linear-gradient(180deg,#7df7c4,var(--mint2));box-shadow:0 8px 20px -10px var(--mint)}
+.tseg{display:flex;flex-wrap:wrap;gap:10px}
+.tseg button{position:relative;overflow:hidden;min-width:112px;height:62px;padding:0 20px;border:0;border-radius:18px;cursor:pointer;font-family:var(--disp);font-weight:900;font-size:17px;letter-spacing:-.02em;color:#fff;
+  background:linear-gradient(160deg,#3a3320,#221e14);box-shadow:inset 0 0 0 1.5px rgba(255,198,58,.28);transition:transform .2s var(--ease),box-shadow .2s}
+.tseg button::after{content:"";position:absolute;right:-14px;bottom:-22px;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff6c4,var(--gold) 45%,var(--gold2));opacity:.22}
+.tseg button:hover{transform:translateY(-2px)}
+.tseg button.on{color:#3b2400;background:linear-gradient(160deg,#ffe08a,var(--gold) 45%,var(--gold2));box-shadow:0 12px 26px -12px var(--gold2),inset 0 1px 0 rgba(255,255,255,.6)}
+.tseg button.on::after{opacity:.45}
+.tierinfo{margin-top:10px;min-height:18px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
 
-  .seg{display:inline-flex;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:2rem;padding:.28rem}
-  .seg button{font-family:var(--body);font-weight:600;font-size:.86rem;color:#cfcfe0;background:none;border:0;border-radius:2rem;padding:.45rem .95rem;cursor:pointer;transition:.18s}
-  .seg.chain button.on{background:rgba(255,255,255,.14);color:#fff}
-  #tierSeg{display:flex;flex-wrap:wrap;gap:.4rem;background:none;border:0;padding:0}
-  #tierSeg button{border:1px solid var(--card-bd);background:rgba(255,255,255,.05)}
-  #tierSeg button.on{background:var(--grad);border-color:transparent;color:#fff}
-  .tierinfo{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-top:.6rem;min-height:1rem;letter-spacing:.02em}
+.amount{display:flex;align-items:center;gap:12px;padding:16px 16px 16px 20px;border-radius:22px;background:rgba(0,0,0,.28);box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .2s}
+.amount:focus-within{box-shadow:inset 0 0 0 1.5px rgba(94,240,176,.6),0 0 0 4px rgba(94,240,176,.1)}
+.amount input{flex:1 1 auto;min-width:0;width:100%;background:none;border:0;outline:none;color:#fff;font-family:var(--disp);font-weight:800;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.03em;padding:0}
+.amount input::placeholder{color:rgba(255,255,255,.22)}
+.amt-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:none}
+.amount .tk{display:flex;align-items:center;gap:7px;font-weight:800;font-size:14px;color:var(--text);white-space:nowrap}
+.amount .tk .coin{width:18px;height:18px}
+.amount .max{height:30px;padding:0 12px;border:0;border-radius:9px;cursor:pointer;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--mint);background:rgba(94,240,176,.1);box-shadow:inset 0 0 0 1px rgba(94,240,176,.3)}
+.amount .max:hover{background:rgba(94,240,176,.18)}
 
-  .amount{margin-top:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--card-bd);border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.6rem}
-  .amount input{flex:1;background:none;border:0;color:#fff;font-family:var(--mono);font-size:1.35rem;font-weight:700;outline:none;min-width:0}
-  .amount .tk{font-weight:700;color:var(--muted);font-size:.92rem}
-  .amount .max{font-family:var(--mono);font-size:.7rem;font-weight:600;color:#7aa2ff;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.25);border-radius:.5rem;padding:.32rem .55rem;cursor:pointer}
-  .actions{margin-top:1.1rem}
-  .note{margin-top:1rem;font-size:.8rem;color:var(--muted);background:rgba(224,81,199,.08);border:1px solid rgba(224,81,199,.28);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
-  .spincalc{margin-top:.9rem;background:rgba(224,81,199,.09);border:1px solid rgba(224,81,199,.3);border-radius:.7rem;padding:.7rem .9rem;font-size:.86rem;color:#eaeaf3;display:flex;align-items:flex-start;gap:.55rem;line-height:1.45}
-  .spincalc .sc-ic{font-size:1.15rem;line-height:1.2}
-  .spincalc b.sc-b{font-weight:800;color:#fff}
-  .spincalc .sc-next{color:var(--muted);display:block;margin-top:.15rem;font-size:.82rem}
-  .tiers{margin-top:2.4rem}
-  .tiers .tw{overflow-x:auto;border:1px solid var(--card-bd);border-radius:var(--card-r);background:var(--card-bg)}
-  .tierstable{width:100%;border-collapse:collapse;min-width:36rem;font-size:.9rem}
-  .tierstable th,.tierstable td{padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--line2)}
-  .tierstable tr:last-child td{border-bottom:0}
-  .tierstable th{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.02)}
-  .tierstable td{font-family:var(--mono);color:#d9d9e6;font-variant-numeric:tabular-nums}
-  .tierstable td.spins{color:#fff;font-weight:700}
-  .tierstable td.pts{color:#fff;font-weight:700}
-  .tierstable td.apy em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
-  .tierstable tr.on{background:rgba(224,81,199,.12)}
-  .tierstable tr.on td:first-child{box-shadow:inset 3px 0 0 var(--mag)}
-  /* reward-model explainer */
-  .earn{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-  .earn .e{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.3rem}
-  .earn .e .ei{width:2.2rem;height:2.2rem;border-radius:.6rem;background:rgba(224,81,199,.14);display:grid;place-items:center;margin-bottom:.7rem}
-  .earn .e .ei svg{width:1.1rem;height:1.1rem;stroke:var(--pink);fill:none;stroke-width:1.8}
-  .earn .e h3{font-size:1rem}
-  .earn .e p{color:var(--muted);font-size:.88rem;margin-top:.35rem}
-  .earn .e a{color:var(--pink);font-weight:600}
-  @media(max-width:760px){.earn{grid-template-columns:1fr}}
-  /* confirm modal */
-  .cmodal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:1.2rem;background:rgba(4,4,9,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-  .cmodal.open{display:flex}
-  .cbox{width:100%;max-width:30rem;background:linear-gradient(180deg,#14141d,#0d0d15);border:1px solid var(--card-bd);border-radius:1.2rem;box-shadow:0 40px 90px -30px rgba(0,0,0,.95);padding:1.5rem;max-height:92vh;overflow:auto}
-  .cbox h3{font-size:1.25rem;display:flex;align-items:center;gap:.5rem}
-  .cbox .csub{color:var(--muted);font-size:.88rem;margin-top:.3rem}
-  .crows{margin-top:1.1rem;border:1px solid var(--line2);border-radius:.9rem;overflow:hidden}
-  .crow{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .95rem;border-bottom:1px solid var(--line2);font-size:.9rem}
-  .crow:last-child{border-bottom:0}
-  .crow .ck{color:var(--faint)} .crow .cv{font-family:var(--mono);font-weight:600;text-align:right}
-  .crow .cv em{font-style:normal;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .cwarn{margin-top:1rem;font-size:.82rem;color:#ffd9e6;background:rgba(240,90,90,.10);border:1px solid rgba(255,120,120,.35);border-radius:.7rem;padding:.75rem .9rem;line-height:1.5}
-  .cwarn b{color:#fff}
-  .cgood{margin-top:.8rem;font-size:.82rem;color:#c9f5e4;background:rgba(56,211,159,.10);border:1px solid rgba(56,211,159,.3);border-radius:.7rem;padding:.7rem .9rem;line-height:1.5}
-  .cact{display:flex;gap:.7rem;margin-top:1.3rem}
-  .cact .btn{flex:1}
-  .cclose{margin-left:auto;background:none;border:0;color:var(--faint);font-size:1.3rem;cursor:pointer;line-height:1}
+.spincalc{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:12px 14px;border-radius:16px;background:rgba(94,240,176,.06);box-shadow:inset 0 0 0 1px rgba(94,240,176,.2);font-size:14.5px;line-height:1.45;color:#dfe5ee;min-width:0}
+.spincalc > span:last-child{min-width:0;overflow-wrap:anywhere}
+.spincalc .sc-ic{font-size:18px;line-height:1.2;flex:none}
+.spincalc b.sc-b{color:#fff;font-weight:800}
+.spincalc .sc-next{display:block;margin-top:3px;font-size:13px;color:var(--muted)}
+.stakebox .blk{margin-top:22px}
+.sb-go.btn{width:100%;height:62px;margin-top:24px;font-size:18px;letter-spacing:.04em;border-radius:18px}
+.sb-go.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.note{margin-top:16px;padding:12px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;color:var(--muted);background:rgba(255,198,58,.06);box-shadow:inset 0 0 0 1px rgba(255,198,58,.2)}
+.note b{color:var(--text)}
 
-  .ov h2{font-size:1.4rem;margin-bottom:.3rem}
-  .ov .intro{color:var(--muted);font-size:.92rem;margin-bottom:.4rem}
-  .oline{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.72rem 0;border-bottom:1px solid var(--line2);font-size:.95rem}
-  .oline:last-child{border-bottom:0}
-  .oline .k{color:var(--faint);font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
-  .oline .v{font-weight:700;font-family:var(--mono);font-size:.95rem;text-align:right}
-  .oline a{color:#cfcfe0;font-family:var(--mono);font-size:.8rem}
-  .oline a:hover{color:#fff}
+.ovbox h3{font-size:clamp(22px,2.4vw,30px);font-weight:900}
+.ovbox .intro{margin:8px 0 18px;color:var(--muted);font-size:15px}
+.ov-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ov-tile{position:relative;overflow:hidden;border-radius:20px;padding:14px 16px;min-width:0;background:rgba(0,0,0,.24);box-shadow:inset 0 0 0 1px var(--line)}
+.ov-tile.wide{grid-column:1 / -1;background:linear-gradient(150deg,rgba(23,165,140,.3),rgba(12,77,69,.25));box-shadow:inset 0 0 0 1px rgba(94,240,176,.22)}
+.ov-tile .k{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ov-tile.wide .k{color:rgba(205,255,235,.7)}
+.ov-tile .v{display:block;margin-top:6px;font-family:var(--disp);font-weight:800;font-size:clamp(17px,1.8vw,22px);letter-spacing:-.02em;overflow-wrap:anywhere}
+.ov-tile.wide .v{font-size:clamp(22px,2.6vw,32px)}
+.olines{margin-top:12px}
+.oline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);font-size:15px;min-width:0}
+.oline:last-child{border-bottom:0}
+.oline .k{color:var(--muted);font-size:14px}
+.oline .v{font-family:var(--mono);font-weight:700;font-size:14px;text-align:right;overflow-wrap:anywhere;min-width:0}
+.oline a{font-family:var(--mono);font-size:13.5px;color:var(--mint);overflow-wrap:anywhere;text-align:right}
+.oline a:hover{text-decoration:underline}
 
-  .positions{margin-top:2.4rem}
-  .positions h2{font-size:1.5rem}
-  .ptable{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem}
-  .prow{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:.8rem;align-items:center;background:var(--card-bg);border:1px solid var(--card-bd);border-radius:.8rem;padding:.85rem 1.1rem;font-size:.9rem}
-  .prow .un{font-size:.78rem;padding:.5rem .95rem;border-radius:1.6rem;width:auto}
-  .empty{color:var(--faint);font-size:.92rem;padding:1.1rem 0}
+.positions{margin-top:20px;border-radius:30px;padding:24px 26px;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2)}
+.positions h3{font-size:22px;font-weight:900}
+.ptable{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.ptable .empty{margin:0}
+.prow{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:12px;align-items:center;padding:14px 16px;border-radius:18px;background:rgba(0,0,0,.24);box-shadow:inset 0 0 0 1px var(--line);font-size:15px}
+.prow > *{min-width:0;overflow-wrap:anywhere}
+.prow b{font-weight:800}
+.btn-glass{background:var(--panel3);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.btn-glass:hover{background:#353e50;transform:translateY(-2px)}
+.prow .un{height:40px;padding:0 16px;border-radius:12px;font-size:14px}
 
-  /* pillars */
-  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.2rem}
-  .pill3{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.6rem 1.5rem;transition:transform .3s,border-color .3s}
-  .pill3:hover{transform:translateY(-5px);border-color:var(--card-bd-h)}
-  .pill3 .pn{width:2.6rem;height:2.6rem;border-radius:.8rem;background:rgba(224,81,199,.12);border:1px solid rgba(224,81,199,.3);display:grid;place-items:center;color:#ff8fc0}
-  .pill3 .pn svg{width:1.3rem;height:1.3rem;fill:none;stroke:currentColor;stroke-width:2}
-  .pill3 h3{font-size:1.2rem;margin-top:1rem}
-  .pill3 p{color:var(--muted);font-size:.94rem;margin-top:.5rem;line-height:1.6}
-  @media(max-width:860px){.pillars{grid-template-columns:1fr}}
+/* power levels */
+.tw{margin-top:34px;border-radius:28px;overflow:hidden;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2)}
+.tierstable{width:100%;border-collapse:collapse;font-size:15px}
+.tierstable th,.tierstable td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.tierstable tbody tr:last-child td{border-bottom:0}
+.tierstable th{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background:rgba(0,0,0,.18)}
+.tierstable td{font-family:var(--mono);font-size:14px;color:#d6dce7;font-variant-numeric:tabular-nums;transition:background .3s}
+.tierstable td:first-child{width:86px}
+.tierstable td:first-child{font-family:var(--disp);font-weight:900;font-size:14px;color:#fff}
+.tierstable tbody tr td:first-child::before{content:"";display:inline-block;vertical-align:-3px;width:16px;height:16px;margin-right:10px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);background:var(--lv,var(--mint))}
+.tierstable tbody tr:nth-child(1){--lv:#5ef0b0}
+.tierstable tbody tr:nth-child(2){--lv:#45e3ff}
+.tierstable tbody tr:nth-child(3){--lv:#2f6fd8}
+.tierstable tbody tr:nth-child(4){--lv:#9a6ae0}
+.tierstable tbody tr:nth-child(5){--lv:#ff9f1c}
+.tierstable tbody tr:nth-child(6){--lv:#ffc63a}
+.tierstable td.pts,.tierstable td.spins{color:#fff;font-weight:700}
+.tierstable td.apy em{font-style:normal;font-weight:700;color:var(--gold)}
+.tierstable tr.on td{background:rgba(94,240,176,.1)}
+.tierstable tr.on td:first-child{box-shadow:inset 4px 0 0 var(--mint)}
 
-  .toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(2rem);z-index:200;background:#12121c;border:1px solid var(--card-bd);border-radius:.8rem;padding:.85rem 1.1rem;font-size:.9rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.9);opacity:0;visibility:hidden;transition:.25s;max-width:27rem}
-  .toast.show{opacity:1;visibility:visible;transform:translateX(-50%)}
-  .toast a{color:#8affc8}
+/* earn + how cards */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.feat{position:relative;overflow:hidden;border-radius:28px;padding:24px 22px 26px;min-height:250px;background:linear-gradient(165deg,var(--c1),var(--c2) 75%);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),0 30px 60px -36px var(--c1)}
+.feat .gh{position:absolute;right:-8px;bottom:-26px;font-family:var(--disp);font-weight:900;font-size:110px;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.07);pointer-events:none;white-space:nowrap}
+.feat .ic{position:relative;width:50px;height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.feat .ic svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{position:relative;margin-top:18px;font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.feat p{position:relative;margin:10px 0 0;font-size:15px;color:rgba(255,255,255,.8)}
+.feat p b{color:#fff}
+.feat a{text-decoration:underline;text-underline-offset:3px;color:#fff}
 
-  footer{background:#08080f;border-top:1px solid var(--line);margin-top:4rem;padding:3.2rem 0 2rem;font-size:.85rem;color:rgba(255,255,255,.72);position:relative;z-index:2}
-  .fcols{max-width:var(--max);margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:1.6rem}
-  .fbrand .fw{font-weight:900;font-size:1.3rem}
-  .fbrand p{color:rgba(255,255,255,.62);margin:.5rem 0 .9rem;max-width:20rem}
-  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap}
-  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
-  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
-  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
-  .fcol{display:flex;flex-direction:column;gap:.5rem}.fcol .h{font-weight:700;margin-bottom:.2rem}
-  .fcol a{color:rgba(255,255,255,.9)}.fcol a:hover{text-decoration:underline}
-  .flegal{max-width:var(--max);margin:2rem auto 0;padding:1.3rem 1.5rem 0;border-top:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);font-size:.78rem}
+/* faq */
+.faq{display:flex;flex-direction:column;gap:10px;margin-top:34px;max-width:860px}
+.faq details{border-radius:20px;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .2s}
+.faq details[open]{box-shadow:inset 0 0 0 1px rgba(94,240,176,.3)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;font-weight:800;font-size:17px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--panel3);font-family:var(--disp);font-size:16px;transition:transform .25s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0;padding:0 20px 20px;color:var(--muted);font-size:15.5px}
+.faq details a{color:var(--mint)}
+.social{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:30px}
+.social > span{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-right:6px}
+.fsoc{display:flex;flex-wrap:wrap;gap:8px}
+.fsoc a{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line2);color:var(--muted);transition:.2s}
+.fsoc a:hover{color:var(--text);background:var(--panel2);transform:translateY(-2px)}
+.fsoc svg{width:20px;height:20px;fill:currentColor;overflow:visible}
 
-  /* buy dropdown + funi + sticky buybar (index parity) */
-  .buydrop{position:relative;display:inline-block}
-  .buydrop>.btn svg{transition:transform .2s}
-  .buydrop.open>.btn svg,.buydrop:hover>.btn svg{transform:rotate(180deg)}
-  .cta{font-size:.86rem;padding:.55rem 1.1rem}
-  .bd-menu{position:absolute;top:calc(100% + .5rem);left:50%;transform:translateX(-50%) translateY(8px);min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
-  .buydrop:hover .bd-menu,.buydrop:focus-within .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible;transform:translateX(-50%)}
-  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
-  .bd-menu a:hover{background:rgba(255,255,255,.08)}
-  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
-  .bd-sep{height:1px;background:var(--line2);margin:.3rem .4rem}
-  .bd-menu.right{left:auto;right:0;transform:translateY(8px)}
-  .buydrop:hover .bd-menu.right,.buydrop.open .bd-menu.right{transform:none}
-  .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
-  .funi{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 26px rgba(224,81,199,.4));opacity:.9;animation:float 8s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(4deg)}}
-  .chrome{background:linear-gradient(100deg,#fff 0%,#f2f2fb 22%,#dcdcf0 42%,#fff 50%,#f2f2fb 60%,#dcdcf0 80%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
-  @keyframes shine{to{background-position:220% center}}
-  #buybar{position:fixed;left:0;right:0;bottom:0;z-index:80;transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.8,.2,1);padding:.55rem 1rem;pointer-events:none}
-  #buybar.show{transform:none}
-  .bb-in{pointer-events:auto;max-width:33rem;margin:0 auto;display:flex;align-items:center;gap:.6rem;background:rgba(16,16,24,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:2rem;padding:.45rem .5rem .45rem 1rem;box-shadow:0 20px 50px -22px rgba(0,0,0,.9)}
-  .bb-in .dmark{margin:0}
-  .bb-t{font-weight:700;font-size:.92rem}
-  .bb-p{font-family:var(--mono);font-weight:700;font-size:.92rem}
-  .bb-c{font-family:var(--mono);font-size:.78rem;color:var(--green)}
-  .bb-buy{margin-left:auto}
-  .bb-buy .btn{padding:.55rem 1.1rem;font-size:.9rem}
-  .bb-buy .bd-menu{top:auto;bottom:calc(100% + .6rem)}
-  @media(max-width:460px){.bb-t{display:none}}
-  .livepill{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;color:#8affc8;border:1px solid rgba(56,211,159,.35);border-radius:2rem;padding:.14rem .5rem}
-  .livepill .dot{width:.4rem;height:.4rem;border-radius:50%;background:#38d39f;animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(56,211,159,.55)}70%{box-shadow:0 0 0 .5rem rgba(56,211,159,0)}100%{box-shadow:0 0 0 0 rgba(56,211,159,0)}}
+/* sticky price bar */
+#buybar{position:fixed;left:0;right:0;bottom:0;z-index:80;padding:10px 12px calc(10px + env(safe-area-inset-bottom));transform:translateY(140%);transition:transform .35s var(--ease);pointer-events:none}
+#buybar.show{transform:none}
+.bb-in{pointer-events:auto;max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 14px;border-radius:20px;background:rgba(22,26,35,.9);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -20px rgba(0,0,0,.9)}
+.bb-in .coin{width:24px;height:24px;flex:none}
+.bb-t{font-family:var(--disp);font-weight:800;font-size:14px}
+.bb-p{font-family:var(--mono);font-weight:700;font-size:14px;white-space:nowrap}
+.bb-c{font-family:var(--mono);font-weight:700;font-size:12.5px;white-space:nowrap}
+.buydrop{position:relative;display:inline-block}
+.bb-buy{margin-left:auto;flex:none}
+.bb-buy .btn svg{transition:transform .2s}
+.buydrop.open > .btn svg{transform:rotate(180deg)}
+.bd-menu{position:absolute;bottom:calc(100% + 10px);right:0;min-width:220px;padding:6px;border-radius:18px;background:rgba(22,26,35,.97);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px var(--line2),0 30px 60px -20px rgba(0,0,0,.9);display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s}
+.buydrop.open .bd-menu,.buydrop:focus-within .bd-menu{opacity:1;visibility:visible;transform:none}
+.bd-menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font-weight:700;font-size:15px}
+.bd-menu a:hover{background:rgba(255,255,255,.07)}
+.bd-menu .mk{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.bd-menu .exlogo{width:26px;height:26px;border-radius:8px;background:var(--panel3)}
+.bd-sep{height:1px;margin:4px 8px;background:var(--line2)}
 
-  /* reveal */
-  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1)}
-  .reveal.in{opacity:1;transform:none}
-  .hero .eyebrow,.hero h1,.hero .lead,.hero .cta-row,.hero .statrow{transition:opacity 1s cubic-bezier(.16,.84,.44,1),transform 1s cubic-bezier(.16,.84,.44,1)}
-  .hero:not(.go) h1,.hero:not(.go) .lead,.hero:not(.go) .cta-row,.hero:not(.go) .statrow{opacity:0;transform:translateY(24px)}
-  .hero:not(.go) .eyebrow{opacity:0}
-  .hero.go h1{transition-delay:.06s}.hero.go .lead{transition-delay:.14s}.hero.go .cta-row{transition-delay:.22s}.hero.go .statrow{transition-delay:.32s}
-  .hero.shown .eyebrow,.hero.shown h1,.hero.shown .lead,.hero.shown .cta-row,.hero.shown .statrow{opacity:1!important;transform:none!important}
+/* confirm modal + toast (scoped so ui.css .cbox stays intact elsewhere) */
+.cmodal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(6,8,12,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.cmodal.open{display:flex}
+.cmodal .cbox{width:100%;max-width:500px;max-height:92vh;overflow:auto;display:block;padding:24px;border-radius:30px;background:linear-gradient(170deg,var(--panel2),#161a23);box-shadow:inset 0 0 0 1px var(--line2),0 50px 100px -30px rgba(0,0,0,.95)}
+.cmodal h3{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900}
+.cclose{margin-left:auto;width:38px;height:38px;flex:none;border:0;border-radius:12px;background:var(--panel3);cursor:pointer;font-size:22px;line-height:1;color:var(--text)}
+.csub{margin:8px 0 0;color:var(--muted);font-size:14.5px}
+.crows{margin-top:16px;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px var(--line)}
+.crow{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;border-bottom:1px solid var(--line);font-size:14.5px}
+.crow:last-child{border-bottom:0}
+.crow .ck{color:var(--muted);flex:none}
+.crow .cv{font-family:var(--mono);font-weight:700;text-align:right;overflow-wrap:anywhere;min-width:0}
+.crow .cv em{font-style:normal;color:var(--mint)}
+.cgood{margin-top:12px;padding:12px 14px;border-radius:16px;font-size:14px;line-height:1.5;color:#cdf7e4;background:rgba(94,240,176,.08);box-shadow:inset 0 0 0 1px rgba(94,240,176,.25)}
+.cwarn{margin-top:12px;padding:12px 14px;border-radius:16px;font-size:14px;line-height:1.5;color:#ffd9d4;background:rgba(194,40,26,.14);box-shadow:inset 0 0 0 1px rgba(255,122,26,.35)}
+.cgood b,.cwarn b{color:#fff}
+.cact{display:flex;gap:10px;margin-top:18px}
+.cact .btn{flex:1;width:auto;padding:0 16px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));z-index:320;width:max-content;max-width:min(440px,calc(100vw - 32px));padding:13px 16px;border-radius:16px;background:#1f2531;box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -18px rgba(0,0,0,.9);font-size:14.5px;line-height:1.45;overflow-wrap:anywhere;opacity:0;visibility:hidden;transform:translate(-50%,16px);transition:opacity .25s,transform .25s var(--ease),visibility .25s}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.toast a{color:var(--mint);text-decoration:underline}
 
-  /* splash */
-  #splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
-  #splash img{width:4.4rem;height:4.4rem;object-fit:contain;filter:drop-shadow(0 10px 34px rgba(224,81,199,.75));animation:spinpop 1.1s ease-in-out infinite alternate}
-  @keyframes spinpop{from{transform:scale(.9) rotate(-6deg);opacity:.65}to{transform:scale(1.06) rotate(6deg);opacity:1}}
-  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
-  @media(prefers-reduced-motion:reduce){#splash{display:none}}
-
-  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.nav{gap:.5rem}.brand{margin-right:auto}.nav>.buydrop{display:none}.wc{padding:.46rem .62rem;font-size:.72rem}.hero{min-height:62svh}.hero-intro{padding-top:2rem}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}.fbrand p{margin-left:auto;margin-right:auto}.fsoc{justify-content:center}}
-  @media(max-width:560px){.prow{grid-template-columns:1fr auto;gap:.5rem}.prow .mid{display:none}.fcols{grid-template-columns:1fr;text-align:center}.fcol{align-items:center}.flegal{text-align:center}}
-@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
-
-/* === mobile safety: lock horizontal scroll + fit form === */
-html{overflow-x:clip}
-@media(max-width:760px){
-  .appgrid{gap:.8rem}
-  .card{max-width:100%}
-  .prow{grid-template-columns:1.3fr 1fr auto;column-gap:.4rem;row-gap:.2rem}
-  .prow>*{min-width:0}
-  .amount{flex-wrap:wrap}
-  .amount>*{min-width:0}.amount input{flex:1 1 7rem}
-  .spincalc,.lab,.oline{min-width:0}
+/* responsive */
+@media(max-width:1100px){
+  .sh-grid{grid-template-columns:1fr;gap:34px}
+  .cp-card{max-width:560px;width:100%}
+  .appgrid{grid-template-columns:1fr}
 }
-
-/* uniform mobile header: brand left, burger right, buy hidden on mobile */
-@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
+@media(max-width:900px){.feats{grid-template-columns:1fr 1fr}.feats .feat:last-child{grid-column:1 / -1}}
+@media(max-width:760px){
+  .pools{grid-template-columns:1fr}
+  .pool.pcard{height:420px}
+  .hstats{grid-template-columns:1fr 1fr}
+  .stakebox,.ovbox{padding:20px;border-radius:26px}
+  .positions{padding:20px;border-radius:26px}
+  .prow{grid-template-columns:1fr auto;gap:6px 10px}
+  .prow .mid{display:none}
+  .feats{grid-template-columns:1fr}
+  .feats .feat:last-child{grid-column:auto}
+  .feat{min-height:0}
+  /* power table as stacked cards */
+  .tw{background:none;box-shadow:none;border-radius:0;overflow:visible}
+  .tierstable,.tierstable tbody{display:block}
+  .tierstable thead{display:none}
+  .tierstable tbody{display:grid;gap:10px}
+  .tierstable tr{display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:hidden;background:linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px var(--line2)}
+  .tierstable td{display:block;border:0;padding:10px 16px;min-width:0;overflow-wrap:anywhere}
+  .tierstable td:first-child{grid-column:1 / -1;width:auto;padding:12px 16px;background:linear-gradient(90deg,color-mix(in srgb,var(--lv) 22%,transparent),transparent)}
+  .tierstable td:not(:first-child)::before{display:block;margin-bottom:3px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .tierstable td:nth-child(2)::before{content:"$QORPO staked"}
+  .tierstable td:nth-child(3)::before{content:"Points / day"}
+  .tierstable td:nth-child(4)::before{content:"APY"}
+  .tierstable td:nth-child(5)::before{content:"Daily spins"}
+  .tierstable tr.on{box-shadow:inset 0 0 0 1.5px var(--mint)}
+  .tierstable tr.on td:first-child{box-shadow:none}
+}
+@media(max-width:480px){
+  main .wrap{padding:0 16px}
+  .page-hero{padding-top:110px}
+  .sh-cta .btn{flex:1 1 100%}
+  .hstats b{font-size:18px}
+  .cp-card{padding:22px 16px 80px;min-height:380px}
+  .cp-coin{width:76px;height:76px;margin:22px auto 14px;font-size:20px}
+  .amount{flex-wrap:wrap;padding:14px}
+  .amount input{flex:1 1 100%}
+  .amt-side{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+  .tseg button{flex:1 1 0;min-width:0;padding:0 10px;font-size:15px}
+  .verify code{font-size:12px;flex-basis:100%}
+  .oline{flex-wrap:wrap}
+  .oline .v,.oline a{text-align:left}
+  .bb-t{display:none}
+  .ov-tile .v{font-size:16px}
+  .ov-tile.wide .v{font-size:22px}
+  .pool .pc-tabs{width:84%}
+  .cact{flex-direction:column-reverse}
+  .cact .btn{flex:none;width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  .cp-coin,.pcoin{animation:none!important}
+  #buybar,.toast{transition:none}
+}
 </style>
-
-<div id="splash"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO"></div>
-<canvas id="stars"></canvas>
-<div class="glowfix"></div>
-
-<header>
-  <nav class="nav">
-    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking" class="active">Staking</a><a href="spin">Spin</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
-    <div class="buydrop"><button class="btn btn-primary cta" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu right" data-buymenu></div></div>
-    <div class="wcwrap">
-      <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
-      <div class="wc-menu" id="wcMenu">
-        <button id="wcCopy" type="button">Copy address</button>
-        <button id="wcDisc" class="disc" type="button">Disconnect</button>
-      </div>
-    </div>
-    <button class="burger" id="burger">☰</button>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+</head>
+<body data-page="staking">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
   </nav>
-</header>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
 
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<canvas id="stars" aria-hidden="true"></canvas>
 <main>
-  <section class="hero" id="hero">
-    <div class="hero-media"><img src="assets/staking-hero.jpg" alt="QORPO staking key art"></div>
-    <div class="hero-inner">
-      <p class="eyebrow"><span class="dmark"></span>$QORPO · Staking</p>
-      <h1>Put your $QORPO to&nbsp;work.</h1>
-    </div>
-    <a class="scrollcue" href="#app" aria-label="Scroll down">↓</a>
-  </section>
 
-  <!-- INTRO (moved below the hero render) -->
-  <section class="hero-intro wrap">
-    <p class="lead">Stake straight from your own wallet — <span class="serif">non-custodial, no middlemen.</span> Earn <b>daily Community Points</b> by your QORPO&nbsp;Power level, or lock for <b>APY up to 30%</b>, direct from the on-chain contract on Ethereum &amp; BNB&nbsp;Chain.</p>
-    <div class="cta-row">
-      <button class="btn btn-primary" id="heroConnect"><span class="diamond"></span><span id="heroConnectTxt">Connect &amp; stake</span></button>
-      <a class="btn btn-glass" href="#how">How it works</a>
-    </div>
-    <div class="statrow">
-      <div class="statcard"><b>up to 30%</b><span>APY tiers</span></div>
-      <div class="statcard"><b>Daily</b><span>Community Points by level</span></div>
-      <div class="statcard"><b>0 hacks</b><span>in 6 years building</span></div>
-      <div class="statcard"><b>100%</b><span>non-custodial</span></div>
+  <!-- HERO -->
+  <section class="page-hero" id="hero">
+    <div class="wrap">
+      <div class="crumb"><a href="/">QORPO</a><span>/</span><a href="/token">$QORPO</a><span>/</span><span>Staking</span></div>
+      <div class="sh-grid">
+        <div class="sh-copy">
+          <div class="kicker"><span class="status"><span class="dot live-dot"></span>Live on-chain</span><span class="status">Ethereum</span><span class="status">BNB Chain</span></div>
+          <h1>Stake $QORPO. Back every game we ship.</h1>
+          <p class="sub">Staking $QORPO backs every game QORPO ships. Stake straight from your own wallet, non-custodial, and earn <b style="color:var(--text)">Community Points every day</b> by your QORPO Power level, plus <b style="color:var(--text)">APY</b> paid in $QORPO from the on-chain contract when you lock.</p>
+          <div class="backs"><span>Backing</span>
+            <a class="chip" href="/#aneemate"><span class="dot" style="background:var(--am1)"></span><b>AneeMate</b>live</a>
+            <a class="chip" href="/#onelife"><span class="dot" style="background:var(--ol2)"></span><b>One Life</b>in development</a>
+            <a class="chip" href="/#tamitos"><span class="dot" style="background:var(--tm2)"></span><b>Tamitos</b>original IP</a>
+          </div>
+          <div class="sh-cta">
+            <button class="btn btn-mint" id="heroConnect" type="button"><span id="heroConnectTxt">Connect &amp; stake</span></button>
+            <a class="btn btn-ghost" href="#how">How it works</a>
+          </div>
+          <div class="hstats">
+            <div><b>up to 30%</b><span>APY tiers, set on-chain</span></div>
+            <div><b>Daily</b><span>Community Points by level</span></div>
+            <div><b>0 hacks</b><span>in 6 years building</span></div>
+            <div><b>100%</b><span>non-custodial</span></div>
+          </div>
+        </div>
+
+        <aside class="cp-card rv" aria-label="Your Community Points">
+          <div class="pc-ghost" aria-hidden="true">POWER</div>
+          <div class="cp-top"><span class="dmark"></span>Community Points</div>
+          <div class="cp-coin" aria-hidden="true">CP</div>
+          <div class="cp-k">Your total Community Points<small>(staking + spins)</small></div>
+          <b class="cp-v" id="sCP" aria-live="polite">-</b>
+          <p class="cp-note">Loaded for your connected wallet from the QORPO points service. Same balance as the leaderboard and Spin.</p>
+          <div class="pc-tabs"><a href="/leaderboard">Leaderboard</a><a href="/spin">Spin</a></div>
+        </aside>
+      </div>
     </div>
   </section>
 
   <!-- APP -->
-  <section class="sec wrap reveal" id="app">
-    <p class="kicker">Stake now</p>
-    <h2 class="bigh">Choose your pool</h2>
-    <p class="lead" style="margin-top:.8rem">Two ways to earn from the same token. Pick a pool, connect your wallet, and stake — every action is a real transaction you sign yourself.</p>
+  <section class="sec" id="app" style="padding-top:60px"><div class="wrap">
+    <div class="kicker"><span class="status">Stake now</span></div>
+    <h2 class="h2" data-split>Choose your pool</h2>
+    <p class="sub">Two ways to earn from the same token. Pick a pool, connect your wallet, and stake. Every action is a real transaction you sign yourself.</p>
 
-    <div class="verifybar" style="display:flex;flex-wrap:wrap;align-items:center;gap:.55rem .7rem;margin:1rem 0 0;padding:.7rem .9rem;border:1px solid rgba(255,255,255,.12);border-radius:.8rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))">
-      <span style="color:#8fe6a3;font-weight:700;font-size:.82rem;letter-spacing:.02em">✓ VERIFY BEFORE YOU STAKE</span>
-      <span style="color:#b8b8cc;font-size:.86rem">$QORPO token contract:</span>
-      <code style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.84rem;color:#f0f0f8;word-break:break-all">0x22514fFb0d7232a56F0c24090E7B68f179FAA940</code>
-      <button type="button" id="copyCA" style="cursor:pointer;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:.5rem;padding:.24rem .62rem;font:600 .8rem/1 inherit">Copy</button>
-      <a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener" style="color:#FF9ED0;text-decoration:none;font-size:.84rem;font-weight:600">Etherscan ↗</a>
-      <a href="https://bscscan.com/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener" style="color:#FF9ED0;text-decoration:none;font-size:.84rem;font-weight:600">BscScan ↗</a>
+    <div class="verify rv">
+      <span class="status">&#10003; Verify before you stake</span>
+      <code>0x22514fFb0d7232a56F0c24090E7B68f179FAA940</code>
+      <span class="vbtns">
+        <button type="button" class="chip" id="copyCA">Copy</button>
+        <a class="chip" href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan &#8599;</a>
+        <a class="chip" href="https://bscscan.com/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">BscScan &#8599;</a>
+      </span>
     </div>
     <script>(function(){var b=document.getElementById('copyCA');if(!b)return;b.addEventListener('click',function(){var ca='0x22514fFb0d7232a56F0c24090E7B68f179FAA940';var done=function(){var t=b.textContent;b.textContent='Copied ✓';setTimeout(function(){b.textContent=t;},1400);};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ca).then(done).catch(done);}else{try{var ta=document.createElement('textarea');ta.value=ca;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){}}});})();</script>
 
-    <div class="poolcards" id="poolSeg">
-      <button data-pool="apy" class="poolcard on" type="button">
-        <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
-        <span class="pk">Holder · locked · fixed term</span>
-        <h3>Holder</h3>
-        <div class="big">Earn <em>Community Points + up to 30% APY</em></div>
-        <p>Lock $QORPO for a fixed term — earn <b>daily Community Points</b> by your level <b>plus</b> a set APY, paid straight from the on-chain contract.</p>
+    <div class="pools" id="poolSeg" role="group" aria-label="Staking pool">
+      <button data-pool="apy" class="pool pcard t-hold on" type="button" data-tilt>
+        <span class="ptick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#04261a" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span class="pc-top"><span class="pc-meta">Holder pool</span></span><span class="pc-code">LOCKED</span>
+        <span class="pc-ghost" aria-hidden="true">HOLDER</span>
+        <span class="pool-art" aria-hidden="true"><span class="pcoin c"><svg viewBox="0 0 24 24"></svg></span><span class="pcoin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span class="pcoin b"><svg viewBox="0 0 24 24"></svg></span></span>
+        <span class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b>30%</b></span><span class="pc-row"><span class="l">UP TO</span><span class="r">APY</span></span>
+          <span class="pc-title"><b>Holder</b><span>Community Points + up to 30% APY. Fixed term, with a minimum.</span></span></span>
+        <span class="pc-tabs"><span class="pt-off">Choose Holder</span><span class="pt-on">&#10003; Selected</span></span>
+        <i class="pc-glare"></i>
       </button>
-      <button data-pool="noapy" class="poolcard" type="button">
-        <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
-        <span class="pk">Trader · flexible · no lock</span>
-        <h3>Trader</h3>
-        <div class="big">Earn <em>Community Points</em></div>
-        <p>Stake with no lock — earn <b>daily Community Points</b> by your level. Unstake any time.</p>
+      <button data-pool="noapy" class="pool pcard t-trade" type="button" data-tilt>
+        <span class="ptick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#04261a" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span class="pc-top"><span class="pc-meta">Trader pool</span></span><span class="pc-code">FLEXIBLE</span>
+        <span class="pc-ghost" aria-hidden="true">TRADER</span>
+        <span class="pool-art" aria-hidden="true"><span class="pcoin c"><svg viewBox="0 0 24 24"></svg></span><span class="pcoin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span><span class="pcoin b"><svg viewBox="0 0 24 24"></svg></span></span>
+        <span class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b>FLEX</b></span><span class="pc-row"><span class="l">NO LOCK</span><span class="r">POINTS</span></span>
+          <span class="pc-title"><b>Trader</b><span>Daily Community Points by level. No minimum, unstake any time.</span></span></span>
+        <span class="pc-tabs"><span class="pt-off">Choose Trader</span><span class="pt-on">&#10003; Selected</span></span>
+        <i class="pc-glare"></i>
       </button>
     </div>
 
     <div class="appgrid">
-      <!-- STAKE CONTROLS -->
-      <div class="card">
+      <!-- STAKE PANEL -->
+      <div class="stakebox rv">
+        <div class="sb-head">
+          <div class="sb-title"><span class="coin"></span>Stake $QORPO</div>
+          <div class="wcwrap">
+            <button class="wc" id="wcBtn" type="button"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+            <div class="wc-menu" id="wcMenu">
+              <button id="wcCopy" type="button">Copy address</button>
+              <button id="wcDisc" class="disc" type="button">Disconnect</button>
+            </div>
+          </div>
+        </div>
+
         <div class="lab">Network</div>
-        <div class="seg chain" id="chainSeg">
+        <div class="seg chain" id="chainSeg" role="group" aria-label="Network">
           <button data-chain="1" class="on" type="button">Ethereum</button>
           <button data-chain="56" type="button">BNB Chain</button>
         </div>
 
-        <div class="lab" style="margin-top:1.3rem">Amount to stake</div>
-        <div class="amount">
-          <input id="amt" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
-          <span class="tk">$QORPO</span>
-          <span class="max" id="maxBtn">MAX</span>
+        <div class="blk">
+          <label class="lab" for="amt">Amount to stake</label>
+          <div class="amount">
+            <input id="amt" type="text" inputmode="decimal" placeholder="0.0" autocomplete="off">
+            <div class="amt-side"><span class="tk"><span class="coin"></span>$QORPO</span><button class="max" id="maxBtn" type="button">MAX</button></div>
+          </div>
+          <div class="spincalc" id="spinCalc"><span class="sc-ic">&#127905;</span><span>Enter an amount to see your <b class="sc-b">daily spins</b>.</span></div>
         </div>
 
-        <div class="spincalc" id="spinCalc"><span class="sc-ic">🎡</span><span>Enter an amount to see your <b class="sc-b">daily spins</b>.</span></div>
-
-        <div id="tierWrap" style="margin-top:1.2rem">
-          <div class="lab">APY tier</div>
-          <div class="seg" id="tierSeg"></div>
+        <div id="tierWrap" class="blk">
+          <div class="lab">APY tier <small>read live from the staking contract</small></div>
+          <div class="tseg" id="tierSeg" role="group" aria-label="APY tier"></div>
           <div id="tierInfo" class="tierinfo"></div>
         </div>
 
-        <div class="actions">
-          <button class="btn btn-primary btn-block" id="mainBtn"><span class="diamond"></span><span id="mainTxt">Connect Wallet</span></button>
-        </div>
-        <div class="note" id="noteApy">⚠️ Real on-chain transactions. First-time staking sends an <b>approve</b> then a <b>stake</b> — two wallet prompts. The <b>Holder</b> pool has a <b>minimum</b> and a <b>lock period</b> (shown above). To test small, use <b>Trader</b> — no minimum, no lock.</div>
+        <button class="btn btn-mint sb-go" id="mainBtn" type="button"><span id="mainTxt">Connect Wallet</span></button>
+        <div class="note" id="noteApy">&#9888;&#65039; Real on-chain transactions. First-time staking sends an <b>approve</b> then a <b>stake</b>: two wallet prompts. The <b>Holder</b> pool has a <b>minimum</b> and a <b>lock period</b> (shown above). To test small, use <b>Trader</b>: no minimum, no lock.</div>
       </div>
 
-      <!-- OVERVIEW + LIVE -->
-      <div class="card ov">
+      <!-- OVERVIEW -->
+      <div class="ovbox rv" style="--d:1">
         <div class="lab">Your position</div>
-        <h2>Staking overview</h2>
-        <p class="intro">Live, straight from QORPO's contracts — no custody layer, no platform risk.</p>
-        <div class="oline" style="border-bottom:1px solid rgba(224,81,199,.28);padding-bottom:.7rem;margin-bottom:.2rem"><span class="k">Your total Community Points <span style="color:var(--faint);font-weight:400">(staking + spins)</span></span><span class="v" id="sCP" style="color:var(--pink);font-weight:800">—</span></div>
-        <div class="oline"><span class="k">Wallet balance</span><span class="v" id="sBal">0.00 $QORPO</span></div>
-        <div class="oline"><span class="k">Total staked</span><span class="v" id="sTotal">0.00 $QORPO</span></div>
-        <div class="oline"><span class="k">Staked · this pool</span><span class="v" id="sPool">0.00 $QORPO</span></div>
-        <div class="oline"><span class="k">Current pool</span><span class="v" id="ovPool">Holder</span></div>
-        <div class="oline"><span class="k">Network</span><span class="v" id="ovChain">Ethereum</span></div>
-        <div class="oline"><span class="k">APY tiers</span><span class="v" id="sApy">15% / 30%</span></div>
-        <div class="oline"><span class="k">Staking contract</span><a id="ovContract" target="_blank" rel="noopener">View ↗</a></div>
-        <div class="oline"><span class="k">$QORPO token</span><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">0x2251…a940 ↗</a></div>
+        <h3>Staking overview</h3>
+        <p class="intro">Live, straight from QORPO's contracts. No custody layer in between.</p>
+        <div class="ov-tiles">
+          <div class="ov-tile wide"><span class="k">Total staked</span><span class="v" id="sTotal">0.00 $QORPO</span></div>
+          <div class="ov-tile"><span class="k">Wallet balance</span><span class="v" id="sBal">0.00 $QORPO</span></div>
+          <div class="ov-tile"><span class="k">Staked in this pool</span><span class="v" id="sPool">0.00 $QORPO</span></div>
+        </div>
+        <div class="olines">
+          <div class="oline"><span class="k">Current pool</span><span class="v" id="ovPool">Holder</span></div>
+          <div class="oline"><span class="k">Network</span><span class="v" id="ovChain">Ethereum</span></div>
+          <div class="oline"><span class="k">APY tiers</span><span class="v" id="sApy">15% / 30%</span></div>
+          <div class="oline"><span class="k">Staking contract</span><a id="ovContract" target="_blank" rel="noopener">View &#8599;</a></div>
+          <div class="oline"><span class="k">$QORPO token</span><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">0x2251&#8230;a940 &#8599;</a></div>
+        </div>
       </div>
     </div>
 
     <!-- POSITIONS -->
-    <div class="positions">
-      <h2>Your stakes</h2>
+    <div class="positions rv">
+      <h3>Your stakes</h3>
       <div class="ptable" id="positions"><div class="empty">Connect your wallet to see your stakes.</div></div>
     </div>
-  </section>
+  </div></section>
 
-  <!-- DAILY SPINS BY STAKE -->
-  <section class="sec wrap reveal" id="spins">
-    <p class="kicker">Stake more, spin more</p>
-    <h2 class="bigh">Your daily spins</h2>
-    <p class="lead" style="margin-top:.8rem">The more $QORPO you stake, the more <b style="color:#fff">free daily spins</b> you get in the <b style="color:#fff">Spin</b> game — every spin can win vouchers, NFTs or airdrop entries. Spins are valid 24h.</p>
-    <div class="tiers"><div class="tw"><table class="tierstable" id="tiersTable">
-      <thead><tr><th>Level</th><th>$QORPO staked</th><th>Daily Community Points 💎</th><th>APY</th><th>Daily spins</th></tr></thead>
+  <!-- POWER LEVELS -->
+  <section class="sec" id="spins"><div class="wrap">
+    <div class="kicker"><span class="status">Stake more, spin more</span></div>
+    <h2 class="h2" data-split>Your QORPO Power level</h2>
+    <p class="sub">The more $QORPO you stake, the higher your level: more <b style="color:var(--text)">Community Points per day</b> and more <b style="color:var(--text)">free daily spins</b> in the <a href="/spin" style="color:var(--mint)">Spin</a> game. Spins are valid 24h. Type an amount above and your level lights up here.</p>
+    <div class="tiers rv"><div class="tw"><table class="tierstable" id="tiersTable">
+      <thead><tr><th>Level</th><th>$QORPO staked</th><th>Daily Community Points &#128142;</th><th>APY</th><th>Daily spins</th></tr></thead>
       <tbody id="tiersBody"></tbody>
     </table></div></div>
-  </section>
+  </div></section>
 
   <!-- WHAT YOU EARN -->
-  <section class="sec wrap reveal" id="earn">
-    <p class="kicker">What you earn</p>
-    <h2 class="bigh">Two rewards, one simple rule</h2>
-    <p class="lead" style="margin-top:.8rem">Staking earns you <b style="color:#fff">Community Points every day</b> — the more you stake, the higher your level and the more points you earn daily (see the table above). Lock in the APY pool and you also earn extra $QORPO on top.</p>
-    <div class="earn">
-      <div class="e">
-        <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+  <section class="sec" id="earn"><div class="wrap">
+    <div class="kicker"><span class="status">What you earn</span></div>
+    <h2 class="h2" data-split>Two rewards, one simple rule</h2>
+    <p class="sub">Staking earns you <b style="color:var(--text)">Community Points every day</b>. The more you stake, the higher your level and the more points you earn daily (see the table above). Lock in the APY pool and you also earn extra $QORPO on top.</p>
+    <div class="feats">
+      <div class="feat rv" style="--c1:#17a58c;--c2:#0c4d45"><span class="gh" aria-hidden="true">CP</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
         <h3>Community Points = your stake</h3>
-        <p>Every staked $QORPO is one Community Point. That's the whole formula — see where you rank on the <a href="leaderboard">Community Points leaderboard</a>.</p>
+        <p>Every staked $QORPO is one Community Point. That's the whole formula. See where you rank on the <a href="/leaderboard">Community Points leaderboard</a>.</p>
       </div>
-      <div class="e">
-        <div class="ei"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
+      <div class="feat rv" style="--d:1;--c1:#b07a0c;--c2:#4a3206"><span class="gh" aria-hidden="true">APY</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
         <h3>APY is a bonus</h3>
-        <p>The APY pool pays extra $QORPO for locking your tokens for a fixed term. It doesn't multiply your points — it just pays more tokens.</p>
+        <p>The APY pool pays extra $QORPO for locking your tokens for a fixed term. It doesn't multiply your points. It just pays more tokens.</p>
       </div>
-      <div class="e">
-        <div class="ei"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="feat rv" style="--d:2;--c1:#9a6ae0;--c2:#45287a"><span class="gh" aria-hidden="true">KEEP</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <h3>Points stay with you</h3>
-        <p>Loyalty Community Points accrue over time and <b style="color:#fff">remain even after you unstake</b>. (Daily accrual is tracked off-chain and rolls out with the points service.)</p>
+        <p>Loyalty Community Points accrue over time and <b>remain even after you unstake</b>. (Daily accrual is tracked off-chain and rolls out with the points service.)</p>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- HOW IT WORKS -->
-  <section class="sec wrap reveal" id="how">
-    <p class="kicker">How it works</p>
-    <h2 class="bigh">Non-custodial by design</h2>
-    <p class="lead" style="margin-top:.8rem">Nobody holds your tokens but you. Every stake, unstake and reward is a transaction you sign, on contracts anyone can verify.</p>
-    <div class="pillars">
-      <div class="pill3">
-        <div class="pn"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+  <section class="sec" id="how"><div class="wrap">
+    <div class="kicker"><span class="status">How it works</span></div>
+    <h2 class="h2" data-split>Non-custodial by design</h2>
+    <p class="sub">Nobody holds your tokens but you. Every stake, unstake and reward is a transaction you sign, on contracts anyone can verify.</p>
+    <div class="feats">
+      <div class="feat rv" style="--c1:#2f6fd8;--c2:#173a7a"><span class="gh" aria-hidden="true">KEYS</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
         <h3>Your keys, your tokens</h3>
-        <p>Connect MetaMask, OKX or WalletConnect. QORPO never takes custody — the contract holds the stake, and only your wallet can unstake it.</p>
+        <p>Connect MetaMask or OKX. QORPO never takes custody: the contract holds the stake, and only your wallet can unstake it.</p>
       </div>
-      <div class="pill3">
-        <div class="pn"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
+      <div class="feat rv" style="--d:1;--c1:#2c5266;--c2:#0e1a22"><span class="gh" aria-hidden="true">2X</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></div>
         <h3>Two ways to earn</h3>
         <p>The <b>Holder</b> pool pays a fixed rate for a locked term. The <b>Trader</b> pool is flexible with no lock. Both earn <b>daily Community Points</b> by your staking level.</p>
       </div>
-      <div class="pill3">
-        <div class="pn"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div class="feat rv" style="--d:2;--c1:#c2281a;--c2:#5c130e"><span class="gh" aria-hidden="true">SAFE</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
         <h3>Audited &amp; battle-tested</h3>
         <p>CertiK-audited contracts, six years building, zero hacks. Live on Ethereum and BNB Chain, with every address public and verified.</p>
       </div>
     </div>
-  </section>
+  </div></section>
 
-  <section class="sec wrap" id="faq" style="max-width:52rem;margin:0 auto;padding:3rem 1.5rem">
-    <h2 style="font-size:clamp(1.6rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em">QORPO Staking — FAQ</h2>
-    <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;text-align:left">
-      <details style="border:1px solid rgba(255,255,255,.11);border-radius:.9rem;padding:1rem 1.2rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))"><summary style="cursor:pointer;font-weight:700;font-size:1.02rem">How does QORPO staking work?</summary><p style="margin:.6rem 0 0;color:#b8b8cc">Stake $QORPO here, flexible or locked. Every staked token earns Community Points, and you can earn APY paid in more $QORPO straight from the on-chain contract.</p></details>
-      <details style="border:1px solid rgba(255,255,255,.11);border-radius:.9rem;padding:1rem 1.2rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))"><summary style="cursor:pointer;font-weight:700;font-size:1.02rem">What are Community Points?</summary><p style="margin:.6rem 0 0;color:#b8b8cc">A loyalty score — 1 staked $QORPO = 1 Community Point — that ranks you on the <a href="leaderboard" style="color:#FF709E">leaderboard</a>. They are off-chain rewards, not a financial return.</p></details>
-      <details style="border:1px solid rgba(255,255,255,.11);border-radius:.9rem;padding:1rem 1.2rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))"><summary style="cursor:pointer;font-weight:700;font-size:1.02rem">What is the daily Spin?</summary><p style="margin:.6rem 0 0;color:#b8b8cc">A free, provably-fair daily reward for wallets staking at least 10,000 $QORPO. Higher QORPO Power levels unlock more <a href="spin" style="color:#FF709E">spins</a> per day. Rewards are Community Points, not money.</p></details>
-      <details style="border:1px solid rgba(255,255,255,.11);border-radius:.9rem;padding:1rem 1.2rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))"><summary style="cursor:pointer;font-weight:700;font-size:1.02rem">What APY does QORPO staking pay?</summary><p style="margin:.6rem 0 0;color:#b8b8cc">APY tiers pay additional $QORPO — roughly 15% (Low) to 30% (High) — set on-chain by the staking contract and subject to change.</p></details>
-      <details style="border:1px solid rgba(255,255,255,.11);border-radius:.9rem;padding:1rem 1.2rem;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))"><summary style="cursor:pointer;font-weight:700;font-size:1.02rem">Is QORPO staking custodial?</summary><p style="margin:.6rem 0 0;color:#b8b8cc">No. Staking is non-custodial through your own wallet; QORPO never holds your private keys or funds.</p></details>
+  <!-- FAQ -->
+  <section class="sec" id="faq"><div class="wrap">
+    <div class="kicker"><span class="status">FAQ</span></div>
+    <h2 class="h2" data-split>Staking questions</h2>
+    <div class="faq">
+      <details class="rv"><summary>How does QORPO staking work?</summary><p>Stake $QORPO here, flexible or locked. Every staked token earns Community Points, and you can earn APY paid in more $QORPO straight from the on-chain contract.</p></details>
+      <details class="rv"><summary>What are Community Points?</summary><p>A loyalty score that ranks you on the <a href="/leaderboard">leaderboard</a>. Your stake earns points every day, and the daily amount grows with your QORPO Power level. They are off-chain rewards, not a financial return.</p></details>
+      <details class="rv"><summary>What is the daily Spin?</summary><p>A free, provably-fair daily reward for wallets staking at least 10,000 $QORPO. Higher QORPO Power levels unlock more <a href="/spin">spins</a> per day. Rewards are Community Points, not money.</p></details>
+      <details class="rv"><summary>What APY does QORPO staking pay?</summary><p>APY tiers pay additional $QORPO, roughly 15% (Low) to 30% (High), set on-chain by the staking contract and subject to change.</p></details>
+      <details class="rv"><summary>Is QORPO staking custodial?</summary><p>No. Staking is non-custodial through your own wallet; QORPO never holds your private keys or funds.</p></details>
     </div>
-  </section>
+    <div class="social"><span>Community</span><div class="fsoc" id="fsoc"></div></div>
+    <p class="disclaimer">Staking uses real smart contracts and real tokens. Locked Holder stakes cannot be withdrawn early without forfeiting the APY bonus and paying an on-chain early-exit penalty. APY rates are set by the staking contract and can change; nothing on this page is a promise of returns or financial advice. Community Points are off-chain loyalty rewards, not a financial return.</p>
+  </div></section>
 </main>
 
 <div id="buybar">
   <div class="bb-in">
-    <span class="dmark"></span>
+    <span class="coin" aria-hidden="true"></span>
     <span class="bb-t">$QORPO</span>
-    <span class="bb-p" id="bbPrice">$0.00073</span>
-    <span class="bb-c" id="bbChg" style="color:var(--green)">+3.8%</span>
+    <span class="bb-p" id="bbPrice">-</span>
+    <span class="bb-c" id="bbChg"></span>
     <div class="buydrop bb-buy">
-      <button class="btn btn-primary" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+      <button class="btn btn-mint btn-sm" type="button">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 5l4-4 4 4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
       <div class="bd-menu right" data-buymenu></div>
     </div>
   </div>
 </div>
 
-<footer>
-  <div class="fcols">
-    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
-    <div class="fcol"><span class="h">Main pages</span><a href="bridge">QORPO Bridge</a><a href="staking">QORPO Staking</a><a href="token">Why $QORPO</a></div>
-    <div class="fcol"><span class="h">Ecosystem</span><a href="about">About QORPO</a><a href="ecosystem">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
-    <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
-    <div class="fcol"><span class="h">Legal</span><a href="privacy">Privacy Policy</a><a href="terms">Terms of Service</a></div>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/about">About</a><a href="/blog">Blog</a></div>
   </div>
-  <div class="flegal">© 2026 QORPO World. All rights reserved. · Non-custodial staking · $QORPO</div>
-</footer>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
 
 <!-- CONFIRM STAKE MODAL -->
 <div class="cmodal" id="cmodal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
   <div class="cbox">
-    <h3 id="cmTitle"><span class="dmark"></span>Confirm your stake<button class="cclose" id="cmX" aria-label="Close">×</button></h3>
+    <h3 id="cmTitle"><span class="dmark"></span>Confirm your stake<button class="cclose" id="cmX" type="button" aria-label="Close">&times;</button></h3>
     <p class="csub" id="cmSub">Here's exactly what happens when you stake.</p>
     <div class="crows" id="cmRows"></div>
     <div class="cgood" id="cmGood"></div>
     <div class="cwarn" id="cmWarn" style="display:none"></div>
     <div class="cact">
-      <button class="btn btn-glass" id="cmCancel" type="button">Cancel</button>
-      <button class="btn btn-primary" id="cmGo" type="button"><span class="diamond"></span>Confirm &amp; Stake</button>
+      <button class="btn btn-ghost" id="cmCancel" type="button">Cancel</button>
+      <button class="btn btn-mint" id="cmGo" type="button">Confirm &amp; Stake</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="assets/ui.js"></script>
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
@@ -562,7 +669,7 @@ html{overflow-x:clip}
   var STAKING={1:'0xe6086858b572afd3194a608dc11ec5b955ff6c44',56:'0x74306096cea09927fa3125cd3b9ce4f9ca11031a'};
   var CHAINS={1:{name:'Ethereum',scan:'https://etherscan.io',rpc:'https://ethereum-rpc.publicnode.com',hex:'0x1'},
               56:{name:'BNB Chain',scan:'https://bscscan.com',rpc:'https://bsc-rpc.publicnode.com',hex:'0x38'}};
-  // Community Points backend — one combined accumulated balance (daily staking points + Spin points)
+  // Community Points backend: one combined accumulated balance (daily staking points + Spin points)
   var BACKEND='https://qorpo-points.ceo-b3f.workers.dev';
   var ERC20=['function balanceOf(address) view returns (uint256)','function decimals() view returns (uint8)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)'];
   var STAKE_ABI=[
@@ -587,7 +694,7 @@ html{overflow-x:clip}
   function bindWalletEvents(inj){
     if(!inj||inj._qbound)return; inj._qbound=true;
     inj.on&&inj.on('accountsChanged',function(a){ if(a&&a[0]){account=a[0];setConnected();refresh();}else{disconnect();} });
-    // Re-init on chain change WITHOUT reloading — a reload here would interrupt the approve→stake flow.
+    // Re-init on chain change WITHOUT reloading, a reload here would interrupt the approve→stake flow.
     inj.on&&inj.on('chainChanged',function(){ try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;}).catch(function(){});}catch(e){} refresh(); });
   }
   async function connect(){
@@ -629,7 +736,7 @@ html{overflow-x:clip}
     $('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';
     $('mainTxt').textContent='Connect Wallet';setHero();closeWcMenu();
     $('positions').innerHTML='<div class="empty">Connect your wallet to see your stakes.</div>';
-    if($('sCP'))$('sCP').textContent='—';
+    if($('sCP'))$('sCP').textContent='-';
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
   }
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);updateMainBtn();setHero();}
@@ -675,7 +782,7 @@ html{overflow-x:clip}
           list.push({idx:i,apy:pct,duration:dur,minRaw:st.minStake});
         }catch(e){break;}
       }
-      // contract can expose the same APY rate more than once — keep each distinct rate once
+      // contract can expose the same APY rate more than once, keep each distinct rate once
       var seenApy={}; list=list.filter(function(t){if(seenApy[t.apy])return false;seenApy[t.apy]=1;return true;});
       list.sort(function(a,b){return a.apy-b.apy;});
       if(!list.length){list=[{idx:1,apy:15,duration:31556926,minRaw:0n},{idx:2,apy:30,duration:31556926,minRaw:0n}];}
@@ -721,7 +828,7 @@ html{overflow-x:clip}
   // One combined accumulated Community Points balance (daily staking points + Spin points),
   // registered/refreshed on read. Same source as the leaderboard and the Spin page.
   async function loadCP(){
-    if(!account){ $('sCP').textContent='—'; return; }
+    if(!account){ $('sCP').textContent='-'; return; }
     try{
       var r=await fetch(BACKEND+'/status?wallet='+account,{cache:'no-store'});
       if(!r.ok) return;
@@ -765,7 +872,7 @@ html{overflow-x:clip}
     openConfirm(amount);
   }
 
-  function fmtDate(ts){try{return new Date(ts*1000).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return '—';}}
+  function fmtDate(ts){try{return new Date(ts*1000).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}catch(e){return '-';}}
   function nowSec(){return Math.floor(Date.now()/1000);}
 
   function openConfirm(amount){
@@ -780,18 +887,18 @@ html{overflow-x:clip}
       rows+=crow('Pool','Holder · locked');
       rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
       rows+=crow('APY rate',ti.apy+'% per year');
-      rows+=crow('Lock',ti.duration>0?daysOf(ti.duration):'—');
+      rows+=crow('Lock',ti.duration>0?daysOf(ti.duration):'-');
       if(unlock)rows+=crow('Unlocks','<em>'+fmtDate(unlock)+'</em>');
-      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'—')+')</span>');
-      good='<b>You earn two things:</b> '+pts+', accruing daily by your level — plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
-      warn='<b>Locked until '+(unlock?fmtDate(unlock):'the term ends')+'.</b> Exiting early isn’t a normal unstake — it uses the contract’s emergency withdrawal, which <b>forfeits the APY bonus</b> and applies an on-chain <b>early-exit penalty<span id="cmPen"></span></b> to your principal. Hold to the unlock date to withdraw your full stake <b>plus</b> rewards.';
+      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'-')+')</span>');
+      good='<b>You earn two things:</b> '+pts+', accruing daily by your level, plus roughly <b>'+bonus.toLocaleString('en-US',{maximumFractionDigits:2})+' $QORPO</b> in APY bonus if you hold to the unlock date.';
+      warn='<b>Locked until '+(unlock?fmtDate(unlock):'the term ends')+'.</b> Exiting early isn’t a normal unstake: it uses the contract’s emergency withdrawal, which <b>forfeits the APY bonus</b> and applies an on-chain <b>early-exit penalty<span id="cmPen"></span></b> to your principal. Hold to the unlock date to withdraw your full stake <b>plus</b> rewards.';
     }else{
       rows+=crow('Pool','Trader · flexible');
       rows+=crow('Amount','<em>'+fmt(amount)+'</em> $QORPO');
-      rows+=crow('Lock','None — unstake any time');
+      rows+=crow('Lock','None, unstake any time');
       rows+=crow('APY','None (bonus is APY-pool only)');
-      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'—')+')</span>');
-      good='<b>You earn '+pts+'</b>, accruing daily for as long as you stay staked — and you can unstake whenever you like.';
+      rows+=crow('Community Points','<em>'+pts+'</em> <span style="color:var(--faint)">(Level '+((tierOf(_amtNum)+1)||'-')+')</span>');
+      good='<b>You earn '+pts+'</b>, accruing daily for as long as you stay staked, and you can unstake whenever you like.';
     }
     $('cmRows').innerHTML=rows;
     $('cmGood').innerHTML=good;
@@ -808,7 +915,7 @@ html{overflow-x:clip}
       var n=Number(raw), pct=null;
       if(n>0&&n<=100)pct=n; else if(n<=10000)pct=n/100; // handle % or basis-points style
       var el=$('cmPen'); if(el&&pct!=null)el.textContent=' of about '+ (Math.round(pct*100)/100) +'%';
-    }catch(e){/* getter not present — keep the generic wording */}
+    }catch(e){/* getter not present, keep the generic wording */}
   }
 
   async function executeStake(){
@@ -820,10 +927,10 @@ html{overflow-x:clip}
       var token=new ethers.Contract(TOKEN,ERC20,signer);
       var allowance=await token.allowance(account,STAKING[chainId]);
       if(allowance<amount){
-        toast('Step 1 of 2 — approve $QORPO in your wallet…',6000);
+        toast('Step 1 of 2: approve $QORPO in your wallet…',6000);
         var ap=await token.approve(STAKING[chainId],amount);
         await ap.wait();
-        toast('Approved ✓ — now confirm the <b>STAKE</b> (2nd wallet prompt)…',6000);
+        toast('Approved ✓, now confirm the <b>STAKE</b> (2nd wallet prompt)…',6000);
       }
       var s=new ethers.Contract(STAKING[chainId],STAKE_ABI,signer);
       toast('Confirm the <b>stake</b> in your wallet…',6000);
@@ -835,11 +942,11 @@ html{overflow-x:clip}
       refresh(); setTimeout(refresh,4000); setTimeout(refresh,12000); // give the RPC node time to reflect the new stake
     }catch(e){
       var m=(e&&(e.shortMessage||e.reason||(e.info&&e.info.error&&e.info.error.message)||e.message))||'';
-      if(/stake already reached/i.test(m))m='The locked APY reward pool is currently full, so no new APY stakes can be opened right now. You can still stake in the flexible "Trader" pool (no lock) — it earns Community Points too — or try the APY pool again later.';
-      else if(/excess amount/i.test(m))m='That amount is above the maximum for this lock tier — try a smaller amount.';
+      if(/stake already reached/i.test(m))m='The locked APY reward pool is currently full, so no new APY stakes can be opened right now. You can still stake in the flexible "Trader" pool (no lock), which earns Community Points too, or try the APY pool again later.';
+      else if(/excess amount/i.test(m))m='That amount is above the maximum for this lock tier. Try a smaller amount.';
       else if(/insufficient amount/i.test(m))m='That amount is below the minimum stake for this tier.';
-      else if(/invalid stake type/i.test(m))m='Invalid lock tier — please reselect the lock period.';
-      else if(/insufficient allowance|transfer amount exceeds/i.test(m))m='Token approval was too low — please approve $QORPO again.';
+      else if(/invalid stake type/i.test(m))m='Invalid lock tier. Please reselect the lock period.';
+      else if(/insufficient allowance|transfer amount exceeds/i.test(m))m='Token approval was too low. Please approve $QORPO again.';
       else if(/insufficient funds/i.test(m))m='Not enough balance for the network fee (gas).';
       else if(/user rejected|denied|action_rejected/i.test(m))m='You rejected the transaction in your wallet.';
       toast('Staking failed'+(m?': '+m:'.'),8000);console.log(e);
@@ -895,9 +1002,9 @@ html{overflow-x:clip}
   function buildTiersTable(){
     var b=$('tiersBody');if(!b)return;
     b.innerHTML=SPIN_TIERS.map(function(t,i){
-      var range=t.max===Infinity?(nfmt(t.min-1)+'+'):(nfmt(t.min)+' – '+nfmt(t.max));
-      var pts=t.max===Infinity?(nfmt(t.pMin)+'+'):(nfmt(t.pMin)+' – '+nfmt(t.pMax));
-      return '<tr data-lvl="'+i+'"><td>L'+(i+1)+'</td><td>'+range+'</td><td class="pts">'+pts+'</td><td class="apy">'+(t.apy?'<em>'+t.apy+'%</em>':'—')+'</td><td class="spins">'+t.spins+(t.spins===1?' spin':' spins')+'</td></tr>';
+      var range=t.max===Infinity?(nfmt(t.min-1)+'+'):(nfmt(t.min)+' to '+nfmt(t.max));
+      var pts=t.max===Infinity?(nfmt(t.pMin)+'+'):(nfmt(t.pMin)+' to '+nfmt(t.pMax));
+      return '<tr data-lvl="'+i+'"><td>L'+(i+1)+'</td><td>'+range+'</td><td class="pts">'+pts+'</td><td class="apy">'+(t.apy?'<em>'+t.apy+'%</em>':'-')+'</td><td class="spins">'+t.spins+(t.spins===1?' spin':' spins')+'</td></tr>';
     }).join('');
   }
   function updateSpinCalc(){
@@ -988,7 +1095,7 @@ html{overflow-x:clip}
   function upd(){var b=hero.getBoundingClientRect();if(b.bottom<70)bar.classList.add('show');else bar.classList.remove('show');}
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
 // live $QORPO price -> buybar
-(function(){function usd(n){if(n==null)return '—';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
+(function(){function usd(n){if(n==null)return '-';if(n<0.01)return '$'+(+n.toFixed(7)).toString();if(n<1)return '$'+n.toFixed(4);return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});}
   fetch('https://api.coingecko.com/api/v3/coins/qopro?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
     .then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.market_data)return;var m=d.market_data;
       var p=document.getElementById('bbPrice');if(p)p.textContent=usd(m.current_price&&m.current_price.usd);
@@ -996,3 +1103,10 @@ html{overflow-x:clip}
       if(ch!=null&&c){c.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%';c.style.color=ch>=0?'var(--green)':'#ff6b8b';}
     }).catch(function(){});})();
 </script>
+<script>
+/* a11y: mirror the .on state the staking script sets onto aria-pressed (read only, no logic change) */
+(function(){function sync(box){[].forEach.call(box.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false');});}
+['poolSeg','chainSeg','tierSeg'].forEach(function(id){var el=document.getElementById(id);if(!el)return;sync(el);new MutationObserver(function(){sync(el);}).observe(el,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});});})();
+</script>
+</body>
+</html>

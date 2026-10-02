@@ -1,364 +1,477 @@
-<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QORPO Community Points — Leaderboard</title>
-<meta property="og:type" content="website">
-<meta property="og:title" content="QORPO Community Points — Leaderboard">
-<meta property="og:description" content="Earn daily Community Points by your QORPO Power level. ETH + BNB combined, ranked on-chain.">
-<meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="QORPO Community Points — Leaderboard">
-<meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
-<meta name="description" content="The $QORPO Community Points leaderboard. Earn daily Community Points by your QORPO Power level. ETH + BNB combined, ranked on-chain.">
-<link rel="canonical" href="https://qorpo.world/leaderboard">
-<meta property="og:url" content="https://qorpo.world/leaderboard">
-<meta name="theme-color" content="#06060b">
-<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
+<title>QORPO Community Points: Leaderboard</title>
+<meta name="description" content="Earn daily Community Points by your QORPO Power level. Ethereum and BNB Chain combined, ranked live.">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500..900&family=Outfit:wght@400..800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/ui.css">
 <style>
-  :root{
-    --bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;
-    --mag:#E051C7;--pink:#FF709E;--green:#38d39f;--eth:#627eea;--gold:#F0B90B;
-    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
-    --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--glass:rgba(255,255,255,.045);
-    --body:"Inter",-apple-system,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
-    --max:78rem;
-    --card-r:1.1rem;--card-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-    --card-bd:rgba(255,255,255,.10);--card-bd-h:rgba(255,255,255,.24);--card-sh:0 24px 60px -40px rgba(0,0,0,.9);
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
-  a{color:inherit;text-decoration:none}
-  h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
-  p{margin:0}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .mono{font-family:var(--mono)}
-  .serif{color:#fff;font-weight:600;font-style:normal}
-  .kicker{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
-  .tnum{font-variant-numeric:tabular-nums}
+/* ===== leaderboard page ===== */
+:root{--faint:#7f889b;--pink:var(--mint);
+  --g1:#d39a17;--g2:#6b4508;--ga:#ffd76a;
+  --s1:#8792ab;--s2:#363e52;--sa:#eef2fa;
+  --b1:#b8622c;--b2:#55260f;--ba:#ffb27a}
+.tnum{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+.page-hero{--ph1:rgba(255,198,58,.24);--ph2:rgba(154,106,224,.2);padding-bottom:20px}
+.page-hero h1{max-width:15ch}
+.js .page-hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+.js .page-hero h1 .w > span{display:inline-block;transform:translateY(105%);transition:transform .9s var(--ease);transition-delay:calc(var(--d) * 80ms + 120ms)}
+.js .page-hero h1.in .w > span{transform:none}
+.crumb .sep{opacity:.5}
+.crumb b{color:var(--text);font-weight:700}
 
-  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-    radial-gradient(46rem 34rem at 82% -4%,rgba(224,81,199,.20),transparent 60%),
-    radial-gradient(40rem 30rem at 4% 16%,rgba(123,90,240,.15),transparent 60%),
-    radial-gradient(54rem 40rem at 50% 118%,rgba(255,112,158,.09),transparent 60%)}
-  main{position:relative;z-index:2}
+/* tool row: wallet, stake, refresh */
+.toolrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:30px}
+.wcwrap{position:relative}
+.wc{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 22px;border-radius:16px;border:0;cursor:pointer;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line2);font-family:var(--ui);font-weight:800;font-size:16px;color:var(--text);transition:transform .25s var(--ease),background .25s,box-shadow .25s;white-space:nowrap}
+.wc:hover{background:var(--panel2);transform:translateY(-2px)}
+.wc .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(255,198,58,.16)}
+.wc.on{font-family:var(--mono);font-size:14.5px;box-shadow:inset 0 0 0 1.5px rgba(94,240,176,.55)}
+.wc.on .dot{background:var(--mint);box-shadow:0 0 0 4px rgba(94,240,176,.2)}
+.wc.on::after{content:"";width:7px;height:7px;margin-left:2px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);opacity:.6}
+.wc-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:190px;padding:6px;border-radius:16px;background:rgba(27,32,43,.97);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -20px rgba(0,0,0,.8);display:none;flex-direction:column;z-index:40}
+.wc-menu.open{display:flex}
+.wc-menu button{background:none;border:0;text-align:left;padding:11px 12px;border-radius:11px;font-weight:700;font-size:14.5px;cursor:pointer;color:var(--text)}
+.wc-menu button:hover{background:rgba(255,255,255,.07)}
+.wc-menu button.disc{color:#ff8a7a}
+.refresh{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:12px;border:0;cursor:pointer;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+.refresh:hover{color:var(--text);background:var(--panel2)}
+.refresh:disabled{opacity:.5;cursor:wait}
+.refresh svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2}
+.refresh:disabled svg{animation:sp 1s linear infinite}
+.metarow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.metarow .chip{height:34px;font-size:13.5px;cursor:default}
+.chip .dot.eth{background:#627eea}.chip .dot.bnb{background:#f0b90b;margin-left:-4px}
+.asofrow{position:relative;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.asof{font-family:var(--mono);font-size:12px;color:var(--faint);min-height:1em;overflow-wrap:anywhere;min-width:0}
+.infoi{position:relative;display:inline-flex;flex:none;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px var(--line2);color:var(--muted);font-family:var(--mono);font-size:11px;font-weight:700;cursor:help;outline:none}
+.infoi:hover,.infoi:focus-visible{color:var(--text);box-shadow:inset 0 0 0 1px var(--mint)}
+.infoi .tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:290px;padding:14px 16px;border-radius:16px;background:#232a37;box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -20px rgba(0,0,0,.9);font-family:var(--ui);font-size:13.5px;font-weight:500;line-height:1.5;color:#d3d9e4;text-align:left;opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s;z-index:50}
+.infoi .tip b{color:#fff}
+.infoi:hover .tip,.infoi:focus .tip{opacity:1;visibility:visible}
 
-  .diamond{width:.72rem;height:.72rem;background:currentColor;clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);flex:none}
-  .dmark{display:inline-block;width:.55rem;height:.55rem;background:linear-gradient(180deg,#ff8fc0,#c83dd0);clip-path:polygon(50% 0,100% 38%,50% 100%,0 38%);vertical-align:baseline;margin-right:.45rem;flex:none}
-  .btn{font-family:var(--body);font-weight:600;font-size:1rem;border-radius:2.4rem;padding:.8rem 1.5rem;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;justify-content:center;transition:transform .2s,box-shadow .3s,background .2s}
-  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 34px -12px rgba(224,81,199,.8)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 44px -10px rgba(224,81,199,.95)}
-  .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-  .btn-glass{background:var(--glass);color:#fff;border-color:var(--line);backdrop-filter:blur(10px)}
-  .btn-glass:hover{background:rgba(255,255,255,.09)}
+/* stats */
+.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
+.statcard{position:relative;overflow:hidden;border-radius:22px;padding:18px 18px 16px;min-width:0;background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.statcard b{display:block;font-family:var(--disp);font-size:clamp(22px,2.4vw,30px);font-weight:900;letter-spacing:-.03em;line-height:1.1;overflow-wrap:anywhere}
+.statcard span{display:block;margin-top:6px;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.74)}
+.statcard i{position:absolute;right:-4px;bottom:-22px;font-style:normal;font-family:var(--disp);font-weight:900;font-size:84px;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.08);pointer-events:none}
+.statcard.mint{background:linear-gradient(160deg,#17a58c,#0c4d45)}
 
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
-  .nav{max-width:var(--max);margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
-  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
-  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
-  .nav-links{display:flex;align-items:center;gap:.2rem;margin:0 auto}
-  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;transition:.2s}
-  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
-  .nav-links a.active{opacity:1;color:#fff;background:rgba(224,81,199,.16)}
-  .wc{font-family:var(--mono);font-size:.76rem;padding:.5rem .85rem;border-radius:1.6rem;border:1px solid var(--card-bd);background:rgba(255,255,255,.05);cursor:pointer;color:#fff;display:flex;align-items:center;gap:.45rem;white-space:nowrap}
-  .wc:hover{background:rgba(255,255,255,.09)}
-  .wc .dot{width:.45rem;height:.45rem;border-radius:50%;background:#f0b90b;transition:.2s}
-  .wc.on .dot{background:var(--green);box-shadow:0 0 0 3px rgba(56,211,159,.18)}
-  .wc.on::after{content:"▾";margin-left:.15rem;opacity:.6;font-size:.7rem}
-  .wcwrap{position:relative}
-  .wc-menu{position:absolute;top:calc(100% + .4rem);right:0;min-width:11rem;background:rgba(18,18,26,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--card-bd);border-radius:.8rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);padding:.35rem;display:none;flex-direction:column;z-index:95}
-  .wc-menu.open{display:flex}
-  .wc-menu button{background:none;border:0;color:#eaeaf3;font-family:var(--body);font-weight:600;font-size:.82rem;text-align:left;padding:.55rem .7rem;border-radius:.5rem;cursor:pointer}
-  .wc-menu button:hover{background:rgba(255,255,255,.08)}
-  .wc-menu button.disc{color:#ff8fb0}
-  .burger{display:none;background:none;border:0;color:#fff;font-size:1.75rem;line-height:1;cursor:pointer;padding:.1rem .3rem;-webkit-tap-highlight-color:transparent}
+/* ===== podium ===== */
+.secx{padding:70px 0 10px;position:relative}
+.podium{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:18px;align-items:end}
+.podium > li{min-width:0}
+.podium > li:nth-child(1){order:2}.podium > li:nth-child(2){order:1}.podium > li:nth-child(3){order:3}
+.pod-slot{perspective:1000px}
+.pod{display:block;height:390px;cursor:default}
+.p1 .pod{height:440px}
+.pod.g{--c1:var(--g1);--c2:var(--g2);--acc:var(--ga)}
+.pod.s{--c1:var(--s1);--c2:var(--s2);--acc:var(--sa)}
+.pod.b{--c1:var(--b1);--c2:var(--b2);--acc:var(--ba)}
+.pod .pc-code{color:#1a1206;background:linear-gradient(135deg,var(--acc),var(--c1))}
+.pod .pc-ghost{top:46px;font-size:210px;letter-spacing:-.08em;color:rgba(255,255,255,.14)}
+.p1 .pod .pc-ghost{font-size:240px}
+.pod-ava{position:absolute;left:50%;top:92px;width:96px;height:96px;margin-left:-48px;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),rgba(255,255,255,.06));box-shadow:0 0 0 5px rgba(255,255,255,.18),0 0 0 11px rgba(0,0,0,.14),0 22px 40px -10px rgba(0,0,0,.55);transform:translateZ(30px)}
+.p1 .pod-ava{top:112px;width:118px;height:118px;margin-left:-59px}
+.pod-crown{position:absolute;left:50%;top:80px;width:44px;margin-left:-22px;z-index:3;color:var(--ga);filter:drop-shadow(0 4px 10px rgba(255,159,28,.6));animation:crown 3.2s ease-in-out infinite}
+@keyframes crown{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+.pod .pc-hex{width:120px}
+.pod .pc-hexring{width:134px}
+.pod .pc-hex b{font-size:19px}
+.pod .pc-title{top:58px;padding:0 14px}
+.pod .pc-title b{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod .pc-title span{display:block;margin-top:2px;font-size:13.5px}
+.pod .pc-tabs a,.pod .pc-tabs span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--ui);font-weight:800;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.pod .pc-tabs span{color:var(--acc)}
+.pod .pc-tabs a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.pod .pc-tabs > * + *{box-shadow:inset 1px 0 0 rgba(255,255,255,.12)}
+.pod.you{box-shadow:inset 0 0 0 2.5px var(--mint),0 0 0 4px rgba(94,240,176,.18),0 30px 60px -24px rgba(94,240,176,.6)}
+.pod .youflag{display:none;position:absolute;left:14px;top:12px;z-index:5;height:24px;padding:0 9px;border-radius:8px;align-items:center;background:var(--mint);color:#04261a;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em}
+.pod.you .youflag{display:inline-flex}
+.pod.empty .pod-ava{background:rgba(255,255,255,.1)}
+.pod.empty .pc-hex b{opacity:.6}
 
-  .hero{position:relative;min-height:100svh;margin-top:calc(-3.3rem - 1px);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:6rem 1.5rem 3.4rem;overflow:hidden}
-  .hero-media{position:absolute;inset:0;z-index:0}
-  .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
-  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,11,.5) 0%,rgba(6,6,11,.12) 24%,rgba(6,6,11,.16) 48%,rgba(6,6,11,.72) 76%,rgba(6,6,11,.98) 100%)}
-  .hero-inner{position:relative;z-index:2;width:100%;max-width:46rem;margin:0 auto}
-  .hero h1{font-size:clamp(2rem,4.6vw,3.6rem);letter-spacing:-.04em;font-weight:900;line-height:1;margin:.5rem auto 0;max-width:16ch;background:linear-gradient(180deg,#fff 55%,#d7d7ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 8px 40px rgba(0,0,0,.45)}
-  .scrollcue{position:absolute;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.5;font-size:1.3rem;text-decoration:none;animation:bob 1.8s ease-in-out infinite}
-  .scrollcue:hover{opacity:1}
-  @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
-  @media (prefers-reduced-motion:reduce){.scrollcue{animation:none}}
-  .herobelow{text-align:center;padding-top:3.6rem}
-  .herobelow .lead{font-size:clamp(1.02rem,1.8vw,1.24rem);color:var(--muted);max-width:42rem;margin:0 auto;font-weight:400}
-  .herobelow .lead b{color:#fff;font-weight:700}
+/* ===== your standing ===== */
+.youcard{display:flex;align-items:center;flex-wrap:wrap;gap:16px 22px;margin-top:40px;padding:22px 24px;border-radius:26px;background:linear-gradient(120deg,rgba(94,240,176,.18),rgba(23,165,140,.08) 50%,var(--panel));box-shadow:inset 0 0 0 1.5px rgba(94,240,176,.45),0 30px 60px -36px rgba(94,240,176,.6)}
+.youcard .yl{flex:1;min-width:0}
+.youcard .yk{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
+.youcard .yv{margin-top:4px;font-family:var(--disp);font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.youcard .ysub{margin-top:6px;color:var(--muted);font-size:15px;overflow-wrap:anywhere}
 
-  .toolrow{display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem}
-  .seg{display:inline-flex;gap:.3rem;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:2rem;padding:.28rem}
-  .seg button{font-family:var(--body);font-weight:600;font-size:.86rem;color:#cfcfe0;background:none;border:0;border-radius:2rem;padding:.45rem 1rem;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:.4rem}
-  .seg button .cd{width:.5rem;height:.5rem;border-radius:50%}
-  .seg button.on{background:rgba(255,255,255,.14);color:#fff}
-  .seg button[data-c="56"] .cd{background:var(--gold)} .seg button[data-c="1"] .cd{background:var(--eth)}
-  .refresh{font-family:var(--mono);font-size:.76rem;color:#cfcfe0;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:1.6rem;padding:.5rem .9rem;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
-  .refresh:hover{background:rgba(255,255,255,.09)}
-  .refresh svg{width:.85rem;height:.85rem;fill:none;stroke:currentColor;stroke-width:2}
-  .asof{font-family:var(--mono);font-size:.72rem;color:var(--faint);min-height:1em}
-  .asofrow{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
-  .infoi{position:relative;display:inline-flex;width:1.05rem;height:1.05rem;border-radius:50%;border:1px solid var(--line);color:var(--faint);align-items:center;justify-content:center;font-family:var(--mono);font-size:.66rem;font-weight:600;cursor:help;flex:none;-webkit-tap-highlight-color:transparent}
-  .infoi:hover,.infoi:focus{color:#fff;border-color:rgba(255,255,255,.4);outline:none}
-  .infoi .tip{position:absolute;bottom:calc(100% + .55rem);left:50%;transform:translateX(-50%);width:17rem;background:#12121c;border:1px solid rgba(255,255,255,.14);border-radius:.75rem;padding:.75rem .85rem;font-family:var(--body);font-size:.78rem;font-weight:400;line-height:1.5;color:#d7d7e6;text-align:left;text-transform:none;letter-spacing:normal;box-shadow:0 22px 54px -20px rgba(0,0,0,.9);opacity:0;visibility:hidden;transition:opacity .16s,visibility .16s;z-index:50}
-  .infoi .tip b{color:#fff}
-  .infoi:hover .tip,.infoi:focus .tip{opacity:1;visibility:visible}
-  @media(max-width:560px){.infoi .tip{left:auto;right:-.4rem;transform:none;width:15rem}}
+/* ===== board ===== */
+.board{margin-top:26px}
+.thead,.trow{display:grid;grid-template-columns:64px minmax(0,1fr) 158px 168px 74px;gap:14px;align-items:center}
+.thead span{color:var(--dim)}
+.thead{padding:0 22px 12px 18px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.thead .r-stk,.thead .r-pts,.thead .r-shr{text-align:right}
+#rows{display:flex;flex-direction:column;gap:8px}
+.trow{--ra:var(--am1);position:relative;padding:12px 22px 12px 18px;min-height:70px;border-radius:20px;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--ra) 18%,var(--panel)) 0%,var(--panel) 46%,var(--panel) 100%);
+  box-shadow:inset 4px 0 0 var(--ra),inset 0 0 0 1px var(--line);transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.trow:hover{transform:translateX(4px);box-shadow:inset 4px 0 0 var(--ra),inset 0 0 0 1px var(--line2),0 16px 30px -20px var(--ra)}
+.trow:nth-child(4n+1){--ra:var(--am1)}.trow:nth-child(4n+2){--ra:var(--tm1)}.trow:nth-child(4n+3){--ra:var(--am2)}.trow:nth-child(4n+4){--ra:#2fb8d6}
+.trow:nth-child(1){--ra:var(--g1)}.trow:nth-child(2){--ra:var(--s1)}.trow:nth-child(3){--ra:var(--b1)}
+.rank{display:flex;align-items:center}
+.rank > span{display:inline-flex!important;align-items:center;justify-content:center;width:52px!important;height:34px;flex:none;
+  clip-path:polygon(18% 0,82% 0,100% 50%,82% 100%,18% 100%,0 50%);background:linear-gradient(140deg,rgba(255,255,255,.16),rgba(255,255,255,.03)),color-mix(in srgb,var(--ra) 55%,#1b202b);
+  font-family:var(--disp);font-size:14px;font-weight:900;letter-spacing:-.02em;color:#fff;text-align:center!important}
+.rank > .medal{color:#1a1206}
+.rank > .m1{background:linear-gradient(140deg,#fff3b0,var(--gold) 45%,var(--gold2))}
+.rank > .m2{background:linear-gradient(140deg,#ffffff,#c9d1e2 50%,#8792ab)}
+.rank > .m3{background:linear-gradient(140deg,#ffd2ae,#e08a4a 50%,#a24e1e);color:#2a1206}
+.trow .addr{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0;margin:0;padding:0;background:none;border-radius:0;font-family:var(--ui);font-size:15px;color:var(--text);word-break:normal}
+.ava{width:34px;height:34px;border-radius:50%;flex:none;box-shadow:0 0 0 2px rgba(255,255,255,.14)}
+.trow .addr a{min-width:0;max-width:100%;font-family:var(--mono);font-size:14.5px;font-weight:700;color:#e8ecf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow .addr a:hover{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.trow .lvltag{margin-left:0!important;font-family:var(--disp)!important;font-size:11px!important;font-weight:800;letter-spacing:.02em!important;padding:3px 8px!important;border-radius:8px!important;background:rgba(154,106,224,.24)!important;color:#dcc8ff!important;box-shadow:inset 0 0 0 1px rgba(154,106,224,.4)}
+.youtag{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:8px;background:var(--mint);color:#04261a;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;flex:none}
+.addr .stk-sub{display:none}
+.r-stk{justify-self:end;display:block;width:max-content;padding:7px 12px;border-radius:12px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line);font-family:var(--mono);font-weight:700;font-size:14px;color:#e8ecf3;line-height:1.15;text-align:right;white-space:nowrap}
+.thead .r-stk{display:block;padding:0;background:none;box-shadow:none;font-size:11px;color:var(--dim);justify-self:stretch}
+.r-stk small{color:var(--faint);font-weight:500;font-size:11px;margin-left:4px}
+.r-stk .ch{display:block;margin-top:3px;font-size:10px;letter-spacing:.1em;color:var(--faint)}
+.r-pts{font-family:var(--disp);font-weight:800;font-size:17px;letter-spacing:-.02em;text-align:right;white-space:nowrap}
+.thead .r-pts{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;white-space:normal}
+.r-pts small{margin-left:5px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--mint)}
+.r-shr{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right}
+.trow.you{--ra:var(--mint);background:linear-gradient(90deg,#1f5546 0%,#183a33 46%,#16272a 100%);box-shadow:inset 4px 0 0 var(--mint),inset 0 0 0 1.5px rgba(94,240,176,.6),0 18px 40px -16px rgba(0,0,0,.8),0 0 30px -8px rgba(94,240,176,.45)}
+.trow.you .r-pts{color:var(--mint)}
+/* row entrance: staggered, only on first sight of a row */
+@keyframes rowIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes youGlow{0%{box-shadow:inset 4px 0 0 var(--mint),inset 0 0 0 1.5px rgba(94,240,176,.6),0 0 0 0 rgba(94,240,176,.6)}100%{box-shadow:inset 4px 0 0 var(--mint),inset 0 0 0 1.5px rgba(94,240,176,.6),0 0 0 14px rgba(94,240,176,0)}}
+.js .board:not(.go) .trow:not(.nr){opacity:0}
+.board.go .trow{animation:rowIn .7s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms)}
+.board .trow.nr{animation:none}
+.board .trow.you.nr{animation:youGlow 1.6s ease-out 2}
 
-  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin:1.8rem auto 0;max-width:56rem;width:100%}
-  .statcard{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.15rem 1rem;text-align:left}
-  .statcard b{display:block;font-size:1.5rem;font-weight:900;letter-spacing:-.02em;background:linear-gradient(100deg,#ff8fc0,#c83dd0);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .statcard span{color:var(--muted);font-size:.76rem;margin-top:.25rem;display:block}
-  @media(max-width:760px){.statrow{grid-template-columns:1fr 1fr}}
+.state{padding:44px 20px;border-radius:24px;text-align:center;color:var(--muted);background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.state a{color:var(--mint)!important}
+.state .bar{height:8px;max-width:360px;margin:16px auto 0;border-radius:8px;background:rgba(255,255,255,.07);overflow:hidden}
+.state .bar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--mint2),#7df7c4);transition:width .3s}
+.state .pmsg{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--faint);overflow-wrap:anywhere}
+.state .refresh{margin-left:8px}
+.spin{display:inline-block;width:18px;height:18px;margin-right:10px;vertical-align:-3px;border:2.5px solid rgba(255,255,255,.18);border-top-color:var(--mint);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 
-  .sec{padding:2.6rem 0;position:relative}
+/* ===== climb ===== */
+.climb-top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.climb-top .sub b{color:var(--text)}
+.targets{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.tcard{--c1:var(--am1);--c2:#173a7a;position:relative;overflow:hidden;min-width:0;border-radius:26px;padding:22px 22px 20px;background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.tcard:nth-child(2){--c1:var(--tm1);--c2:#45287a}
+.tcard.gold{--c1:var(--g1);--c2:var(--g2);box-shadow:inset 0 0 0 1.5px rgba(255,215,106,.5),0 30px 60px -30px rgba(255,159,28,.7)}
+.tcard .tlabel{display:inline-flex;height:26px;align-items:center;padding:0 10px;border-radius:9px;background:rgba(0,0,0,.22);font-family:var(--disp);font-size:12px;font-weight:900;letter-spacing:.02em}
+.tcard .tq{margin-top:16px;font-family:var(--disp);font-size:clamp(26px,3vw,36px);font-weight:900;letter-spacing:-.03em;line-height:1.05;overflow-wrap:anywhere}
+.tcard .tq small{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.7);margin-left:4px}
+.tcard .tusd{margin-top:6px;min-height:1.3em;font-family:var(--mono);font-size:14px;font-weight:700;color:#b9ffe0}
+.tcard .tnote{margin-top:10px;font-size:14px;color:rgba(255,255,255,.78)}
+.you-next{display:flex;align-items:flex-start;gap:12px;margin-top:14px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);font-size:15.5px;line-height:1.5;color:#d6dbe5}
+.you-next b{color:var(--text)}
+.you-next .yn-dot{width:10px;height:10px;margin-top:7px;border-radius:50%;flex:none;background:var(--mint);animation:pulse 1.6s infinite}
 
-  /* your-rank card */
-  .youcard{background:linear-gradient(180deg,rgba(224,81,199,.12),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.35);border-radius:var(--card-r);padding:1.3rem 1.5rem;margin-top:1.6rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
-  .youcard .yl{flex:1;min-width:12rem}
-  .youcard .yk{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pink)}
-  .youcard .yv{font-size:1.35rem;font-weight:800;margin-top:.2rem}
-  .youcard .ysub{color:var(--muted);font-size:.85rem;margin-top:.15rem}
+/* ===== rules ===== */
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.rule{position:relative;overflow:hidden;border-radius:26px;padding:24px 22px 26px;min-height:220px;background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.rule i{display:inline-flex;height:26px;align-items:center;padding:0 10px;border-radius:9px;background:rgba(0,0,0,.22);font-style:normal;font-family:var(--disp);font-size:12px;font-weight:900}
+.rule h3{margin:18px 0 8px;font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.rule p{margin:0;font-size:15px;color:rgba(255,255,255,.8);position:relative}
+.rule p b{color:#fff}
+.rule .big{position:absolute;right:-6px;bottom:-26px;font-family:var(--disp);font-weight:900;font-size:120px;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.09);pointer-events:none}
+.lnote{margin-top:14px}
+.lnote p{margin:0;font-size:15.5px;color:var(--muted)}
+.lnote b{color:var(--text)}
+.final::before{content:"STAKE  ·  EARN  ·  CLIMB  ·  STAKE  ·  EARN  ·  CLIMB"}
+.final{background:linear-gradient(120deg,#6b4508,#14596a 45%,#173a7a 75%,#45287a)}
+.disclaimer{margin-left:auto;margin-right:auto}
 
-  /* board */
-  .board{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);overflow:hidden;box-shadow:var(--card-sh);margin-top:1.4rem}
-  .thead,.trow{display:grid;grid-template-columns:3.6rem 1fr 8.5rem 8.5rem 5rem;gap:1rem;align-items:center;padding:.85rem 1.4rem}
-  .thead{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line2);background:rgba(255,255,255,.02)}
-  .thead .r-stk,.trow .r-stk{text-align:right}
-  .thead .r-pts,.trow .r-pts{text-align:right}
-  .thead .r-shr,.trow .r-shr{text-align:right}
-  .trow{border-bottom:1px solid var(--line2);transition:background .15s}
-  .trow:last-child{border-bottom:0}
-  .trow:hover{background:rgba(255,255,255,.03)}
-  .trow.you{background:rgba(224,81,199,.10);box-shadow:inset 3px 0 0 var(--mag)}
-  .rank{font-family:var(--mono);font-weight:700;font-size:1rem;display:flex;align-items:center;gap:.5rem}
-  .medal{width:1.7rem;height:1.7rem;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:800;color:#0a0a12}
-  .m1{background:linear-gradient(160deg,#ffe27a,#f0b90b)} .m2{background:linear-gradient(160deg,#e6e9f0,#aab2c5)} .m3{background:linear-gradient(160deg,#e6a86b,#b5763b);color:#fff}
-  .addr{display:flex;align-items:center;gap:.6rem;min-width:0}
-  .ava{width:1.9rem;height:1.9rem;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
-  .addr a{font-family:var(--mono);font-size:.9rem;color:#eaeaf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .addr a:hover{color:#fff;text-decoration:underline}
-  .youtag{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--grad);border-radius:1rem;padding:.12rem .5rem;flex:none}
-  .r-pts{font-family:var(--mono);font-weight:700;font-size:1rem;text-align:right;font-variant-numeric:tabular-nums}
-  .r-pts small{color:var(--faint);font-weight:500;font-size:.72rem;margin-left:.2rem}
-  .r-shr{font-family:var(--mono);font-size:.85rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
-  .r-stk{font-family:var(--mono);font-weight:700;font-size:.95rem;color:#eaeaf3;text-align:right;font-variant-numeric:tabular-nums;line-height:1.15}
-  .r-stk small{color:var(--faint);font-weight:500;font-size:.68rem;margin-left:.15rem}
-  .r-stk .ch{display:block;font-size:.6rem;font-weight:600;letter-spacing:.06em;color:var(--faint);margin-top:.12rem}
-  .addr .stk-sub{display:none}
-  @media(max-width:760px){
-    .thead,.trow{grid-template-columns:2.6rem 1fr 6.5rem;gap:.6rem;padding:.8rem 1rem}
-    .r-shr{display:none}.ava{display:none}.r-stk{display:none}
-    .addr{flex-wrap:wrap}
-    .addr .stk-sub{display:block;width:100%;font-family:var(--mono);font-size:.66rem;color:var(--faint);margin-top:.15rem;letter-spacing:.02em}
-  }
+/* pinned copy of your row while the real one is off screen */
+.youpin{position:fixed;left:max(24px,calc(50% - 596px));right:max(24px,calc(50% - 596px));bottom:14px;z-index:55;cursor:pointer;border-radius:20px;opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity .3s,transform .35s var(--ease),visibility .3s}
+.youpin.show{opacity:1;visibility:visible;transform:none}
+.youpin .trow{animation:none;box-shadow:inset 4px 0 0 var(--mint),inset 0 0 0 1.5px rgba(94,240,176,.7),0 24px 50px -14px rgba(0,0,0,.9),0 0 34px -6px rgba(94,240,176,.5)}
+.youpin .trow:hover{transform:none}
+.youpin:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+body.menu-open .youpin{display:none}
+#toast{position:fixed;left:50%;bottom:22px;z-index:300;max-width:calc(100vw - 32px);padding:14px 18px;border-radius:16px;background:#232a37;box-shadow:inset 0 0 0 1px var(--line2),0 24px 50px -20px rgba(0,0,0,.9);font-size:15px;opacity:0;visibility:hidden;transform:translate(-50%,16px);transition:.25s var(--ease)}
+#toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+#toast a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
 
-  .state{padding:2.6rem 1.4rem;text-align:center;color:var(--muted)}
-  .state .bar{height:.5rem;border-radius:1rem;background:rgba(255,255,255,.08);overflow:hidden;max-width:24rem;margin:1rem auto 0}
-  .state .bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .3s}
-  .state .pmsg{font-family:var(--mono);font-size:.78rem;color:var(--faint);margin-top:.7rem}
-  .spin{display:inline-block;width:1.1rem;height:1.1rem;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:.5rem}
-  @keyframes sp{to{transform:rotate(360deg)}}
-
-  /* rules */
-  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
-  .rule{background:var(--card-bg);border:1px solid var(--card-bd);border-radius:var(--card-r);padding:1.4rem}
-  .rule .ic{width:2.4rem;height:2.4rem;border-radius:.7rem;background:rgba(224,81,199,.14);display:grid;place-items:center;margin-bottom:.8rem}
-  .rule .ic svg{width:1.2rem;height:1.2rem;stroke:var(--pink);fill:none;stroke-width:1.8}
-  .rule h3{font-size:1.05rem}
-  .rule p{color:var(--muted);font-size:.92rem;margin-top:.4rem}
-  @media(max-width:760px){.rules{grid-template-columns:1fr}}
-  .note{margin-top:1.2rem;font-size:.9rem;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:.9rem;padding:1rem 1.2rem}
-  .note b{color:#fff}
-
-  .cta-band{margin-top:2.4rem;text-align:center;background:linear-gradient(180deg,rgba(224,81,199,.12),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.28);border-radius:var(--card-r);padding:2.2rem 1.5rem}
-  .cta-band h2{font-size:clamp(1.5rem,3.4vw,2.2rem)}
-  .cta-band p{color:var(--muted);margin:.6rem auto 1.2rem;max-width:34rem}
-
-  /* climb targets — conversion panel */
-  .climb{margin-top:1.6rem;background:linear-gradient(180deg,rgba(224,81,199,.10),rgba(255,255,255,.02));border:1px solid rgba(224,81,199,.30);border-radius:var(--card-r);padding:1.5rem 1.5rem 1.6rem}
-  .climb-top{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-  .climb-copy h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-top:.3rem}
-  .climb-sub{color:var(--muted);font-size:.95rem;margin-top:.5rem;max-width:42rem}
-  .climb-sub b{color:#fff}
-  .climb-buy{white-space:nowrap}
-  .targets{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-top:1.3rem}
-  .tcard{background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:1rem;padding:1.1rem 1.2rem;text-align:left}
-  .tcard.gold{border-color:rgba(240,185,11,.45);background:linear-gradient(180deg,rgba(240,185,11,.10),rgba(255,255,255,.02))}
-  .tcard .tlabel{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .tcard.gold .tlabel{color:var(--gold)}
-  .tcard .tq{font-family:var(--mono);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin-top:.45rem;line-height:1;color:#fff}
-  .tcard .tq small{font-size:.66rem;color:var(--faint);font-weight:600;margin-left:.15rem}
-  .tcard .tusd{font-family:var(--mono);font-size:.9rem;color:#8fe3bf;margin-top:.3rem;font-variant-numeric:tabular-nums}
-  .tcard .tnote{color:var(--faint);font-size:.72rem;margin-top:.55rem}
-  .you-next{margin-top:1.2rem;padding:.9rem 1.1rem;background:rgba(0,0,0,.28);border:1px solid var(--card-bd);border-radius:.8rem;color:#e7e7f2;font-size:.95rem;display:flex;align-items:center;gap:.6rem;line-height:1.45}
-  .you-next b{color:#fff}
-  .you-next .yn-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--mag);box-shadow:0 0 0 3px rgba(224,81,199,.22);flex:none}
-  @media(max-width:760px){.targets{grid-template-columns:1fr}.climb-buy{width:100%;text-align:center;justify-content:center}}
-
-  footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:3rem;padding:2.6rem 1.5rem 2rem}
-  .fcols{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:2rem}
-  .fbrand .fw{font-weight:900;font-size:1.2rem;letter-spacing:-.02em}
-  .fbrand p{color:var(--muted);font-size:.9rem;margin-top:.5rem;max-width:22rem}
-  .fcol .h{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.7rem}
-  .fcol a{display:block;color:#d3d3e0;font-size:.9rem;padding:.2rem 0}
-  .fcol a:hover{color:#fff}
-  .fsoc{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
-  .fsoc a{width:2.4rem;height:2.4rem;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-bd);display:grid;place-items:center;transition:.18s;color:#cfcfe0}
-  .fsoc a:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);color:#fff}
-  .fsoc a svg{width:1.15rem;height:1.15rem;fill:currentColor;display:block}
-  .flegal{max-width:var(--max);margin:1.8rem auto 0;color:var(--faint);font-size:.8rem;border-top:1px solid var(--line2);padding-top:1.2rem}
-
-  .buydrop{position:relative;display:inline-block}
-  .buydrop>.btn svg{transition:transform .2s}
-  .buydrop.open>.btn svg{transform:rotate(180deg)}
-  .bd-menu{position:absolute;top:calc(100% + .5rem);right:0;min-width:14rem;padding:.4rem;background:rgba(18,18,26,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);border-radius:1rem;box-shadow:0 30px 70px -22px rgba(0,0,0,.8);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:.2s;z-index:90}
-  .buydrop:hover .bd-menu,.buydrop.open .bd-menu{opacity:1;visibility:visible}
-  .bd-menu a{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.65rem;font-weight:600;font-size:.92rem;color:#eaeaf3}
-  .bd-menu a:hover{background:rgba(255,255,255,.08)}
-  .bd-menu .mk{width:1.6rem;height:1.6rem;border-radius:6px;background:var(--grad);display:grid;place-items:center}
-  .bd-menu .exlogo{width:1.6rem;height:1.6rem;border-radius:6px;object-fit:contain;background:#fff}
-  .bd-sep{height:1px;background:var(--line2);margin:.35rem .2rem}
-  @media(max-width:760px){.nav-links{display:none}.burger{display:block}.nav{gap:.5rem}.brand{margin-right:auto}.nav>.buydrop{display:none}.wc{padding:.46rem .62rem;font-size:.72rem}.hero{min-height:62svh}.fcols{grid-template-columns:1fr 1fr;gap:2rem 1.6rem}.fbrand{grid-column:1 / -1}}
-  #toast{position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%) translateY(1.5rem);background:#15151f;border:1px solid var(--card-bd);border-radius:.8rem;padding:.8rem 1.1rem;font-size:.88rem;box-shadow:0 20px 50px -20px rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:.25s;z-index:200;max-width:90vw}
-  #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
-  #toast a{color:var(--pink)}
-@media(max-width:760px){.nav-links.nav-open{display:flex!important;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#0c0c15;border-bottom:1px solid var(--line2);padding:.8rem 1.2rem 1.1rem;gap:.15rem;z-index:80;box-shadow:0 24px 44px -22px rgba(0,0,0,.9)}.nav-links.nav-open a,.nav-links.nav-open .nav-tok-btn{padding:.7rem .5rem;font-size:1.02rem;width:100%}.nav-links.nav-open .bd-menu{position:static;transform:none;opacity:1;visibility:visible;box-shadow:none;background:transparent;border:0;padding:.2rem 0 .2rem .8rem}}.btn{white-space:nowrap}@media(max-width:760px){.nav>.buydrop>.bd-menu{right:.3rem;left:auto;transform:none;min-width:11rem;max-width:calc(100vw - 1.4rem)}}@media(max-width:640px){.buydrop:not(.nav-tok).open>.bd-menu,.buydrop:not(.nav-tok):focus-within>.bd-menu{position:fixed!important;left:1rem!important;right:1rem!important;bottom:1rem!important;top:auto!important;transform:none!important;left:1rem!important;right:auto!important;width:calc(100vw - 2rem)!important;max-width:none!important;z-index:200;max-height:70vh;overflow:auto;box-shadow:0 -12px 60px -12px rgba(0,0,0,.9)}}
-
-html{overflow-x:clip}
-
-/* uniform mobile header: brand left, burger right, buy hidden on mobile */
-@media(max-width:760px){.nav{padding:.6rem 1rem;gap:.5rem}.nav>.buydrop,.nav>.cta-drop{display:none}.nav>.brand,.nav>.logo{margin-right:auto}}
+@media(max-width:1100px){
+  .thead,.trow{grid-template-columns:58px minmax(0,1fr) 140px 150px}
+  .r-shr{display:none}
+}
+@media(max-width:860px){
+  .podium{grid-template-columns:1fr 1fr;gap:12px}
+  .podium > li:nth-child(1){order:0;grid-column:1 / -1}
+  .podium > li:nth-child(2){order:1}.podium > li:nth-child(3){order:2}
+}
+@media(max-width:760px){
+  .statrow{grid-template-columns:1fr 1fr;gap:10px}
+  .statcard{padding:16px 14px 14px;border-radius:20px}
+  .statcard i{font-size:64px}
+  .thead,.trow{grid-template-columns:48px minmax(0,1fr) auto;gap:10px}
+  .trow{padding:12px 14px 12px 12px;border-radius:18px;min-height:64px}
+  .thead{padding:0 14px 10px 12px}
+  .r-stk,.ava,.thead .r-stk{display:none}
+  .youpin{left:10px;right:10px;bottom:10px}
+  .rank > span{width:44px!important;height:30px;font-size:13px}
+  .addr .stk-sub{display:block;width:100%;margin-top:-2px;font-family:var(--mono);font-size:11.5px;color:var(--faint);overflow-wrap:anywhere}
+  .trow .addr a{font-size:13.5px}
+  .r-pts{font-size:15px}
+  .targets,.rules{grid-template-columns:1fr}
+  .rule{min-height:0}
+  .climb-top .btn{width:100%}
+  .trow:hover{transform:none}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .toolrow > .btn,.toolrow > .wcwrap{flex:1 1 100%}
+  .wc{width:100%;justify-content:center}
+  .toolrow > .btn{width:100%}
+  .infoi{position:static}
+  .infoi .tip{left:0;right:0;width:auto;transform:none}
+  .p1 .pod{height:410px}
+  .pod{height:330px;border-radius:24px}
+  .podium > li:not(:first-child) .pod .pc-ghost{top:48px;font-size:130px}
+  .podium > li:not(:first-child) .pod-ava{top:72px;width:54px;height:54px;margin-left:-27px;box-shadow:0 0 0 4px rgba(255,255,255,.18),0 14px 26px -8px rgba(0,0,0,.55)}
+  .podium > li:not(:first-child) .pod .pc-code{display:none}
+  .podium > li:not(:first-child) .pod .pc-meta{font-size:12px}
+  .podium > li:not(:first-child) .pod .pc-panel{left:6px;right:6px;border-radius:18px}
+  .podium > li:not(:first-child) .pod .pc-hex{width:92px;height:52px;top:-20px;border-radius:16px}
+  .podium > li:not(:first-child) .pod .pc-hexring{width:104px;height:64px;top:-26px}
+  .podium > li:not(:first-child) .pod .pc-hex b{font-size:15px}
+  .podium > li:not(:first-child) .pod .pc-title{top:48px;padding:0 8px}
+  .podium > li:not(:first-child) .pod .pc-title b{font-size:12.5px}
+  .podium > li:not(:first-child) .pod .pc-title span{font-size:12px}
+  .podium > li:not(:first-child) .pod .pc-tabs{width:88%}
+  .podium > li:not(:first-child) .pod .pc-tabs a,.podium > li:not(:first-child) .pod .pc-tabs span{font-size:11px;letter-spacing:.04em}
+  .p1 .pod .pc-ghost{font-size:200px}
+  .p1 .pod-ava{top:104px;width:100px;height:100px;margin-left:-50px}
+  .p1 .pod-crown{top:74px}
+  .youcard{padding:18px;border-radius:22px}
+  .youcard .btn{width:100%}
+  .you-next{font-size:14.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .js .board:not(.go) .trow:not(.nr){opacity:1}
+  .board.go .trow,.board .trow.you.nr{animation:none}
+  .youpin{transition:none}
+  .pod-crown{animation:none}
+  .trow:hover{transform:none}
+}
 </style>
-
-<canvas id="stars"></canvas>
-<div class="glowfix"></div>
-
-<header>
-  <nav class="nav">
-    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="spin">Spin</a><a href="leaderboard" class="active">Leaderboard</a><a href="bridge">Bridge</a></div>
-    <div class="buydrop"><button class="btn btn-primary" type="button" style="padding:.55rem 1rem;font-size:.9rem">Buy $QORPO <svg width="9" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button><div class="bd-menu" data-buymenu></div></div>
-    <div class="wcwrap">
-      <button class="wc" id="wcBtn"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
-      <div class="wc-menu" id="wcMenu">
-        <button id="wcCopy" type="button">Copy address</button>
-        <button id="wcDisc" class="disc" type="button">Disconnect</button>
-      </div>
-    </div>
-    <button class="burger" id="burger">☰</button>
+<link rel="canonical" href="https://qorpo.world/leaderboard">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="QORPO Community Points: Leaderboard">
+<meta property="og:description" content="Earn daily Community Points by your QORPO Power level. Ethereum and BNB Chain combined, ranked live.">
+<meta property="og:url" content="https://qorpo.world/leaderboard">
+<meta property="og:image" content="https://qorpo.world/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="QORPO Community Points: Leaderboard">
+<meta name="twitter:description" content="Earn daily Community Points by your QORPO Power level. Ethereum and BNB Chain combined, ranked live.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og-image.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+</head>
+<body data-page="leaderboard">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
   </nav>
-</header>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
 
 <main>
-  <section class="hero">
-    <div class="hero-media"><img src="assets/leaderboard-hero.jpg" alt="$QORPO — Ethereum + BNB Chain combined"></div>
-    <div class="hero-inner">
-      <p class="kicker">Community Points</p>
-      <h1>Where the community stands</h1>
-    </div>
-    <a class="scrollcue" href="#board-top" aria-label="Scroll down">↓</a>
-  </section>
+  <section class="page-hero" id="board-top">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb"><a href="/">QORPO</a><span class="sep">/</span><a href="/token">$QORPO</a><span class="sep">/</span><b>Leaderboard</b></nav>
+      <div class="kicker"><span class="status" style="color:var(--mint)"><span class="dot live-dot"></span>Live ranks</span><span class="status" style="color:var(--gold)">Community Points</span></div>
+      <h1 data-split>Who backs QORPO the hardest.</h1>
+      <p class="sub">Stake <b>$QORPO</b> and earn Community Points every day by your QORPO Power level, plus your daily spins. Points add up over time and the board ranks every wallet by its total. Your Ethereum and BNB Chain stakes count as one pool.</p>
 
-  <section class="wrap herobelow" id="board-top">
-    <p class="lead">Stake <b>$QORPO</b> and earn <b>Community Points every day</b> by your <b>QORPO&nbsp;Power level</b> — the more you stake, the higher your level and the more you earn daily. Your <b>Ethereum</b> and <b>BNB&nbsp;Chain</b> stakes are added together into <b>one combined pool</b>.</p>
-
-    <div class="toolrow">
-      <div class="seg" aria-label="Combined pool">
-        <button class="on" disabled style="cursor:default"><span class="cd"></span>Ethereum + BNB Chain · one pool</button>
-      </div>
-      <button class="refresh" id="refreshBtn"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v5h-5"/></svg>Refresh</button>
-    </div>
-    <div class="asofrow"><div class="asof" id="asof"></div><span class="infoi" tabindex="0" role="button" aria-label="How the leaderboard updates">i<span class="tip">Community Points update <b>once a day</b>, around <b>00:15 UTC</b>. A new or increased stake appears on the board <b>after the next daily update</b> — not instantly. Points are kept while you stake at least <b>10,000 $QORPO</b> (Ethereum + BNB combined).</span></span></div>
-
-    <div class="statrow">
-      <div class="statcard"><b id="stTotal">—</b><span>Community Points / day</span></div>
-      <div class="statcard"><b id="stHolders">—</b><span>Ranked stakers</span></div>
-      <div class="statcard"><b id="stTop">—</b><span>Top share (daily)</span></div>
-      <div class="statcard"><b id="stYou">—</b><span>Your points / day</span></div>
-    </div>
-  </section>
-
-  <div class="wrap">
-    <section class="climb" id="climb">
-      <div class="climb-top">
-        <div class="climb-copy">
-          <p class="kicker">Your move</p>
-          <h2>How far to the top?</h2>
-          <p class="climb-sub">Stake <b>$QORPO</b> to climb the board and qualify for the <b>Tamitos airdrop</b>. Here's what the top stakers hold right now — match them to compete for each tier.</p>
+      <div class="toolrow">
+        <div class="wcwrap">
+          <button class="wc" id="wcBtn" type="button"><span class="dot"></span><span id="wcTxt">Connect Wallet</span></button>
+          <div class="wc-menu" id="wcMenu">
+            <button id="wcCopy" type="button">Copy address</button>
+            <button id="wcDisc" class="disc" type="button">Disconnect</button>
+          </div>
         </div>
-        <a class="btn btn-primary climb-buy" href="staking">Stake $QORPO →</a>
+        <a class="btn btn-mint" href="/staking">Stake $QORPO</a>
       </div>
-      <div class="targets" id="targets"></div>
-      <div class="you-next" id="youNext"></div>
-    </section>
+      <div class="metarow">
+        <span class="chip"><span class="dot eth"></span><span class="dot bnb"></span>Ethereum + BNB Chain · one pool</span>
+        <button class="refresh" id="refreshBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v5h-5"/></svg>Refresh</button>
+      </div>
+      <div class="asofrow"><div class="asof" id="asof"></div><span class="infoi" tabindex="0" role="button" aria-label="How the leaderboard updates">i<span class="tip">Community Points update <b>once a day</b>, around <b>00:15 UTC</b>. A new or increased stake appears on the board <b>after the next daily update</b>, not instantly. Points are kept while you stake at least <b>10,000 $QORPO</b> (Ethereum + BNB combined).</span></span></div>
 
-    <div class="youcard" id="youcard" style="display:none">
-      <div class="yl">
-        <div class="yk">Your standing</div>
-        <div class="yv" id="youRank">—</div>
-        <div class="ysub" id="youSub"></div>
+      <div class="statrow">
+        <div class="statcard rv" style="--d:0;--c1:#2f6fd8;--c2:#173a7a"><b id="stTotal" class="tnum">-</b><span>Community Points / day</span><i>CP</i></div>
+        <div class="statcard rv" style="--d:1;--c1:#9a6ae0;--c2:#45287a"><b id="stHolders" class="tnum">-</b><span>Ranked stakers</span><i>#</i></div>
+        <div class="statcard rv" style="--d:2;--c1:#d39a17;--c2:#6b4508"><b id="stTop" class="tnum">-</b><span>Top share (daily)</span><i>%</i></div>
+        <div class="statcard mint rv" style="--d:3"><b id="stYou" class="tnum">-</b><span>Your points / day</span><i>YOU</i></div>
       </div>
-      <a class="btn btn-primary" href="staking">Stake more →</a>
     </div>
+  </section>
 
-    <section class="sec" style="padding-top:1.2rem">
+  <section class="secx" id="podium" aria-labelledby="podH">
+    <div class="wrap">
+      <div class="rv">
+        <div class="kicker"><span class="status" style="color:var(--gold)">Top 3</span></div>
+        <h2 class="h2" id="podH" data-split>The podium.</h2>
+      </div>
+      <ol class="podium" id="podiumList">
+        <li class="p1"><div class="pod-slot rv" style="--d:0">
+          <article class="pcard pod g empty" id="pod1" data-tilt>
+            <div class="pc-top"><span class="pc-meta">Rank 1</span></div><span class="pc-code">GOLD</span><span class="youflag">YOU</span>
+            <div class="pc-ghost">#1</div>
+            <svg class="pod-crown" viewBox="0 0 48 32" aria-hidden="true"><path fill="currentColor" d="M3 8l11 9L24 2l10 15 11-9-4 22H7z"/></svg>
+            <div class="pod-ava" data-f="ava"></div>
+            <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b data-f="pts">-</b></span>
+              <div class="pc-title"><b data-f="wallet">Loading ranks</b><span data-f="stake">Community Points</span></div></div>
+            <div class="pc-tabs"><span data-f="lvl">Level</span><a data-f="link" href="#rows">Ranks</a></div><i class="pc-glare"></i>
+          </article></div></li>
+        <li class="p2"><div class="pod-slot rv" style="--d:1">
+          <article class="pcard pod s empty" id="pod2" data-tilt>
+            <div class="pc-top"><span class="pc-meta">Rank 2</span></div><span class="pc-code">SILVER</span><span class="youflag">YOU</span>
+            <div class="pc-ghost">#2</div>
+            <div class="pod-ava" data-f="ava"></div>
+            <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b data-f="pts">-</b></span>
+              <div class="pc-title"><b data-f="wallet">Loading ranks</b><span data-f="stake">Community Points</span></div></div>
+            <div class="pc-tabs"><span data-f="lvl">Level</span><a data-f="link" href="#rows">Ranks</a></div><i class="pc-glare"></i>
+          </article></div></li>
+        <li class="p3"><div class="pod-slot rv" style="--d:2">
+          <article class="pcard pod b empty" id="pod3" data-tilt>
+            <div class="pc-top"><span class="pc-meta">Rank 3</span></div><span class="pc-code">BRONZE</span><span class="youflag">YOU</span>
+            <div class="pc-ghost">#3</div>
+            <div class="pod-ava" data-f="ava"></div>
+            <div class="pc-panel"><span class="pc-hexring"></span><span class="pc-hex"><b data-f="pts">-</b></span>
+              <div class="pc-title"><b data-f="wallet">Loading ranks</b><span data-f="stake">Community Points</span></div></div>
+            <div class="pc-tabs"><span data-f="lvl">Level</span><a data-f="link" href="#rows">Ranks</a></div><i class="pc-glare"></i>
+          </article></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="secx" id="ranks" aria-labelledby="ranksH">
+    <div class="wrap">
+      <div class="rv">
+        <div class="kicker"><span class="status" style="color:var(--mint)"><span class="dot live-dot"></span>Full board</span></div>
+        <h2 class="h2" id="ranksH" data-split>Every rank, live.</h2>
+        <p class="sub">Ranked by total accumulated Community Points. Connect your wallet and your row lights up and stays pinned while you scroll.</p>
+      </div>
+
+      <div class="youcard" id="youcard" style="display:none">
+        <div class="yl">
+          <div class="yk">Your standing</div>
+          <div class="yv" id="youRank">-</div>
+          <div class="ysub" id="youSub"></div>
+        </div>
+        <a class="btn btn-mint" href="/staking">Stake more</a>
+      </div>
+
       <div class="board" id="board">
         <div class="thead"><span>Rank</span><span>Wallet</span><span class="r-stk">Staked</span><span class="r-pts">Community Points / day</span><span class="r-shr">Share</span></div>
         <div id="rows"><div class="state" id="state"><span class="spin"></span>Reading the chain…<div class="bar"><i id="pbar"></i></div><div class="pmsg" id="pmsg">Starting…</div></div></div>
       </div>
-    </section>
-
-    <section class="sec" style="padding-top:0">
-      <p class="kicker">How Community Points work</p>
-      <h2 style="font-size:clamp(1.5rem,3.4vw,2.2rem);margin-top:.5rem">Simple by design</h2>
-      <div class="rules">
-        <div class="rule">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
-          <h3>Tokens = points</h3>
-          <p>Your stake sets your <b style="color:#fff">level</b> (see the staking table), and each level earns a fixed band of <b style="color:#fff">Community Points per day</b>. The more you stake, the higher your level and the higher your daily rate.</p>
-        </div>
-        <div class="rule">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 12.5H11l-1 9.5 8.5-10.5H12z"/></svg></div>
-          <h3>APY is a bonus, not a boost</h3>
-          <p>Lock in the APY pool and you earn <b style="color:#fff">extra $QORPO</b> on top. It does not multiply your points — it just pays you more tokens for locking.</p>
-        </div>
-        <div class="rule">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <h3>Flexible still counts</h3>
-          <p>Don't want a lock? The no-lock <b style="color:#fff">Power</b> pool earns Community Points too. You stay liquid and still climb the board.</p>
-        </div>
-      </div>
-      <div class="note" id="loyaltyNote">
-        <b>How this board works.</b> You earn <b>Community Points every day</b> by your QORPO Power level and they <b>add up over time</b> — the board ranks wallets by their <b>total accumulated points</b>. Your points are <b>kept only while you stake at least 10,000&nbsp;$QORPO</b> (Ethereum + BNB Chain combined); drop below that and they reset. Stake more to earn faster and climb.
-      </div>
-    </section>
-
-    <div class="cta-band">
-      <h2>Climb the board</h2>
-      <p>Stake $QORPO to earn Community Points and move up the ranking. No lock required to start.</p>
-      <a class="btn btn-primary" href="staking">Stake $QORPO →</a>
     </div>
+  </section>
+
+  <section class="sec" id="climb" style="padding-top:90px">
+    <div class="wrap">
+      <div class="climb-top rv">
+        <div>
+          <div class="kicker"><span class="status" style="color:var(--gold)">Your move</span></div>
+          <h2 class="h2" data-split>How far to the top?</h2>
+          <p class="sub">Stake <b>$QORPO</b> to climb the board and qualify for the <b>Tamitos airdrop</b>. Here is what the top stakers hold right now. Match them to compete for each tier.</p>
+        </div>
+        <a class="btn btn-mint" href="/staking">Stake $QORPO</a>
+      </div>
+      <div class="targets rv" id="targets"></div>
+      <div class="you-next rv" id="youNext"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="how" style="padding-top:90px">
+    <div class="wrap">
+      <div class="rv">
+        <div class="kicker"><span class="status" style="color:var(--tm2)">How Community Points work</span></div>
+        <h2 class="h2" data-split>Simple by design.</h2>
+      </div>
+      <div class="rules">
+        <div class="rule rv" style="--d:0;--c1:#17a58c;--c2:#0c4d45"><i>STAKE</i><h3>Tokens = points</h3><p>Your stake sets your <b>level</b> (see the staking table), and each level earns a fixed band of <b>Community Points per day</b>. The more you stake, the higher your level and the higher your daily rate.</p><span class="big">01</span></div>
+        <div class="rule rv" style="--d:1;--c1:#2f6fd8;--c2:#173a7a"><i>BONUS</i><h3>APY is a bonus, not a boost</h3><p>Lock in the APY pool and you earn <b>extra $QORPO</b> on top. It does not multiply your points. It just pays you more tokens for locking.</p><span class="big">02</span></div>
+        <div class="rule rv" style="--d:2;--c1:#9a6ae0;--c2:#45287a"><i>NO LOCK</i><h3>Flexible still counts</h3><p>Don't want a lock? The no-lock <b>Power</b> pool earns Community Points too. You stay liquid and still climb the board.</p><span class="big">03</span></div>
+      </div>
+      <div class="cbox lnote rv" id="loyaltyNote">
+        <h4>How this board works</h4>
+        <p>You earn <b>Community Points every day</b> by your QORPO Power level and they <b>add up over time</b>. The board ranks wallets by their <b>total accumulated points</b>. Your points are <b>kept only while you stake at least 10,000&nbsp;$QORPO</b> (Ethereum + BNB Chain combined); drop below that and they reset. Stake more to earn faster and climb.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="final rv">
+    <h2>Climb the board</h2>
+    <p>Stake $QORPO to earn Community Points and move up the ranking. No lock required to start.</p>
+    <div class="hero-cta"><a class="btn btn-mint" href="/staking">Stake $QORPO</a><a class="btn btn-ghost" href="/spin">Daily spin</a></div>
   </div>
+  <div class="wrap"><p class="disclaimer">Community Points are read live from the QORPO points service, with an on-chain fallback.</p></div>
 </main>
-
-<footer>
-  <div class="fcols">
-    <div class="fbrand"><div class="fw">QORPO</div><p>The attention economy token — powering the games, collectibles and shows the world is watching.</p><div class="fsoc" id="fsoc"></div></div>
-    <div class="fcol"><span class="h">Main pages</span><a href="staking">QORPO Staking</a><a href="leaderboard">Community Points</a><a href="bridge">QORPO Bridge</a><a href="token">Why $QORPO</a></div>
-    <div class="fcol"><span class="h">Ecosystem</span><a href="about">About QORPO</a><a href="ecosystem">Ecosystem</a><a href="https://www.tamitos.com/" target="_blank" rel="noopener">Tamitos</a><a href="https://aneemate.com/" target="_blank" rel="noopener">AneeMate</a></div>
-    <div class="fcol"><span class="h">Trade $QORPO</span><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a></div>
-    <div class="fcol"><span class="h">Legal</span><a href="privacy">Privacy Policy</a><a href="terms">Terms of Service</a></div>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/about">About</a><a href="/blog">Blog</a></div>
   </div>
-  <div class="flegal">© 2026 QORPO World. All rights reserved. · Community Points are read live on-chain · $QORPO</div>
-</footer>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
 
-<div id="toast"></div>
-
+<div class="youpin" id="youPin" role="button" tabindex="-1" aria-label="Jump to your rank"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="assets/ui.js"></script>
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
@@ -422,7 +535,7 @@ html{overflow-x:clip}
   }
   function closeWcMenu(){var m=$('wcMenu');if(m)m.classList.remove('open');}
   function disconnect(){account=null;signer=null;$('wcBtn').classList.remove('on');$('wcTxt').textContent='Connect Wallet';closeWcMenu();
-    $('youcard').style.display='none';$('stYou').textContent='—';myStake=null;render();
+    $('youcard').style.display='none';$('stYou').textContent='-';myStake=null;render();
     try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}
   }
   function setConnected(){$('wcBtn').classList.add('on');$('wcTxt').textContent=short(account);}
@@ -634,7 +747,7 @@ html{overflow-x:clip}
         usdtxt=QPRICE>0?('≈ '+usd(q*QPRICE)):'';
         note='Beat the current #'+(t.idx+1);
       }else{
-        qtxt='Open <small>spot</small>'; usdtxt=''; note='Under '+(t.idx+1)+' stakers — easy to grab';
+        qtxt='Open <small>spot</small>'; usdtxt=''; note='Under '+(t.idx+1)+' stakers, easy to grab';
       }
       return '<div class="tcard'+(t.idx===0?' gold':'')+'">'+
         '<div class="tlabel">'+t.label+'</div>'+
@@ -648,7 +761,7 @@ html{overflow-x:clip}
     if(!account){ yn.innerHTML='<span class="yn-dot"></span>Connect your wallet to see exactly how much $QORPO puts you in the top ranks.'; return; }
     var myAmt=(myStake!=null)?humanAmt(myStake):humanAmt(findPts(b,la)||0n);
     var myRank=findRank(b,la);
-    if(myRank===1){ yn.innerHTML='<span class="yn-dot"></span>👑 You hold <b>#1</b> — you\'re powering QORPO the most. Stake more to defend it.'; return; }
+    if(myRank===1){ yn.innerHTML='<span class="yn-dot"></span>👑 You hold <b>#1</b>. You\'re powering QORPO the most. Stake more to defend it.'; return; }
     if(myRank>1){
       var above=rows[myRank-2];
       var delta=Math.max(1, humanAmt(above.pts)-myAmt+1);
@@ -657,7 +770,7 @@ html{overflow-x:clip}
       return;
     }
     if(myAmt>=RETAIN_MIN){
-      yn.innerHTML='<span class="yn-dot"></span>You\'re staking <b>'+qShort(myAmt)+' $QORPO</b> — your Community Points are accruing and you\'ll appear on the board after the next daily update. Stake more to climb faster.';
+      yn.innerHTML='<span class="yn-dot"></span>You\'re staking <b>'+qShort(myAmt)+' $QORPO</b>. Your Community Points are accruing and you\'ll appear on the board after the next daily update. Stake more to climb faster.';
       return;
     }
     if(myAmt>0){
@@ -666,7 +779,7 @@ html{overflow-x:clip}
     }
     var need10=rows.length>=10?humanAmt(rows[9].pts):0;
     var t10=need10>0?(qShort(need10)+' $QORPO'+(QPRICE>0?(' ≈ '+usd(need10*QPRICE)):'')):'a small amount';
-    yn.innerHTML='<span class="yn-dot"></span>You\'re not on the board yet. Stake <b>'+t10+'</b> to break into the Top 10 — and start earning toward the <b>Tamitos airdrop</b>.';
+    yn.innerHTML='<span class="yn-dot"></span>You\'re not on the board yet. Stake <b>'+t10+'</b> to break into the Top 10 and start earning toward the <b>Tamitos airdrop</b>.';
   }
   function render(){
     var b=board;
@@ -689,13 +802,13 @@ html{overflow-x:clip}
     // stats
     $('stTotal').textContent=ptsShort(total);
     $('stHolders').textContent=b.rows.length.toLocaleString();
-    $('stTop').textContent=(b.rows.length&&total>0)?(Math.round(top/total*10000)/100)+'%':'—';
+    $('stTop').textContent=(b.rows.length&&total>0)?(Math.round(top/total*10000)/100)+'%':'-';
     var la=account?account.toLowerCase():null;
     var myRow=la?findRow(b,la):null;
     var myAmt=(la&&myStake!=null)?humanAmt(myStake):(myRow?humanAmt(myRow.pts):0);
     var myDaily=dailyPoints(myAmt), myLvl=(myRow&&myRow.lvl)?myRow.lvl:(tierOf(myAmt)+1);
     var myAcc=myRow?(myRow.acc||0):0;
-    $('stYou').textContent = bk ? (account?ptsShort(myAcc):'—') : ((myDaily>0)?ptsShort(myDaily):(account?'0':'—'));
+    $('stYou').textContent = bk ? (account?ptsShort(myAcc):'-') : ((myDaily>0)?ptsShort(myDaily):(account?'0':'-'));
     // your-rank card
     if(account){
       var rank=findRank(b,la);
@@ -706,7 +819,7 @@ html{overflow-x:clip}
           $('youSub').textContent=ptsShort(myAcc)+' Community Points · Level '+myLvl+' · staking '+qShort(myAmt)+' $QORPO';
         }else if(myAmt>=RETAIN_MIN){
           $('youRank').textContent='Earning';
-          $('youSub').textContent='You\'re staking '+qShort(myAmt)+' $QORPO — points appear after the next daily update.';
+          $('youSub').textContent='You\'re staking '+qShort(myAmt)+' $QORPO. Points appear after the next daily update.';
         }else{
           $('youRank').textContent='Not qualified';
           $('youSub').textContent='Stake at least '+qShort(RETAIN_MIN)+' $QORPO to start earning and keep your points.';
@@ -721,7 +834,7 @@ html{overflow-x:clip}
     }else{ $('youcard').style.display='none'; }
     updateClimb(b);
     // rows
-    if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found yet. Be the first — <a href="staking" style="color:var(--pink);font-weight:700;text-decoration:underline;text-underline-offset:3px">stake $QORPO →</a>.</div>'; return; }
+    if(!b.rows.length){ $('rows').innerHTML='<div class="state">No stakers found yet. Be the first: <a href="/staking" style="color:var(--pink);font-weight:700;text-decoration:underline;text-underline-offset:3px">stake $QORPO →</a>.</div>'; return; }
     var SHOW=100, html='';
     for(var i=0;i<b.rows.length&&i<SHOW;i++){
       var r=b.rows[i], rk=i+1, isYou=(la&&r.a===la);
@@ -799,3 +912,97 @@ html{overflow-x:clip}
   (function(){var b=document.getElementById('burger'),l=document.querySelector('.nav-links');if(!b||!l)return;function cl(){l.classList.remove('nav-open');b.innerHTML='☰';}function op(){l.classList.add('nav-open');b.innerHTML='✕';}b.addEventListener('click',function(e){e.stopPropagation();l.classList.contains('nav-open')?cl():op();});l.addEventListener('click',function(e){var t=e.target;if(t.tagName==='A'||(t.closest&&t.closest('a')))cl();});document.addEventListener('click',function(e){if(l.classList.contains('nav-open')&&!l.contains(e.target)&&e.target!==b)cl();});})();
 })();
 </script>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<script>
+/* ---------- leaderboard reskin layer: podium, row stagger, count up ----------
+   Reads only the DOM that the original script renders into #rows and the stat cards.
+   It never touches the original script's variables, endpoints or wallet logic. */
+(function(){
+  "use strict";
+  var rowsEl=document.getElementById('rows'),boardEl=document.getElementById('board');
+  if(!rowsEl||!boardEl||!window.MutationObserver)return;
+  var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* count up: animates "2.67M", "1,234", "71.5%" style strings, ends on the exact text */
+  function parse(t){var m=/^\s*([\d,]*\.?\d+)\s*([KMB%]?)\s*$/.exec(t||'');if(!m)return null;var raw=m[1].replace(/,/g,'');
+    return {v:parseFloat(raw),d:(raw.split('.')[1]||'').length,sfx:m[2]};}
+  function write(el,t){el._cuWrote=t;el.textContent=t;}
+  function countTo(el,text){
+    var p=parse(text);el._cuTok=(el._cuTok||0)+1;var tok=el._cuTok;el._cuTarget=text;
+    if(!p||rm||!p.v){write(el,text);return;}
+    var t0=null,dur=1200;
+    function step(ts){if(tok!==el._cuTok)return;if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-k,3);
+      write(el,k<1?(p.v*e).toLocaleString('en-US',{minimumFractionDigits:p.d,maximumFractionDigits:p.d})+p.sfx:text);
+      if(k<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+  /* stat cards: the original script writes textContent; we animate the first real value */
+  ['stTotal','stHolders','stTop','stYou'].forEach(function(id){var el=document.getElementById(id);if(!el)return;
+    new MutationObserver(function(){var t=el.textContent;if(t===el._cuWrote||t===el._cuTarget)return;
+      if(!el._cuDone&&parse(t)&&parse(t).v){el._cuDone=true;write(el,'0');countTo(el,t);}
+      else{el._cuTok=(el._cuTok||0)+1;el._cuWrote=t;el._cuTarget=t;}
+    }).observe(el,{childList:true,characterData:true,subtree:true});});
+
+  /* rows: stagger in once when the board is first seen; re-renders of known rows do not replay */
+  var seen={};
+  function go(){boardEl.classList.add('go');}
+  if(rm)go();
+  else if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go();io.disconnect();}});},{threshold:.02});io.observe(boardEl);setTimeout(go,2500);}
+  else go();
+
+  function txt(el){return el?(el.firstChild&&el.firstChild.nodeType===3?el.firstChild.nodeValue:el.textContent).trim():'';}
+  function fillPod(n,tr){
+    var c=document.getElementById('pod'+n);if(!c)return;
+    var q=function(f){return c.querySelector('[data-f="'+f+'"]');};
+    var hex=q('pts'),wal=q('wallet'),stk=q('stake'),lvl=q('lvl'),lnk=q('link'),ava=q('ava');
+    if(!tr){
+      var loading=!!rowsEl.querySelector('.spin'),open=/No stakers/.test(rowsEl.textContent);
+      c.classList.add('empty');c.classList.remove('you');
+      hex._v=null;hex._cuTok=(hex._cuTok||0)+1;hex.textContent='-';
+      wal.textContent=loading?'Loading ranks':(open?'Open spot':'Ranks offline');wal.removeAttribute('title');
+      stk.textContent=loading?'Community Points':(open?'Stake to take it':'Try again shortly');
+      lvl.textContent='Level';lnk.textContent=open?'Stake':'Ranks';lnk.setAttribute('href',open?'staking.html':'#rows');
+      lnk.removeAttribute('target');lnk.removeAttribute('rel');ava.removeAttribute('style');
+      return;
+    }
+    var a=tr.querySelector('.addr a'),av=tr.querySelector('.ava'),lt=tr.querySelector('.lvltag');
+    var pts=txt(tr.querySelector('.r-pts')),unit=(tr.querySelector('.r-pts small')||{}).textContent||'CP';
+    var st=txt(tr.querySelector('.r-stk'));
+    c.classList.remove('empty');c.classList.toggle('you',tr.classList.contains('you'));
+    if(hex._v!==pts){hex._v=pts;countTo(hex,pts);}
+    wal.textContent=a?a.textContent:'';
+    if(a)wal.setAttribute('title',a.getAttribute('href').split('/').pop());
+    stk.textContent=st?(st+' $QORPO staked'):unit;
+    lvl.textContent=lt?lt.textContent:'Level';
+    if(a){lnk.textContent='View';lnk.setAttribute('href',a.getAttribute('href'));lnk.setAttribute('target','_blank');lnk.setAttribute('rel','noopener');
+      lnk.setAttribute('aria-label','View wallet '+a.textContent+' on Etherscan');}
+    if(av)ava.setAttribute('style',av.getAttribute('style'));
+  }
+  function sync(){
+    var trs=rowsEl.querySelectorAll('.trow');
+    for(var i=0;i<trs.length;i++){var tr=trs[i],a=tr.querySelector('.addr a'),rk=tr.querySelector('.rank');
+      var k=(a?a.getAttribute('href'):'')+'|'+(rk?rk.textContent.trim():'');
+      if(seen[k])tr.classList.add('nr');else{seen[k]=1;tr.style.setProperty('--i',Math.min(i,24));}}
+    for(var n=1;n<=3;n++){var t=trs[n-1];
+      fillPod(n,(t&&t.querySelector('.rank')&&t.querySelector('.rank').textContent.trim()===String(n))?t:null);}
+  }
+  /* your row, pinned: a non-interactive copy floats at the bottom while the real row is off screen */
+  var pin=document.getElementById('youPin'),youRow=null,ticking=false;
+  function pinUpd(){ticking=false;if(!pin)return;var show=false;
+    if(youRow&&youRow.isConnected){var r=youRow.getBoundingClientRect(),bd=boardEl.getBoundingClientRect(),h=innerHeight;
+      show=bd.top<h*.75&&bd.bottom>h*.35&&(r.top>h-8||r.bottom<70);}
+    pin.classList.toggle('show',show);pin.tabIndex=show?0:-1;pin.setAttribute('aria-hidden',show?'false':'true');}
+  function pinQ(){if(!ticking){ticking=true;requestAnimationFrame(pinUpd);}}
+  function pinSync(){youRow=rowsEl.querySelector('.trow.you');
+    if(pin){if(youRow){pin.innerHTML=youRow.outerHTML;var cl=pin.firstElementChild;cl.classList.add('nr');cl.setAttribute('inert','');}else pin.innerHTML='';}
+    pinQ();}
+  if(pin){addEventListener('scroll',pinQ,{passive:true});addEventListener('resize',pinQ);
+    function jump(){if(youRow&&youRow.isConnected)youRow.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});}
+    pin.addEventListener('click',jump);pin.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();jump();}});}
+  new MutationObserver(function(){sync();pinSync();}).observe(rowsEl,{childList:true});
+  pinSync();
+  sync();
+})();
+</script>
+</body>
+</html>
