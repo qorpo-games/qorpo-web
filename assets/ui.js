@@ -87,3 +87,36 @@
   function onS(){var h=document.documentElement.scrollHeight-innerHeight;if(h>0&&scrollY/h>.45)open()}
   window.addEventListener('scroll',onS,{passive:true});setTimeout(open,7000);
   window.qpOpen=open})();
+
+/* live studio toasts: recent builds (and X posts when the feed carries them) pop in bottom right */
+(function(){if(window.matchMedia('print').matches)return;
+  var OFF='lt_off',seen;try{if(sessionStorage.getItem(OFF))return}catch(e){}
+  var P={aneemate:['AneeMate','#ffd23f','/#aneemate'],tamitos:['Tamitos','#c89bff','/#tamitos'],onelife:['One Life','#ff7a1a','/#onelife'],x:['On X','#9fb3c8','']};
+  var GH='<svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 011.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>';
+  var XI='<svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.5 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg>';
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function ago(t){var s=(Date.now()-new Date(t))/1000;if(s<90)return 'just now';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'}
+  function items(d){var out=[];['aneemate','tamitos','onelife'].forEach(function(k){(d[k]||[]).forEach(function(c){out.push({k:k,r:c.r,t:c.t,m:c.m})})});
+    (d.x||[]).forEach(function(p){out.push({k:'x',r:p.h,t:p.t,m:p.m,u:p.u})});
+    out.sort(function(a,b){return new Date(b.t)-new Date(a.t)});return out.filter(function(i){return Date.now()-new Date(i.t)<14*864e5}).slice(0,8)}
+  function start(list){if(!list.length)return;
+    var box=document.createElement('div');box.className='lt';box.setAttribute('aria-live','polite');box.setAttribute('aria-label','Live from the studio');
+    box.innerHTML='<button class="lt-pill" type="button" aria-label="Show live updates"><i></i><b>LIVE</b>'+list.length+' updates from the studio</button>';
+    document.body.appendChild(box);var pill=box.firstChild,i=0,timer=null,hover=false,DUR=6000,card=null;
+    function show(){if(document.querySelector('.qp.open')){timer=setTimeout(show,1500);return}
+      var it=list[i],p=P[it.k];var href=it.u||p[2];
+      var el=document.createElement(href?'a':'div');el.className='lt-card';el.style.setProperty('--lc',p[1]);el.style.setProperty('--ltd',DUR+'ms');if(href){el.href=href;if(it.u){el.target='_blank';el.rel='noopener'}}
+      el.innerHTML='<span class="lt-ic">'+(it.k==='x'?XI:GH)+(i===0?'<span class="dot"></span>':'')+'</span><span><span class="lt-k">'+p[0]+'<span>'+esc(it.r)+'</span></span><span class="lt-m">'+esc(it.m)+'</span><span class="lt-t">'+(it.k==='x'?'posted ':'shipped ')+ago(it.t)+'</span></span><button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><i class="lt-bar"></i>';
+      el.querySelector('.lt-x').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();minimize(true)});
+      el.addEventListener('mouseenter',function(){hover=true;clearTimeout(timer)});el.addEventListener('mouseleave',function(){hover=false;timer=setTimeout(next,1800)});
+      if(card)card.remove();box.insertBefore(el,pill);card=el;requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in')})});
+      timer=setTimeout(next,DUR)}
+    function next(){if(hover||!card)return;card.classList.add('out');var c=card;setTimeout(function(){c.remove();if(card===c)card=null},450);i++;
+      if(i>=list.length){i=0;timer=setTimeout(function(){minimize(false)},500);return}timer=setTimeout(show,700)}
+    function minimize(user){clearTimeout(timer);if(card){card.remove();card=null}box.classList.add('min');if(user){try{sessionStorage.setItem(OFF,'1')}catch(e){}}}
+    pill.addEventListener('click',function(){box.classList.remove('min');i=0;try{sessionStorage.removeItem(OFF)}catch(e){}show()});
+    setTimeout(show,3500)}
+  function go(d){start(items(d||{}))}
+  if(!window.fetch){return}
+  fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(go).catch(function(){if(window.SNAP)go(window.SNAP)});
+})();
