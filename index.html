@@ -488,21 +488,65 @@
 </script>
 <script>
 /* ---------- builds data: live endpoint, falls back to a real snapshot ---------- */
-var FEED_URL='https://qorpo-points.ceo-b3f.workers.dev/feed';
+var FEED_URL='/feed.json';
 var PROD={aneemate:['AneeMate','var(--am3)'],onelife:['One Life','var(--ol2)'],tamitos:['Tamitos','var(--tm1)']};
 function pill(k){var p=PROD[k];return '<span class="pp" style="--pc:'+p[1]+'">'+p[0]+'</span>'}
 var SNAP={
- aneemate:[
-  {r:'aneemate-web',t:'2026-10-01T04:35:43Z',m:'Events with badges and points, island records page'},
-  {r:'aneemate-web',t:'2026-09-27T09:37:29Z',m:'Real in-game screenshots on the home page and 12 AneeMate pages'},
-  {r:'aneemate-web',t:'2026-09-27T06:12:14Z',m:'Pack art that fits its card, key art, clean URLs'},
-  {r:'AneeMateV2',t:'2026-09-18T12:47:15Z',m:'Swim animations for quadrupeds and serpent'},
-  {r:'AneeMateV2',t:'2026-09-18T12:13:22Z',m:'Swim animations for all bipeds'}],
- tamitos:[
-  {r:'tamitos-mobileapp',t:'2026-09-30T08:21:05Z',m:'New animated tutorial after the first sign-in'},
-  {r:'tamitos-mobileapp',t:'2026-09-30T05:47:10Z',m:'Profile: "How it works" replays the tutorial'},
-  {r:'tamitos-mobileapp',t:'2026-09-30T05:45:51Z',m:'Tutorial tests and camera'}],
- onelife:[]
+"aneemate": [
+{
+"r": "aneemate-competitions",
+"t": "2026-10-03T06:24:46Z",
+"m": "Game points: competition wins counted apart from staking Community Points"
+},
+{
+"r": "aneemate-web",
+"t": "2026-10-01T18:37:28Z",
+"m": "AneeMate Island at /island"
+},
+{
+"r": "aneemate-competitions",
+"t": "2026-10-01T18:18:08Z",
+"m": "AneeMate Island: wallet sign in, server side drops, delivery into the game"
+},
+{
+"r": "aneemate-web",
+"t": "2026-10-01T04:35:43Z",
+"m": "Events with badges and points, island records page, records on every creature page"
+},
+{
+"r": "aneemate-competitions",
+"t": "2026-10-01T04:35:40Z",
+"m": "Badges endpoints and the catch time index"
+}
+],
+"tamitos": [
+{
+"r": "tamitos-webapp",
+"t": "2026-10-03T09:37:00Z",
+"m": "Move: no sponsor, no clock for family stories"
+},
+{
+"r": "tamitos-mobileapp",
+"t": "2026-10-03T08:36:00Z",
+"m": "Move family page: Podporiť priamo opens the give page in the browser"
+},
+{
+"r": "tamitos-mobileapp",
+"t": "2026-10-03T08:35:00Z",
+"m": "Move family card: direct gifts instead of a frozen movement bar"
+},
+{
+"r": "tamitos-webapp",
+"t": "2026-10-03T08:23:00Z",
+"m": "Web: Podporiť priamo on every family card, no conversion promise without a sponsor"
+},
+{
+"r": "tamitos-webapp",
+"t": "2026-10-03T07:05:00Z",
+"m": "TV: count down to the planned end in the lower third"
+}
+],
+"onelife": []
 };
 /* One Life has no repo of its own: it is pushed into the Citizen Conflict repos.
    Commits from there count as One Life when the branch or message says so; the rest is CC and stays off the site. */
@@ -520,7 +564,7 @@ function renderFeed(data,live){
 }
 renderFeed(SNAP,false);
 (function(){if(!window.fetch)return;var ctl=window.AbortController?new AbortController():null;var to=setTimeout(function(){ctl&&ctl.abort()},4000);
-  fetch(FEED_URL,{signal:ctl&&ctl.signal}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){clearTimeout(to);if(d&&(d.aneemate||d.tamitos||d.onelife||d.cc))renderFeed(splitCC(d),true)}).catch(function(){})})();
+  fetch(FEED_URL+'?t='+Math.floor(Date.now()/60000),{signal:ctl&&ctl.signal,cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){clearTimeout(to);if(d&&(d.aneemate||d.tamitos||d.onelife||d.cc)){var fresh=d.updated&&(Date.now()-Date.parse(d.updated))<3*3600e3;renderFeed(splitCC(d),!!fresh)}}).catch(function(){})})();
 
 /* live leaderboard from the points worker */
 (function(){if(!window.fetch)return;fetch('https://qorpo-points.ceo-b3f.workers.dev/leaderboard').then(function(r){return r.json()}).then(function(d){
