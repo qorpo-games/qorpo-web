@@ -1,152 +1,210 @@
-<script>if(location.protocol==="http:")location.replace(location.href.replace(/^http:/,"https:"));</script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Investor Claim — $QORPO</title>
-<meta name="robots" content="noindex,nofollow">
-<meta name="description" content="QORPO investor claim portal — connect your wallet to view and claim your vested $QORPO allocation on Ethereum.">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Investor Claim: QORPO</title>
+<meta name="description" content="Investor claim portal for $QORPO vesting. Connect the wallet that holds your allocation and claim what has unlocked.">
+<meta name="theme-color" content="#10131a">
 <link rel="canonical" href="https://qorpo.world/claim">
-<meta name="theme-color" content="#06060b">
-<link rel="icon" type="image/png" href="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
 <style>
-  :root{--bg:#06060b;--ink:#fff;--muted:#b4b4c9;--faint:#9292a8;--mag:#E051C7;--pink:#FF709E;--gold:#F0B90B;--green:#38d39f;
-    --grad:linear-gradient(100deg,#FF709E 0%,#E051C7 52%,#C83DD0 100%);
-    --line2:rgba(255,255,255,.06);--card-bd:rgba(255,255,255,.10);
-    --body:"Inter",-apple-system,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--max:33rem}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
-  a{color:inherit}
-  .glowfix{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-    radial-gradient(46rem 34rem at 82% -6%,rgba(224,81,199,.20),transparent 60%),
-    radial-gradient(40rem 30rem at 4% 10%,rgba(123,90,240,.15),transparent 60%),
-    radial-gradient(44rem 36rem at 50% 116%,rgba(255,112,158,.10),transparent 60%)}
-  main{position:relative;z-index:2}
-  header{position:sticky;top:0;z-index:60;background:rgba(8,8,14,.55);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line2)}
-  .nav{max-width:74rem;margin:0 auto;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;height:3.3rem}
-  .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;text-decoration:none;color:#fff}
-  .brand img{width:1.8rem;height:1.8rem;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(224,81,199,.85))}
-  .nav-links{display:flex;align-items:center;gap:.2rem;margin:0 auto}
-  .nav-links a{font-size:.88rem;color:#d9d9e6;opacity:.85;padding:.45rem .85rem;border-radius:1.5rem;text-decoration:none}
-  .nav-links a:hover{opacity:1;background:rgba(255,255,255,.07)}
-  @media(max-width:820px){.nav-links{display:none}}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.5rem}
-  .doc{padding:2.6rem 0 3.5rem;text-align:center}
-  .diamond{width:4.6rem;height:4.6rem;object-fit:contain;filter:drop-shadow(0 14px 40px rgba(224,81,199,.75));animation:float 6s ease-in-out infinite;margin-bottom:.4rem}
-  @keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(3deg)}}
-  @media(prefers-reduced-motion:reduce){.diamond{animation:none}}
-  .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
-  h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .4rem;line-height:1.04}
-  .lead{color:var(--muted);font-size:1.06rem;max-width:30rem;margin:0 auto}
-  /* ---- glass card ---- */
-  .card{position:relative;text-align:left;margin-top:2.2rem;padding:1.8rem;border-radius:1.6rem;
-    background:linear-gradient(180deg,rgba(40,34,56,.55),rgba(14,12,22,.6));
-    backdrop-filter:blur(34px) saturate(150%);-webkit-backdrop-filter:blur(34px) saturate(150%);
-    border:1px solid rgba(255,255,255,.14);
-    box-shadow:0 46px 130px -34px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.16),0 0 0 1px rgba(224,81,199,.08)}
-  .card::before{content:"";position:absolute;inset:0;border-radius:1.6rem;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 34%)}
-  .rowg{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.2rem 0 1.1rem}
-  .metric{background:rgba(255,255,255,.05);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:1rem;padding:.9rem 1rem}
-  .metric .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .metric .v{font-family:var(--mono);font-size:1.35rem;font-weight:600;margin-top:.3rem;font-variant-numeric:tabular-nums;word-break:break-word}
-  .metric.hi{border-color:rgba(224,81,199,.45);background:linear-gradient(180deg,rgba(224,81,199,.14),rgba(224,81,199,.05))}
-  .metric.hi .v{color:#ffd6f1}
-  .btn{width:100%;font-family:var(--body);font-weight:700;font-size:1rem;padding:.95rem 1.2rem;border-radius:2.4rem;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;transition:transform .15s,box-shadow .3s,opacity .2s}
-  .btn-p{background:var(--grad);color:#fff;box-shadow:0 14px 38px -12px rgba(224,81,199,.9)}
-  .btn-p:hover{transform:translateY(-1px)}
-  .btn-g{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(8px)}
-  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
-  .muted{color:var(--muted);font-size:.92rem}
-  .addr{font-family:var(--mono);font-size:.78rem;color:var(--faint);word-break:break-all}
-  .pill{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.72rem;padding:.3rem .7rem;border-radius:2rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);backdrop-filter:blur(8px);color:#e7e7f2}
-  .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(56,211,159,.8)}
-  .note{margin-top:1.3rem;font-size:.86rem;color:#e7e2cf;background:rgba(240,185,11,.07);border:1px solid rgba(240,185,11,.28);border-radius:1rem;padding:.9rem 1.1rem;text-align:left}
-  .hint{margin-top:1rem;font-size:.86rem;color:var(--muted)}
-  .status{margin-top:1rem;font-size:.9rem;min-height:1.2em}
-  .status a{color:var(--pink);text-decoration:underline}
-  .err{color:#ff8fae}
-  .ok{color:var(--green)}
-  .ctrhead{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.1rem;flex-wrap:wrap}
-  .hidden{display:none!important}
-  footer{position:relative;z-index:2;border-top:1px solid var(--line2);margin-top:2rem;padding:2rem 1.5rem;text-align:center}
-  .flegal{max-width:74rem;margin:0 auto;color:var(--faint);font-size:.82rem}
-  .flinks{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:.8rem}
-  .flinks a{color:#cfcfe0;font-size:.85rem;text-decoration:none}
-  .flinks a:hover{color:#fff;text-decoration:underline}
+.cl-grid{display:grid;grid-template-columns:1fr minmax(0,520px);gap:48px;align-items:start}
+.cl-h1{font-size:clamp(40px,6vw,80px);font-weight:900;margin:16px 0 18px;max-width:11ch}
+.cl-h1 em{font-style:normal;background:linear-gradient(90deg,#ffe58a,var(--gold),#ff9f1c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cl-trust{display:grid;gap:10px;margin-top:26px;max-width:520px}
+.cl-trust div{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-size:14.5px}
+.cl-trust b{color:var(--text)}
+.cl-trust i{flex:none;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(94,240,176,.12);color:var(--mint);font-style:normal;font-weight:900;font-size:13px}
+.cl-card{position:relative;padding:26px;border-radius:30px;background:radial-gradient(120% 80% at 100% 0%,rgba(224,81,199,.18),transparent 55%),linear-gradient(170deg,var(--panel2),var(--panel));box-shadow:inset 0 0 0 1px rgba(224,81,199,.25),0 50px 100px -50px rgba(142,54,201,.6);overflow:hidden}
+.cl-coin{position:absolute;right:-38px;top:-48px;width:150px;opacity:.9;filter:drop-shadow(0 20px 40px rgba(142,54,201,.5));pointer-events:none;animation:clf 7s ease-in-out infinite}
+@keyframes clf{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-8px)}}
+.cl-head{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;padding-right:110px}
+.cl-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:rgba(255,198,58,.12);color:var(--gold);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.cl-acct{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cl-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px var(--line2);font-family:var(--mono);font-size:12px;color:var(--text);border:0}
+.cl-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--mint)}
+button.cl-pill{cursor:pointer;color:#ff8fae}
+.cl-card h2{position:relative;font-size:26px;font-weight:900;margin:4px 0 10px}
+.cl-card .muted{color:var(--muted);font-size:15px;line-height:1.6;margin:0;position:relative}
+.cl-card .btn{width:100%;margin-top:18px;position:relative}
+.cl-card .btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.cl-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.cl-m{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line)}
+.cl-m .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.cl-m .v{margin-top:8px;font-family:var(--disp);font-size:clamp(18px,2.2vw,24px);font-weight:900;letter-spacing:-.02em;overflow-wrap:anywhere}
+.cl-m.hi{background:linear-gradient(160deg,rgba(94,240,176,.16),rgba(94,240,176,.04));box-shadow:inset 0 0 0 1.5px rgba(94,240,176,.45)}
+.cl-m.hi .v{font-size:clamp(26px,3.4vw,36px);color:var(--mint)}
+.cl-hint{margin:12px 0 0;color:var(--muted);font-size:14px}
+.cl-status{margin-top:14px;font-size:14.5px;color:var(--muted);min-height:1px}
+.cl-status.err{color:#ff8fae}.cl-status.ok{color:var(--mint)}
+.cl-status a{color:var(--mint);text-decoration:underline}
+.cl-ctr{margin-top:20px;padding-top:16px;border-top:1px solid var(--line2)}
+.cl-ctr .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.cl-ctr a{font-family:var(--mono);font-size:13px;color:var(--text);overflow-wrap:anywhere;text-decoration:none}
+.cl-ctr a:hover{color:var(--mint)}
+.hidden{display:none!important}
+.cl-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.cl-step{padding:22px;border-radius:24px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.cl-step b{display:block;font-family:var(--disp);font-size:19px;font-weight:900;margin:12px 0 6px}
+.cl-step span{color:var(--muted);font-size:14.5px;line-height:1.55}
+.cl-step i{display:inline-flex;width:36px;height:36px;border-radius:12px;align-items:center;justify-content:center;font-style:normal;font-family:var(--disp);font-weight:900;color:#2a1a02;background:linear-gradient(160deg,#ffe58a,var(--gold))}
+.cl-note{margin-top:22px;padding:18px 20px;border-radius:20px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14.5px;line-height:1.6}
+.cl-note b{color:#fff}
+@media (max-width:960px){.cl-grid{grid-template-columns:1fr;gap:0}.cl-lead{display:contents}.cl-card{order:1;margin-top:8px}.cl-trust{order:2;margin-top:22px}.cl-steps{grid-template-columns:1fr}}
+@media (max-width:480px){.cl-card{padding:20px}.cl-row{grid-template-columns:1fr}.cl-coin{width:120px;right:-30px;top:-38px}.cl-head{padding-right:80px}}
+@media (prefers-reduced-motion:reduce){.cl-coin{animation:none}}
 </style>
-
-<div class="glowfix"></div>
-<header>
-  <nav class="nav">
-    <a class="brand" href="/"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO">QORPO</a>
-    <div class="nav-links"><a href="/">Home</a><a href="ecosystem">Ecosystem</a><a href="token">Token</a><a href="staking">Staking</a><a href="spin">Spin</a><a href="leaderboard">Leaderboard</a><a href="bridge">Bridge</a></div>
-    <span></span>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Investor Claim: QORPO">
+<meta property="og:description" content="Investor claim portal for $QORPO vesting. Connect the wallet that holds your allocation and claim what has unlocked.">
+<meta property="og:url" content="https://qorpo.world/claim">
+<meta property="og:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Investor Claim: QORPO">
+<meta name="twitter:description" content="Investor claim portal for $QORPO vesting. Connect the wallet that holds your allocation and claim what has unlocked.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QORPO: independent game studio and the $QORPO token">
+<meta name="keywords" content="QORPO investor claim, QORPO vesting">
+<meta name="robots" content="noindex, follow">
+</head>
+<body data-page="claim">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
   </nav>
-</header>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
 
 <main>
-  <div class="wrap doc">
-    <img class="diamond" src="https://d8j0ntlcm91z4.cloudfront.net/user_2vp9UXCJpQNEnzqNH05dKVfaiGO/hf_20260823_103600_daabe903-f975-40c4-aafc-b2e34e8b6bf1.png" alt="QORPO diamond">
-    <p class="eyebrow">Investors</p>
-    <h1>Claim your $QORPO</h1>
-    <p class="lead">Connect the wallet that holds your investor allocation to view your vesting schedule and claim your unlocked $QORPO on Ethereum.</p>
-
-    <div class="card">
-      <div class="ctrhead">
-        <div><span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4v6c0 4.5-3 7.5-8 9-5-1.5-8-4.5-8-9z" stroke="currentColor" stroke-width="1.5"/></svg>Investor Claim</span></div>
-        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><span id="acctPill" class="pill hidden"><span class="dot"></span><span id="acctShort">—</span></span><button id="disconnectBtn" class="pill hidden" title="Disconnect wallet" style="cursor:pointer;font-family:var(--mono);font-size:.72rem;color:#ff8fae">Disconnect</button></div>
-      </div>
-
-      <!-- disconnected -->
-      <div id="viewConnect">
-        <p class="muted">This portal reads your allocation directly from the QORPO vesting contract on Ethereum. Nothing is stored — you sign each claim yourself.</p>
-        <button class="btn btn-p" id="connectBtn" style="margin-top:1.1rem">Connect wallet</button>
-      </div>
-
-      <!-- wrong chain -->
-      <div id="viewChain" class="hidden">
-        <p class="muted">Your wallet is on the wrong network. The claim contract lives on <b>Ethereum</b>.</p>
-        <button class="btn btn-p" id="switchBtn" style="margin-top:1.1rem">Switch to Ethereum</button>
-      </div>
-
-      <!-- loading -->
-      <div id="viewLoading" class="hidden"><p class="muted">Reading your allocation from the contract…</p></div>
-
-      <!-- no allocation -->
-      <div id="viewNone" class="hidden">
-        <div class="metric" style="text-align:center"><div class="v" style="font-size:1.1rem">No $QORPO allocation found</div></div>
-        <p class="hint">This wallet isn't registered in the investor vesting contract. If you invested with a different address, connect that one instead.</p>
-        <button class="btn btn-g" id="switchAcctBtn" style="margin-top:1.1rem">Use a different wallet</button>
-      </div>
-
-      <!-- allocation -->
-      <div id="viewClaim" class="hidden">
-        <div class="rowg">
-          <div class="metric"><div class="k">Total allocation</div><div class="v" id="mTotal">—</div></div>
-          <div class="metric"><div class="k">Already claimed</div><div class="v" id="mClaimed">—</div></div>
-        </div>
-        <div class="metric hi" style="margin-bottom:1.1rem"><div class="k">Claimable now</div><div class="v" id="mNow">—</div></div>
-        <button class="btn btn-p" id="claimBtn">Claim $QORPO</button>
-        <p class="hint" id="nextHint"></p>
-      </div>
-
-      <div class="status" id="status"></div>
-
-      <div style="margin-top:1.4rem;border-top:1px solid var(--line2);padding-top:1rem">
-        <div class="muted" style="font-size:.8rem;margin-bottom:.25rem">Vesting contract (verify on Etherscan)</div>
-        <a class="addr" id="ctrLink" href="https://etherscan.io/address/0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839" target="_blank" rel="noopener">0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839 ↗</a>
+<section class="page-hero">
+  <div class="wrap cl-grid">
+    <div class="cl-lead">
+      <div class="crumb"><a href="/">QORPO</a> / Investors</div>
+      <div class="kicker rv"><span class="status" style="color:var(--gold)"><span class="dot" style="background:var(--gold)"></span>Investors</span><span class="status">Ethereum</span></div>
+      <h1 class="cl-h1">Claim your <em>$QORPO.</em></h1>
+      <p class="sub rv">Connect the wallet that holds your investor allocation. You see your vesting straight from the contract and claim what has unlocked, signed by you.</p>
+      <div class="cl-trust rv">
+        <div><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><span><b>Read from the chain.</b> Your allocation comes from the QORPO vesting contract on Ethereum. Nothing is stored by us.</span></div>
+        <div><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><span><b>You sign every claim.</b> QORPO never asks for your seed phrase and cannot move your funds.</span></div>
+        <div><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i><span><b>Check before you sign.</b> Make sure you are on qorpo.world/claim and verify the contract on Etherscan.</span></div>
       </div>
     </div>
 
-    <div class="note"><b>Before you claim:</b> make sure you're on <b>qorpo.world/claim</b>, verify the contract address above on Etherscan, and keep a little ETH for gas. QORPO never asks for your seed phrase and can't move your funds — every claim is signed by you. Not financial advice.</div>
+    <div class="cl-card rv" style="--d:1">
+      <img class="cl-coin" src="assets/img/q_coin.webp" alt="">
+      <div class="cl-head">
+        <span class="cl-tag">Investor claim</span>
+        <div class="cl-acct"><span id="acctPill" class="cl-pill hidden"><span class="dot"></span><span id="acctShort">wallet</span></span><button id="disconnectBtn" class="cl-pill hidden" type="button" title="Disconnect wallet">Disconnect</button></div>
+      </div>
+
+      <div id="viewConnect">
+        <h2>Connect your wallet</h2>
+        <p class="muted">Use the same wallet you invested with. The portal reads your allocation from the vesting contract, nothing else.</p>
+        <button class="btn btn-mint" id="connectBtn" type="button">Connect wallet</button>
+      </div>
+
+      <div id="viewChain" class="hidden">
+        <h2>Wrong network</h2>
+        <p class="muted">The claim contract lives on <b>Ethereum</b>. Switch your wallet to continue.</p>
+        <button class="btn btn-mint" id="switchBtn" type="button">Switch to Ethereum</button>
+      </div>
+
+      <div id="viewLoading" class="hidden"><h2>One moment</h2><p class="muted">Reading your allocation from the contract.</p></div>
+
+      <div id="viewNone" class="hidden">
+        <h2>No allocation found</h2>
+        <p class="muted">This wallet is not registered in the investor vesting contract. If you invested with a different address, connect that one.</p>
+        <button class="btn btn-ghost" id="switchAcctBtn" type="button">Use a different wallet</button>
+      </div>
+
+      <div id="viewClaim" class="hidden">
+        <div class="cl-row">
+          <div class="cl-m"><div class="k">Total allocation</div><div class="v" id="mTotal">0</div></div>
+          <div class="cl-m"><div class="k">Already claimed</div><div class="v" id="mClaimed">0</div></div>
+        </div>
+        <div class="cl-m hi"><div class="k">Claimable now</div><div class="v" id="mNow">0</div></div>
+        <button class="btn btn-mint" id="claimBtn" type="button">Claim $QORPO</button>
+        <p class="cl-hint" id="nextHint"></p>
+      </div>
+
+      <div class="cl-status" id="status" role="status" aria-live="polite"></div>
+
+      <div class="cl-ctr">
+        <div class="k">Vesting contract, verify on Etherscan</div>
+        <a id="ctrLink" href="https://etherscan.io/address/0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839" target="_blank" rel="noopener">0x4d0b0ffF058D35766e551e29Dcb40f2A63c9d839 &#8599;</a>
+      </div>
+    </div>
   </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="rv"><div class="kicker"><span class="status">How it works</span></div><h2 class="h2" data-split>Three steps, all on chain.</h2></div>
+    <div class="cl-steps">
+      <div class="cl-step rv"><i>1</i><b>Connect</b><span>MetaMask or any Ethereum wallet. Open this page in your wallet browser on mobile.</span></div>
+      <div class="cl-step rv" style="--d:1"><i>2</i><b>Check your vesting</b><span>Total allocation, what you already claimed and what is unlocked now, read live from the contract.</span></div>
+      <div class="cl-step rv" style="--d:2"><i>3</i><b>Claim</b><span>Confirm the transaction in your wallet. Keep a little ETH for gas. Tokens arrive in the same wallet.</span></div>
+    </div>
+    <div class="cl-note rv"><b>Stay safe:</b> the only address is <b>qorpo.world/claim</b>. QORPO never asks for your seed phrase or private key and never DMs you first. Not financial advice.</div>
+  </div>
+</section>
 </main>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="claim.html">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/about">About</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
 
-<footer>
-  <div class="flinks"><a href="/">Home</a><a href="about">About</a><a href="token">Token</a><a href="staking">Staking</a><a href="privacy">Privacy Policy</a><a href="terms">Terms of Service</a></div>
-  <div class="flegal">© 2026 QORPO World. All rights reserved. · $QORPO the attention economy token</div>
-</footer>
-
+<script src="assets/ui.js"></script>
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
@@ -165,6 +223,7 @@
   function show(v){views.forEach(function(x){$(x).classList.toggle('hidden',x!==v);});}
   function setStatus(msg,cls){var s=$('status');s.className='status '+(cls||'');s.innerHTML=msg||'';}
   function fmt(n){n=Number(n);if(!isFinite(n))return '0';return n.toLocaleString('en-US',{maximumFractionDigits:n>0&&n<1?4:2});}
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
 
   function injected(){
@@ -239,7 +298,7 @@
       var tx=await c.claim(account,claimIndex);
       setStatus('Claiming… <a href="https://etherscan.io/tx/'+tx.hash+'" target="_blank" rel="noopener">view transaction ↗</a>','');
       await tx.wait();
-      setStatus('✅ Claim confirmed. Your $QORPO has been sent to your wallet.','ok');
+      setStatus('Claim confirmed. Your $QORPO has been sent to your wallet.','ok');
       setTimeout(load,800);
     }catch(e){
       console.error(e);
@@ -248,7 +307,7 @@
       else if(/user rejected|denied|action_rejected/i.test(m))m='You rejected the transaction in your wallet.';
       else if(/insufficient funds/i.test(m))m='Not enough ETH to cover the gas fee.';
       else if(/missing revert data|CALL_EXCEPTION|execution reverted/i.test(m))m='The contract rejected this claim (nothing claimable yet, or not eligible).';
-      setStatus('Claim failed','err');
+      setStatus(m?esc(m):'Claim failed. Please try again.','err');
       btn.disabled=false;
     }
   }
@@ -264,3 +323,5 @@
   (function(){try{if(localStorage.getItem('qorpo_claim_dc')==='1')return;}catch(e){}var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){connect();}}).catch(function(){});}})();
 })();
 </script>
+</body>
+</html>
