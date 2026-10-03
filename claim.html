@@ -214,11 +214,26 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
     {"inputs":[{"name":"_investor","type":"address"}],"name":"nextClaimableAt","outputs":[{"type":"uint64"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"name":"_investor","type":"address"},{"name":"_claimIndex","type":"uint8"}],"name":"claim","outputs":[],"stateMutability":"nonpayable","type":"function"},
     {"inputs":[{"name":"_investor","type":"address"}],"name":"getDataToClaim","outputs":[{"type":"uint256"},{"type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[{"name":"_investor","type":"address"},{"name":"_index","type":"uint256"}],"name":"getClaimAtIndex","outputs":[{"type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"paused","outputs":[{"type":"bool"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"name":"","type":"address"}],"name":"investors","outputs":[{"name":"totalToClaim","type":"uint256"},{"name":"claimed","type":"uint256"},{"name":"groupId","type":"uint16"}],"stateMutability":"view","type":"function"}
   ];
 
   var $=function(id){return document.getElementById(id);};
-  var account=null, claimIndex=-1, claimableNow=0;
+  var account=null, claimIndex=-1, claimableNow=0, claimWei=0n, isPaused=false;
+  // Portal rule: an investor claims roughly HALF of what is unlocked right now.
+  // claim(investor, index) releases every unlock step up to `index` and getClaimAtIndex
+  // returns that exact amount, so we pick the step whose amount is closest to half
+  // (ties go to the smaller one). A single unlock step cannot be split, so it is claimable whole.
+  async function pickHalf(c,acct,fullWei,maxIdx){
+    var half=fullWei/2n,best={idx:-1,wei:0n},bd=-1n;
+    for(var i=0;i<=maxIdx;i++){
+      var a=await c.getClaimAtIndex(acct,i);if(!(a>0n))continue;
+      var d=a>half?a-half:half-a;
+      if(bd<0n||d<bd){bd=d;best={idx:i,wei:a};}
+    }
+    return best;
+  }
   var views=['viewConnect','viewChain','viewLoading','viewNone','viewClaim'];
   function show(v){views.forEach(function(x){$(x).classList.toggle('hidden',x!==v);});}
   function setStatus(msg,cls){var s=$('status');s.className='status '+(cls||'');s.innerHTML=msg||'';}
@@ -259,19 +274,21 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
       var claimed=parseFloat(ethers.formatEther(inv.claimed!=null?inv.claimed:inv[1]));
       if(!(total>0)){show('viewNone');return;}
       var data=await c.getDataToClaim(account);
-      // display half of the raw claimable figure, per the QORPO investor vesting schedule
-      claimableNow=parseFloat(ethers.formatEther(data[0]))/2;
-      claimIndex=Number(data[1]);
+      var pick=await pickHalf(c,account,data[0],Number(data[1]));
+      claimWei=pick.wei;claimIndex=pick.idx;
+      claimableNow=parseFloat(ethers.formatEther(claimWei));
+      try{isPaused=await c.paused();}catch(e){isPaused=false;}
       var next=0n;try{next=await c.nextClaimableAt(account);}catch(e){}
       $('mTotal').textContent=fmt(total)+' QORPO';
       $('mClaimed').textContent=fmt(claimed)+' QORPO';
       $('mNow').textContent=fmt(claimableNow)+' QORPO';
-      var hint='', canClaim=claimableNow>0;
+      var hint='', canClaim=claimableNow>0&&!isPaused;
       if(next && next>0n){var d=new Date(Number(next)*1000);hint='Next unlock: '+d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});}
+      if(isPaused)hint='Claiming is paused on the vesting contract right now. Your balance is safe, please check back later.';
       if(!canClaim && !hint)hint='Nothing available to claim right now.';
       $('nextHint').textContent=hint;
       $('claimBtn').disabled=!canClaim;
-      $('claimBtn').textContent=canClaim?('Claim '+fmt(claimableNow)+' QORPO'):'Nothing to claim yet';
+      $('claimBtn').textContent=canClaim?('Claim '+fmt(claimableNow)+' QORPO'):(isPaused?'Claiming paused':'Nothing to claim yet');
       show('viewClaim');
     }catch(e){console.log(e);setStatus('Could not read your allocation. Please refresh and try again.','err');show('viewClaim');}
   }
@@ -295,6 +312,9 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
       var bp=new ethers.BrowserProvider(inj);
       var signer=await bp.getSigner();
       var c=new ethers.Contract(CLAIM_ADDR,ABI,signer);
+      // safety: re-check on chain that this step still releases exactly the amount shown (never more)
+      var now=await c.getClaimAtIndex(account,claimIndex);
+      if(now!==claimWei){setStatus('Your claimable amount changed. Refreshing…','');btn.disabled=false;setTimeout(load,300);return;}
       var tx=await c.claim(account,claimIndex);
       setStatus('Claiming… <a href="https://etherscan.io/tx/'+tx.hash+'" target="_blank" rel="noopener">view transaction ↗</a>','');
       await tx.wait();
