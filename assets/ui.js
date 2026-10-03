@@ -102,19 +102,33 @@
   function start(list){if(!list.length)return;
     var box=document.createElement('div');box.className='lt';box.setAttribute('aria-live','polite');box.setAttribute('aria-label','Live from the studio');
     box.innerHTML='<button class="lt-pill" type="button" aria-label="Show live updates"><i></i><b>LIVE</b>'+list.length+' updates from the studio</button>';
-    document.body.appendChild(box);var pill=box.firstChild,i=0,timer=null,hover=false,DUR=6000,card=null;
+    document.body.appendChild(box);var pill=box.firstChild,i=0,timer=null,hover=false,DUR=6000,card=null,panel=null;
+    function body(it,live){var p=P[it.k];return '<span class="lt-ic">'+(it.k==='x'?XI:GH)+(live?'<span class="dot"></span>':'')+'</span><span><span class="lt-k">'+p[0]+'<span>'+esc(it.r)+'</span></span><span class="lt-m">'+esc(it.m)+'</span><span class="lt-t">'+(it.k==='x'?'posted ':'shipped ')+ago(it.t)+'</span></span>'}
+    /* expanded view: every update stacked above, rolling up one after another, newest at the bottom */
+    function expand(){clearTimeout(timer);if(card){card.remove();card=null}box.classList.remove('min');box.classList.add('open');
+      if(panel)panel.remove();panel=document.createElement('div');panel.className='lt-list';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Live from the studio');
+      var h='<div class="lt-head"><span><i></i><b>LIVE</b> from the studio</span><button class="lt-close" type="button" aria-label="Collapse live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="lt-scroll">';
+      var n=list.length;for(var k=n-1;k>=0;k--){var it=list[k],p=P[it.k],href=it.u||p[2];var tag=href?'a':'div';
+        h+='<'+tag+' class="lt-card in" style="--lc:'+p[1]+';--ld:'+((n-1-k)*55)+'ms"'+(href?' href="'+esc(href)+'"'+(it.u?' target="_blank" rel="noopener"':''):'')+'>'+body(it,k===0)+'</'+tag+'>'}
+      panel.innerHTML=h+'</div>';box.insertBefore(panel,pill);
+      var sc=panel.querySelector('.lt-scroll');sc.scrollTop=sc.scrollHeight;
+      panel.querySelector('.lt-close').addEventListener('click',collapse);
+      try{sessionStorage.removeItem(OFF)}catch(e){}}
+    function collapse(){if(panel){panel.remove();panel=null}box.classList.remove('open');minimize(false)}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&panel)collapse()});
     function show(){if(document.querySelector('.qp.open')){timer=setTimeout(show,1500);return}
       var it=list[i],p=P[it.k];var href=it.u||p[2];
       var el=document.createElement(href?'a':'div');el.className='lt-card';el.style.setProperty('--lc',p[1]);el.style.setProperty('--ltd',DUR+'ms');if(href){el.href=href;if(it.u){el.target='_blank';el.rel='noopener'}}
-      el.innerHTML='<span class="lt-ic">'+(it.k==='x'?XI:GH)+(i===0?'<span class="dot"></span>':'')+'</span><span><span class="lt-k">'+p[0]+'<span>'+esc(it.r)+'</span></span><span class="lt-m">'+esc(it.m)+'</span><span class="lt-t">'+(it.k==='x'?'posted ':'shipped ')+ago(it.t)+'</span></span><button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><i class="lt-bar"></i>';
+      el.innerHTML=body(it,i===0)+'<button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+(list.length>1?'<button class="lt-all" type="button">All '+list.length+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>':'')+'<i class="lt-bar"></i>';
       el.querySelector('.lt-x').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();minimize(true)});
+      var all=el.querySelector('.lt-all');if(all)all.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();expand()});
       el.addEventListener('mouseenter',function(){hover=true;clearTimeout(timer)});el.addEventListener('mouseleave',function(){hover=false;timer=setTimeout(next,1800)});
       if(card)card.remove();box.insertBefore(el,pill);card=el;requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in')})});
       timer=setTimeout(next,DUR)}
     function next(){if(hover||!card)return;card.classList.add('out');var c=card;setTimeout(function(){c.remove();if(card===c)card=null},450);i++;
       if(i>=list.length){i=0;timer=setTimeout(function(){minimize(false)},500);return}timer=setTimeout(show,700)}
     function minimize(user){clearTimeout(timer);if(card){card.remove();card=null}box.classList.add('min');if(user){try{sessionStorage.setItem(OFF,'1')}catch(e){}}}
-    pill.addEventListener('click',function(){box.classList.remove('min');i=0;try{sessionStorage.removeItem(OFF)}catch(e){}show()});
+    pill.addEventListener('click',expand);
     setTimeout(show,3500)}
   function go(d){start(items(d||{}))}
   if(!window.fetch){return}
