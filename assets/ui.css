@@ -552,6 +552,9 @@ footer{padding:70px 0 40px;color:var(--muted);font-size:14.5px}
 .lt-per i{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}.lt-per em{display:block;height:100%;border-radius:99px;background:var(--lc)}
 .lt-per b{text-align:right;color:#fff;font-variant-numeric:tabular-nums}
 .lt-wk{margin-top:10px;font:600 11.5px var(--ui);color:#c9cfdc}
+.lt-tabs{display:flex;gap:6px;margin-bottom:12px}.lt-tabs button{flex:1;padding:7px 8px;border:0;border-radius:10px;background:rgba(255,255,255,.05);color:#c9cfdc;font:700 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}.lt-tabs button.on{background:rgba(94,240,176,.16);color:#5ef0b0;box-shadow:inset 0 0 0 1px rgba(94,240,176,.35)}
+.lt-all-t{display:none}.lt-stats.alltime .lt-all-t{display:block}.lt-stats.alltime .lt-m30{display:none}
+.lt-all-t .lt-per div{grid-template-columns:130px 1fr 44px}
 body.menu-open .lt,.qp.open~.lt{display:none}
 @media (max-width:600px){.lt{right:12px;left:12px;bottom:max(12px,env(safe-area-inset-bottom));width:auto}.lt-card{padding:12px 38px 14px 12px;grid-template-columns:38px 1fr;gap:10px}.lt-ic{width:38px;height:38px;border-radius:12px}.lt-m{font-size:13px}}
 @media (prefers-reduced-motion:reduce){.lt-card{transition:opacity .3s;transform:none}.lt-card.in .lt-bar{transition:none}.lt-ic .dot,.lt-pill i{animation:none}}
