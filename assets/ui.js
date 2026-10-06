@@ -96,41 +96,50 @@
   var XI='<svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.2 22H2l7.7-8.8L1.5 2h6.8l4.7 6.2L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg>';
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(t){var s=(Date.now()-new Date(t))/1000;if(s<90)return 'just now';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'}
-  function items(d){var out=[];['aneemate','tamitos','onelife'].forEach(function(k){(d[k]||[]).forEach(function(c){out.push({k:k,r:c.r,t:c.t,m:c.m})})});
+  function items(d){var out=[];['aneemate','tamitos','onelife'].forEach(function(k){(d[k]||[]).forEach(function(c){out.push({k:k,r:c.r,t:c.t,m:c.m,a:c.a,d:c.d})})});
     (d.x||[]).forEach(function(p){out.push({k:'x',r:p.h,t:p.t,m:p.m,u:p.u})});
-    out.sort(function(a,b){return new Date(b.t)-new Date(a.t)});return out.filter(function(i){return Date.now()-new Date(i.t)<14*864e5}).slice(0,8)}
-  function start(list){if(!list.length)return;
+    out.sort(function(a,b){return new Date(b.t)-new Date(a.t)});return out.filter(function(i){return Date.now()-new Date(i.t)<14*864e5}).slice(0,24)}
+  function kfmt(n){return n>=1e6?(n/1e6).toFixed(n>=1e7?0:1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(n>=1e4?0:1).replace(/\.0$/,'')+'k':String(n)}
+  /* 30 day studio stats from the feed log (every tracked commit, all branches and authors) */
+  function stats(d){var log=d.log||[],now=Date.now(),c30=0,c7=0,ln=0,per={aneemate:0,tamitos:0,onelife:0},days=[];for(var j=0;j<14;j++)days.push(0);
+    log.forEach(function(e){var age=(now-new Date(e.t))/864e5;if(age>30||age<0)return;c30++;if(age<=7)c7++;ln+=(+e.a||0)+(+e.d||0);if(per[e.p]!=null)per[e.p]++;var di=Math.floor(age);if(di<14)days[13-di]++});
+    var st=d.stats||{};return {c30:c30,c7:c7,ln:ln,per:per,days:days,b:st.builders30||0,repos:st.repos||0}}
+  function start(list,S){if(!list.length)return;var ticker=list.slice(0,8);
     var box=document.createElement('div');box.className='lt';box.setAttribute('aria-live','polite');box.setAttribute('aria-label','Live from the studio');
-    box.innerHTML='<button class="lt-pill" type="button" aria-label="Show live updates"><i></i><b>LIVE</b>'+list.length+' updates from the studio</button>';
+    box.innerHTML='<button class="lt-pill" type="button" aria-label="Show live updates"><i></i><b>LIVE</b>'+(S.c30?S.c30+' commits this month':list.length+' updates from the studio')+'</button>';
     document.body.appendChild(box);var pill=box.firstChild,i=0,timer=null,hover=false,DUR=6000,card=null,panel=null;
-    function body(it,live){var p=P[it.k];return '<span class="lt-ic">'+(it.k==='x'?XI:GH)+(live?'<span class="dot"></span>':'')+'</span><span><span class="lt-k">'+p[0]+'<span>'+esc(it.r)+'</span></span><span class="lt-m">'+esc(it.m)+'</span><span class="lt-t">'+(it.k==='x'?'posted ':'shipped ')+ago(it.t)+'</span></span>'}
+    function body(it,live){var p=P[it.k];var ln=(it.a!=null&&it.d!=null&&(+it.a||+it.d))?'<span class="lt-ln"><b>+'+kfmt(+it.a)+'</b> <i>&minus;'+kfmt(+it.d)+'</i></span>':'';return '<span class="lt-ic">'+(it.k==='x'?XI:GH)+(live?'<span class="dot"></span>':'')+'</span><span><span class="lt-k">'+p[0]+'<span>'+esc(it.r)+'</span></span><span class="lt-m">'+esc(it.m)+'</span><span class="lt-t">'+(it.k==='x'?'posted ':'shipped ')+ago(it.t)+ln+'</span></span>'}
+    function statsHtml(){if(!S.c30)return '';var mx=Math.max.apply(null,S.days)||1,tot=S.per.aneemate+S.per.tamitos+S.per.onelife||1;
+      var h='<div class="lt-stats"><div class="lt-tiles"><div><b>'+kfmt(S.c30)+'</b><span>commits, 30 days</span></div><div><b>'+kfmt(S.ln)+'</b><span>lines shipped</span></div><div><b>'+(S.b||'')+'</b><span>builders'+(S.repos?' in '+S.repos+' repos':'')+'</span></div></div>';
+      h+='<div class="lt-spark" aria-label="Commits per day, last 14 days">'+S.days.map(function(v,ix){return '<i style="height:'+Math.max(6,Math.round(v/mx*100))+'%" title="'+v+' commits"></i>'}).join('')+'</div><div class="lt-sparkl"><span>14 days ago</span><span>today</span></div>';
+      h+='<div class="lt-per">'+['aneemate','tamitos','onelife'].map(function(k){var v=S.per[k];return '<div style="--lc:'+P[k][1]+'"><span>'+P[k][0]+'</span><i><em style="width:'+Math.max(3,Math.round(v/tot*100))+'%"></em></i><b>'+v+'</b></div>'}).join('')+'</div><div class="lt-wk">'+S.c7+' commits in the last 7 days</div></div>';return h}
     /* expanded view: every update stacked above, rolling up one after another, newest at the bottom */
     function expand(){clearTimeout(timer);if(card){card.remove();card=null}box.classList.remove('min');box.classList.add('open');
       if(panel)panel.remove();panel=document.createElement('div');panel.className='lt-list';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Live from the studio');
       var h='<div class="lt-head"><span><i></i><b>LIVE</b> from the studio</span><button class="lt-close" type="button" aria-label="Collapse live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="lt-scroll">';
       var n=list.length;for(var k=n-1;k>=0;k--){var it=list[k],p=P[it.k],href=it.u||p[2];var tag=href?'a':'div';
         h+='<'+tag+' class="lt-card in" style="--lc:'+p[1]+';--ld:'+((n-1-k)*55)+'ms"'+(href?' href="'+esc(href)+'"'+(it.u?' target="_blank" rel="noopener"':''):'')+'>'+body(it,k===0)+'</'+tag+'>'}
-      panel.innerHTML=h+'</div>';box.insertBefore(panel,pill);
+      panel.innerHTML=h.replace('<div class="lt-scroll">',statsHtml()+'<div class="lt-scroll">')+'</div>';box.insertBefore(panel,pill);
       var sc=panel.querySelector('.lt-scroll');sc.scrollTop=sc.scrollHeight;
       panel.querySelector('.lt-close').addEventListener('click',collapse);
       try{sessionStorage.removeItem(OFF)}catch(e){}}
     function collapse(){if(panel){panel.remove();panel=null}box.classList.remove('open');minimize(false)}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&panel)collapse()});
     function show(){if(document.querySelector('.qp.open')){timer=setTimeout(show,1500);return}
-      var it=list[i],p=P[it.k];var href=it.u||p[2];
+      var it=ticker[i],p=P[it.k];var href=it.u||p[2];
       var el=document.createElement(href?'a':'div');el.className='lt-card';el.style.setProperty('--lc',p[1]);el.style.setProperty('--ltd',DUR+'ms');if(href){el.href=href;if(it.u){el.target='_blank';el.rel='noopener'}}
-      el.innerHTML=body(it,i===0)+'<button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+(list.length>1?'<button class="lt-all" type="button">All '+list.length+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>':'')+'<i class="lt-bar"></i>';
+      el.innerHTML=body(it,i===0)+'<button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+ (list.length>1?'<button class="lt-all" type="button">All '+list.length+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>':'')+'<i class="lt-bar"></i>';
       el.querySelector('.lt-x').addEventListener('click',function(e){e.preventDefault();e.stopPropagation();minimize(true)});
       var all=el.querySelector('.lt-all');if(all)all.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();expand()});
       el.addEventListener('mouseenter',function(){hover=true;clearTimeout(timer)});el.addEventListener('mouseleave',function(){hover=false;timer=setTimeout(next,1800)});
       if(card)card.remove();box.insertBefore(el,pill);card=el;requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in')})});
       timer=setTimeout(next,DUR)}
     function next(){if(hover||!card)return;card.classList.add('out');var c=card;setTimeout(function(){c.remove();if(card===c)card=null},450);i++;
-      if(i>=list.length){i=0;timer=setTimeout(function(){minimize(false)},500);return}timer=setTimeout(show,700)}
+      if(i>=ticker.length){i=0;timer=setTimeout(function(){minimize(false)},500);return}timer=setTimeout(show,700)}
     function minimize(user){clearTimeout(timer);if(card){card.remove();card=null}box.classList.add('min');if(user){try{sessionStorage.setItem(OFF,'1')}catch(e){}}}
     pill.addEventListener('click',expand);
     setTimeout(show,3500)}
-  function go(d){start(items(d||{}))}
+  function go(d){d=d||{};start(items(d),stats(d))}
   if(!window.fetch){return}
   fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(go).catch(function(){if(window.SNAP)go(window.SNAP)});
 })();
