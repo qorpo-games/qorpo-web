@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="assets/ui.css">
 <style>
 .art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
 .art .lead{font-size:19px;color:var(--text);line-height:1.6}
 .art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
 .art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
@@ -136,6 +141,8 @@
   <p>A buyback is only as big as the revenue behind it. AneeMate is in Early Access and free, so today's buybacks are small, and we would rather say that than invent a number. What we commit to is the mechanism and the proof: as the games sell, the buys show on chain, and the games themselves show on the live page.</p>
   <div class="cta"><a class="btn btn-mint" href="/token#buy">Buy $QORPO</a><a class="btn btn-ghost" href="/staking">Stake $QORPO</a><a class="btn btn-ghost" href="/live">See what we shipped today</a></div>
  
+  <h2>Keep reading</h2>
+  <div class="relx"><a href="/studio-token-vs-game-token"><b>Studio token vs single game token</b><span>Read</span></a><a href="/how-to-buy-qorpo"><b>How to buy $QORPO: step by step</b><span>Read</span></a><a href="/player-owned-game-economy"><b>Player owned game economies explained</b><span>Read</span></a><a href="/blog"><b>All articles on the QORPO blog</b><span>Blog</span></a></div>
   <h2>Questions people ask</h2>
   <div class="faq"><details><summary>What is a token buyback?</summary><p>The project uses its own revenue to buy its token on the open market. In QORPO the revenue comes from games and part of the bought tokens is burned.</p></details><details><summary>What is burning?</summary><p>Sending tokens to an address nobody can access, which permanently removes them from circulation and lowers supply.</p></details><details><summary>How can I verify QORPO buybacks?</summary><p>On Etherscan or BscScan for the $QORPO contract 0x22514ffb0d7232a56f0c24090e7b68f179faa940: transfers to the burn address and treasury movements are public.</p></details><details><summary>Does buying $QORPO guarantee a return?</summary><p>No. The buyback ties the token to product revenue, it does not set a price. $QORPO is a micro-cap and can lose value. Not financial advice.</p></details></div>
   <div class="risk"><b>Plain talk:</b> $QORPO is a micro-cap token. It can move sharply both ways and can lose all its value. Nothing on this page is financial advice. Everything we claim about the studio is verifiable on <a href="/live">the live page</a> and on GitHub.</div>
