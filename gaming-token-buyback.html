@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How a gaming token buyback works: game revenue to $QORPO, step by step</title>
+<meta name="description" content="How QORPO turns game revenue into $QORPO buybacks: what gets sold, what gets bought, what gets burned and how you can verify it on chain. The model explained with the actual flow.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/gaming-token-buyback">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://qorpo.world/#org", "name": "QORPO", "url": "https://qorpo.world/", "logo": "https://qorpo.world/assets/favicon-512.png"}, {"@type": "Person", "@id": "https://qorpo.world/about#rastislav", "name": "Rastislav Bakala", "jobTitle": "CEO, QORPO", "url": "https://qorpo.world/about", "sameAs": ["https://x.com/RastislavBakala", "https://github.com/ceo-gif"]}, {"@type": "Article", "headline": "How a gaming token buyback works: game revenue to $QORPO, step by step", "description": "How QORPO turns game revenue into $QORPO buybacks: what gets sold, what gets bought, what gets burned and how you can verify it on chain. The model explained with the actual flow.", "datePublished": "2026-08-25", "dateModified": "2026-10-08", "author": {"@id": "https://qorpo.world/about#rastislav"}, "publisher": {"@id": "https://qorpo.world/#org"}, "mainEntityOfPage": "https://qorpo.world/gaming-token-buyback", "image": "https://qorpo.world/assets/og/og-qorpo-v2.jpg"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "How a gaming token buyback works, step by step", "item": "https://qorpo.world/gaming-token-buyback"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a token buyback?", "acceptedAnswer": {"@type": "Answer", "text": "The project uses its own revenue to buy its token on the open market. In QORPO the revenue comes from games and part of the bought tokens is burned."}}, {"@type": "Question", "name": "What is burning?", "acceptedAnswer": {"@type": "Answer", "text": "Sending tokens to an address nobody can access, which permanently removes them from circulation and lowers supply."}}, {"@type": "Question", "name": "How can I verify QORPO buybacks?", "acceptedAnswer": {"@type": "Answer", "text": "On Etherscan or BscScan for the $QORPO contract 0x22514ffb0d7232a56f0c24090e7b68f179faa940: transfers to the burn address and treasury movements are public."}}, {"@type": "Question", "name": "Does buying $QORPO guarantee a return?", "acceptedAnswer": {"@type": "Answer", "text": "No. The buyback ties the token to product revenue, it does not set a price. $QORPO is a micro-cap and can lose value. Not financial advice."}}]}]}</script>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="How a gaming token buyback works: game revenue to $QORPO, step by step">
+<meta property="og:description" content="How QORPO turns game revenue into $QORPO buybacks: what gets sold, what gets bought, what gets burned and how you can verify it on chain. The model explained with the actual flow.">
+<meta property="og:url" content="https://qorpo.world/gaming-token-buyback">
+<meta property="og:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="How a gaming token buyback works: game revenue to $QORPO, step by step">
+<meta name="twitter:description" content="How QORPO turns game revenue into $QORPO buybacks: what gets sold, what gets bought, what gets burned and how you can verify it on chain. The model explained with the actual flow.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QORPO: independent game studio and the $QORPO token">
+<meta name="keywords" content="token buyback, buyback and burn, gaming token buyback, $QORPO buyback, deflationary gaming token">
+<meta name="robots" content="index, follow, max-image-preview:large">
+</head>
+<body data-page="gaming-token-buyback">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><div class="wrap art">
+  <div class="crumb"><a href="/">QORPO</a> / How a gaming token buyback works, step by step</div>
+  <div class="kicker rv"><span class="status">Explainer</span><span class="status">Buyback and burn</span><span class="status">$QORPO</span></div>
+  <h1>How a gaming token buyback works, step by step</h1>
+  <div class="by"><i>RB</i><div><b>Rastislav Bakala</b><span>CEO, QORPO · updated 8 October 2026</span></div><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">@RastislavBakala</a></div>
+  <p class="lead">"Revenue buys the token back" is a sentence every gaming token uses. Here is what it actually means in QORPO, which revenue counts, where the tokens go and how you can check it yourself instead of trusting us.</p>
+  <div class="ans"><div class="k">Short answer</div><p>QORPO uses revenue from its games (capsule packs, cosmetics, marketplace fees, paid releases) to buy $QORPO on the open market. Part of what is bought is burned, which lowers supply, and part is kept to fund the next games. Buybacks and burns are on chain transactions, so anyone can verify them on Etherscan or BscScan.</p></div>
+
+  <h2>The flow</h2>
+  <ol>
+    <li><b>Players spend.</b> Capsule packs and cosmetics in AneeMate, marketplace fees, paid releases of games and the Tamitos series.</li>
+    <li><b>Revenue is converted.</b> Fiat and stablecoin revenue is used to buy $QORPO on exchanges and decentralised markets, which creates real buy pressure instead of emissions.</li>
+    <li><b>Part is burned.</b> Burned tokens are sent to an address nobody controls, so circulating supply goes down permanently.</li>
+    <li><b>Part funds the next games.</b> Tokens kept in the treasury pay for development, so the studio keeps shipping products that generate the next buyback.</li>
+  </ol>
+  <h2>Why buybacks beat emissions</h2>
+  <p>Most gaming tokens pay players with newly minted tokens. That is inflation: every reward dilutes every holder, and the price can only go down unless new buyers arrive faster than new tokens. A buyback is the opposite. It takes money from outside the token and brings it in. The token only benefits when the products sell, which is the correct alignment: holders win when players are happy.</p>
+  <h2>How to verify it yourself</h2>
+  <ul>
+    <li>The $QORPO contract is the same on Ethereum and BNB Chain: <span style="font-family:var(--mono);font-size:14px">0x22514ffb0d7232a56f0c24090e7b68f179faa940</span>. Transfers to the burn address and treasury movements are public on <a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a> and <a href="https://bscscan.com/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">BscScan</a>.</li>
+    <li>The games that generate the revenue are being built in public: <a href="/live">every commit, hourly</a>.</li>
+    <li>Supply: 750M max, around 650M circulating. Numbers on CoinGecko and CoinMarketCap.</li>
+  </ul>
+  <h2>Where staking fits</h2>
+  <p>Staking is separate from the buyback. Stakers earn daily Community Points by level and APY tiers up to 30% from the staking contract, plus a free daily spin. The buyback supports the token everyone holds; staking rewards the people who lock it. <a href="/staking">Stake $QORPO</a>.</p>
+  <div class="facts"><div><b>6 yrs</b><span>building games</span></div><div><b>0</b><span>hacks</span></div><div><b>124k+</b><span>commits all time</span></div><div><b>ETH + BNB</b><span>one token, two chains</span></div></div>
+  <h2>Honest limits</h2>
+  <p>A buyback is only as big as the revenue behind it. AneeMate is in Early Access and free, so today's buybacks are small, and we would rather say that than invent a number. What we commit to is the mechanism and the proof: as the games sell, the buys show on chain, and the games themselves show on the live page.</p>
+  <div class="cta"><a class="btn btn-mint" href="/token#buy">Buy $QORPO</a><a class="btn btn-ghost" href="/staking">Stake $QORPO</a><a class="btn btn-ghost" href="/live">See what we shipped today</a></div>
+ 
+  <h2>Questions people ask</h2>
+  <div class="faq"><details><summary>What is a token buyback?</summary><p>The project uses its own revenue to buy its token on the open market. In QORPO the revenue comes from games and part of the bought tokens is burned.</p></details><details><summary>What is burning?</summary><p>Sending tokens to an address nobody can access, which permanently removes them from circulation and lowers supply.</p></details><details><summary>How can I verify QORPO buybacks?</summary><p>On Etherscan or BscScan for the $QORPO contract 0x22514ffb0d7232a56f0c24090e7b68f179faa940: transfers to the burn address and treasury movements are public.</p></details><details><summary>Does buying $QORPO guarantee a return?</summary><p>No. The buyback ties the token to product revenue, it does not set a price. $QORPO is a micro-cap and can lose value. Not financial advice.</p></details></div>
+  <div class="risk"><b>Plain talk:</b> $QORPO is a micro-cap token. It can move sharply both ways and can lose all its value. Nothing on this page is financial advice. Everything we claim about the studio is verifiable on <a href="/live">the live page</a> and on GitHub.</div>
+</div></main>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

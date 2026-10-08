@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Player owned game economies explained: what changes when you own your items</title>
+<meta name="description" content="A player owned economy is a game where the items, creatures and currency you earn are yours, recorded on a blockchain, tradable and independent of the studio. How it works, what it changes, and how AneeMate and $QORPO do it.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/player-owned-game-economy">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://qorpo.world/#org", "name": "QORPO", "url": "https://qorpo.world/", "logo": "https://qorpo.world/assets/favicon-512.png"}, {"@type": "Person", "@id": "https://qorpo.world/about#rastislav", "name": "Rastislav Bakala", "jobTitle": "CEO, QORPO", "url": "https://qorpo.world/about", "sameAs": ["https://x.com/RastislavBakala", "https://github.com/ceo-gif"]}, {"@type": "Article", "headline": "Player owned game economies explained: what changes when you own your items", "description": "A player owned economy is a game where the items, creatures and currency you earn are yours, recorded on a blockchain, tradable and independent of the studio. How it works, what it changes, and how AneeMate and $QORPO do it.", "datePublished": "2026-08-25", "dateModified": "2026-10-08", "author": {"@id": "https://qorpo.world/about#rastislav"}, "publisher": {"@id": "https://qorpo.world/#org"}, "mainEntityOfPage": "https://qorpo.world/player-owned-game-economy", "image": "https://qorpo.world/assets/og/og-qorpo-v2.jpg"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Player owned game economies, explained", "item": "https://qorpo.world/player-owned-game-economy"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a player owned economy?", "acceptedAnswer": {"@type": "Answer", "text": "A game economy where items, creatures and currency are recorded on a blockchain under the player's wallet, so they can be traded, kept across updates and not removed by the studio."}}, {"@type": "Question", "name": "Do I need crypto to play a player owned game?", "acceptedAnswer": {"@type": "Answer", "text": "Not in AneeMate. You play free on Epic. A wallet is needed only when you want to trade or own items on chain."}}, {"@type": "Question", "name": "Why did so many web3 games fail?", "acceptedAnswer": {"@type": "Answer", "text": "Most made earning the point of the game, so when token prices fell the players left. The survivors are games that are fun first and use ownership as a feature."}}, {"@type": "Question", "name": "How does the studio make money if players own everything?", "acceptedAnswer": {"@type": "Answer", "text": "From things players choose to buy: packs, cosmetics, marketplace fees. In QORPO's case that revenue buys $QORPO back from the market."}}]}]}</script>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Player owned game economies explained: what changes when you own your items">
+<meta property="og:description" content="A player owned economy is a game where the items, creatures and currency you earn are yours, recorded on a blockchain, tradable and independent of the studio. How it works, what it changes, and how AneeMate and $QORPO do it.">
+<meta property="og:url" content="https://qorpo.world/player-owned-game-economy">
+<meta property="og:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Player owned game economies explained: what changes when you own your items">
+<meta name="twitter:description" content="A player owned economy is a game where the items, creatures and currency you earn are yours, recorded on a blockchain, tradable and independent of the studio. How it works, what it changes, and how AneeMate and $QORPO do it.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QORPO: independent game studio and the $QORPO token">
+<meta name="keywords" content="player owned economy, web3 gaming explained, own in-game items, blockchain game economy, AneeMate">
+<meta name="robots" content="index, follow, max-image-preview:large">
+</head>
+<body data-page="player-owned-game-economy">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><div class="wrap art">
+  <div class="crumb"><a href="/">QORPO</a> / Player owned game economies, explained</div>
+  <div class="kicker rv"><span class="status">Explainer</span><span class="status">Web3 gaming</span><span class="status">Ownership</span></div>
+  <h1>Player owned game economies, explained</h1>
+  <div class="by"><i>RB</i><div><b>Rastislav Bakala</b><span>CEO, QORPO · updated 8 October 2026</span></div><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">@RastislavBakala</a></div>
+  <p class="lead">Every game has an economy. In most of them you are a renter: your inventory lives in the studio's database and disappears with the servers. A player owned economy flips that. This is what it means in practice, without the jargon, and how it works in AneeMate.</p>
+  <div class="ans"><div class="k">Short answer</div><p>A player owned game economy records items, creatures and currency on a blockchain under the player's own wallet instead of in the studio's database. The player can trade them freely, keep them across updates and the studio cannot delete them. In AneeMate the creatures and items you own are on chain and $QORPO is the token used for packs and trading, and the same token sits behind the whole QORPO studio.</p></div>
+
+  <h2>Renting versus owning</h2>
+  <table><tr><th>Question</th><th>Traditional game</th><th>Player owned economy</th></tr>
+  <tr><td>Where does my inventory live?</td><td>Studio database</td><td>Blockchain, your wallet</td></tr>
+  <tr><td>Can I trade it for real value?</td><td>Against the terms of service</td><td>Yes, on open markets</td></tr>
+  <tr><td>What happens when servers close?</td><td>Everything is gone</td><td>Items remain yours</td></tr>
+  <tr><td>Can the studio delete or change my item?</td><td>Yes, any time</td><td>Not without your signature</td></tr>
+  <tr><td>Do I need a wallet to play?</td><td>No</td><td>Only to trade, not to play</td></tr></table>
+  <h2>What it changes for a player</h2>
+  <ul>
+    <li><b>Time is not wasted.</b> A rare creature you spent a week catching keeps its value even if you stop playing.</li>
+    <li><b>Trading is a feature, not a rule break.</b> Players set prices, not the studio.</li>
+    <li><b>The studio has to earn you.</b> If it cannot delete your stuff, it keeps you by making the game better.</li>
+  </ul>
+  <h2>What it changes for a studio</h2>
+  <p>Revenue has to come from things players want to buy, not from things players are forced to rebuy. In AneeMate that is capsule packs, cosmetics and a marketplace fee, paid in $QORPO. Revenue is used to buy $QORPO back from the open market, so the people who hold the token are the people who benefit when the game sells. <a href="/token#engine">How the buyback works</a>.</p>
+  <h2>How AneeMate does it</h2>
+  <ul>
+    <li>You play free on Epic. No wallet, no token, nothing to set up.</li>
+    <li>When you want to own a creature or item on chain, you link a wallet. It is minted to you.</li>
+    <li>Packs and trading use $QORPO. The same token is behind the studio's other games, so there is one economy, not one per game.</li>
+    <li>Every change to the game is public on the <a href="/live">live page</a>, including the economy code. 93% of web3 games launched between 2021 and 2024 are dead, mostly because the economy was the game. In AneeMate the game is the game and ownership is a feature.</li>
+  </ul>
+  <div class="cta"><a class="btn btn-mint" href="https://aneemate.com/" target="_blank" rel="noopener">Play AneeMate free on Epic</a><a class="btn btn-ghost" href="/what-is-qorpo">What is $QORPO</a><a class="btn btn-ghost" href="/live">See what we shipped today</a></div>
+ 
+  <h2>Questions people ask</h2>
+  <div class="faq"><details><summary>What is a player owned economy?</summary><p>A game economy where items, creatures and currency are recorded on a blockchain under the player's wallet, so they can be traded, kept across updates and not removed by the studio.</p></details><details><summary>Do I need crypto to play a player owned game?</summary><p>Not in AneeMate. You play free on Epic. A wallet is needed only when you want to trade or own items on chain.</p></details><details><summary>Why did so many web3 games fail?</summary><p>Most made earning the point of the game, so when token prices fell the players left. The survivors are games that are fun first and use ownership as a feature.</p></details><details><summary>How does the studio make money if players own everything?</summary><p>From things players choose to buy: packs, cosmetics, marketplace fees. In QORPO's case that revenue buys $QORPO back from the market.</p></details></div>
+  <div class="risk"><b>Plain talk:</b> $QORPO is a micro-cap token. It can move sharply both ways and can lose all its value. Nothing on this page is financial advice. Everything we claim about the studio is verifiable on <a href="/live">the live page</a> and on GitHub.</div>
+</div></main>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

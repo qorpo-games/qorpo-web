@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Studio token vs single game token: why $QORPO backs every game, not one</title>
+<meta name="description" content="Most gaming tokens belong to one game and die with it. A studio token is backed by every product a studio ships. The difference, the numbers behind it, and how $QORPO works across AneeMate, One Life, Citizen Conflict and Tamitos.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/studio-token-vs-game-token">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://qorpo.world/#org", "name": "QORPO", "url": "https://qorpo.world/", "logo": "https://qorpo.world/assets/favicon-512.png"}, {"@type": "Person", "@id": "https://qorpo.world/about#rastislav", "name": "Rastislav Bakala", "jobTitle": "CEO, QORPO", "url": "https://qorpo.world/about", "sameAs": ["https://x.com/RastislavBakala", "https://github.com/ceo-gif"]}, {"@type": "Article", "headline": "Studio token vs single game token: why $QORPO backs every game, not one", "description": "Most gaming tokens belong to one game and die with it. A studio token is backed by every product a studio ships. The difference, the numbers behind it, and how $QORPO works across AneeMate, One Life, Citizen Conflict and Tamitos.", "datePublished": "2026-08-25", "dateModified": "2026-10-08", "author": {"@id": "https://qorpo.world/about#rastislav"}, "publisher": {"@id": "https://qorpo.world/#org"}, "mainEntityOfPage": "https://qorpo.world/studio-token-vs-game-token", "image": "https://qorpo.world/assets/og/og-qorpo-v2.jpg"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Studio token vs single game token: why $QORPO backs every game", "item": "https://qorpo.world/studio-token-vs-game-token"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a studio token?", "acceptedAnswer": {"@type": "Answer", "text": "A token backed by every product a game studio ships rather than by one game. $QORPO is the studio token of QORPO, behind AneeMate, One Life, Citizen Conflict and Tamitos."}}, {"@type": "Question", "name": "Why do single game tokens fail?", "acceptedAnswer": {"@type": "Answer", "text": "They depend on one launch. If the game slips or underperforms there is no other product to support the token, and the token economy often becomes the game itself."}}, {"@type": "Question", "name": "How is $QORPO different from a game token?", "acceptedAnswer": {"@type": "Answer", "text": "Revenue from all QORPO products buys it back, its utility (staking, spin, leaderboard, airdrop) spans every game, and the studio publishes its commits hourly so holders can verify progress."}}, {"@type": "Question", "name": "Is $QORPO a safe investment?", "acceptedAnswer": {"@type": "Answer", "text": "No token is. It is a micro-cap and can lose all its value. The studio model reduces single launch risk, it does not remove market risk. This is not financial advice."}}]}]}</script>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Studio token vs single game token: why $QORPO backs every game, not one">
+<meta property="og:description" content="Most gaming tokens belong to one game and die with it. A studio token is backed by every product a studio ships. The difference, the numbers behind it, and how $QORPO works across AneeMate, One Life, Citizen Conflict and Tamitos.">
+<meta property="og:url" content="https://qorpo.world/studio-token-vs-game-token">
+<meta property="og:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Studio token vs single game token: why $QORPO backs every game, not one">
+<meta name="twitter:description" content="Most gaming tokens belong to one game and die with it. A studio token is backed by every product a studio ships. The difference, the numbers behind it, and how $QORPO works across AneeMate, One Life, Citizen Conflict and Tamitos.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QORPO: independent game studio and the $QORPO token">
+<meta name="keywords" content="studio token, gaming token, $QORPO, web3 gaming token, game studio crypto token">
+<meta name="robots" content="index, follow, max-image-preview:large">
+</head>
+<body data-page="studio-token-vs-game-token">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><div class="wrap art">
+  <div class="crumb"><a href="/">QORPO</a> / Studio token vs single game token: why $QORPO backs every game</div>
+  <div class="kicker rv"><span class="status">Token design</span><span class="status">$QORPO</span><span class="status">Studio token</span></div>
+  <h1>Studio token vs single game token: why <em style="font-style:normal;color:var(--mint)">$QORPO</em> backs every game</h1>
+  <div class="by"><i>RB</i><div><b>Rastislav Bakala</b><span>CEO, QORPO · updated 8 October 2026</span></div><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">@RastislavBakala</a></div>
+  <p class="lead">93% of web3 gaming projects launched between 2021 and 2024 are dead. Almost all of them had one thing in common: one game, one token. When the game stalled, the token went to zero. This is why we built $QORPO the other way round.</p>
+  <div class="ans"><div class="k">Short answer</div><p>A single game token lives and dies with one game. A studio token is backed by everything a studio ships: if one game slows down, the next one still buys the token back. $QORPO is a studio token behind AneeMate, One Life, Citizen Conflict and Tamitos, with revenue from all of them used for buybacks, and a public commit feed so holders can see all four being built.</p></div>
+
+  <h2>The problem with one game, one token</h2>
+  <p>A game token is a bet on one launch. Launches are the riskiest moment in games: most take longer than planned, many underperform, some never ship. When that happens to a single game token, there is nothing else to hold the value. The token economy also tends to become the game, which is the fastest way to lose the players who came to play.</p>
+  <h2>What a studio token changes</h2>
+  <table><tr><th></th><th>Single game token</th><th>Studio token ($QORPO)</th></tr>
+  <tr><td>Backed by</td><td>One game</td><td>Every product the studio ships</td></tr>
+  <tr><td>If a game slips</td><td>Token has nothing</td><td>Other products keep buying it back</td></tr>
+  <tr><td>Buyback source</td><td>One revenue stream</td><td>All games, collectibles, the series</td></tr>
+  <tr><td>Can you verify progress?</td><td>Usually a roadmap</td><td>Live commit feed, hourly</td></tr>
+  <tr><td>Utility</td><td>In one game</td><td>Staking, spin, leaderboard, airdrop, every game</td></tr></table>
+  <h2>How $QORPO is wired</h2>
+  <ul>
+    <li><b>Four products, one token.</b> Citizen Conflict (shipped), AneeMate (playable, free on Epic), One Life (built in public), Tamitos (animated series, books, app). All of them route to $QORPO.</li>
+    <li><b>Buyback from revenue.</b> Game revenue buys $QORPO from the open market. Part is burned, part funds the next games. <a href="/token#engine">Details</a>.</li>
+    <li><b>Hold and earn.</b> Staking pays daily Community Points by level plus APY tiers up to 30%, with a free daily spin and a leaderboard. Holders stay eligible for the $TAMITOS airdrop.</li>
+    <li><b>Proof.</b> The studio made 124,000+ commits since 2021 and more than 1,000 in the last 30 days. You can watch them on the <a href="/live">live page</a>.</li>
+  </ul>
+  <div class="facts"><div><b>6 yrs</b><span>building games</span></div><div><b>0</b><span>hacks</span></div><div><b>124k+</b><span>commits all time</span></div><div><b>ETH + BNB</b><span>one token, two chains</span></div></div>
+  <h2>What this does not mean</h2>
+  <p>A studio token is still a micro-cap token in a volatile market. Spreading the bet across four products lowers the chance that one delay takes everything, it does not remove risk. We prefer to say that plainly and let the commit feed do the convincing. If that is the kind of project you want to back, <a href="/how-to-buy-qorpo">here is how to buy $QORPO</a>.</p>
+  <div class="cta"><a class="btn btn-mint" href="/token#buy">Buy $QORPO</a><a class="btn btn-ghost" href="/staking">Stake $QORPO</a><a class="btn btn-ghost" href="/live">See what we shipped today</a></div>
+ 
+  <h2>Questions people ask</h2>
+  <div class="faq"><details><summary>What is a studio token?</summary><p>A token backed by every product a game studio ships rather than by one game. $QORPO is the studio token of QORPO, behind AneeMate, One Life, Citizen Conflict and Tamitos.</p></details><details><summary>Why do single game tokens fail?</summary><p>They depend on one launch. If the game slips or underperforms there is no other product to support the token, and the token economy often becomes the game itself.</p></details><details><summary>How is $QORPO different from a game token?</summary><p>Revenue from all QORPO products buys it back, its utility (staking, spin, leaderboard, airdrop) spans every game, and the studio publishes its commits hourly so holders can verify progress.</p></details><details><summary>Is $QORPO a safe investment?</summary><p>No token is. It is a micro-cap and can lose all its value. The studio model reduces single launch risk, it does not remove market risk. This is not financial advice.</p></details></div>
+  <div class="risk"><b>Plain talk:</b> $QORPO is a micro-cap token. It can move sharply both ways and can lose all its value. Nothing on this page is financial advice. Everything we claim about the studio is verifiable on <a href="/live">the live page</a> and on GitHub.</div>
+</div></main>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>
