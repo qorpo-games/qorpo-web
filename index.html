@@ -557,7 +557,9 @@ function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;
 function renderFeed(data,live){
   document.querySelectorAll('[data-commits]').forEach(function(ul){var k=ul.getAttribute('data-commits'),list=(data[k]||[]).slice(0,5);
     var st=ul.parentNode.querySelector('[data-feedstate]');if(st){st.textContent=live?'LIVE':'LATEST';st.classList.toggle('ok',!!live);if(live)st.insertAdjacentHTML('afterbegin','<span class="dot live-dot"></span>')}
-    if(!list.length){ul.outerHTML='<p class="empty">'+(k==='onelife'?'One Life is built on top of Citizen Conflict. Its builds land here the moment they are pushed.':'New builds land here the moment they are pushed.')+'</p>';return}
+    var em=ul.parentNode.querySelector('.empty');
+    if(!list.length){if(!em){em=document.createElement('p');em.className='empty';ul.parentNode.insertBefore(em,ul)}em.textContent=k==='onelife'?'One Life builds land here the moment they are pushed.':'New builds land here the moment they are pushed.';ul.style.display='none';return}
+    if(em)em.remove();ul.style.display='';
     ul.innerHTML=list.map(function(c,i){return '<li style="--k:'+i+';--pc:'+PROD[k][1]+'"><span class="cd"></span><span><span class="cm">'+esc(c.m)+'</span><span class="meta">'+pill(k)+'<span>'+esc(c.r)+'</span>'+'</span></span><span class="ago">'+ago(c.t)+'</span></li>'}).join('')});
   var tk=document.getElementById('ticker');if(tk){var items=[];['aneemate','tamitos','onelife'].forEach(function(k){(data[k]||[]).forEach(function(c){items.push('<span class="tk-item">'+pill(k)+'<b>'+esc(c.m)+'</b><span class="rp">'+esc(c.r)+' · '+ago(c.t)+'</span></span>')})});
     var h=items.join('');tk.innerHTML=h+h}
