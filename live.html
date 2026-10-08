@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>QORPO Studio Live: every commit, in real time</title>
+<meta name="description" content="What the QORPO studio shipped today, this week and this month: real commits from AneeMate, One Life and Tamitos, every author, updated hourly from GitHub.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/live">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.lv-h1{font-size:clamp(38px,5.6vw,72px);font-weight:900;margin:14px 0 14px;max-width:14ch}
+.lv-h1 em{font-style:normal;color:var(--mint)}
+.lv-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:26px 0 8px}
+.lv-tiles div{padding:18px;border-radius:20px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.lv-tiles b{display:block;font-family:var(--disp);font-size:clamp(28px,3.4vw,40px);font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.lv-tiles div:first-child b{color:var(--mint)}
+.lv-tiles span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.lv-spark{display:flex;align-items:flex-end;gap:5px;height:90px;margin-top:18px}
+.lv-spark i{flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--mint),rgba(94,240,176,.2))}
+.lv-lab{display:flex;justify-content:space-between;font:600 11px var(--mono);color:var(--dim);margin-top:6px}
+.lv-per{display:grid;gap:8px;margin-top:16px}
+.lv-per div{display:grid;grid-template-columns:150px 1fr 60px;align-items:center;gap:10px;font:700 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lc)}
+.lv-per i{height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}.lv-per em{display:block;height:100%;border-radius:99px;background:var(--lc)}
+.lv-per b{text-align:right;color:#fff;font-variant-numeric:tabular-nums}
+.lv-list{display:grid;gap:10px;margin-top:18px}
+.lv-c{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:20px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text)}
+.lv-c .ic{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--lc),rgba(0,0,0,.35))}
+.lv-c .ic svg{width:22px;height:22px;fill:#fff}
+.lv-c .k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lc)}.lv-c .k span{color:var(--dim);text-transform:none;letter-spacing:.04em;font-weight:500;margin-left:.5em}
+.lv-c .m{margin-top:4px;font-size:15px;font-weight:600;line-height:1.35}
+.lv-c .t{font-family:var(--mono);font-size:11px;color:var(--dim);white-space:nowrap}.lv-c .t b{color:var(--mint)}.lv-c .t i{font-style:normal;color:#ff8fae}
+.lv-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.lv-box{padding:22px;border-radius:24px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.lv-box h3{font-size:18px;font-weight:800;margin:0 0 6px}.lv-box p{color:var(--muted);font-size:14.5px;line-height:1.6;margin:0}
+.lv-box ul{padding-left:18px;color:var(--muted);font-size:14.5px;line-height:1.7;margin:8px 0 0}
+@media (max-width:760px){.lv-two{grid-template-columns:1fr}.lv-per div{grid-template-columns:110px 1fr 50px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://qorpo.world/#org", "name": "QORPO", "url": "https://qorpo.world/", "logo": "https://qorpo.world/assets/favicon-512.png"}, {"@type": "Person", "@id": "https://qorpo.world/about#rastislav", "name": "Rastislav Bakala", "jobTitle": "CEO, QORPO", "url": "https://qorpo.world/about", "sameAs": ["https://x.com/RastislavBakala", "https://github.com/ceo-gif"]}, {"@type": "WebPage", "name": "QORPO Studio Live", "url": "https://qorpo.world/live", "description": "Real commits from the QORPO studio repositories, updated hourly.", "isPartOf": {"@id": "https://qorpo.world/#website"}, "author": {"@id": "https://qorpo.world/about#rastislav"}, "dateModified": "2026-10-08"}, {"@type": "Dataset", "name": "QORPO studio build feed", "description": "Commits from AneeMate, One Life and Tamitos repositories, last 30 days, with additions and deletions per commit. Updated hourly.", "url": "https://qorpo.world/feed.json", "creator": {"@id": "https://qorpo.world/#org"}, "license": "https://creativecommons.org/licenses/by/4.0/", "distribution": [{"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://qorpo.world/feed.json"}]}]}</script>
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="QORPO Studio Live: every commit, in real time">
+<meta property="og:description" content="What the QORPO studio shipped today, this week and this month: real commits from AneeMate, One Life and Tamitos, every author, updated hourly from GitHub.">
+<meta property="og:url" content="https://qorpo.world/live">
+<meta property="og:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="QORPO Studio Live: every commit, in real time">
+<meta name="twitter:description" content="What the QORPO studio shipped today, this week and this month: real commits from AneeMate, One Life and Tamitos, every author, updated hourly from GitHub.">
+<meta name="twitter:image" content="https://qorpo.world/assets/og/og-qorpo-v2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="QORPO: independent game studio and the $QORPO token">
+<meta name="keywords" content="QORPO studio live, QORPO commits, game studio building in public, AneeMate development, One Life development">
+<meta name="robots" content="index, follow, max-image-preview:large">
+</head>
+<body data-page="live">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="/">QORPO</a> / Studio live</div>
+    <div class="kicker rv"><span class="status" style="color:var(--mint)"><span class="dot live-dot"></span>Live from GitHub</span><span class="status">Updated hourly</span></div>
+    <h1 class="lv-h1">What the studio shipped <em>today.</em></h1>
+    <p class="sub rv">Every commit from AneeMate, One Life and Tamitos, every author, straight from our repositories. No roadmap, no promises, just the work landing. This is the proof behind <a href="/token" style="color:var(--mint)">$QORPO</a>.</p>
+    <div class="lv-tiles rv" id="lvTiles"><div><b id="lv30">…</b><span>commits, last 30 days</span></div><div><b id="lvLn">…</b><span>lines shipped, 30 days</span></div><div><b id="lvB">…</b><span>builders</span></div><div><b id="lvAll">…</b><span>commits all time</span></div></div>
+    <div class="lv-spark" id="lvSpark" aria-label="Commits per day, last 14 days"></div><div class="lv-lab"><span>14 days ago</span><span>today</span></div>
+    <div class="lv-per" id="lvPer"></div>
+  </div>
+</section>
+<section class="sec" style="padding-top:10px">
+  <div class="wrap">
+    <div class="rv"><div class="kicker"><span class="status">Latest commits</span></div><h2 class="h2" data-split>Fresh off the repo.</h2></div>
+    <div class="lv-list" id="lvList"><p class="empty">Loading the feed…</p></div>
+    <div class="lv-two">
+      <div class="lv-box rv"><h3>How this works</h3><p>An hourly job reads the studio's GitHub repositories (AneeMate web, backend and Unreal project, One Life, Tamitos app and web), counts commits and lines, and writes <a href="feed.json" style="color:var(--mint)">feed.json</a>. This page and the popup on every page read that file. Lines count code and text; Unreal binaries, models and maps are not counted, so the real number is higher.</p></div>
+      <div class="lv-box rv" style="--d:1"><h3>Why we publish it</h3><p>Because "we are building" is the cheapest sentence in crypto. One token sits behind every game we ship, so the people who hold it deserve to see the shipping. If the feed goes quiet, you will know before we tell you.</p><ul><li><a href="/token" style="color:var(--mint)">How $QORPO is tied to the games</a></li><li><a href="/about" style="color:var(--mint)">About the studio</a></li></ul></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script>
+(function(){
+  var P={aneemate:['AneeMate','#ffd23f'],tamitos:['Tamitos','#c89bff'],onelife:['One Life','#ff7a1a'],cc:['Citizen Conflict','#7cc4ff'],tou:['Tale of Understanding','#9fe0c8'],platform:['Platform and tools','#9fb3c8']};
+  var GH='<svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 011.2-3.2c-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0012 .5z"/></svg>';
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function k(n){return n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e4?Math.round(n/1e3)+'k':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'k':String(n)}
+  function ago(t){var s=(Date.now()-new Date(t))/1000;if(s<90)return 'just now';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'}
+  function $(i){return document.getElementById(i)}
+  fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+    var now=Date.now(),log=d.log||[],c30=0,ln=0,per={aneemate:0,tamitos:0,onelife:0},days=[];for(var j=0;j<14;j++)days.push(0);
+    log.forEach(function(e){var a=(now-new Date(e.t))/864e5;if(a>30||a<0)return;c30++;ln+=(+e.a||0)+(+e.d||0);if(per[e.p]!=null)per[e.p]++;var di=Math.floor(a);if(di<14)days[13-di]++});
+    $('lv30').textContent=c30.toLocaleString('en-US');$('lvLn').textContent=k(ln);$('lvB').textContent=(d.stats&&d.stats.builders30)||'';
+    var mx=Math.max.apply(null,days)||1;$('lvSpark').innerHTML=days.map(function(v){return '<i style="height:'+Math.max(5,Math.round(v/mx*100))+'%" title="'+v+' commits"></i>'}).join('');
+    var tot=per.aneemate+per.tamitos+per.onelife||1;$('lvPer').innerHTML=['aneemate','tamitos','onelife'].map(function(p){return '<div style="--lc:'+P[p][1]+'"><span>'+P[p][0]+'</span><i><em style="width:'+Math.max(2,Math.round(per[p]/tot*100))+'%"></em></i><b>'+per[p]+'</b></div>'}).join('');
+    var items=[];['aneemate','tamitos','onelife'].forEach(function(p){(d[p]||[]).forEach(function(c){items.push({p:p,r:c.r,t:c.t,m:c.m,a:c.a,d:c.d})})});items.sort(function(a,b){return new Date(b.t)-new Date(a.t)});
+    $('lvList').innerHTML=items.slice(0,24).map(function(c){var l=(c.a!=null&&c.d!=null&&(+c.a||+c.d))?' · <b>+'+k(+c.a)+'</b> <i>&minus;'+k(+c.d)+'</i>':'';return '<div class="lv-c" style="--lc:'+P[c.p][1]+'"><span class="ic">'+GH+'</span><span><span class="k">'+P[c.p][0]+'<span>'+esc(c.r)+'</span></span><span class="m">'+esc(c.m)+'</span></span><span class="t">'+ago(c.t)+l+'</span></div>'}).join('')||'<p class="empty">No commits in the feed yet.</p>';
+  }).catch(function(){$('lvList').innerHTML='<p class="empty">The feed is unavailable right now. Try again in a minute.</p>'});
+  fetch('/alltime.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(a){$('lvAll').textContent=k(a.commits)}).catch(function(){});
+})();
+</script>
+</body>
+</html>
