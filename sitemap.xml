@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url><loc>https://qorpo.world/</loc><lastmod>2026-10-02</lastmod><changefreq>daily</changefreq><priority>1.0</priority><image:image><image:loc>https://qorpo.world/assets/og/og-home.jpg</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/am_key.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/ol_key.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/tam_all.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/cc_hero.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/tm_move.webp</image:loc></image:image></url>
-  <url><loc>https://qorpo.world/token</loc><lastmod>2026-10-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><image:image><image:loc>https://qorpo.world/assets/og/og-token.jpg</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/q_coin.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/loop_hero.webp</image:loc></image:image></url>
-  <url><loc>https://qorpo.world/staking</loc><lastmod>2026-10-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><image:image><image:loc>https://qorpo.world/assets/og/og-staking.jpg</image:loc></image:image></url>
-  <url><loc>https://qorpo.world/what-is-qorpo</loc><lastmod>2026-08-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://qorpo.world/how-to-buy-qorpo</loc><lastmod>2026-08-31</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://qorpo.world/about</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>https://qorpo.world/assets/og/og-about.jpg</image:loc></image:image></url>
-  <url><loc>https://qorpo.world/bridge</loc><lastmod>2026-08-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://qorpo.world/spin</loc><lastmod>2026-10-02</lastmod><changefreq>daily</changefreq><priority>0.8</priority><image:image><image:loc>https://qorpo.world/assets/og/og-spin.jpg</image:loc></image:image></url>
-  <url><loc>https://qorpo.world/leaderboard</loc><lastmod>2026-10-02</lastmod><changefreq>daily</changefreq><priority>0.8</priority><image:image><image:loc>https://qorpo.world/assets/og/og-leaderboard.jpg</image:loc></image:image></url>
+  <url><loc>https://qorpo.world/</loc><lastmod>2026-10-08</lastmod><changefreq>daily</changefreq><priority>1.0</priority><image:image><image:loc>https://qorpo.world/assets/og/og-qorpo-v2.jpg</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/am_key.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/ol_key.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/tam_all.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/cc_hero.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/tm_move.webp</image:loc></image:image></url>
+  <url><loc>https://qorpo.world/token</loc><lastmod>2026-10-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><image:image><image:loc>https://qorpo.world/assets/img/q_coin.webp</image:loc></image:image><image:image><image:loc>https://qorpo.world/assets/img/loop_hero.webp</image:loc></image:image></url>
+  <url><loc>https://qorpo.world/staking</loc><lastmod>2026-10-02</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://qorpo.world/live</loc><lastmod>2026-10-08</lastmod><changefreq>hourly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://qorpo.world/what-is-qorpo</loc><lastmod>2026-10-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://qorpo.world/how-to-buy-qorpo</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://qorpo.world/about</loc><lastmod>2026-10-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://qorpo.world/bridge</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://qorpo.world/spin</loc><lastmod>2026-10-02</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://qorpo.world/leaderboard</loc><lastmod>2026-10-02</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://qorpo.world/ecosystem</loc><lastmod>2026-08-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://qorpo.world/ai-gaming-tokens</loc><lastmod>2026-08-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://qorpo.world/micro-cap-gaming-tokens</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://qorpo.world/gaming-tokens-gta-6</loc><lastmod>2026-08-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qorpo.world/ai-gaming-tokens</loc><lastmod>2026-10-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qorpo.world/micro-cap-gaming-tokens</loc><lastmod>2026-10-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qorpo.world/gaming-tokens-gta-6</loc><lastmod>2026-10-08</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://qorpo.world/blog</loc><lastmod>2026-08-25</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://qorpo.world/privacy</loc><lastmod>2026-10-02</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://qorpo.world/terms</loc><lastmod>2026-10-02</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
