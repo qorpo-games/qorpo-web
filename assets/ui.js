@@ -101,9 +101,15 @@
     out.sort(function(a,b){return new Date(b.t)-new Date(a.t)});return out.filter(function(i){return Date.now()-new Date(i.t)<14*864e5}).slice(0,24)}
   function kfmt(n){return n>=1e6?(n/1e6).toFixed(n>=1e7?0:1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(n>=1e4?0:1).replace(/\.0$/,'')+'k':String(n)}
   /* 30 day studio stats from the feed log (every tracked commit, all branches and authors) */
-  function stats(d){var log=d.log||[],now=Date.now(),c30=0,c7=0,ln=0,per={aneemate:0,tamitos:0,onelife:0},days=[];for(var j=0;j<14;j++)days.push(0);
-    log.forEach(function(e){var age=(now-new Date(e.t))/864e5;if(age>30||age<0)return;c30++;if(age<=7)c7++;ln+=(+e.a||0)+(+e.d||0);if(per[e.p]!=null)per[e.p]++;var di=Math.floor(age);if(di<14)days[13-di]++});
-    var st=d.stats||{};return {c30:c30,c7:c7,ln:ln,per:per,days:days,b:st.builders30||0,repos:st.repos||0}}
+  function stats(d){var log=d.log||[],now=Date.now(),st=d.stats||{},m=new Date();m.setHours(0,0,0,0);m=m.getTime();
+    function one(from,n,hourly){var o={c:0,ln:0,per:{aneemate:0,tamitos:0,onelife:0},bars:[],us:{},rs:{},hu:false,hr:false};for(var j=0;j<n;j++)o.bars.push(0);
+      log.forEach(function(e){var t=new Date(e.t).getTime();if(t<from||t>now+6e4)return;o.c++;o.ln+=(+e.a||0)+(+e.d||0);if(o.per[e.p]!=null)o.per[e.p]++;
+        if(e.u!=null){o.hu=true;o.us[e.u]=1}if(e.r){o.hr=true;o.rs[e.r]=1}
+        var ix=hourly?new Date(t).getHours():n-1-Math.floor((now-t)/864e5);if(ix>=0&&ix<n)o.bars[ix]++});
+      o.b=o.hu?Object.keys(o.us).length:0;o.repos=o.hr?Object.keys(o.rs).length:0;return o}
+    var P30=one(now-30*864e5,14),P7=one(now-7*864e5,7),PT=one(m,24,true);
+    if(!P30.b)P30.b=st.builders30||0;if(!P30.repos)P30.repos=st.repos||0;
+    return {c30:P30.c,c7:P7.c,ln:P30.ln,per:P30.per,days:P30.bars,b:P30.b,repos:P30.repos,P:{today:PT,'7':P7,'30':P30}}}
   function start(list,S){if(!list.length)return;var ticker=list.slice(0,8);
     var box=document.createElement('div');box.className='lt';box.setAttribute('aria-live','polite');box.setAttribute('aria-label','Live from the studio');
     box.innerHTML='<button class="lt-pill" type="button" aria-label="Show live updates"><i></i><b>LIVE</b>'+(S.c30?S.c30+' commits this month':list.length+' updates from the studio')+'</button>';
@@ -113,10 +119,13 @@
     try{fetch('/alltime.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){AT=j}).catch(function(){})}catch(e){}
     function allHtml(){if(!AT)return '';var keys=Object.keys(AT.per).sort(function(a,b){return AT.per[b]-AT.per[a]}),mx=AT.per[keys[0]]||1;
       return '<div class="lt-all-t"><div class="lt-tiles"><div><b>'+kfmt(AT.commits)+'</b><span>commits all time</span></div><div><b>'+AT.repos+'</b><span>repositories</span></div><div><b>'+AT.since+'</b><span>building since</span></div></div><div class="lt-per">'+keys.map(function(k){var n=ATN[k]||[k,'#9fb3c8'];return '<div style="--lc:'+n[1]+'"><span>'+n[0]+'</span><i><em style="width:'+Math.max(2,Math.round(AT.per[k]/mx*100))+'%"></em></i><b>'+kfmt(AT.per[k])+'</b></div>'}).join('')+'</div></div>'}
-    function statsHtml(){if(!S.c30)return '';var mx=Math.max.apply(null,S.days)||1,tot=S.per.aneemate+S.per.tamitos+S.per.onelife||1;
-      var h='<div class="lt-stats">'+(AT?'<div class="lt-tabs" role="tablist"><button type="button" class="on" data-t="m">Last 30 days</button><button type="button" data-t="a">All time</button></div>':'')+'<div class="lt-m30"><div class="lt-tiles"><div><b>'+kfmt(S.c30)+'</b><span>commits, 30 days</span></div><div><b>'+kfmt(S.ln)+'</b><span>lines shipped</span></div><div><b>'+(S.b||'')+'</b><span>builders'+(S.repos?' in '+S.repos+' repos':'')+'</span></div></div>';
-      h+='<div class="lt-spark" aria-label="Commits per day, last 14 days">'+S.days.map(function(v,ix){return '<i style="height:'+Math.max(6,Math.round(v/mx*100))+'%" title="'+v+' commits"></i>'}).join('')+'</div><div class="lt-sparkl"><span>14 days ago</span><span>today</span></div>';
-      h+='<div class="lt-per">'+['aneemate','tamitos','onelife'].map(function(k){var v=S.per[k];return '<div style="--lc:'+P[k][1]+'"><span>'+P[k][0]+'</span><i><em style="width:'+Math.max(3,Math.round(v/tot*100))+'%"></em></i><b>'+v+'</b></div>'}).join('')+'</div><div class="lt-wk">'+S.c7+' commits in the last 7 days</div></div>'+allHtml()+'</div>';return h}
+    function perHtml(key){var o=S.P[key],mx=Math.max.apply(null,o.bars)||1,tot=o.per.aneemate+o.per.tamitos+o.per.onelife||1,lab={today:'commits today','7':'commits, 7 days','30':'commits, 30 days'}[key];
+      var h='<div class="lt-pp" data-pp="'+key+'"'+(key==='30'?'':' hidden')+'><div class="lt-tiles"><div><b>'+kfmt(o.c)+'</b><span>'+lab+'</span></div><div><b>'+kfmt(o.ln)+'</b><span>lines shipped</span></div><div><b>'+(o.b||'&middot;')+'</b><span>builders'+(o.repos?' in '+o.repos+' repos':'')+'</span></div></div>';
+      h+='<div class="lt-spark">'+o.bars.map(function(v){return '<i style="height:'+Math.max(6,Math.round(v/mx*100))+'%" title="'+v+' commits"></i>'}).join('')+'</div><div class="lt-sparkl"><span>'+(key==='today'?'00:00':(key==='7'?'7 days ago':'14 days ago'))+'</span><span>'+(key==='today'?'now':'today')+'</span></div>';
+      h+='<div class="lt-per">'+['aneemate','tamitos','onelife'].map(function(k){var v=o.per[k];return '<div style="--lc:'+P[k][1]+'"><span>'+P[k][0]+'</span><i><em style="width:'+Math.max(3,Math.round(v/tot*100))+'%"></em></i><b>'+v+'</b></div>'}).join('')+'</div></div>';return h}
+    function statsHtml(){if(!S.c30)return '';
+      var h='<div class="lt-stats"><div class="lt-tabs" role="tablist"><button type="button" data-t="today">Today</button><button type="button" data-t="7">7 days</button><button type="button" class="on" data-t="30">30 days</button>'+(AT?'<button type="button" data-t="a">All time</button>':'')+'</div><div class="lt-m30">'+perHtml('today')+perHtml('7')+perHtml('30')+'</div>'+allHtml();
+      h+='<div class="lt-sh"><a href="/live#share"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>Share as image</a><a href="/live">Full stats</a></div></div>';return h}
     /* expanded view: every update stacked above, rolling up one after another, newest at the bottom */
     function expand(){clearTimeout(timer);if(card){card.remove();card=null}box.classList.remove('min');box.classList.add('open');
       if(panel)panel.remove();panel=document.createElement('div');panel.className='lt-list';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Live from the studio');
@@ -126,7 +135,7 @@
       panel.innerHTML=h.replace('<div class="lt-scroll">',statsHtml()+'<div class="lt-scroll">')+'</div>';box.insertBefore(panel,pill);
       var sc=panel.querySelector('.lt-scroll');sc.scrollTop=sc.scrollHeight;
       panel.querySelector('.lt-close').addEventListener('click',collapse);
-      [].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(b){b.addEventListener('click',function(){[].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(x){x.classList.toggle('on',x===b)});panel.querySelector('.lt-stats').classList.toggle('alltime',b.dataset.t==='a')})});
+      [].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(b){b.addEventListener('click',function(){[].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(x){x.classList.toggle('on',x===b)});var t=b.dataset.t;panel.querySelector('.lt-stats').classList.toggle('alltime',t==='a');[].forEach.call(panel.querySelectorAll('.lt-pp'),function(x){x.hidden=x.dataset.pp!==t})})});
       try{sessionStorage.removeItem(OFF)}catch(e){}}
     function collapse(){if(panel){panel.remove();panel=null}box.classList.remove('open');minimize(false)}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&panel)collapse()});
