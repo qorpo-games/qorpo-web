@@ -114,7 +114,8 @@ def main():
     for project in ('aneemate', 'tamitos', 'onelife'):
         originals = {(e['r'], e['t']): e.get('m') for e in old.get(project, [])}
         result[project] = [{**entry, 'm': entry.get('m') or originals.get((entry['r'], entry['t'])) or 'Studio repository update'} for entry in log if entry['p'] == project][:24]
-    result['stats'] = {'builders30': len({str(e['u']) for e in log if e.get('u') is not None}), 'repos': len(REPOS), 'since': cutoff[:10], 'source': 'GitHub API, all tracked branches, deduplicated by repository and commit SHA'}
+    cutoff30 = (now - dt.timedelta(days=30)).isoformat().replace('+00:00', 'Z')
+    result['stats'] = {'builders30': len({str(e['u']) for e in log if e.get('u') is not None and e['t'] >= cutoff30}), 'repos': len(REPOS), 'since': cutoff[:10], 'source': 'GitHub API, all tracked branches, deduplicated by repository and commit SHA'}
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     temporary.replace(path)

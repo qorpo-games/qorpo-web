@@ -1,0 +1,45 @@
+name: Refresh studio live feed
+on:
+  # Enable only after both scoped read credentials have been configured and a manual run passes.
+  # schedule:
+  #   - cron: '17 * * * *'
+  workflow_dispatch:
+concurrency:
+  group: studio-feed
+  cancel-in-progress: false
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - name: Read all studio repositories and rebuild the verified feed
+        env:
+          STUDIO_FEED_READ_TOKEN: ${{ secrets.STUDIO_FEED_READ_TOKEN }}
+          TAMITOS_SITE_READ_TOKEN: ${{ secrets.TAMITOS_SITE_READ_TOKEN }}
+        run: python3 tools/update_studio_feed.py
+      - name: Save the feed without modifying other files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add feed.json
+          git commit -m 'Refresh verified studio live feed'
+          git pull --rebase origin master
+          git push origin HEAD:master
+      # GITHUB_TOKEN commits do not trigger branch-based Pages builds, so deploy explicitly.
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Publish refreshed feed and the site
+        id: deployment
+        uses: actions/deploy-pages@v4
