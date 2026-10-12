@@ -24,11 +24,14 @@ REPOS = {
     'QORPO-WORLD/OneLife': 'onelife',
     'qorpo-games/tamitos-site-deploy': 'tamitos',
 }
-TOKEN = os.environ.get('STUDIO_FEED_READ_TOKEN')
+TOKENS = {
+    'QORPO-WORLD': os.environ.get('STUDIO_FEED_READ_TOKEN'),
+    'qorpo-games': os.environ.get('TAMITOS_SITE_READ_TOKEN'),
+}
 
 def get(path):
     req = urllib.request.Request('https://api.github.com/' + path, headers={
-        'Authorization': 'Bearer ' + TOKEN,
+        'Authorization': 'Bearer ' + TOKENS[path.split('/')[1]],
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
         'User-Agent': 'qorpo-studio-feed',
@@ -57,8 +60,8 @@ def identity(commit):
     return hashlib.sha256(name.encode()).hexdigest()
 
 def main():
-    if not TOKEN:
-        raise SystemExit('Missing STUDIO_FEED_READ_TOKEN: add a read-only token for the 9 tracked private/public repositories. Existing feed remains untouched.')
+    if not all(TOKENS.values()):
+        raise SystemExit('Missing scoped read-only feed credentials: STUDIO_FEED_READ_TOKEN for the 8 QORPO-WORLD repositories and TAMITOS_SITE_READ_TOKEN for qorpo-games/tamitos-site-deploy. Existing feed remains untouched.')
     path = Path('feed.json')
     old = json.loads(path.read_text())
     now = dt.datetime.now(dt.timezone.utc)
