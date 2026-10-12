@@ -351,13 +351,18 @@
   $('shNative').addEventListener('click',function(){blob().then(function(b){var f=new File([b],fname(),{type:'image/png'});navigator.share({files:[f],text:tweet()}).catch(function(){})})});
 
   /* ---------- data ---------- */
-  var feedP=fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){FEED=d;if(d.updated)$('lvUpd').textContent='Updated '+ago(d.updated);
+  function refreshFeed(){return fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){FEED=d;render();if(d.updated)$('lvUpd').textContent='Updated '+ago(d.updated);
     var items=[];['aneemate','tamitos','onelife'].forEach(function(p){(d[p]||[]).forEach(function(c){items.push({p:p,r:c.r,t:c.t,m:c.m,a:c.a,d:c.d})})});items.sort(function(a,b){return new Date(b.t)-new Date(a.t)});
     $('lvList').innerHTML=items.slice(0,24).map(function(c){var l=(c.a!=null&&c.d!=null&&(+c.a||+c.d))?' · <b>+'+k(+c.a)+'</b> <i>&minus;'+k(+c.d)+'</i>':'';return '<div class="lv-c" style="--lc:'+P[c.p][1]+'"><span class="ic">'+GH+'</span><span><span class="k">'+P[c.p][0]+'<span>'+esc(c.r)+'</span></span><span class="m">'+esc(c.m)+'</span></span><span class="t">'+ago(c.t)+l+'</span></div>'}).join('')||'<p class="empty">No commits in the feed yet.</p>';
   }).catch(function(){$('lvList').innerHTML='<p class="empty">The feed is unavailable right now. Try again in a minute.</p>'});
+  }
+  var feedP=refreshFeed();
+  setInterval(function(){if(!document.hidden)refreshFeed()},300000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshFeed()});
   var allP=fetch('/alltime.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(a){ALL=a}).catch(function(){});
   Promise.all([feedP,allP]).then(function(){render();if(location.hash==='#share')open()});render();
 })();
 </script>
 </body>
 </html>
+

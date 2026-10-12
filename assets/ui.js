@@ -139,7 +139,7 @@
       try{sessionStorage.removeItem(OFF)}catch(e){}}
     function collapse(){if(panel){panel.remove();panel=null}box.classList.remove('open');minimize(false)}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&panel)collapse()});
-    function show(){if(document.querySelector('.qp.open')){timer=setTimeout(show,1500);return}
+    function show(){if(!box.isConnected)return;if(document.querySelector('.qp.open')){timer=setTimeout(show,1500);return}
       var it=ticker[i],p=P[it.k];var href=it.u||p[2];
       var el=document.createElement(href?'a':'div');el.className='lt-card';el.style.setProperty('--lc',p[1]);el.style.setProperty('--ltd',DUR+'ms');if(href){el.href=href;if(it.u){el.target='_blank';el.rel='noopener'}}
       el.innerHTML=body(it,i===0)+'<button class="lt-x" type="button" aria-label="Hide live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+ (list.length>1?'<button class="lt-all" type="button">All '+list.length+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>':'')+'<i class="lt-bar"></i>';
@@ -152,8 +152,11 @@
       if(i>=ticker.length){i=0;timer=setTimeout(function(){minimize(false)},500);return}timer=setTimeout(show,700)}
     function minimize(user){clearTimeout(timer);if(card){card.remove();card=null}box.classList.add('min');if(user){try{sessionStorage.setItem(OFF,'1')}catch(e){}}}
     pill.addEventListener('click',expand);
-    setTimeout(show,3500)}
-  function go(d){d=d||{};start(items(d),stats(d))}
+    timer=setTimeout(show,3500);return function(){clearTimeout(timer);box.remove()}}
+  var stop=null,version=null;
+  function go(d){d=d||{};if(version===d.updated)return;version=d.updated;if(stop)stop();stop=start(items(d),stats(d))}
   if(!window.fetch){return}
-  fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(go).catch(function(){if(window.SNAP)go(window.SNAP)});
+  function refresh(){return fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(go).catch(function(){if(!version&&window.SNAP)go(window.SNAP)})}
+  refresh();setInterval(function(){if(!document.hidden)refresh()},300000);document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
 })();
+
