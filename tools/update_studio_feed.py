@@ -65,9 +65,9 @@ def main():
     path = Path('feed.json')
     old = json.loads(path.read_text())
     now = dt.datetime.now(dt.timezone.utc)
-    last = dt.datetime.fromisoformat(old['updated'].replace('Z', '+00:00'))
-    # A two-hour overlap catches late arrivals and lets us retain existing anonymous builder IDs.
-    since = (min(last - dt.timedelta(hours=2), now) - dt.timedelta(minutes=5)).isoformat()
+    # Always rescan the whole 30-day window, so commits missed by an earlier run
+    # (outage, rate limit, no credits, a 300-commit page cap) are filled in. Only unseen commits cost a stats call.
+    since = (now - dt.timedelta(days=30)).isoformat()
     commits = {}
     jobs = []
     for repo in REPOS:
