@@ -1,7 +1,7 @@
 name: Refresh studio live feed
 on:
   # Enable only after both scoped read credentials have been configured and a manual run passes.
-   schedule:
+  schedule:
     - cron: '17 * * * *'
   workflow_dispatch:
 concurrency:
