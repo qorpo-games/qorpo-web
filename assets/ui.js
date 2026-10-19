@@ -160,3 +160,6 @@
   refresh();setInterval(function(){if(!document.hidden)refresh()},300000);document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
 })();
 
+
+/* Measurement (GA4 with consent mode): assets/qtrack.js, shared with aneemate.com */
+(function(){if(document.querySelector('script[src*="qtrack.js"]'))return;var s=document.createElement('script');s.src='/assets/qtrack.js?v=2';s.defer=true;document.head.appendChild(s)})();
