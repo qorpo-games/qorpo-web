@@ -1,0 +1,27 @@
+/* Shared editorial discovery, scoped to avoid changing existing site UI. */
+.bd-band,.bd-popup{--bd-accent:#5ef0b0;--bd-ink:#0e1714;--bd-ground:#151a24;--bd-text:#f4f4f7;--bd-muted:#aab2c3;--bd-rule:#353d4c;font-family:inherit;color:var(--bd-text)}
+.bd-band[data-blog-discovery="aneemate"],.bd-popup[data-brand="aneemate"]{--bd-accent:#fed654;--bd-ink:#241c09;--bd-ground:#171b24;--bd-text:#f4eedc}
+footer .bd-band{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,2fr);gap:28px;margin:0 0 36px;padding:28px;border:1px solid var(--bd-rule);border-radius:22px;background:linear-gradient(125deg,var(--bd-ground),#10131b);text-align:left}
+.bd-band .bd-eyebrow,.bd-popup .bd-eyebrow{display:block;color:var(--bd-accent);font-size:10px;font-weight:800;letter-spacing:.12em;line-height:1.4;text-transform:uppercase;margin:0 0 9px}
+footer .bd-band h2{font-family:inherit;font-size:25px!important;line-height:1.15!important;letter-spacing:-.025em;text-transform:none;color:var(--bd-text);margin:0 0 10px!important}
+footer .bd-band p{font-size:14px;line-height:1.55;color:var(--bd-muted);margin:0 0 16px;max-width:34ch}
+footer .bd-band .bd-blog-link{display:inline-flex;align-items:center;justify-content:center;background:var(--bd-accent);color:var(--bd-ink);border-radius:12px;padding:12px 18px;min-height:44px;font-size:14px;line-height:1.2;font-weight:800;text-decoration:none;margin:0}
+.bd-posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+footer .bd-posts .bd-card{display:block;min-width:0;color:var(--bd-text);text-decoration:none;font-size:14px;line-height:1.4;margin:0;padding:0}
+.bd-card img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin:0 0 10px;transition:filter .2s}
+.bd-card-title{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:700;line-height:1.35;min-height:3.9em}
+.bd-card-cta{display:block;color:var(--bd-accent);font-size:12px;font-weight:700;margin-top:8px}
+.bd-card:hover img{filter:brightness(1.12)}
+.bd-band a:focus-visible,.bd-popup a:focus-visible,.bd-popup button:focus-visible{outline:3px solid var(--bd-accent);outline-offset:4px}
+.bd-popup{position:fixed;left:18px;bottom:var(--bd-bottom,16px);z-index:145;width:350px;max-width:calc(100vw - 32px);border:1px solid var(--bd-rule);border-radius:20px;background:var(--bd-ground);box-shadow:0 16px 60px #0008;overflow:hidden;animation:bd-arrive .25s ease-out}
+.bd-popup-link{display:block;color:var(--bd-text);text-decoration:none}
+.bd-popup-link>img{display:block;width:100%;height:146px;object-fit:cover}
+.bd-popup-copy{padding:18px 22px 20px}
+.bd-popup .bd-popup-copy h2{font-family:inherit;font-size:19px!important;line-height:1.3!important;font-weight:750;letter-spacing:-.02em;text-transform:none;color:var(--bd-text);margin:0 0 14px!important;padding:0}
+.bd-popup-cta{display:inline-block;color:var(--bd-accent);font-size:14px;font-weight:800;line-height:1.4;border-bottom:1px solid currentColor;padding-bottom:2px}
+.bd-close{position:absolute;right:8px;top:8px;width:44px;height:44px;border:1px solid #ffffff3d;border-radius:50%;background:#10131be8;color:#fff;font:26px/1 system-ui;cursor:pointer;z-index:1;display:grid;place-items:center;padding:0}
+@keyframes bd-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:900px){footer .bd-band{grid-template-columns:1fr;padding:24px;gap:22px}.bd-band .bd-intro p{max-width:60ch}}
+@media(max-width:600px){footer .bd-band{padding:20px;margin-bottom:24px;border-radius:18px}.bd-posts{grid-template-columns:1fr;gap:16px}footer .bd-posts .bd-card{display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:12px;align-items:start}.bd-card img{grid-row:1/3;width:96px;height:70px;aspect-ratio:auto;margin:0}.bd-card-title{font-size:14px;min-height:0;-webkit-line-clamp:2}.bd-card-cta{grid-column:2;margin-top:5px}.bd-popup{left:16px;right:16px;width:auto;max-height:calc(100dvh - var(--bd-bottom,16px) - 90px);overflow:auto}.bd-popup-link>img{height:116px}.bd-popup-copy{padding:16px 18px}.bd-popup .bd-popup-copy h2{font-size:17px!important}.bd-close{width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){.bd-popup{animation:none}.bd-card img{transition:none}}
+@media print{.bd-popup,.bd-band{display:none!important}}
