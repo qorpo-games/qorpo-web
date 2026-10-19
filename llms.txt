@@ -47,3 +47,8 @@
 
 ## Social
 - X: https://x.com/QORPOworld, https://x.com/playaneemate, https://x.com/playOLLgame, https://x.com/TamitosWorld, https://x.com/RastislavBakala
+
+## New English articles, 19 October 2026
+- [Web3 gaming gets another chance as AI changes development](https://qorpo.world/web3-gaming-ai-development-costs)
+- [Epic's AI-first shift: what Tim Sweeney actually said](https://qorpo.world/epic-games-ai-first-tim-sweeney)
+- [Inside QORPO's AI game studio and optional token economy](https://qorpo.world/qorpo-ai-game-studio-token-utility)
