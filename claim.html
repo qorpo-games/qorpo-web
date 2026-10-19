@@ -140,7 +140,7 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
       <img class="cl-coin" src="assets/img/q_coin.webp" alt="">
       <div class="cl-head">
         <span class="cl-tag">Investor claim</span>
-        <div class="cl-acct"><span id="acctPill" class="cl-pill hidden"><span class="dot"></span><span id="acctShort">wallet</span></span><button id="disconnectBtn" class="cl-pill hidden" type="button" title="Disconnect wallet">Disconnect</button></div>
+        <div class="cl-acct"><span id="acctPill" class="cl-pill hidden"><span class="dot"></span><span id="acctShort">wallet</span></span><button id="switchTop" class="cl-pill hidden" type="button">Switch account</button><button id="disconnectBtn" class="cl-pill hidden" type="button" title="Disconnect wallet">Disconnect</button></div>
       </div>
 
       <div id="viewConnect">
@@ -207,6 +207,7 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
 </div></footer>
 
 <script src="assets/ui.js"></script>
+<script src="assets/wallet-picker.js?v=1" data-accent="#5ef0b0"></script>
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
@@ -243,27 +244,35 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
 
+  // The wallet and the account the person picked (assets/wallet-picker.js), else MetaMask.
   function injected(){
+    if(window.WalletPicker)return window.WalletPicker.eth;
     var eth=window.ethereum;if(!eth)return null;
     if(eth.providers&&eth.providers.length){return eth.providers.find(function(p){return p.isMetaMask;})||eth.providers[0];}
     return eth;
   }
   function readProvider(){return new ethers.JsonRpcProvider(RPC);}
 
+  // Show one account and follow it. Used by Connect and by the silent restore on load.
+  function adopt(inj,addr){
+      account=ethers.getAddress(addr);
+      $('acctShort').textContent=short(account);
+      $('acctPill').classList.remove('hidden');
+      $('switchTop').classList.toggle('hidden',!window.WalletPicker);
+      $('disconnectBtn').classList.remove('hidden');
+      try{localStorage.removeItem('qorpo_claim_dc');}catch(e){}
+      inj.removeAllListeners&&inj.removeAllListeners('accountsChanged');
+      inj.on&&inj.on('accountsChanged',function(a){if(a&&a.length){account=ethers.getAddress(a[0]);$('acctShort').textContent=short(account);load();}else{account=null;$('acctPill').classList.add('hidden');$('switchTop').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');}});
+      load();
+  }
   async function connect(){
     var inj=injected();
     if(!inj){setStatus('No Ethereum wallet found. Install MetaMask (or open this page in your wallet browser).','err');return;}
     try{
-      var accs=await inj.request({method:'eth_requestAccounts'});
-      account=ethers.getAddress(accs[0]);
-      $('acctShort').textContent=short(account);
-      $('acctPill').classList.remove('hidden');
-      $('disconnectBtn').classList.remove('hidden');
-      try{localStorage.removeItem('qorpo_claim_dc');}catch(e){}
-      inj.removeAllListeners&&inj.removeAllListeners('accountsChanged');
-      inj.on&&inj.on('accountsChanged',function(a){if(a&&a.length){account=ethers.getAddress(a[0]);$('acctShort').textContent=short(account);load();}else{account=null;$('acctPill').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');}});
-      load();
-    }catch(e){setStatus('Connection cancelled.','');}
+      // The wallet's own account picker, then ours when it shares several accounts.
+      var accs=window.WalletPicker?[await window.WalletPicker.connect()]:await inj.request({method:'eth_requestAccounts'});
+      adopt(inj,accs[0]);
+    }catch(e){setStatus(e&&e.code===-32002?esc(e.message):'Connection cancelled.','');}
   }
 
   async function load(){
@@ -334,15 +343,16 @@ button.cl-pill{cursor:pointer;color:#ff8fae}
     }
   }
 
-  function disconnect(){account=null;try{localStorage.setItem('qorpo_claim_dc','1');}catch(e){}$('acctPill').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');setStatus('');}
+  function disconnect(){account=null;try{localStorage.setItem('qorpo_claim_dc','1');}catch(e){}if(window.WalletPicker&&window.WalletPicker.account)window.WalletPicker.disconnect();$('acctPill').classList.add('hidden');$('switchTop').classList.add('hidden');$('disconnectBtn').classList.add('hidden');show('viewConnect');setStatus('');}
   $('disconnectBtn').addEventListener('click',disconnect);
   $('connectBtn').addEventListener('click',connect);
   $('switchBtn').addEventListener('click',async function(){var inj=injected();if(inj&&await ensureChain(inj))load();});
   $('switchAcctBtn').addEventListener('click',connect);
+  $('switchTop').addEventListener('click',function(){if(window.WalletPicker)window.WalletPicker.switchAccount().catch(function(){});else connect();});
   $('claimBtn').addEventListener('click',doClaim);
 
   // auto-connect if wallet already authorized
-  (function(){try{if(localStorage.getItem('qorpo_claim_dc')==='1')return;}catch(e){}var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){connect();}}).catch(function(){});}})();
+  (function(){try{if(localStorage.getItem('qorpo_claim_dc')==='1')return;}catch(e){}var inj=injected();if(inj&&inj.request){inj.request({method:'eth_accounts'}).then(function(a){if(a&&a.length){adopt(inj,a[0]);}}).catch(function(){});}})();
 })();
 </script>
 </body>

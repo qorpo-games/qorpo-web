@@ -156,7 +156,7 @@
       <img class="br-coin" src="assets/img/q_coin.webp" alt="">
       <div class="br-head">
         <span class="br-tag">Bridge</span>
-        <div><button id="wcBtn" class="br-pill" type="button"><span class="dot" id="wcDot" style="background:var(--dim)"></span><span id="wcTxt">Connect wallet</span></button></div>
+        <div><button id="wcBtn" class="br-pill" type="button"><span class="dot" id="wcDot" style="background:var(--dim)"></span><span id="wcTxt">Connect wallet</span></button> <button id="wcSwitch" class="br-pill" type="button" hidden>Switch account</button></div>
       </div>
 
       <div class="br-dir">
@@ -219,6 +219,7 @@
 </div></footer>
 
 <script src="assets/ui.js"></script>
+<script src="assets/wallet-picker.js?v=1" data-accent="#5ef0b0"></script>
 <script src="assets/ethers-6.13.4.umd.min.js"></script>
 <script>
 (function(){
@@ -244,35 +245,37 @@
   function short(a){return a.slice(0,6)+'…'+a.slice(-4);}
   function fmt(x){try{var n=parseFloat(ethers.formatUnits(x,18));return n.toLocaleString('en-US',{maximumFractionDigits:n<1?4:2});}catch(e){return '0.00';}}
   function readProvider(id){return new ethers.JsonRpcProvider(CH[id].rpc);}
-  function pickInjected(){return window.okxwallet||window.ethereum||null;}
+  // The wallet and the account the person picked (assets/wallet-picker.js), else OKX, else MetaMask.
+  function pickInjected(){if(window.WalletPicker)return window.WalletPicker.eth;return window.okxwallet||window.ethereum||null;}
   function floorDust(x){return x-(x%DUST);}
   function chainHtml(id){return '<i class="'+CH[id].cls+'">'+CH[id].ab+'</i>'+CH[id].name}
   function paintDirection(){$('fromNm').innerHTML=chainHtml(fromId);$('toNm').innerHTML=chainHtml(toId);$('capTo').textContent=CH[toId].name;$('gasSym').textContent=CH[fromId].gas;setMain();}
   function flip(){var t=fromId;fromId=toId;toId=t;paintDirection();$('bBal').textContent=account?'…':'connect to see';balRaw=0n;if(account)loadBalance();estimate();}
   function bindWalletEvents(inj){
     if(!inj||inj._qbound)return;inj._qbound=true;
-    inj.on&&inj.on('accountsChanged',function(a){if(a&&a[0]){account=a[0];setConnected();loadBalance();estimate();}else{disconnect();}});
+    inj.on&&inj.on('accountsChanged',function(a){if(a&&a[0]){account=a[0];try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;}).catch(function(){});}catch(e){}setConnected();loadBalance();estimate();}else{disconnect();}});
     inj.on&&inj.on('chainChanged',function(){try{provider=new ethers.BrowserProvider(inj);provider.getSigner().then(function(s){signer=s;}).catch(function(){});}catch(e){}loadBalance();estimate();});
   }
   async function connect(){
     var inj=pickInjected();
     if(!inj){if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){var h=location.host+location.pathname;setStatus('Open this page in your wallet app: <a href="https://metamask.app.link/dapp/'+h+'">MetaMask</a> or <a href="okx://wallet/dapp/url?dappUrl='+encodeURIComponent(location.href)+'">OKX</a>.','');}else setStatus('No wallet found. Install MetaMask or OKX Wallet and reload.','err');return;}
     try{
-      var accs=await inj.request({method:'eth_requestAccounts'});
+      // The wallet's own account picker, then ours when it shares several accounts.
+      var accs=window.WalletPicker?[await window.WalletPicker.connect()]:await inj.request({method:'eth_requestAccounts'});
       if(!accs||!accs[0]){setStatus('No account selected.','err');return;}
       account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();
       var net=await provider.getNetwork();var cid=Number(net.chainId);
       if(CH[cid]){fromId=cid;toId=(cid===1?56:1);paintDirection();}
       bindWalletEvents(inj);setConnected();loadBalance();estimate();setStatus('');
-    }catch(e){setStatus('Connection cancelled.','');}
+    }catch(e){setStatus(e&&e.code===-32002?e.message:'Connection cancelled.','');}
   }
   async function tryEager(){
     var inj=pickInjected();if(!inj)return;
     try{var accs=await inj.request({method:'eth_accounts'});if(accs&&accs[0]){account=accs[0];provider=new ethers.BrowserProvider(inj);signer=await provider.getSigner();var net=await provider.getNetwork();var cid=Number(net.chainId);if(CH[cid]){fromId=cid;toId=(cid===1?56:1);paintDirection();}bindWalletEvents(inj);setConnected();loadBalance();estimate();}}catch(e){}
   }
-  function disconnect(){account=null;signer=null;provider=null;$('wcBtn').classList.remove('off');$('wcDot').style.background='var(--dim)';$('wcTxt').textContent='Connect wallet';$('bBal').textContent='connect to see';setMain();
-    try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}}
-  function setConnected(){$('wcBtn').classList.add('off');$('wcDot').style.background='var(--mint)';$('wcTxt').textContent=short(account)+' · disconnect';setMain();}
+  function disconnect(){account=null;signer=null;provider=null;$('wcBtn').classList.remove('off');$('wcDot').style.background='var(--dim)';$('wcTxt').textContent='Connect wallet';$('bBal').textContent='connect to see';$('wcSwitch').hidden=true;setMain();
+    if(window.WalletPicker){if(window.WalletPicker.account)window.WalletPicker.disconnect();}else{try{var inj=pickInjected();inj&&inj.request&&inj.request({method:'wallet_revokePermissions',params:[{eth_accounts:{}}]}).catch(function(){});}catch(e){}}}
+  function setConnected(){$('wcSwitch').hidden=!window.WalletPicker;$('wcBtn').classList.add('off');$('wcDot').style.background='var(--mint)';$('wcTxt').textContent=short(account)+' · disconnect';setMain();}
   function setMain(){$('mainTxt').textContent=account?'Bridge to '+CH[toId].name:'Connect wallet';}
   async function ensureChain(){
     var net=await provider.getNetwork();if(Number(net.chainId)===fromId)return true;
@@ -324,6 +327,7 @@
   $('amt').addEventListener('input',estimate);
   $('maxBtn').addEventListener('click',function(){if(balRaw>0n){$('amt').value=ethers.formatUnits(floorDust(balRaw),18);estimate();}});
   $('wcBtn').addEventListener('click',function(){account?disconnect():connect();});
+  $('wcSwitch').addEventListener('click',function(){if(window.WalletPicker)window.WalletPicker.switchAccount().catch(function(){});});
   $('mainBtn').addEventListener('click',doBridge);
   paintDirection();estimate();tryEager();
 })();
