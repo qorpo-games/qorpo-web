@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MATE vs $QORPO: AneeMate currencies explained</title>
+<meta name="description" content="MATE is earned inside AneeMate; $QORPO is an optional blockchain token. Understand the difference before using the game economy.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/mate-vs-qorpo-game-currencies">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="MATE and $QORPO: two balances with different jobs">
+<meta property="og:description" content="MATE is earned inside AneeMate; $QORPO is an optional blockchain token. Understand the difference before using the game economy.">
+<meta property="og:url" content="https://qorpo.world/mate-vs-qorpo-game-currencies">
+<meta property="og:image" content="https://qorpo.world/assets/blog/mate-vs-qorpo-game-currencies/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="MATE and $QORPO: two balances with different jobs">
+<meta name="twitter:description" content="MATE is earned inside AneeMate; $QORPO is an optional blockchain token. Understand the difference before using the game economy.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/mate-vs-qorpo-game-currencies/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Separate trays of matte gold game coins and a violet diamond token beside an AneeMate creature">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Separate trays of matte gold game coins and a violet diamond token beside an AneeMate creature"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/mate-vs-qorpo-game-currencies/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "MATE and $QORPO: two balances with different jobs", "description": "MATE is earned inside AneeMate; $QORPO is an optional blockchain token. Understand the difference before using the game economy.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "inLanguage": "en", "wordCount": 900, "mainEntityOfPage": "https://qorpo.world/mate-vs-qorpo-game-currencies", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/mate-vs-qorpo-game-currencies/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "MATE and $QORPO: two balances with different jobs", "item": "https://qorpo.world/mate-vs-qorpo-game-currencies"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Token</div><h1>MATE and $QORPO: two balances with different jobs</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>20 October 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/mate-vs-qorpo-game-currencies/hero-1280.webp" srcset="/assets/blog/mate-vs-qorpo-game-currencies/hero-640.webp 640w, /assets/blog/mate-vs-qorpo-game-currencies/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Separate trays of matte gold game coins and a violet diamond token beside an AneeMate creature" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>MATE is AneeMate&#x27;s in-game currency, earned through play and used inside the game. $QORPO is a separate blockchain token used for optional economy features. They are not interchangeable balances. Earning MATE does not mean earning withdrawable money, and ordinary play does not require a wallet or a token purchase.</p>
+<p>The distinction matters because two balance displays can look similar while representing very different things. One belongs to a game&#x27;s progression systems. The other involves a wallet, a network and the conditions of a particular transaction. Read the name beside the number before deciding what an action will do.</p>
+<h2>Start with the game, not a wallet</h2>
+<p>AneeMate&#x27;s <a href="https://aneemate.com/gameplay?section=economy">current player guide</a> describes MATE as the island&#x27;s money and explicitly says it is not a token or tradeable for money. The guide lists gameplay activities that award it and in-game uses such as materials, food and farm upgrades. That is a progression loop, rather than a promise of income.</p>
+<p>A new player can begin by learning movement, catching and the basic return-home loop. There is no need to solve a blockchain setup task first. If you want the broader product context, our <a href="https://qorpo.world/qorpo-ai-game-studio-token-utility">QORPO studio overview</a> explains how the optional token layer sits alongside the games.</p>
+<p>Avoid describing every reward as a financial reward. A balance that helps you upgrade an in-game farm can be meaningful because it changes your next session. It does not need a resale price to have a useful role in the game.</p>
+<h2>What the token layer adds</h2>
+<p>The guide separately describes $QORPO uses including capsules and fusion, alongside minting and trading plans. A use listed in a guide and a publicly available transaction flow are different kinds of evidence. Check the actual page and current status before assuming a feature is open.</p>
+<p>The <a href="https://aneemate.com/market">AneeMate player market</a> is labelled “Opening soon” at the time of this article&#x27;s check. A description of how future listings work is not a record of completed player sales. This article does not claim an active P2P market, creator cash income or a guaranteed resale opportunity.</p>
+<p>For the wider token&#x27;s role, read <a href="https://qorpo.world/token">QORPO&#x27;s token page</a>. Evaluate the specific utility being described. A token can be an optional payment instrument without making it a requirement for every player or a guarantee of demand, price appreciation or returns.</p>
+<h2>Original example: choosing an in-game upgrade</h2>
+<p>Imagine a player who wants a larger harvest basket. This is a model decision, not a report of someone&#x27;s account. They check the farm&#x27;s upgrade page, read the required balance and decide whether to spend the MATE they earned. Their question is about an in-game resource and a gameplay upgrade.</p>
+<p>Now imagine the same person considering an optional web purchase priced in $QORPO. That is a different decision. They need to read the actual product, network, quantity and confirmation before proceeding. The fact that both activities relate to AneeMate does not make the currency or transaction identical.</p>
+<p>Do not infer a conversion rate from the two screens. Neither the example nor the guide establishes that MATE can be exchanged for $QORPO. If a feature changes later, rely on its updated official explanation rather than a screenshot of an old balance.</p>
+<h2>Similar words can describe different actions</h2>
+<p>“Market” may refer to an in-game shop interface or to a planned player-to-player marketplace. “Reward” may mean XP, an in-game item or another explicitly described benefit. “Ownership” needs its own explanation of what an account or wallet controls. Read the surrounding conditions instead of assuming the most expansive meaning.</p>
+<p>Our <a href="https://aneemate.com/aneemate-packs-ownership-player-trading">guide to AneeMate packs and the planned player market</a> goes further into those distinctions. It separates in-game access, token transactions and future player trading. A creature in a party is not automatically a publicly listed blockchain asset.</p>
+<p>This is also why an attractive concept render is not an economic proof. The illustration accompanying this article simply separates two kinds of balance visually. It is not a screenshot of an exchange function or evidence that one balance converts into the other.</p>
+<h2>Verify one action at a time</h2>
+<p>Before an optional transaction, read what you are acquiring and where it is delivered. Check which account or wallet is involved and whether the current product actually supports that route. If a screen is still marked as planned or unavailable, do not treat a guide&#x27;s future description as a working purchase button.</p>
+<p>Do not share passwords or recovery phrases to resolve confusion about a game balance. If the terms or the interface are unclear, stop and use the official support route. This article explains product categories; it does not tell readers to buy a token or choose a particular transaction size.</p>
+<h2>Frequently asked questions</h2>
+<h3>Can I withdraw MATE as money?
+The current official guide says MATE is not a token and is not tradeable for money. Do not treat its gameplay rewards as earnings.</h3>
+<h3>Must I buy $QORPO to start AneeMate?
+The current guide says a wallet is not required to play. Optional token features are separate from starting the game.</h3>
+<h3>Does a planned market prove my creature will sell?
+No. A planned listing process does not establish a buyer, liquidity or a future sale price. The market remains labelled as opening soon at this check.</h3>
+<p>Explore the <a href="https://aneemate.com/gameplay">current AneeMate guide</a> or follow <a href="https://qorpo.world/live">QORPO&#x27;s development activity</a>. Product pages checked on 20 October 2026. No token price, investment outcome or completed transaction is claimed.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/review-ai-generated-game-code">AI-generated game code: a review checklist before shipping</a></p><p><a href="/prototype-vs-production-ready-game">Prototype or production-ready game? Read the evidence</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>

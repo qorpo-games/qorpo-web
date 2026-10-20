@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reviewing AI-generated game code before release</title>
+<meta name="description" content="A practical review process for AI-assisted game code: intent, ownership, failure cases, tests and evidence from the packaged build.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/review-ai-generated-game-code">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-generated game code: a review checklist before shipping">
+<meta property="og:description" content="A practical review process for AI-assisted game code: intent, ownership, failure cases, tests and evidence from the packaged build.">
+<meta property="og:url" content="https://qorpo.world/review-ai-generated-game-code">
+<meta property="og:image" content="https://qorpo.world/assets/blog/review-ai-generated-game-code/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-generated game code: a review checklist before shipping">
+<meta name="twitter:description" content="A practical review process for AI-assisted game code: intent, ownership, failure cases, tests and evidence from the packaged build.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/review-ai-generated-game-code/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A violet inspection grid over a game-development workstation and a small model">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A violet inspection grid over a game-development workstation and a small model"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/review-ai-generated-game-code/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-generated game code: a review checklist before shipping", "description": "A practical review process for AI-assisted game code: intent, ownership, failure cases, tests and evidence from the packaged build.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "inLanguage": "en", "wordCount": 1360, "mainEntityOfPage": "https://qorpo.world/review-ai-generated-game-code", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/review-ai-generated-game-code/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-generated game code: a review checklist before shipping", "item": "https://qorpo.world/review-ai-generated-game-code"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>AI-generated game code: a review checklist before shipping</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>20 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/review-ai-generated-game-code/hero-1280.webp" srcset="/assets/blog/review-ai-generated-game-code/hero-640.webp 640w, /assets/blog/review-ai-generated-game-code/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A violet inspection grid over a game-development workstation and a small model" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Review AI-generated game code against the intended player behaviour, the surrounding systems and the actual target build. Compilation is one check, not the finish line. Trace ownership and failure paths, test the changed behaviour, then play it in context. Keep a named person responsible for deciding whether the change is ready.</p>
+<p>A generated interaction can look convincing in a short clip. The door opens, the item appears and the quest advances. The difficult questions arrive after the clip: what if the player presses twice, loads an old save or leaves while the action is running? A review needs to follow those paths too.</p>
+<p>This is a practical editorial checklist, with an original model example below. It does not claim that every QORPO project already runs the same automated suite or that AI has delivered a measured percentage reduction in development cost. Those claims would need project-specific evidence.</p>
+<h2>Start with an observable promise</h2>
+<p>Write down what the player should be able to do before reading the patch. “Improve inventory handling” leaves too much room for interpretation. “Move one item from the backpack to storage, preserve its quantity and show the new location” gives a reviewer something concrete to check.</p>
+<p>Include the situation in which that promise applies. Is the action available during combat? Does it need an online service? Can it run while a menu is closing? A concise acceptance statement stops a technically tidy implementation from answering the wrong question. It also makes later regression testing easier to explain.</p>
+<p>Keep the scope small enough to understand. If the same change rebuilds storage, alters reward rules and replaces the UI framework, a passing demonstration tells you little about each part. Separate unrelated work where practical. A smaller patch is not automatically correct, but its consequences are easier to inspect.</p>
+<h2>Trace who owns the state</h2>
+<p>Identify the authoritative state before accepting a new variable or cache. In a networked game, a client&#x27;s attractive confirmation message is not proof that the server accepted the action. In a local system, a menu&#x27;s temporary model is not necessarily the save record. Review the path from input to authoritative update to visible feedback.</p>
+<p>Look for duplicate sources of truth. A generated helper may introduce a second item list because the first was difficult to access. That can make the demonstration work while leaving saving, trading or another screen connected to the original list. Ask why each stored value exists and when it is synchronised.</p>
+<p>The same question applies to lifetimes. If an asynchronous action finishes after the player leaves a menu, which object receives the result? If the relevant actor is destroyed, is a callback still holding a reference? These are questions for the project&#x27;s architecture, not reasons to add a complicated framework to every small change.</p>
+<h2>Read the failure paths before the happy path gets familiar</h2>
+<p>Choose a few failures that follow naturally from the feature. For a storage transfer, consider an empty source, an unavailable destination, a repeated input and an interrupted save. For matchmaking, the important cases will be different. The purpose is to challenge the actual promise, not collect a generic list of edge cases.</p>
+<p>Check what the player sees when an action fails. A silent button, an item that briefly vanishes or a success sound before confirmation can all undermine trust even if the underlying data recovers. Feedback should reflect the result the system can establish. A pending state should not masquerade as success.</p>
+<p>Also inspect cleanup. A failed interaction should not leave a movement lock, disabled button or open transaction indefinitely. Ask how the player returns to a usable state. Recovery is part of the feature, rather than a separate polish task that only matters near release.</p>
+<h2>Use tests that can disagree with the implementation</h2>
+<p>A test is weak if it merely restates the same mistaken assumption as the code. Start with the behaviour you wrote down, then choose an assertion that can expose a wrong result. Checking that a transfer function was called is different from checking that the total item quantity remains correct after the transfer.</p>
+<p><a href="https://docs.github.com/en/copilot/tutorials/review-ai-generated-code">GitHub&#x27;s guidance on reviewing AI-generated code</a> emphasises validation, context and human oversight. AI can help propose checks, but a reviewer still needs to decide whether those checks address the feature. Do not remove a failing test simply because the generated patch cannot satisfy it; first establish whether the test or the behaviour is wrong.</p>
+<p>For engine-level work, use the testing facilities that fit the project. <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/automation-test-framework-in-unreal-engine">Epic documents Unreal&#x27;s Automation Test Framework</a> for unit, feature and content stress testing. Mentioning that framework is not evidence that a particular game&#x27;s tests passed. A release note should name the checks actually run and their result.</p>
+<h2>Original example: transferring a crafting ingredient</h2>
+<p>Imagine a fictional change that lets a player move five pieces of timber from a bag to a storage chest. This is an illustrative scenario, not a report of an incident in AneeMate. The first demonstration shows the chest gaining five. A meaningful review also checks that the bag lost exactly five and that reopening both screens shows the same state.</p>
+<p>Next, repeat the input while the first action is pending. If the bag loses ten but storage gains five, the visible success was incomplete. Interrupt the action at the point where persistence matters. After loading, the result should follow the game&#x27;s documented rules rather than whichever screen happened to update first.</p>
+<p>The reviewer can turn those observations into a small set of tests. They should record the starting state, input sequence and expected totals. If the project&#x27;s rules allow partial transfers, that must be explicit too. The example does not prescribe a transaction architecture; it shows why a player-facing promise needs a complete path through the system.</p>
+<h2>Check the packaged build, not only the editor</h2>
+<p>Editor success may rely on test data, an asset that was never packaged or a service available only on a developer&#x27;s machine. Run a relevant check in the build intended for the target audience. Confirm which configuration and content version you used so another person can reproduce the result.</p>
+<p>Look at responsiveness as well as correctness. An interaction that eventually transfers the item can still feel broken if it freezes the frame or gives no feedback. Measure performance where the change suggests a risk, using the project&#x27;s supported tools and target hardware. Do not translate a smooth desktop capture into a claim about every device.</p>
+<p>A useful handoff can be brief: what changed, which checks passed, which hardware or configuration was used and what remains untested. “Ready” without those boundaries hides uncertainty. A clear limitation gives the next person a precise job rather than a vague concern.</p>
+<h2>How this relates to following QORPO</h2>
+<p>Our <a href="https://qorpo.world/live">Studio Live page</a> makes development activity visible. Commit activity is useful evidence of work, but it does not by itself prove a feature&#x27;s performance, correctness or player appeal. Pair it with a playable build, a guide that matches that build and a clear description of what has changed.</p>
+<p>For the broader production context, read <a href="https://qorpo.world/web3-gaming-ai-development-costs">how AI changes the development opportunity</a>. For the product and economy distinction, see <a href="https://qorpo.world/qorpo-ai-game-studio-token-utility">QORPO&#x27;s AI studio and optional token utility</a>. Better tooling should lead to better games people can inspect, rather than a larger stack of unverified claims.</p>
+<h2>Questions to settle before approval</h2>
+<h3>Does generated code need a different quality standard?
+The player-facing standard should remain the same. Generated work may need extra scrutiny where it misunderstands context or introduces unfamiliar dependencies, but human-written code also needs review and testing.</h3>
+<h3>Is a successful compile enough for a small change?
+It proves a limited property. Even a small change should receive a relevant behavioural check. The check can be proportionate to the risk rather than an exhaustive playthrough.</h3>
+<h3>Does this checklist prove a game is secure?
+No. It is a review structure for a scoped change, not a security certification or an audit of an entire game. Security-sensitive systems need the appropriate additional review.</h3>
+<p>Explore the actual products through <a href="https://qorpo.world/about">QORPO Studio</a>, then judge each feature through what its current build and documentation can demonstrate. Sources checked on 20 October 2026.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/prototype-vs-production-ready-game">Prototype or production-ready game? Read the evidence</a></p><p><a href="/mate-vs-qorpo-game-currencies">MATE and $QORPO: two balances with different jobs</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>

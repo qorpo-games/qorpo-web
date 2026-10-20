@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Prototype vs production-ready game: what proves progress</title>
+<meta name="description" content="Learn what a prototype, vertical slice and release build can demonstrate, and how to evaluate game progress beyond trailers and commit totals.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/prototype-vs-production-ready-game">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Prototype or production-ready game? Read the evidence">
+<meta property="og:description" content="Learn what a prototype, vertical slice and release build can demonstrate, and how to evaluate game progress beyond trailers and commit totals.">
+<meta property="og:url" content="https://qorpo.world/prototype-vs-production-ready-game">
+<meta property="og:image" content="https://qorpo.world/assets/blog/prototype-vs-production-ready-game/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Prototype or production-ready game? Read the evidence">
+<meta name="twitter:description" content="Learn what a prototype, vertical slice and release build can demonstrate, and how to evaluate game progress beyond trailers and commit totals.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/prototype-vs-production-ready-game/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A game island changing from grey blockout into a finished environment on a studio table">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A game island changing from grey blockout into a finished environment on a studio table"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/prototype-vs-production-ready-game/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Prototype or production-ready game? Read the evidence", "description": "Learn what a prototype, vertical slice and release build can demonstrate, and how to evaluate game progress beyond trailers and commit totals.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "inLanguage": "en", "wordCount": 1465, "mainEntityOfPage": "https://qorpo.world/prototype-vs-production-ready-game", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/prototype-vs-production-ready-game/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Prototype or production-ready game? Read the evidence", "item": "https://qorpo.world/prototype-vs-production-ready-game"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>Prototype or production-ready game? Read the evidence</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>20 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/prototype-vs-production-ready-game/hero-1280.webp" srcset="/assets/blog/prototype-vs-production-ready-game/hero-640.webp 640w, /assets/blog/prototype-vs-production-ready-game/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A game island changing from grey blockout into a finished environment on a studio table" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>A prototype tests an idea; a vertical slice demonstrates a small connected part of the intended experience; a production release must work for its actual audience and distribution conditions. These labels are useful only when the team explains their scope. A polished clip or busy repository cannot establish all three at once.</p>
+<p>The same short sequence can be presented in several ways. A developer may use it to ask whether movement is fun, show an art direction or invite players into an Early Access build. Each purpose is legitimate. Confusion begins when evidence collected for one purpose is used to claim a different milestone.</p>
+<p>This guide offers a practical framework for reading game-development progress. The examples are invented to make the distinctions concrete. They are not an audit of QORPO&#x27;s game repositories, a rating of another studio or a promise about future release dates.</p>
+<h2>Ask what uncertainty the build is meant to answer</h2>
+<p>A useful prototype has a question. Can a creature transformation create an interesting choice? Does a short gathering loop feel satisfying? Can two systems interact without making the controls confusing? Rough geometry and temporary sound can be appropriate if they let the team examine that question quickly.</p>
+<p>A prototype&#x27;s limits should be visible. The level might reset every session, only one creature may be available or the input may work on one development machine. Those limits do not make the experiment worthless. They do mean the experiment cannot establish persistence, content breadth or performance across the target device range.</p>
+<p>When a team shows a prototype, look for an explanation of what it learned and what remains unresolved. The number of objects placed in a scene is less informative than the result of the test. “We can now examine this interaction” is a useful update without becoming a claim that the whole game is ready.</p>
+<h2>Read a vertical slice as a connected sample</h2>
+<p>A vertical slice is useful when several disciplines meet: interaction, art, audio, UI and the systems that support the chosen sequence. It can reveal whether the intended quality is achievable in a representative part of the game. It is not necessarily a miniature version of every feature on the roadmap.</p>
+<p><a href="https://learn.unity.com/course/design-and-publish-your-original-game-unity-usc-games-unlocked/unit/milestones">Unity&#x27;s milestone learning material</a> uses staged development and a vertical slice to organise progress towards a finished project. The practical lesson is to define the milestone before declaring it reached. One polished environment cannot answer every question about a long adventure or a persistent economy.</p>
+<p>Ask how representative the sample is. Does the player use the same inventory, controls and save path expected in the wider game? Or is the sequence heavily scripted for demonstration? A scripted presentation can communicate an idea, but viewers should not have to infer whether they are seeing interactive play.</p>
+<h2>A public build adds a different kind of evidence</h2>
+<p>A build that people can install lets them examine more than an edited capture. They can repeat an interaction, try a different route and notice how the game responds when they do something unexpected. That is valuable even while the product is incomplete.</p>
+<p>Check which build is available and what access requires. A public store page, a private testing invitation and an announcement that applications are open are different things. Registration for a testing group does not automatically establish that every applicant has a playable copy. Describe access in terms that match the actual process.</p>
+<p>Early Access should also be read with its conditions. A game can be available to players while content, balancing and reliability are still changing. An incomplete feature is not necessarily misleading if its status is clear. A planned feature should not be presented as something a new player can already use.</p>
+<h2>Original example: a creature collection loop</h2>
+<p>Consider an invented sequence in which a player finds a creature, catches it and returns to a camp. A prototype might test the throw and capture feedback using one temporary creature. It can answer whether the timing and response are worth developing, without proving the rest of the collection system.</p>
+<p>A connected slice could add a creature card, a party slot, a clear return route and an appropriate visual and audio treatment. The important advance is the coherent experience. If the sequence only works after a developer prepares hidden state, that limitation still belongs in the explanation.</p>
+<p>A release-oriented check would go further. Can a new player discover the controls? Does the creature remain correctly registered after reopening the game? Does the relevant content ship in the package? Can the player recover from an interrupted session according to the documented rules? These are different questions from whether the first capture looks exciting.</p>
+<h2>Inspect the unglamorous transitions</h2>
+<p>Menus, loading, pausing and returning from a failed attempt often reveal how connected a build is. An excellent combat moment does not make a broken save screen harmless. For a short evaluation, choose one complete journey rather than trying to touch every advertised feature.</p>
+<p>For example, start from a fresh session, complete a small objective, close the relevant menus and return later. Note where the game explains its state and where you must guess. This is an evaluation approach, not a claim that every game needs the same sequence or supports the same kind of saving.</p>
+<p>Be precise about failure too. “It crashed” is less useful than the version, last action and result. A reliable report can help the team reproduce a problem. It does not need dramatic language or an assumption about whether AI, the engine or another system caused it.</p>
+<h2>Separate activity, output and player outcomes</h2>
+<p>Repository activity shows that changes are being recorded. A downloadable build shows that a particular package exists. Player completion data can show whether people get through a task. These are related signals, but none is a substitute for the others.</p>
+<p>The <a href="https://qorpo.world/live">QORPO Studio Live page</a> publishes development activity. Read its figures within their stated scope. A commit may contain a fix, content, documentation or a refactor. More commits do not automatically mean a more enjoyable game, just as fewer commits do not establish that no valuable work happened.</p>
+<p>For AI-assisted development, the distinction matters especially. Faster generation can increase output without resolving the hard design question. Our <a href="https://qorpo.world/review-ai-generated-game-code">AI code review checklist</a> focuses on verifying a scoped change. This article focuses on interpreting the larger milestone that a team says those changes support.</p>
+<h2>What evidence is proportionate to the claim?</h2>
+<p>A claim about a new visual direction can be supported by clearly labelled concept art. A claim about a new playable mechanic needs a demonstration or accessible build that actually contains it. A claim about performance needs the hardware, configuration and measurement conditions. Choose evidence that answers the specific statement.</p>
+<p>The same discipline applies to economic features. A website describing a planned market is not evidence of completed player trades. A contract address does not by itself show that a particular purchase flow is ready for everyone. For QORPO&#x27;s product context, <a href="https://qorpo.world/qorpo-ai-game-studio-token-utility">the studio and optional token overview</a> keeps the game experience and token layer distinct.</p>
+<p>Do not require every update to prove the entire business. A small improvement can stand on its own. The important point is to keep the description proportional, so players know whether they are looking at an experiment, a sample, a current feature or an announced plan.</p>
+<h2>A practical five-question reading habit</h2>
+<p>When an update appears, identify the product and version first. Then ask what changed, what the evidence actually shows, what you can try yourself and what remains outside the claim. This short habit works for a trailer, a devlog or a release note without turning every announcement into a forensic investigation.</p>
+<p>If information is missing, keep the conclusion limited. You can appreciate a promising idea while waiting for a playable build. You can enjoy a current game without assuming every roadmap item will arrive on a particular date. Neither response needs a prediction about a token price or a studio&#x27;s future commercial success.</p>
+<h2>Frequently asked questions</h2>
+<h3>Is a vertical slice the same as a demo?
+The purposes can overlap, but the label alone does not tell you the scope. Read what the team says the build contains and what it is intended to demonstrate.</h3>
+<h3>Does a public build mean development is finished?
+No. A public build may be a test, a demo or an evolving Early Access product. Its availability and its completeness are separate questions.</h3>
+<h3>Can concept renders be useful?
+Yes, when they communicate direction and are labelled as concepts. They should not be presented as captured gameplay or proof that an interaction is implemented.</h3>
+<p>Follow <a href="https://qorpo.world/live">QORPO&#x27;s current development</a> and explore its games through <a href="https://qorpo.world/about">the studio overview</a>. Sources checked on 20 October 2026. No private playtest results or analytics are claimed here.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/review-ai-generated-game-code">AI-generated game code: a review checklist before shipping</a></p><p><a href="/mate-vs-qorpo-game-currencies">MATE and $QORPO: two balances with different jobs</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
