@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -40,7 +41,25 @@ def get(path):
         try:
             with urllib.request.urlopen(req, timeout=45) as response:
                 return json.load(response)
-        except Exception:
+        except urllib.error.HTTPError as exc:
+            # Keep credentials and response headers private. Report only the API message.
+            try:
+                message = json.loads(exc.read().decode()).get('message', exc.reason)
+            except (ValueError, UnicodeError):
+                message = exc.reason
+            rate_limited = exc.code == 429 or (
+                exc.code == 403 and ('rate limit' in str(message).lower()
+                                    or exc.headers.get('Retry-After')))
+            transient = exc.code >= 500 or rate_limited
+            if not transient or attempt == 2:
+                raise RuntimeError(f'GitHub HTTP {exc.code} for {path}: {message}') from None
+            delay = max(60 if rate_limited else 2 ** attempt,
+                        int(exc.headers.get('Retry-After', '0')))
+            if delay > 120:
+                raise RuntimeError(f'GitHub rate limit for {path}; retry later. Existing feed remains untouched.') from None
+            print(f'Transient GitHub HTTP {exc.code}; retrying after {delay}s', flush=True)
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError):
             if attempt == 2:
                 raise
             time.sleep(2 ** attempt)
@@ -77,7 +96,7 @@ def main():
         repo, branch = job
         query = urllib.parse.urlencode({'sha': branch, 'since': since})
         return repo, pages(f'repos/{repo}/commits?{query}')
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         for repo, batch in pool.map(branch_commits, jobs):
             for commit in batch:
                 commits[(repo, commit['sha'])] = commit
@@ -101,7 +120,7 @@ def main():
             'u': identities.get(identity(commit), identity(commit)[:16]),
             'm': commit['commit']['message'].splitlines()[0],
         }
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         added = list(pool.map(enrich, unseen))
     for (repo, sha), commit in commits.items():
         entry = previous(repo, sha)
@@ -123,3 +142,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
