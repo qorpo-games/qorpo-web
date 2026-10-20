@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GTA VI launch trailer: lessons for game developers</title>
+<meta name="description" content="Rockstar published its GTA VI launch trailer on 15 October. Here is what its public presentation can teach game teams about scope and clear promises.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/gta-vi-launch-trailer-open-world-development">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="GTA VI launch trailer: what game teams can learn about a clear promise">
+<meta property="og:description" content="Rockstar published its GTA VI launch trailer on 15 October. Here is what its public presentation can teach game teams about scope and clear promises.">
+<meta property="og:url" content="https://qorpo.world/gta-vi-launch-trailer-open-world-development">
+<meta property="og:image" content="https://qorpo.world/assets/blog/gta-vi-launch-trailer-open-world-development/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="GTA VI launch trailer: what game teams can learn about a clear promise">
+<meta name="twitter:description" content="Rockstar published its GTA VI launch trailer on 15 October. Here is what its public presentation can teach game teams about scope and clear promises.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/gta-vi-launch-trailer-open-world-development/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="An original coastal-city maquette on a violet-lit game studio desk">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="An original coastal-city maquette on a violet-lit game studio desk"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/gta-vi-launch-trailer-open-world-development/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "GTA VI launch trailer: what game teams can learn about a clear promise", "description": "Rockstar published its GTA VI launch trailer on 15 October. Here is what its public presentation can teach game teams about scope and clear promises.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "inLanguage": "en", "wordCount": 1309, "mainEntityOfPage": "https://qorpo.world/gta-vi-launch-trailer-open-world-development", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/gta-vi-launch-trailer-open-world-development/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "GTA VI launch trailer: what game teams can learn about a clear promise", "item": "https://qorpo.world/gta-vi-launch-trailer-open-world-development"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Industry</div><h1>GTA VI launch trailer: what game teams can learn about a clear promise</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>20 October 2026 · 6 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/gta-vi-launch-trailer-open-world-development/hero-1280.webp" srcset="/assets/blog/gta-vi-launch-trailer-open-world-development/hero-640.webp 640w, /assets/blog/gta-vi-launch-trailer-open-world-development/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="An original coastal-city maquette on a violet-lit game studio desk" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Rockstar&#x27;s GTA VI launch trailer is a useful prompt for game developers to ask a difficult question: what can a player understand about your game before touching the controls? The official release dated 15 October 2026 gives teams a current example to study. Our interest is the relationship between a clear public promise and the playable work needed to support it.</p>
+<p>This is QORPO&#x27;s editorial interpretation of public material. It is not a hands-on review of GTA VI, a report from inside Rockstar or a claim that Rockstar uses the same tools as QORPO. The concept image above is an original illustration, not GTA VI footage or an official asset.</p>
+<h2>What is actually confirmed by the source?</h2>
+<p>Rockstar&#x27;s <a href="https://www.rockstargames.com/VI">official GTA VI site</a> links the launch trailer and identifies Jason, Lucia and Leonida in its public presentation. Its featured news dates the trailer announcement to 15 October. Those facts are enough to discuss how a game presents characters and place without importing a rumour list.</p>
+<p>Use the <a href="https://www.rockstargames.com/VI/launch-trailer">official trailer page</a> and <a href="https://www.rockstargames.com/newswire/article/517572321a549a/watch-the-grand-theft-auto-vi-launch-trailer">Newswire announcement</a> for the material itself. Release details can change, so readers looking to buy should check Rockstar&#x27;s current platform and availability information. We are not treating an older announcement as an evergreen release calendar.</p>
+<p>The remainder of this article is a development lens: questions a studio can apply to its own project. It does not infer NPC technology, a map size, production costs or a generative-AI pipeline from a cinematic presentation.</p>
+<h2>A world needs an identity a player can describe</h2>
+<p>A team can build many technically impressive locations and still struggle to explain why someone should care about moving through them. The useful question is not just how much environment exists. It is whether a player can describe the kind of place they are entering and the kind of experience it offers.</p>
+<p>For an independent studio, that can be tested early. Show a small, representative area, then ask a viewer what they expect to do there. If the answer is unrelated to the intended game, adding more buildings may only increase the confusion. The task is to make the relationship between setting and action readable.</p>
+<p>This is an original evaluation approach, not a claim about Rockstar&#x27;s internal research. A compact creature island and a large urban crime world have different needs. The transferable idea is coherence: characters, environment, interface and activity should suggest the same game rather than competing versions of it.</p>
+<h2>Characters make scale easier to understand</h2>
+<p>A named person or a recognisable creature gives a player something to follow within a large environment. Without an anchor, a world can become a sequence of impressive views. An anchor turns the next place into a question: what does this character want, what is in the way, and what might happen there?</p>
+<p>That matters at much smaller budgets too. A team does not need to imitate a cinematic production to establish a reason to move. A clear objective, a readable response and a character whose role is understood can carry an early scene. The amount of work should fit the game&#x27;s own identity.</p>
+<p>An illustrative example is a creature returning to a shared camp with supplies. The landscape explains the journey, the camp explains the destination and the supplies explain the action. This is a hypothetical design example. It is not a GTA VI mechanic or a claim that AneeMate&#x27;s development scene is already available in a released build.</p>
+<h2>A trailer creates promises that a build has to answer</h2>
+<p>Promotional material naturally selects its strongest moments. A playable build has to handle the ordinary minutes around them: movement, waiting, navigation, repeated interactions and recovery when something goes wrong. That difference should shape how a studio evaluates its own marketing.</p>
+<p>Before publishing a feature claim, write down what a player will reasonably expect from it. “Build a home” suggests more than seeing a construction animation. It raises questions about placement, cost, persistence and returning later. “Play with friends” raises questions about joining, shared state, leaving and reconnecting.</p>
+<p>These questions do not make a trailer dishonest. They identify the work that connects a compelling presentation to a reliable product. Our <a href="https://qorpo.world/prototype-vs-production-ready-game">prototype and production evidence guide</a> offers a framework for examining that connection in smaller projects without pretending every milestone proves release readiness.</p>
+<h2>More content is not the same as more useful variety</h2>
+<p>A studio can count locations, missions or items, but those totals alone do not explain how the experience changes. Useful variety gives a player a new decision, perspective or skill to apply. Repeating the same task with different scenery may increase the count without changing the play.</p>
+<p>An original review exercise is to choose three moments from a presentation and identify the player&#x27;s decision in each. If all three reduce to the same action under the same conditions, investigate whether the game needs a new relationship between systems rather than another asset. The exercise should guide questions, not become an invented numerical quality score.</p>
+<p>It also helps control scope. A team can ask which additions reinforce the central experience and which only make the feature list longer. Cutting an unrelated system can protect a stronger promise. That is a production judgment with tradeoffs, not a universal rule that smaller games are automatically better.</p>
+<h2>Where does AI fit into this discussion?</h2>
+<p>AI-assisted tools can help a team explore alternatives, inspect code or prepare content workflows. They do not remove the need to decide what the player should experience. A fast way to produce more material can amplify uncertainty if the product direction is unclear.</p>
+<p>Nothing in the sources cited here establishes Rockstar&#x27;s internal AI workflow. We do not infer it from visual quality, production scale or online speculation. Readers interested in the broader subject can use our <a href="https://qorpo.world/web3-gaming-ai-development-costs">AI-assisted development analysis</a> and <a href="https://qorpo.world/review-ai-generated-game-code">AI-generated code review checklist</a>, which distinguish possible workflows from measured project results.</p>
+<p>For a studio evaluating a tool, the practical test is specific. Does it help complete a defined task while preserving the required quality and rights? Can another person review the result? Does it reduce total rework rather than simply the time to the first draft? Those questions are more useful than attaching an AI label to every impressive game announcement.</p>
+<h2>A practical way to review your next reveal</h2>
+<p>Choose one central player promise and one representative playable sequence. Compare the language in the reveal with what that sequence actually supports. Note where the promise is demonstrated, where it depends on a plan and where wording could imply more than the current build establishes.</p>
+<p>Then ask someone unfamiliar with the project to explain what they think they will do. Record misunderstandings before rewriting the copy. This is a proposed method, not a report that QORPO has completed that study or achieved a conversion uplift. Its value comes from producing an actionable discrepancy.</p>
+<p>Finally, link the reveal to a useful next step. That may be a store page, a playable test, a development note or a guide. The next step should match the stage of the product. A future feature should not lead to a purchase message that makes it sound available today.</p>
+<h2>Questions readers are asking</h2>
+<h3>Is this a GTA VI review?</h3>
+<p>No. It is a dated news-and-analysis article based on Rockstar&#x27;s public announcement, followed by QORPO&#x27;s original production questions. We have not played an unreleased version for this article.</p>
+<h3>Does this suggest a Rockstar or GTA partnership with QORPO?</h3>
+<p>No. QORPO is commenting on public industry material. There is no partnership, endorsement or shared technology claim in this article.</p>
+<h3>What should a smaller team take away?</h3>
+<p>Make a recognisable promise, build the ordinary interactions that support it and distinguish a strong presentation from release evidence. Follow <a href="https://qorpo.world/live">QORPO Studio Live</a> for our recorded development activity, then use product-specific releases and guides to understand what is actually available.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-october-stories-movement-parent-support">TAMITOS in October: stories, movement and practical parent support</a></p><p><a href="/aneemate-october-development-camp-coop">AneeMate development update: camps, co-op and clearer player journeys</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>

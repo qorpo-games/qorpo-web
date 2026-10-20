@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AneeMate development update: camps and co-op</title>
+<meta name="description" content="A code-backed October look at shared camps, lobby readiness and solo-save boundaries, with development work distinguished from released features.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/aneemate-october-development-camp-coop">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AneeMate development update: camps, co-op and clearer player journeys">
+<meta property="og:description" content="A code-backed October look at shared camps, lobby readiness and solo-save boundaries, with development work distinguished from released features.">
+<meta property="og:url" content="https://qorpo.world/aneemate-october-development-camp-coop">
+<meta property="og:image" content="https://qorpo.world/assets/blog/aneemate-october-development-camp-coop/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AneeMate development update: camps, co-op and clearer player journeys">
+<meta name="twitter:description" content="A code-backed October look at shared camps, lobby readiness and solo-save boundaries, with development work distinguished from released features.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/aneemate-october-development-camp-coop/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Two AneeMate creatures preparing a miniature camp under violet studio lighting">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Two AneeMate creatures preparing a miniature camp under violet studio lighting"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/aneemate-october-development-camp-coop/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AneeMate development update: camps, co-op and clearer player journeys", "description": "A code-backed October look at shared camps, lobby readiness and solo-save boundaries, with development work distinguished from released features.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "inLanguage": "en", "wordCount": 1246, "mainEntityOfPage": "https://qorpo.world/aneemate-october-development-camp-coop", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/aneemate-october-development-camp-coop/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AneeMate development update: camps, co-op and clearer player journeys", "item": "https://qorpo.world/aneemate-october-development-camp-coop"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>AneeMate development update: camps, co-op and clearer player journeys</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>20 October 2026 · 6 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/aneemate-october-development-camp-coop/hero-1280.webp" srcset="/assets/blog/aneemate-october-development-camp-coop/hero-640.webp 640w, /assets/blog/aneemate-october-development-camp-coop/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Two AneeMate creatures preparing a miniature camp under violet studio lighting" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>AneeMate&#x27;s October development work connects camp building, creature behaviour and a cooperative survival structure. The source snapshot reviewed for this update includes shared supplies, camp guards, a friend-joining flow and boundaries around solo saves. These are concrete implementation changes, not confirmation that every feature is available in the public build you have installed.</p>
+<p>The interesting change is how the parts relate. Building gives a team somewhere to organise. Creatures can contribute to that place. A lobby sets up the group before the run begins. Progression needs to distinguish what belongs to a temporary session from what belongs to a player&#x27;s longer adventure.</p>
+<p>This update is based on a source snapshot dated 20 October 2026, including the shared-camp, lobby, travel and reward components. We have inspected the implementation, but are not reporting a packaged multiplayer playtest or announcing a release date. Exact tuning and availability can change as testing continues.</p>
+<h2>Why a camp is more than scenery</h2>
+<p>A camp becomes a game system when it changes decisions. Where do supplies go? What should someone bring back? What can the group afford to build? A beautiful settlement can feel decorative if none of those questions matter. A shared camp is useful when it gives a team a reason to coordinate without making every action a meeting.</p>
+<p>The reviewed code separates food from building resources. It tracks a shared camp, its level and the creatures assigned to guard it. That creates distinct reasons to return: supplying the camp, improving its capacity or checking how its defenders are doing. The specific balance still needs validation in play.</p>
+<p>These are not claims about a finished player economy. They are implementation relationships visible in the current work. Whether collecting, returning and spending feel satisfying depends on pacing, travel time, interface clarity and the pressure of the run. A source file cannot establish those qualities by itself.</p>
+<h2>Creatures have a place in the group&#x27;s routine</h2>
+<p>The camp component includes guard behaviour, food consumption and recovery. A caught creature can be considered for an available guard slot rather than always following the same destination. That makes catching relevant to the team&#x27;s immediate situation as well as to a player&#x27;s collection.</p>
+<p>The player-facing challenge is to make that choice understandable. Someone who catches a creature should be able to tell where it went and why. The code includes camp notes for events such as a guard joining or the camp being full. Feedback like this matters because a correct state change can still feel like a lost creature when its destination is unclear.</p>
+<p>Our <a href="https://aneemate.com/aneemate-shared-camp-building-development">AneeMate shared-camp development article</a> explains those relationships in more detail. Its purpose is to describe the work and the decisions it creates, rather than publish a final strategy for a mode whose tuning is still in development.</p>
+<h2>Joining friends starts before combat</h2>
+<p>Cooperative play can fail before anyone reaches an enemy. A player may not know which session to join, whether the group is ready or why the game returned them to a menu. Those are product problems as much as network problems. A clear start is part of the experience.</p>
+<p>The source snapshot contains a host and join flow, local-network session discovery and a lobby portal readiness rule. This is evidence of specific networking and interface work. It is not evidence of global matchmaking, cross-play, a console release or seamless joining from every network. Those would require separate implementation and release proof.</p>
+<p>There is also a route for a menu notice after a session ends. Explaining a lost connection or a missed departure is preferable to leaving a player to infer what happened. The quality of those transitions will need to be checked in the same build and network conditions players actually use.</p>
+<h2>Solo progress and a cooperative run are different kinds of state</h2>
+<p>A player&#x27;s established adventure can carry a great deal of meaning. Their creatures, home and progress should not silently become temporary session state because they tried another mode. That makes the boundary between solo and co-op one of the most important parts of this development work.</p>
+<p>The reviewed travel and reward code separates the run from the solo profile. A dedicated reward record handles pending MATE, while returning to a solo world reloads the profile path. The implementation also distinguishes repeated run summaries and test runs. These are design and engineering intentions, not a claim that every possible failure has been eliminated.</p>
+<p>For a reader, the useful conclusion is modest: this work treats a co-op session as something with its own lifecycle. It does not imply that every captured creature, building or inventory item should travel freely between modes. The <a href="https://aneemate.com/aneemate-solo-coop-development-differences">solo and co-op explanation</a> discusses that distinction without turning code into an availability promise.</p>
+<h2>Survival needs readable changes of pace</h2>
+<p>The run-design component separates an opening calm, waves, breaks and warnings. These phases give different systems room to matter. Preparation is difficult to appreciate if pressure starts before players understand where they are. Building and resupplying need moments in which those choices can be read.</p>
+<p>An original model example illustrates the design question. A group returns with resources just before a warning. One player deposits materials, another checks food and a third watches the approach. The interest comes from the relationship between tasks, not simply from increasing enemy numbers. This is an invented example, not a description of a recorded playtest.</p>
+<p>Actual timings, difficulty and rewards should be judged in the build under test. This update does not publish tuning numbers as permanent promises. It also avoids story-objective details that are unnecessary to explain the structure of the mode.</p>
+<h2>What code can tell us, and what the next build must show</h2>
+<p>Code can establish that an implementation exists in a particular snapshot. It can show where state lives, how an input reaches a system and which conditions govern a transition. It cannot tell us whether a group understood the first five minutes or whether the camp felt worth returning to.</p>
+<p>The next meaningful evidence is behavioural: can participants join, recognise the shared objective, understand deposits and recover from a session ending? Does the solo profile remain consistent across the intended transitions? These are validation questions. We are not presenting them as completed tests.</p>
+<p>This distinction is central to how QORPO reports development. The <a href="https://qorpo.world/live">studio live feed</a> shows recorded changes. Our guide to <a href="https://qorpo.world/prototype-vs-production-ready-game">production-ready evidence</a> explains why a commit, trailer and playable release should be assessed differently. The <a href="https://qorpo.world/review-ai-generated-game-code">code-review checklist</a> covers the smaller implementation-level questions.</p>
+<h2>Following AneeMate without guessing the roadmap</h2>
+<p>For currently documented mechanics, begin with the <a href="https://aneemate.com/gameplay">official AneeMate player guide</a>. For this cooperative work, read the dated <a href="https://aneemate.com/aneemate-coop-survival-development">survival development overview</a> alongside the more focused camp and mode articles. Their development labels are intentional.</p>
+<h3>Is this an announcement that co-op is live on Epic?</h3>
+<p>No. This is a code-backed development update. Current public build notes and the installed version must establish availability. A branch containing a mode is not a release announcement.</p>
+<h3>Does the work replace the solo adventure?</h3>
+<p>The reviewed implementation explicitly separates co-op run state and solo profile handling. That supports describing distinct experiences, not promising a final roadmap or every possible transfer between them.</p>
+<h3>Why report this before release?</h3>
+<p>Specific development notes let players understand what the team is trying to improve and ask better questions. They are useful when their evidence and limitations are clear. The goal is an understandable view of progress, rather than a longer list of unqualified feature promises.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-october-stories-movement-parent-support">TAMITOS in October: stories, movement and practical parent support</a></p><p><a href="/gta-vi-launch-trailer-open-world-development">GTA VI launch trailer: what game teams can learn about a clear promise</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
