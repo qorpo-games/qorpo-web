@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TAMITOS local support and global stories | QORPO</title>
+<meta name="description" content="How TAMITOS keeps Slovak parent support relevant while building an international story world, with practical lessons for product localization.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/tamitos-local-support-global-stories">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="How TAMITOS connects local parent support with a global story world">
+<meta property="og:description" content="How TAMITOS keeps Slovak parent support relevant while building an international story world, with practical lessons for product localization.">
+<meta property="og:url" content="https://qorpo.world/tamitos-local-support-global-stories">
+<meta property="og:image" content="https://qorpo.world/assets/blog/tamitos-local-support-global-stories/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="How TAMITOS connects local parent support with a global story world">
+<meta name="twitter:description" content="How TAMITOS keeps Slovak parent support relevant while building an international story world, with practical lessons for product localization.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/tamitos-local-support-global-stories/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="TAMITOS characters beside an open book and two imaginative doorways">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="TAMITOS characters beside an open book and two imaginative doorways"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/tamitos-local-support-global-stories/social.jpg"><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "How TAMITOS connects local parent support with a global story world", "description": "How TAMITOS keeps Slovak parent support relevant while building an international story world, with practical lessons for product localization.", "datePublished": "2026-10-21", "dateModified": "2026-10-21", "inLanguage": "en", "wordCount": 1432, "mainEntityOfPage": "https://qorpo.world/tamitos-local-support-global-stories", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/tamitos-local-support-global-stories/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "How TAMITOS connects local parent support with a global story world", "item": "https://qorpo.world/tamitos-local-support-global-stories"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>How TAMITOS connects local parent support with a global story world</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>21 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/tamitos-local-support-global-stories/hero-1280.webp" srcset="/assets/blog/tamitos-local-support-global-stories/hero-640.webp 640w, /assets/blog/tamitos-local-support-global-stories/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="TAMITOS characters beside an open book and two imaginative doorways" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>A global brand does not need to offer the same service in every country. TAMITOS demonstrates a useful distinction: stories can travel internationally, while practical parent support needs local language, institutions and context. Its Slovak parent hub and English editorial blog serve different needs under one identity. That separation is a product decision, not an incomplete translation.</p>
+<p>This article examines public TAMITOS pages and their implementation as checked on 21 October 2026. The observations concern the website. They do not establish the clinical quality of a service, app usage, book sales or the release status of an animated series. The wider studio context is available in <a href="/what-is-qorpo">what QORPO is</a>, while the <a href="/tamitos-october-stories-movement-parent-support">October TAMITOS update</a> covers the broader product ecosystem.</p>
+<h2>A shared mission does not mean an identical user journey</h2>
+<p>The family story behind TAMITOS begins with Nina and Rastislav Bakala and their daughters, Zoe and Tamia. The founders describe how their experience inspired books, characters and a wider ambition to help people understand one another. Their <a href="https://tamitos.com/en/blog/tamitos-how-love-for-our-daughter-became-a-project-for-the-world">full English account</a> is the place to read that story in their own voice.</p>
+<p>An international reader discovering those characters may want the books, the creative direction or information about animation in development. A Slovak parent looking for practical help may need a nearby centre, an explanation of a local process or a discussion with other parents. Those are different tasks. Sending both readers through an identical navigation tree would confuse a consistent visual identity with a consistent purpose.</p>
+<p>The useful question is therefore not whether every page has an English twin. It is whether a person can understand what a page offers, who it serves and what to do next. A locally relevant page can remain local without making the wider brand less international.</p>
+<h2>What is visible on the current site</h2>
+<p>The <a href="https://tamitos.com/sk/spolu">Slovak TAMITOS hub</a> brings together articles, starting points for parents, a directory, discussions and supporting resources. Its secondary navigation makes those areas explicit. The <a href="https://tamitos.com/en/blog">English blog</a> remains an editorial destination rather than presenting Slovak local support as an international service.</p>
+<p>The implementation also separates the Slovak hub and resource routes from English editorial output. That matters because localization is partly a routing problem. A language switch should lead to a relevant destination, rather than silently preserve a URL whose content and audience no longer match. Some pages have a genuine translated counterpart; others need a clear section-level destination.</p>
+<p>These are observable website choices, not evidence that every support need has been solved. A directory still needs maintenance. A discussion area needs moderation. A resource can become outdated even when its layout is attractive. The architecture creates a place for that work; it does not replace the work.</p>
+<h2>Translate the promise before translating the sentence</h2>
+<p>Consider a model example, not a TAMITOS analytics finding. A parent follows a search result asking where to begin after an autism diagnosis. The page promises practical first steps. If the next button leads to a general entertainment page, the translation may be grammatically correct while the journey fails.</p>
+<p>A better sequence preserves the task: explain the first step, state the geographic scope and link to the relevant local resource. If an English reader arrives, explain which material is Slovakia-specific. Do not substitute a fictional international directory to make the language switch feel complete.</p>
+<p>The same rule applies to product calls to action. A book link should identify the edition and destination. A developing series should not acquire an implied release date simply because a translated button sounds more confident. Editorial consistency requires preserving uncertainty as carefully as preserving names.</p>
+<h2>Keep the navigation predictable across different content</h2>
+<p>People should be able to learn the interface once. A shared primary header can establish the brand and products. A section header can then explain whether the reader is inside articles, resources or a community. The two layers have different jobs: orientation across the world and orientation within the current task.</p>
+<p>For a long article, section navigation should not compete with the text. For a directory, location and contact context become more important. For a community, creating a question and understanding who is answering matter more than a promotional hero. Predictability comes from preserving these relationships, rather than repeating the same large layout everywhere.</p>
+<p>A practical review is to open a page halfway down and ask three questions. Can I tell where I am? Can I reach the neighbouring section? Can I return to the main destination without guessing which logo or label to use? These are review questions, not a claim that a specific accessibility certification has been achieved.</p>
+<h2>Family experience and educational information need clear boundaries</h2>
+<p>TAMITOS has an authentic family origin. That makes the founders&#x27; perspective valuable, but personal experience and general health guidance are not interchangeable. An honest family story can explain what happened to one household without presenting that journey as a treatment recommendation for another.</p>
+<p>For a product team, the implication is concrete. Preserve first-person wording where it is the founders&#x27; account. Attribute wider factual claims to appropriate sources. Show dates when information can change. Do not invent professional review or let an illustration imply that a tool has clinical approval.</p>
+<p>Community replies need the same discipline. A welcoming brand voice should not make an automated response look like a named professional&#x27;s judgement. Readers need to understand whether they are seeing a personal experience, a resource summary or an official service statement. Good interface language makes that distinction easier, not more intimidating.</p>
+<h2>Measure successful tasks, not just more translated pages</h2>
+<p>A useful localization experiment starts with a real task. For a support page, that might be finding an appropriate resource and understanding its scope. For an international book page, it might be reaching the correct edition. For an editorial article, it might be moving to a related explanation without losing the current language.</p>
+<p>Define the denominator before celebrating an improvement. If a team measures completion among people who opened a directory, that is different from completion among everyone who visited the homepage. A higher click count can reflect better discovery, confusion or simply more visitors. It cannot explain itself.</p>
+<p>No conversion uplift is claimed here. A sensible future test would compare a stable period before and after a navigation change, record device and language, and inspect whether the intended next action became easier. Keep a record of other changes made during that period so a new campaign is not mistaken for an interface effect.</p>
+<h2>A practical checklist for a multilingual product universe</h2>
+<p>Begin by listing destinations by purpose: entertainment, commerce, community and practical support. For each, name the audience and geographic scope. Then decide whether it needs translation, local adaptation or an explicit boundary. Only after that should the team translate headings and buttons.</p>
+<p>Next, test the links around each destination. Check the language switch, canonical URL, visible navigation, product edition and return route. A polished paragraph cannot repair a link that sends a reader to the wrong country or implies access to an unavailable service.</p>
+<p>Finally, assign maintenance. Someone needs to own resource updates, another person may own editorial content, and community moderation has its own responsibilities. Shared design can make the experience feel coherent while responsibility remains specific. That is a more useful foundation for growth than publishing an impressive number of pages with no clear owner.</p>
+<h2>What other studio products can learn</h2>
+<p>QORPO&#x27;s games and family products have different audiences, but the underlying lesson travels. A game guide, a creator application and a product announcement should not share a promise merely because they share a domain. Readers need language that matches their task and the product&#x27;s actual state.</p>
+<p>For another view of that distinction, read the <a href="/aneemate-october-development-camp-coop">AneeMate development update</a>. For the evidence needed to discuss product readiness, see <a href="/prototype-vs-production-ready-game">prototype versus production-ready game</a>. A shared studio identity works best when it makes these differences easier to understand.</p>
+<h2>Questions readers often ask</h2>
+<h3>Does the English TAMITOS blog replace the Slovak parent hub?</h3>
+<p>They serve different purposes. The English blog provides editorial reading, while the Slovak hub is organised around local parent support and community. Start with the destination that matches the task rather than treating one as an incomplete version of the other.</p>
+<h3>Does an international story world mean every product is released globally?</h3>
+<p>No. Check the specific product page, edition, platform and release statement. International ambition does not establish availability, a distribution agreement or a launch date.</p>
+<h3>Where should I read the founders&#x27; full account?</h3>
+<p>Read <a href="https://tamitos.com/en/blog/tamitos-how-love-for-our-daughter-became-a-project-for-the-world">the TAMITOS family story</a>. It includes their motivation, photographs and distinctions between current products and future plans.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/ai-game-localization-quality-checks">AI game localization: what to check before a translation ships</a></p><p><a href="/unreal-async-loading-player-experience">Unreal asset loading: plan for the moment the player needs it</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

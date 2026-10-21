@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Unreal asset loading and player experience | QORPO</title>
+<meta name="description" content="Plan Unreal asset loading around player actions, reference types, runtime readiness and ownership, then measure the result in a packaged build.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/unreal-async-loading-player-experience">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Unreal asset loading: plan for the moment the player needs it">
+<meta property="og:description" content="Plan Unreal asset loading around player actions, reference types, runtime readiness and ownership, then measure the result in a packaged build.">
+<meta property="og:url" content="https://qorpo.world/unreal-async-loading-player-experience">
+<meta property="og:image" content="https://qorpo.world/assets/blog/unreal-async-loading-player-experience/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Unreal asset loading: plan for the moment the player needs it">
+<meta name="twitter:description" content="Plan Unreal asset loading around player actions, reference types, runtime readiness and ownership, then measure the result in a packaged build.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/unreal-async-loading-player-experience/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Miniature landscape modules join a coherent island on a developer desk">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Miniature landscape modules join a coherent island on a developer desk"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/unreal-async-loading-player-experience/social.jpg"><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Unreal asset loading: plan for the moment the player needs it", "description": "Plan Unreal asset loading around player actions, reference types, runtime readiness and ownership, then measure the result in a packaged build.", "datePublished": "2026-10-21", "dateModified": "2026-10-21", "inLanguage": "en", "wordCount": 1335, "mainEntityOfPage": "https://qorpo.world/unreal-async-loading-player-experience", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/unreal-async-loading-player-experience/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Unreal asset loading: plan for the moment the player needs it", "item": "https://qorpo.world/unreal-async-loading-player-experience"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Unreal asset loading: plan for the moment the player needs it</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>21 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/unreal-async-loading-player-experience/hero-1280.webp" srcset="/assets/blog/unreal-async-loading-player-experience/hero-640.webp 640w, /assets/blog/unreal-async-loading-player-experience/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Miniature landscape modules join a coherent island on a developer desk" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Asynchronous loading moves an asset request away from an immediate blocking wait, but it does not decide when the asset should arrive or what the player sees until then. A reliable loading plan combines reference choices, a readiness state, a useful fallback and measurements from a packaged build. Replacing a hard reference with a soft one is only part of the work.</p>
+<p>This is an engineering guide with illustrative examples, not a claim that a particular QORPO game has achieved a measured frame-time improvement. For the wider studio context, see <a href="/what-is-qorpo">what QORPO is</a>. The acceptance approach complements our guide to <a href="/prototype-vs-production-ready-game">production-ready build evidence</a>.</p>
+<h2>Begin with the player&#x27;s next action</h2>
+<p>Start at the moment the player needs the asset. A creature portrait might be needed when its card opens. A character mesh might be needed before a transformation becomes visible. A new environment may need several systems ready before the player can enter. These requests have different deadlines and different acceptable fallbacks.</p>
+<p>An inventory portrait can sometimes use a clear placeholder briefly. A playable character cannot safely become an invisible body because the mesh is still loading. Nor should the game accept an action whose essential feedback has not arrived. Define the experience first, then select a loading strategy that can support it.</p>
+<p>Write down the consequence of lateness. Does the player wait in a menu, remain in the current form or see an unavailable action? That decision belongs in the product flow. It should not emerge accidentally from whichever callback happens to finish last.</p>
+<h2>Hard and soft references answer different questions</h2>
+<p>Epic&#x27;s <a href="https://dev.epicgames.com/documentation/unreal-engine/referencing-assets-in-unreal-engine">asset reference documentation</a> distinguishes direct hard references from indirect soft references. A hard dependency can cause another asset to load with its owner. A soft reference identifies an asset without making the same immediate loading commitment.</p>
+<p>Neither is automatically the correct choice everywhere. A small resource that is always needed with its owner may not benefit from an elaborate request lifecycle. Optional cosmetic content or a large collection of rarely opened portraits may justify more explicit loading boundaries.</p>
+<p>Inspect the dependency relationship, not just the field type. An apparently lightweight object can lead to other resources through its dependencies. Changing one reference is not proof that the whole chain has become smaller. Verify the actual resources involved and compare behaviour on a representative build.</p>
+<h2>Model readiness explicitly</h2>
+<p>An illustrative asset request can move through not requested, loading, ready, failed and no longer needed. These names describe an application-level decision, not a mandatory Unreal class. Their value is that the team can discuss what happens in every state.</p>
+<p>In the loading state, a menu may show a neutral placeholder and keep navigation available. In the ready state, it can replace that placeholder. In the failed state, it needs a response that does not falsely suggest ownership, deletion or a successful action. If the user closes the menu, the completion callback must not re-open it.</p>
+<p>Keep the request&#x27;s identity separate from the visible screen&#x27;s lifetime. A fast sequence of selections can produce several requests whose completion order differs from the input order. The latest visible selection should win because the application checks it, not because the team hopes the requests complete conveniently.</p>
+<h2>Request before the deadline, not just before display</h2>
+<p>Epic&#x27;s <a href="https://dev.epicgames.com/documentation/unreal-engine/asynchronous-asset-loading-in-unreal-engine">asynchronous asset loading guide</a> explains mechanisms for requesting assets without the same synchronous loading pattern. It gives the engine tools, but the game still needs to choose the request time.</p>
+<p>In a model menu, focusing a card might be an appropriate time to request its larger preview. Loading every preview on entry defeats the point if most cards are never opened. Waiting until after the player confirms may be too late. The right boundary depends on resource size, navigation speed and the cost of being wrong.</p>
+<p>For a world transition, identify which assets are essential to enter and which can arrive later. Do not put a decorative object and a collision-critical object into the same readiness category merely because they belong to the same environment. The player experiences their absence differently.</p>
+<h2>Completion is not the end of resource ownership</h2>
+<p>An asynchronous operation needs a clear owner. Decide who keeps the loaded resource available, which views may reuse it and when it can be released. A callback firing does not explain the resource&#x27;s intended lifetime.</p>
+<p>The application should also handle the owner disappearing during the request. A screen can close, a level can change or a player can leave a session. The completion path must check that its destination is still valid. Otherwise, a loading optimisation can become a source of stale updates and difficult-to-reproduce failures.</p>
+<p>Avoid solving every case with permanent retention. Keeping everything forever can make subsequent interactions appear fast while hiding growing memory use. Measure a complete loop, including repeated entry and exit, rather than only the most flattering second visit.</p>
+<h2>Measure a cold path and a repeated path</h2>
+<p>A warm editor session is not the same as a fresh packaged run. Resources may already be resident after development activity. Record the conditions of each measurement so a faster second attempt is not mistaken for a code improvement.</p>
+<p>A practical comparison follows the same user route on the same representative hardware. Capture frame time, memory behaviour and the time until the required visual state is usable. Include both a fresh start and repeated navigation. State whether the measurement concerns a menu, a level transition or a gameplay action.</p>
+<p>Do not publish a percentage improvement without the baseline and method. Even an honest local result may not transfer to slower storage, another graphics configuration or a different content set. Treat the result as evidence for the tested scenario and expand testing when the product&#x27;s supported conditions require it.</p>
+<h2>Test the awkward sequences</h2>
+<p>Rapidly open and close the preview. Change selection before loading completes. Leave the level. Request the same asset from two views. Trigger a failure in a controlled test environment. Then check whether the visible result still matches the current user action.</p>
+<p>Also examine an action that becomes available before the art finishes loading. Can the player confirm it? Is that confirmation meaningful? If a preview is optional but an effect is essential to understanding combat, they should not share a blanket rule.</p>
+<p>These sequences are useful because they test the contract around loading rather than the happy-path mechanism alone. A method returning successfully does not establish that the experience remains coherent through cancellation, navigation and failure.</p>
+<h2>Where AI assistance can help</h2>
+<p>AI can help enumerate states, draft test cases or flag direct loads for a developer to inspect. It cannot establish that a packaged route is smooth simply by reading code. Keep the model&#x27;s suggestions distinct from measured observations.</p>
+<p>A good AI-assisted task is narrow: inspect one preview flow, identify its owner and list what happens if the screen closes. A vague request to make the whole game stream better is difficult to review and easy to overstate. Our <a href="/review-ai-generated-game-code">AI code review checklist</a> explains how to keep that boundary practical.</p>
+<p>For a product-specific view of development evidence, read the <a href="/aneemate-october-development-camp-coop">AneeMate October update</a>. A player should see dependable transitions and clear feedback; the engineering record should explain which conditions actually support that experience.</p>
+<h2>Questions developers often ask</h2>
+<h3>Does a soft reference guarantee asynchronous loading?</h3>
+<p>No. The reference choice and the loading operation are separate decisions. Inspect how the resource is requested and consumed rather than assuming the field type alone determines runtime behaviour.</p>
+<h3>Should every menu image be loaded in advance?</h3>
+<p>Only when the usage pattern and measurements justify it. Preparing everything may trade visible waiting for unnecessary work and memory. Define a small, useful readiness boundary and measure the route that players actually follow.</p>
+<h3>Is a successful callback proof that the player can proceed?</h3>
+<p>Not by itself. The destination still needs to be valid, the requested asset needs to match the current action and all other required systems need to be ready. Make that decision explicit in the product flow.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-local-support-global-stories">How TAMITOS connects local parent support with a global story world</a></p><p><a href="/ai-game-localization-quality-checks">AI game localization: what to check before a translation ships</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

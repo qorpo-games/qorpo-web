@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI game localization: quality checks before release | QORPO</title>
+<meta name="description" content="A practical review workflow for AI-assisted game translation, covering context, terminology, placeholders, interface fit and release evidence.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-game-localization-quality-checks">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI game localization: what to check before a translation ships">
+<meta property="og:description" content="A practical review workflow for AI-assisted game translation, covering context, terminology, placeholders, interface fit and release evidence.">
+<meta property="og:url" content="https://qorpo.world/ai-game-localization-quality-checks">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-game-localization-quality-checks/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI game localization: what to check before a translation ships">
+<meta name="twitter:description" content="A practical review workflow for AI-assisted game translation, covering context, terminology, placeholders, interface fit and release evidence.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-game-localization-quality-checks/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="An editor reviews language cards beside a controller and glossary">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="An editor reviews language cards beside a controller and glossary"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-game-localization-quality-checks/social.jpg"><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI game localization: what to check before a translation ships", "description": "A practical review workflow for AI-assisted game translation, covering context, terminology, placeholders, interface fit and release evidence.", "datePublished": "2026-10-21", "dateModified": "2026-10-21", "inLanguage": "en", "wordCount": 1480, "mainEntityOfPage": "https://qorpo.world/ai-game-localization-quality-checks", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-game-localization-quality-checks/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI game localization: what to check before a translation ships", "item": "https://qorpo.world/ai-game-localization-quality-checks"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI game localization: what to check before a translation ships</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>21 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-game-localization-quality-checks/hero-1280.webp" srcset="/assets/blog/ai-game-localization-quality-checks/hero-640.webp 640w, /assets/blog/ai-game-localization-quality-checks/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="An editor reviews language cards beside a controller and glossary" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>An AI translation is ready for a game only when its meaning, terminology, variables and on-screen behaviour survive review in context. Fluent sentences are an input to that process, not proof of completion. Use AI to help prepare and inspect text, then make a human reviewer responsible for the player-facing result.</p>
+<p>This is a practical production workflow, not a claim about measured QORPO translation savings or a particular model winning every language pair. It builds on the distinction in <a href="/review-ai-generated-game-code">reviewing AI-generated game code</a>: generated output still needs an explicit acceptance standard. Translation has a different standard because tone, context and interface behaviour all matter.</p>
+<h2>Why a natural sentence can still be wrong</h2>
+<p>A short game string rarely contains enough information to translate itself. The word Charge could describe a combat action, an electrical state or a payment. A translator who sees the screen and the player action can distinguish them. A model given a disconnected spreadsheet row has less context, even if its answer sounds convincing.</p>
+<p>The resulting error is not always a bad sentence. It can be an instruction that sends the player towards the wrong action. It can also be a new name for an item the game has already introduced under another name. Both problems survive a review that asks only whether the target language is fluent.</p>
+<p>Build a small context record around ambiguous strings. Include the screen, who is speaking, what action follows and whether the text is a label, instruction or dialogue line. The goal is not to send a model the whole project. It is to supply the information needed for a specific decision while keeping unreleased story material and private data out of unnecessary tools.</p>
+<h2>Start with a glossary that can resolve a disagreement</h2>
+<p>A useful glossary does more than collect words. It records the approved term, meaning and exceptions. If a creature name must remain unchanged, say so. If a verb should differ between a friendly prompt and a technical menu, describe that difference. A bare list cannot explain why two translations disagree.</p>
+<p>Consider a model example. A fictional item called a Spark Seed appears in inventory, a recipe and a quest. Translating those three appearances separately may produce three plausible names. The player then has to infer that they are one object. A glossary entry prevents the problem by connecting the term to its role and preserving the same choice across contexts.</p>
+<p>Keep unresolved terms visible. Marking a decision as pending is better than allowing an early generated suggestion to become the standard by accident. Give the decision an owner and record the reason once, so every reviewer does not repeat the same argument.</p>
+<h2>Protect variables and formatting before reviewing style</h2>
+<p>Treat placeholders as part of the interface contract. In a model string such as Collect {count} seeds, the variable name is not prose. A translator may need to change word order, but should not rename the identifier or accidentally turn it into a fixed number.</p>
+<p>Automated checks can compare placeholder sets, detect missing markup and flag strings that became empty. They can also identify a suspicious length increase for review. These checks are useful precisely because they do not require a model to judge whether the sentence feels natural.</p>
+<p>Passing them does not establish linguistic quality. A string can preserve every variable while saying the opposite of the source. Keep mechanical validation and language review as separate gates, with separate reasons for failure. That makes a later correction easier to understand and reduces the temptation to treat one green indicator as approval of everything.</p>
+<h2>Use AI as a second reader, with a limited question</h2>
+<p>Instead of asking a model whether a translation is good, ask a narrower question. Does the target preserve the speaker&#x27;s intent? Are glossary terms consistent? Does it introduce a promise the source does not make? Is a negation missing? Each question produces a reviewable observation rather than a vague score.</p>
+<p>Do not let the same model&#x27;s confidence substitute for independent judgement. A generated explanation can sound authoritative while defending the original mistake. Have the reviewer inspect the source, target and context directly. If the issue affects a purchase, accessibility instruction or irreversible action, the acceptance decision needs particular care.</p>
+<p>Research also treats this as an evaluation problem rather than a solved convenience feature. The paper <a href="https://aclanthology.org/2026.amta-research.12/">Benchmarking Large Language Models for Game Localization Quality Assurance</a> studies LLM-based game localization QA across models and languages. Its existence supports testing the evaluator itself. It does not justify assuming that a model&#x27;s judgement transfers unchanged to every project or language.</p>
+<h2>Test the string where the player encounters it</h2>
+<p>Put reviewed text back into the interface before calling it finished. Check whether the button still fits, whether the line break separates an instruction awkwardly and whether a controller prompt makes sense on the intended platform. A screenshot can reveal an issue a text-only review cannot see.</p>
+<p>A useful test sequence contains a narrow screen, a larger text setting and the most demanding supported script for the selected font. Check the actual fallback glyphs, not just a font&#x27;s advertised language coverage. Pay attention to menus that place an icon beside a sentence or reserve a fixed width for a number.</p>
+<p>Use representative navigation to reach the string. Opening an isolated widget does not prove that the right text appears after a failed action, a return to the menu or a language change. Localization QA is partly state QA: the wording must be correct in the state where the player reads it.</p>
+<h2>Separate harmless awkwardness from a blocked task</h2>
+<p>Prioritise issues by their effect. A slightly flat line of optional dialogue and an incorrect instruction for confirming a purchase should not share the same release priority. A missing character that turns an item name into boxes can block understanding even when the underlying translation is correct.</p>
+<p>Record the issue, affected language, screen and consequence. Include the proposed correction and the person who approved it. This turns feedback into a change the team can reproduce rather than a debate about taste. Where a choice is stylistic, say so; where it changes meaning, explain the difference.</p>
+<p>Avoid a single quality percentage without an interpretable denominator. Ten issues in ten thousand optional lines mean something different from one blocker in the first onboarding screen. Report what was reviewed and what remains outside the sample. That is more honest and more useful for a release decision.</p>
+<h2>Keep a small regression set</h2>
+<p>Save examples that have failed before: an ambiguous combat verb, a plural-sensitive sentence, a long button, a dialogue line with a character name and a message containing multiple variables. Re-run them when the glossary, prompt, model or interface changes.</p>
+<p>The set should contain actual failure modes, not only easy sentences selected to demonstrate success. A new workflow that improves a general sample may still break the one phrase that repeatedly confuses players. Review that phrase directly rather than hiding it inside an average.</p>
+<p>This is also where human effort becomes more focused. Mechanical checks catch repeated technical mistakes, a model can help surface candidates, and reviewers spend time on context and judgement. That is a workflow hypothesis to measure, not a guaranteed cost reduction. Track review time and escaped issues together before deciding whether the process is more efficient.</p>
+<h2>A compact release handoff</h2>
+<p>The handoff should identify the text revision, glossary revision, reviewed languages and tested builds. State who accepted linguistic changes and which screens were inspected. Attach unresolved issues with their user impact. A confident summary is less valuable than a record another person can follow.</p>
+<p>For game teams working across products, this discipline protects brand consistency without forcing every product to sound the same. A family story and a combat menu can share a studio while needing different voices. Our <a href="/tamitos-local-support-global-stories">TAMITOS localization case study</a> examines the related question of different audiences and local service scope.</p>
+<p>Continue with <a href="/prototype-vs-production-ready-game">prototype and release evidence</a> for the wider acceptance process, or explore <a href="/qorpo-ai-game-studio-token-utility">QORPO&#x27;s studio approach</a>. AI is useful when it makes a responsible production process easier to execute. It should not make responsibility harder to locate.</p>
+<h2>Questions teams often ask</h2>
+<h3>Can a second AI model approve the first model&#x27;s translation?</h3>
+<p>It can provide another review signal. Approval still needs a defined standard and a responsible reviewer, particularly where context, safety, commerce or accessibility affects the meaning of the text.</p>
+<h3>Is a character limit enough to prevent layout issues?</h3>
+<p>No. Width depends on glyphs, font, size and layout. Test representative strings in the actual interface and supported settings rather than treating character count as a visual measurement.</p>
+<h3>Should every string go through the same review?</h3>
+<p>Use the same accountability, but vary the depth by risk and context. First-run instructions, account actions and purchase wording deserve different attention from optional flavour text. Record the coverage so the difference is explicit.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-local-support-global-stories">How TAMITOS connects local parent support with a global story world</a></p><p><a href="/unreal-async-loading-player-experience">Unreal asset loading: plan for the moment the player needs it</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
