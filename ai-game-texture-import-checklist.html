@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI game textures: an Unreal import review checklist</title>
+<meta name="description" content="Check AI-assisted game textures for provenance, map roles, import settings, visual fit and platform evidence before approving them for production.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-game-texture-import-checklist">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-assisted game textures: checks before importing into Unreal">
+<meta property="og:description" content="Check AI-assisted game textures for provenance, map roles, import settings, visual fit and platform evidence before approving them for production.">
+<meta property="og:url" content="https://qorpo.world/ai-game-texture-import-checklist">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-game-texture-import-checklist/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-assisted game textures: checks before importing into Unreal">
+<meta name="twitter:description" content="Check AI-assisted game textures for provenance, map roles, import settings, visual fit and platform evidence before approving them for production.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-game-texture-import-checklist/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="An artist inspects rock, metal and ceramic material spheres above texture-map swatches">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="An artist inspects rock, metal and ceramic material spheres above texture-map swatches"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-game-texture-import-checklist/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-assisted game textures: checks before importing into Unreal", "description": "Check AI-assisted game textures for provenance, map roles, import settings, visual fit and platform evidence before approving them for production.", "datePublished": "2026-10-22", "dateModified": "2026-10-22", "inLanguage": "en", "wordCount": 1385, "mainEntityOfPage": "https://qorpo.world/ai-game-texture-import-checklist", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-game-texture-import-checklist/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-assisted game textures: checks before importing into Unreal", "item": "https://qorpo.world/ai-game-texture-import-checklist"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI-assisted game textures: checks before importing into Unreal</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>22 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-game-texture-import-checklist/hero-1280.webp" srcset="/assets/blog/ai-game-texture-import-checklist/hero-640.webp 640w, /assets/blog/ai-game-texture-import-checklist/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="An artist inspects rock, metal and ceramic material spheres above texture-map swatches" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Before an AI-assisted texture reaches an Unreal Engine project, check its provenance, visual purpose, map types, import settings and appearance on the intended asset. A convincing image is a candidate, not an approved game material. Approval should include an in-engine review and a reproducible record of what was imported.</p>
+<p>Generating another surface variation is easy to celebrate. Finding out later that its stone pattern repeats across an entire building, its roughness was interpreted incorrectly or its source cannot be cleared is less exciting. These problems belong to different disciplines, so a single “looks good” review cannot cover them all.</p>
+<p>This guide proposes a practical acceptance workflow. It is not a report of measured QORPO production savings, a claim that generated assets are automatically safe to publish or a statement about a particular game&#x27;s released art pipeline. The examples below are original hypothetical production situations.</p>
+<h2>Start with the surface&#x27;s job</h2>
+<p>Write a small material brief before choosing the nicest thumbnail. What object will use the texture? How close can the camera get? Does the player need to recognise its silhouette, read a symbol or identify an interactive surface?</p>
+<p>A wall behind a menu and a door the player touches have different requirements, even if both are described as painted wood. Record the intended camera distance, material family and approved visual reference. Avoid turning “high quality” into an instruction to maximise every detail. Detail that competes with interaction cues can make a scene harder to read.</p>
+<p>Add a rejection condition. For a plaster wall, it might be recognisable lettering that was never requested. For a tiled floor, it might be a distinctive crack repeated so often that the room looks stamped. Those conditions make feedback actionable: someone can inspect them rather than guessing what a reviewer meant by polish.</p>
+<h2>Keep a provenance record before you import</h2>
+<p>Store the source file, creation date, tool and model version where available, generation inputs, relevant reference permissions and the terms applicable to your intended use. Separate original output from edited derivatives. If an artist repaints the result, keep that relationship rather than describing the final file as an unexplained export.</p>
+<p>For marketplace inputs, inspect the actual licence attached to the acquisition. <a href="https://www.fab.com/eula">Fab&#x27;s Standard License summary</a> distinguishes incorporating an asset into a project from redistributing it as a standalone asset. It also distinguishes Standard licensing from CC-BY. A marketplace listing and an AI tool&#x27;s terms are different records; one does not replace the other.</p>
+<p>This is a recordkeeping recommendation, not a legal clearance decision. If rights are unclear, keep the asset out of the approved production set until the responsible reviewer resolves them. A missing answer does not become an approval because the image has already been imported.</p>
+<h2>Separate a picture from material data</h2>
+<p>Do not assume that a generated colour image supplies a dependable normal, roughness or metallic map. Give every map a declared role and check that the export actually matches it. A filename ending in “normal” is a label, not proof of valid surface information.</p>
+<p><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-asset-editor-in-unreal-engine">Epic&#x27;s current Texture Asset Editor documentation</a> describes inspecting colour channels, compression settings, mip levels and platform information. Use that inspection to verify what Unreal received. For colour versus numerical data, <a href="https://developer.android.com/games/optimize/textures">Google&#x27;s Android texture guidance</a> explains why roughness, metallic and normal maps should not be treated as sRGB colour.</p>
+<p>Create a short map manifest with filename, role, channel meaning and expected colour-space treatment. If channels are packed together, write down their assignment explicitly. Someone should be able to connect the material without reverse engineering an artist&#x27;s memory. Never copy a packing convention from another asset solely because its filenames look familiar.</p>
+<h2>Import a candidate into a review area</h2>
+<p>Use a clearly marked review folder and a controlled test scene. Keep the previous approved material available for comparison. This makes it possible to reject a candidate without leaving an entire level dependent on it.</p>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/textures-in-unreal-engine?lang=en-US">Epic&#x27;s texture overview</a> documents importing through the Content Browser and discusses dimensions and supported formats. Check the documentation for the project&#x27;s engine version and target platforms rather than copying an old tutorial&#x27;s universal resolution limit. Import success establishes that a file was accepted, not that the material is suitable.</p>
+<p>For each map, inspect the resulting asset settings. Confirm the intended sRGB treatment, compression category and any alpha requirement. The older <a href="https://dev.epicgames.com/documentation/unreal-engine/texture-compression-settings?application_version=4.27">Epic compression reference</a> explains the distinction between colour, normal-map and mask categories, but its platform format examples are version specific. Verify the actual cooked format for your current target instead of treating those examples as a promise.</p>
+<h2>Review the material on the intended mesh</h2>
+<p>A flat image and a material ball are useful checks, but neither replaces the real object. Inspect corners, UV seams, repeated areas and the view the player will actually see. Compare the candidate with adjacent materials, not only with another candidate generated in the same session.</p>
+<p>Change one review condition at a time. Start with a fixed camera and lighting setup. Then inspect other relevant lighting conditions, movement and distance. If the appearance changes unexpectedly, record whether the issue follows the source image, map interpretation, material wiring or scene setup. “AI texture looks wrong” is too broad to assign effectively.</p>
+<p><strong>Original hypothetical example: a workshop floor.</strong> A team likes a generated scratched-metal surface. In the test scene, a large bright mark appears on every tile. The artist reduces the distinctive mark in the source rather than changing the whole level&#x27;s lighting to hide it. A second review checks the floor beside the existing workbench and from the player&#x27;s normal camera height. This example describes a decision process, not a measured project result.</p>
+<h2>Check distance and budget separately from taste</h2>
+<p>Art approval and resource approval answer different questions. A material can look appropriate while consuming resources outside the level&#x27;s budget. Conversely, a small texture can be a poor fit for an object that occupies much of the screen.</p>
+<p>In the Texture Asset Editor, review the reported in-game size, mip information and resource information, and inspect the relevant platform settings. Do not translate the source PNG&#x27;s file size into a GPU-memory claim. Source files, cooked content and runtime usage are different measurements.</p>
+<p>Choose a representative scene and record the build, device, settings and camera route before comparing candidates. Keep a baseline, then change the candidate under review. Treat any improvement as an observation within that setup until repeated. If no target hardware was tested, write “target-hardware validation pending” rather than inventing an expected frame-rate gain.</p>
+<p>This is the same separation between an attractive demonstration and a release decision explored in <a href="https://qorpo.world/prototype-vs-production-ready-game">prototype versus production-ready game work</a>.</p>
+<h2>Make approval reversible</h2>
+<p>An acceptance note can be short: asset identifier, revision, source location, map roles, engine version, reviewed platforms, visual reviewer and unresolved items. Include the approved screenshots and the previous revision. That is enough to make a later question about the material answerable.</p>
+<p>Automate mechanical checks where they have stable rules, such as missing provenance fields or inconsistent naming. Keep visual decisions with the responsible artists. A validator can establish that a map exists; it cannot establish that the surface belongs in the game&#x27;s world.</p>
+<p>For adjacent production disciplines, see our <a href="https://qorpo.world/review-ai-generated-game-code">AI-generated code review checklist</a> and <a href="https://qorpo.world/ai-game-localization-quality-checks">AI localization quality checks</a>. Each needs its own evidence rather than a shared “AI approved” badge.</p>
+<h2>Frequently asked questions</h2>
+<h3>Does a high-resolution generated image mean a production-ready texture?</h3>
+<p>No. Resolution does not establish usable maps, coherent scale, clear rights or acceptable in-game behaviour. Review those requirements independently.</p>
+<h3>Should every texture use the same settings?</h3>
+<p>No. Settings should reflect the map&#x27;s role and target platform. Colour, normals and packed masks are not interchangeable simply because they share dimensions.</p>
+<h3>Can this checklist prove AI saves development money?</h3>
+<p>No. To evaluate cost, track the complete process, including generation, editing, review, rework and integration, against an appropriate alternative. This article contains no measured savings claim.</p>
+<h2>Continue inside QORPO</h2>
+<p>Explore <a href="https://qorpo.world/blog">QORPO&#x27;s studio and development articles</a> for practical discussions of game production, or read <a href="https://qorpo.world/about">our studio overview</a>. Use the checklist to ask better production questions before approving the next material.</p>
+<h2>Sources</h2>
+<p>Sources checked on 22 October 2026: Epic&#x27;s Texture Asset Editor and texture overview, Epic&#x27;s explicitly versioned compression reference, Google Android Developers&#x27; texture guidance and Fab&#x27;s licence page, linked beside the relevant statements. This is an editorial workflow proposal, not certification of any project&#x27;s assets.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-editorial-publishing-chain">From a TAMITOS story to a live page: keeping the publishing chain intact</a></p><p><a href="/multiplayer-network-emulation-testing">Multiplayer testing under latency and packet loss</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

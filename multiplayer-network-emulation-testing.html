@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Multiplayer testing: latency, loss and Unreal emulation</title>
+<meta name="description" content="Build repeatable multiplayer tests for delay, jitter and packet loss, with clear state checks, trace evidence and realistic release conclusions.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/multiplayer-network-emulation-testing">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Multiplayer testing under latency and packet loss">
+<meta property="og:description" content="Build repeatable multiplayer tests for delay, jitter and packet loss, with clear state checks, trace evidence and realistic release conclusions.">
+<meta property="og:url" content="https://qorpo.world/multiplayer-network-emulation-testing">
+<meta property="og:image" content="https://qorpo.world/assets/blog/multiplayer-network-emulation-testing/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Multiplayer testing under latency and packet loss">
+<meta name="twitter:description" content="Build repeatable multiplayer tests for delay, jitter and packet loss, with clear state checks, trace evidence and realistic release conclusions.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/multiplayer-network-emulation-testing/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Two controllers above miniature islands linked by interrupted luminous paths">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Two controllers above miniature islands linked by interrupted luminous paths"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/multiplayer-network-emulation-testing/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Multiplayer testing under latency and packet loss", "description": "Build repeatable multiplayer tests for delay, jitter and packet loss, with clear state checks, trace evidence and realistic release conclusions.", "datePublished": "2026-10-22", "dateModified": "2026-10-22", "inLanguage": "en", "wordCount": 1407, "mainEntityOfPage": "https://qorpo.world/multiplayer-network-emulation-testing", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/multiplayer-network-emulation-testing/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Multiplayer testing under latency and packet loss", "item": "https://qorpo.world/multiplayer-network-emulation-testing"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Multiplayer testing under latency and packet loss</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>22 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/multiplayer-network-emulation-testing/hero-1280.webp" srcset="/assets/blog/multiplayer-network-emulation-testing/hero-640.webp 640w, /assets/blog/multiplayer-network-emulation-testing/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Two controllers above miniature islands linked by interrupted luminous paths" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>To test multiplayer properly, reproduce the same player actions under controlled delay, variable delay and packet loss, then inspect whether shared state remains correct and feedback remains understandable. Record the build and network settings for every run. A smooth localhost session is a useful baseline, not evidence of reliable internet play.</p>
+<p>A player presses interact and sees nothing happen. They press it again. A moment later the object disappears, but the inventory still looks unchanged. Is that slow confirmation, a failed request, duplicated input or a presentation bug? Without a repeatable test and evidence from both sides, a team can spend hours arguing about the wrong symptom.</p>
+<p>This article proposes an original testing workflow using documented Unreal tools. It does not report that AneeMate, QORPO or another named game has passed these tests. It also makes no claim about the availability of a specific cooperative or multiplayer mode.</p>
+<h2>Give delay, loss and jitter different jobs</h2>
+<p>Latency is the time data takes to travel. Packet loss means some packets do not arrive. Jitter describes variation in delay. They can occur together, but changing all of them at once makes an initial failure harder to explain.</p>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/using-network-emulation-in-unreal-engine">Epic&#x27;s Network Emulation documentation</a> describes introducing lag and loss for incoming and outgoing traffic, with editor settings and other configuration methods. It also documents jitter-related controls. Select the documentation appropriate to the engine version used by the build.</p>
+<p>In your own test record, distinguish configured delay from observed round-trip behaviour. Write down which side and direction received the impairment. Do not label a setting simply “100 ms ping” if the value actually represents one stage of the emulation. The label should explain what was changed, not suggest a measurement that was never taken.</p>
+<h2>Begin with a known baseline</h2>
+<p>Use a short scenario that works reliably under the initial setup. Record the build identifier, server configuration, number of clients, map, account or test-data state and input sequence. Keep private account details out of public reports.</p>
+<p>Repeat the scenario before introducing impairment. If the baseline already fails, investigate it separately or mark it unstable. A test that alternates between unrelated starting states will not tell you whether a network setting caused the new symptom.</p>
+<p>Give the scenario a precise ending. “Played for a while” is not enough. “Client requests an interaction, both clients observe its result, and the resulting state remains consistent after reopening the interface” defines something another tester can repeat. The mechanics involved depend on the actual game under test.</p>
+<p>This distinction is central to <a href="https://qorpo.world/prototype-vs-production-ready-game">production readiness beyond a prototype</a>. An entertaining session is valuable feedback, but it answers a different question from a repeatable state test.</p>
+<h2>Build a small impairment matrix</h2>
+<p>Start with a few deliberately different conditions rather than a large spreadsheet nobody can finish. The following is an original illustrative matrix, not a statement about average player connections or a universal release requirement:</p>
+<ul><li>Baseline: no added impairment, using the documented local setup.</li><li>Delay only: a fixed configured delay on one named direction.</li><li>Variable delay: a specified minimum and maximum on that same direction.</li><li>Loss only: a chosen loss percentage with added delay disabled.</li><li>Combined stress: an explicitly recorded combination after individual checks.</li></ul>
+<p>Choose actual values based on the product&#x27;s requirements, deployment regions and observed connection evidence where available. Include a harsher diagnostic case if useful, while keeping it separate from a claim about supported conditions. Epic describes severe conditions as a way to reveal bugs; that does not make every severe configuration an appropriate user-experience target.</p>
+<p>Keep the matrix short enough to rerun after a fix. Expand it when a failure, new architecture or launch requirement justifies another condition.</p>
+<h2>Test the moments when state changes hands</h2>
+<p>Movement matters, but do not restrict testing to running around a map. Identify actions where the player expects a clear commitment: submitting a choice, acquiring an item, confirming a trade in a game that supports one, or completing a shared objective.</p>
+<p>For each real mechanic, ask four questions. What does the requesting player see immediately? What does the authoritative system decide? What do other relevant players observe? What remains true after the interface refreshes or the scenario continues?</p>
+<p><strong>Original hypothetical example: a shared supply box.</strong> Two clients attempt to claim one resource. The test checks that the final resource count follows the game&#x27;s rules, each player receives an understandable result and a delayed visual update does not invite accidental repeated claims. This is a fictional mechanic used to explain a test, not an announcement of a QORPO feature.</p>
+<p>Run the same sequence under each condition before adding spontaneous play. A repeatable core makes it easier to compare sessions; exploratory testing can then uncover paths the planned sequence missed.</p>
+<h2>Review feedback as well as final correctness</h2>
+<p>A server can reach the right final state while the client gives a confusing experience. Look for an action that appears available while an earlier request is unresolved, a success message that appears before confirmation, or a spinner that never explains what the player can do next.</p>
+<p>Describe observed behaviour without jumping to a solution. “The button remains active after submission, and a second click shows another pending state” is stronger evidence than “add a debounce”. The appropriate fix may involve state ownership, request handling, presentation or several systems.</p>
+<p>Evaluate wording too. An error that tells the player an action failed must match what actually happened. Avoid telling them to repeat a potentially committed action until the system can determine the outcome. These are design questions that emerge from the test; this article does not prescribe one networking architecture for every game.</p>
+<h2>Capture enough evidence to investigate</h2>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/networking-insights-in-unreal-engine?lang=en-US">Epic&#x27;s Networking Insights documentation</a> describes network trace capture and views for packets, replicated objects, properties and remote function calls. Use its current setup instructions for the build and environment rather than assuming all builds collect the same data automatically.</p>
+<p>Pair relevant traces with timestamps, a short recording and observations from the clients involved. Mark the start of the repeatable action so an engineer can align the symptom with the trace. Keep a small evidence package rather than an unlabelled collection of large recordings.</p>
+<p>A useful defect report names the scenario, impairment, expected result, observed result, repeat count and evidence location. State whether the issue reproduced after returning to baseline. That last comparison can reveal a persistent state problem without proving its root cause.</p>
+<h2>Separate the emulator from the product</h2>
+<p>Test tooling has versions and limitations too. Epic&#x27;s public <a href="https://issues.unrealengine.com/issue/UE-167187">UE-167187 issue record</a> documents a historical network-emulation loss problem affecting Unreal 5.0.3 and lists a target fix of 5.5. It is not evidence that every current networking symptom comes from that issue.</p>
+<p>Record the engine version and exact emulation target. If results appear inconsistent with the settings, investigate the setup before treating the configured percentage as measured real-world loss. Also distinguish an editor run from a packaged client against the intended server deployment. Passing one environment does not establish the other.</p>
+<p>For a related example of evidence-driven implementation review, read our <a href="https://qorpo.world/review-ai-generated-game-code">AI-generated game code checklist</a>. Neither a tool setting nor a code change substitutes for a verified result.</p>
+<h2>Define what passing means before rerunning</h2>
+<p>Write acceptance criteria around the mechanic and experience. They might require consistent final state, no duplicated commitment, clear pending feedback and an explicit recovery path. Add time limits only when the product team has defined a justified requirement and a way to measure it.</p>
+<p>After a fix, rerun the failing case and the baseline, then relevant neighbouring conditions. Record the outcome honestly: passed this scenario on this build, failed, or still awaiting validation. This creates useful release evidence without claiming universal reliability.</p>
+<h2>Frequently asked questions</h2>
+<h3>Is packet loss the same as high ping?</h3>
+<p>No. Missing packets and delayed delivery are different conditions. Test and record them separately before examining combinations.</p>
+<h3>Does passing local emulation prove internet readiness?</h3>
+<p>No. It provides evidence for the tested scenario and setup. Packaged builds, real deployment environments and representative sessions require their own validation.</p>
+<h3>Does this article confirm AneeMate co-op is available?</h3>
+<p>No. Availability must come from current product and release evidence. This is a general development guide, independent of any game&#x27;s mode announcements.</p>
+<h2>Follow the development work</h2>
+<p>Read <a href="https://qorpo.world/blog">QORPO&#x27;s development blog</a> and <a href="https://qorpo.world/about">studio information</a>, then use documented product updates to distinguish released features from plans. Useful testing starts with a question you can reproduce and ends with evidence another person can inspect.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-editorial-publishing-chain">From a TAMITOS story to a live page: keeping the publishing chain intact</a></p><p><a href="/ai-game-texture-import-checklist">AI-assisted game textures: checks before importing into Unreal</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
