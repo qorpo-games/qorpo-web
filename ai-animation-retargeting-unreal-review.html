@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI animation retargeting: an Unreal review workflow</title>
+<meta name="description" content="Review AI-assisted animation before Unreal gameplay: source motion, rig mapping, foot contact, root movement, transitions and traceable approval.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-animation-retargeting-unreal-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-assisted animation: a retargeting review before Unreal gameplay">
+<meta property="og:description" content="Review AI-assisted animation before Unreal gameplay: source motion, rig mapping, foot contact, root movement, transitions and traceable approval.">
+<meta property="og:url" content="https://qorpo.world/ai-animation-retargeting-unreal-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-animation-retargeting-unreal-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-assisted animation: a retargeting review before Unreal gameplay">
+<meta name="twitter:description" content="Review AI-assisted animation before Unreal gameplay: source motion, rig mapping, foot contact, root movement, transitions and traceable approval.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-animation-retargeting-unreal-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Two articulated mannequins with different proportions linked by luminous joint markers">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Two articulated mannequins with different proportions linked by luminous joint markers"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-animation-retargeting-unreal-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-assisted animation: a retargeting review before Unreal gameplay", "description": "Review AI-assisted animation before Unreal gameplay: source motion, rig mapping, foot contact, root movement, transitions and traceable approval.", "datePublished": "2026-10-23", "dateModified": "2026-10-23", "inLanguage": "en", "wordCount": 1441, "mainEntityOfPage": "https://qorpo.world/ai-animation-retargeting-unreal-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-animation-retargeting-unreal-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-assisted animation: a retargeting review before Unreal gameplay", "item": "https://qorpo.world/ai-animation-retargeting-unreal-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI-assisted animation: a retargeting review before Unreal gameplay</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>23 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-animation-retargeting-unreal-review/hero-1280.webp" srcset="/assets/blog/ai-animation-retargeting-unreal-review/hero-640.webp 640w, /assets/blog/ai-animation-retargeting-unreal-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Two articulated mannequins with different proportions linked by luminous joint markers" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Before an AI-assisted animation enters gameplay, review the source motion, target rig, contact points, movement handling and transitions in the actual character setup. Retargeting transfers motion between characters, but a successful export does not establish believable movement or usable controls. Approve the result against a clear animation brief and repeatable in-game checks.</p>
+<p>A walk cycle can look convincing in a small preview and still feel wrong when the player stops, turns or approaches a ledge. The feet might slide, the body might drift away from its intended position, or the hands might miss an interaction target. A better generation prompt cannot answer every integration question.</p>
+<p>This is an original proposed review workflow for AI-assisted motion, captured motion and library animation. It is not a description of an implemented QORPO animation pipeline, a benchmark of AI production savings or a claim about released AneeMate mechanics. Its model examples are fictional.</p>
+<h2>Define what the animation must communicate</h2>
+<p>Start with the player&#x27;s view rather than the animation file. Is this motion meant to show a deliberate interaction, a fast direction change or a relaxed idle? What should be readable before the player understands the full scene?</p>
+<p>Write down the expected action, viewing distance, target character and movement arrangement. Include whether the character is intended to move through the world during the clip or perform it in place. The animator and gameplay engineer should be discussing the same outcome before either starts changing settings.</p>
+<p>Add a small list of rejection conditions. A foot moving during an intended planted moment, an elbow passing through the torso or a hand missing a required contact point is easier to investigate than “the animation feels AI”. Keep aesthetic direction and technical acceptance related but distinct.</p>
+<h2>Review the source before blaming the target rig</h2>
+<p>Watch the source motion at normal speed, then inspect the moments where weight, contact or direction changes. Look for distracting discontinuities and movements that do not serve the action. Slow playback is useful for diagnosis, but the final decision also needs the intended playback speed.</p>
+<p>Keep the original source and its provenance. Record which tool produced or processed it, the available version information, the relevant permissions and any edits. Do not overwrite the only source with a cleaned export. A later revision may need to distinguish an original motion problem from a problem introduced during processing.</p>
+<p>Choose representative clips rather than approving an entire batch from one example. A short idle and a large directional change make different demands. If a clip is rejected at source review, there is little value in hiding its problem through increasingly complex target-specific corrections.</p>
+<h2>Establish the source and target relationship</h2>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/ik-rig-animation-retargeting-in-unreal-engine?lang=en-US">Epic&#x27;s IK Rig Retargeting documentation</a> describes transferring animation between skeletal meshes through IK Rigs and retargeting chains. The system can accommodate differences in bone counts, names and orientations, with optional IK contact handling. That capability does not mean arbitrary characters will share an identical performance.</p>
+<p>For your review, record the source and target rig assets, relevant retarget pose and the clip revision. Inspect the target&#x27;s proportions and intended posture. Avoid changing several rigs and the source motion simultaneously, because a better-looking result will be difficult to explain or reproduce.</p>
+<p>Create a baseline export before cleanup. Save a short comparison from the same camera. This is a record of the candidate, not evidence that the candidate meets your quality bar. Name the exact issues you intend to improve in the next revision.</p>
+<h2>Treat foot contact as a specific problem</h2>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/fix-foot-sliding-with-ik-retargeter-in-unreal-engine">Epic&#x27;s foot-sliding guide</a> explains that proportion and stance differences can produce sliding after retargeting. Its Speed Planting workflow uses IK goals to hold feet during appropriate stationary periods. Follow the prerequisites and settings for the engine version and character involved, rather than copying example values indiscriminately.</p>
+<p>Before selecting a correction, identify the intended contact interval. Is the foot meant to bear weight, pivot, lift or slide as part of the action? A correction that freezes the wrong moment can change the performance instead of improving it.</p>
+<p><strong>Original model example: a short courier character.</strong> A fictional team transfers a human walk cycle to a character with shorter legs. The target&#x27;s feet drift during moments intended to look planted. Reviewers mark those intervals, compare the retarget setup and adjust the candidate. They then replay the whole cycle to check that a local correction has not created a visible knee snap. This example reports no production result or universal fix.</p>
+<h2>Agree how motion reaches the character</h2>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/root-motion-in-unreal-engine?lang=en-US">Epic&#x27;s Root Motion overview</a> distinguishes animation containing root movement from movement actually applied to the character. Root Motion requires suitable animation data and configuration; its extraction mode matters. This is a separate decision from whether the retargeted mesh looks attractive in a preview.</p>
+<p>Have the responsible engineer identify how the tested action is supposed to move the character. Do not switch movement approaches only because a particular clip looks better under one preview setting. That choice can affect behaviour outside the clip, and it needs review within the game&#x27;s architecture.</p>
+<p>Record the expected start and end positions for a small test action. Compare the visible body with the character&#x27;s collision representation where the tooling permits it. If they diverge, report what happened and when before suggesting a blanket setting change. A movement problem and a retarget pose problem may need different owners.</p>
+<h2>Check transitions at the player&#x27;s camera</h2>
+<p>Play the motion as part of an actual sequence: idle, begin moving, perform the relevant action and return to control. A clean loop does not establish a clean entrance or exit. Test interruption only where the design intends interruption to be possible.</p>
+<p>Review hands, feet, silhouette and timing from the gameplay camera. Cinematic close-ups can reveal useful detail, but they should not replace the player&#x27;s normal perspective. Conversely, a problem hidden at a distant camera may still matter in a close interaction.</p>
+<p>Keep the environment simple enough to understand the result. Then add the surfaces, slopes or obstacles relevant to the intended action. This is a staged review proposal, not a guarantee that a flat-floor pass predicts all terrain behaviour. Record any scenario that remains untested.</p>
+<p>The distinction between a convincing isolated asset and a working game component also appears in our <a href="https://qorpo.world/ai-game-texture-import-checklist">AI texture import checklist</a>. An attractive preview is one piece of evidence, not the whole approval.</p>
+<h2>Make revisions and approval traceable</h2>
+<p>A useful review note identifies the clip, source revision, target rig, retarget configuration, engine build and tested action sequence. Attach a short recording with named problem intervals. That gives another person a route to reproduce the issue instead of asking them to judge an unexplained video.</p>
+<p>Split feedback into source cleanup, retarget setup, gameplay integration and artistic direction. One issue can cross categories, but the first investigation should have an owner. “Fix the knees at the contact change” is more useful than requesting another general polish pass.</p>
+<p>If automated checks exist, use them for stable rules such as missing references or absent metadata. Do not let a successful export become an automated artistic approval. People still need to assess whether the movement fits the character and supports the action.</p>
+<h2>Evaluate the whole workflow before claiming efficiency</h2>
+<p>If the goal is to compare AI-assisted production with another workflow, track source preparation, generation, cleanup, integration, review and rework. Compare similar tasks and similar acceptance criteria. A short generation step does not establish a shorter production cycle.</p>
+<p>Keep that measurement separate from this guide. No timings, cost reductions or QORPO performance outcomes are asserted here. Our <a href="https://qorpo.world/review-ai-generated-game-code">AI-generated code review guide</a> uses the same principle of checking the resulting work rather than treating its origin as proof of readiness.</p>
+<h2>Frequently asked questions</h2>
+<h3>Can retargeting remove the need for animation cleanup?</h3>
+<p>Sometimes a candidate may need little correction, but that is a result to observe. Retargeting capability alone cannot establish that contacts, performance and gameplay transitions meet a project&#x27;s requirements.</p>
+<h3>Is every sliding foot a retargeting problem?</h3>
+<p>No. Inspect the source clip and gameplay movement arrangement as well as the retarget setup. This workflow deliberately avoids assigning the cause from a single symptom.</p>
+<h3>Does using AI mean the motion is production ready sooner?</h3>
+<p>Not automatically. Measure the complete accepted workflow, including rejected candidates and rework. This article contains no savings benchmark.</p>
+<h2>Continue the production review</h2>
+<p>Explore <a href="https://qorpo.world/blog">QORPO&#x27;s development articles</a> and our discussion of <a href="https://qorpo.world/prototype-vs-production-ready-game">prototype versus production readiness</a>. Use the review to turn a vague motion complaint into an action that the animator and engineer can inspect together.</p>
+<p>Sources checked on 23 October 2026. Epic documentation is linked beside technical statements. The workflow and fictional example are editorial proposals, not reports of a shipped game pipeline.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-move-support-replies-in-app">TAMITOS Move development: bringing a support reply back into the app</a></p><p><a href="/save-game-migration-recovery-testing">Save-game migration: protecting progress when a game changes</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
