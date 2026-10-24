@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI game voice production: a release review checklist</title>
+<meta name="description" content="Review AI game dialogue for permitted voice use, script revisions, pronunciation, performance, subtitles and in-game playback before release.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-game-voice-production-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI game voice production: consent, pronunciation and integration review">
+<meta property="og:description" content="Review AI game dialogue for permitted voice use, script revisions, pronunciation, performance, subtitles and in-game playback before release.">
+<meta property="og:url" content="https://qorpo.world/ai-game-voice-production-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-game-voice-production-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI game voice production: consent, pronunciation and integration review">
+<meta name="twitter:description" content="Review AI game dialogue for permitted voice use, script revisions, pronunciation, performance, subtitles and in-game playback before release.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-game-voice-production-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A microphone and headphones beside abstract voice waveforms">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A microphone and headphones beside abstract voice waveforms"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-game-voice-production-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI game voice production: consent, pronunciation and integration review", "description": "Review AI game dialogue for permitted voice use, script revisions, pronunciation, performance, subtitles and in-game playback before release.", "datePublished": "2026-10-24", "dateModified": "2026-10-24", "inLanguage": "en", "wordCount": 1364, "mainEntityOfPage": "https://qorpo.world/ai-game-voice-production-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-game-voice-production-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI game voice production: consent, pronunciation and integration review", "item": "https://qorpo.world/ai-game-voice-production-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI game voice production: consent, pronunciation and integration review</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>24 October 2026 · 7 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-game-voice-production-review/hero-1280.webp" srcset="/assets/blog/ai-game-voice-production-review/hero-640.webp 640w, /assets/blog/ai-game-voice-production-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A microphone and headphones beside abstract voice waveforms" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Before AI-generated dialogue enters a game, verify the voice&#x27;s permitted use, lock the script revision, review pronunciation and performance, then test the exported audio with its subtitles and gameplay triggers. A natural-sounding sample is only one approval. Rights, meaning, consistency and integration require their own evidence.</p>
+<p>A character welcomes the player beautifully, then pronounces the settlement name differently in the next line. Another sentence sounds convincing by itself but finishes after the interaction interface has closed. Neither problem is solved by approving a more impressive demonstration voice.</p>
+<p>This guide proposes an original review workflow for prepared dialogue assets. It does not describe an implemented QORPO voice pipeline, endorse a particular provider or claim that AI has reduced studio costs. It also does not cover the separate moderation and safety architecture required for unrestricted live-generated conversation.</p>
+<h2>Decide what the voice is for</h2>
+<p>Start with a short casting and delivery brief. Identify the character or interface role, language, intended emotional range and the situations in which the player hears it. Separate temporary prototype audio from approved release dialogue so a placeholder cannot quietly become the final performance.</p>
+<p>A navigation prompt and a dramatic conversation have different needs. The first may prioritise clear repeated delivery; the second depends on context, relationships and intentional performance. Do not evaluate both by asking only whether the voice sounds human.</p>
+<p>Write a rejection condition as well as an aspiration. Examples include inconsistent character names, an unintended accent shift or emphasis that changes the meaning of a line. These give reviewers something more precise than “make it less robotic”.</p>
+<h2>Establish permission for the actual use</h2>
+<p>Keep a record of the provider, selected voice, applicable terms, source permissions and approved usage scope. If a person supplies recordings, permission to receive those files is not automatically permission to train a voice model, generate new dialogue or use it indefinitely in marketing.</p>
+<p>Check the provider&#x27;s specific workflow. For example, <a href="https://elevenlabs.io/docs/help-center/product/voices/voice-cloning/can-i-create-a-professional-voice-clone-of-someone-elses-voice">ElevenLabs&#x27; Professional Voice Clone guidance</a> says users can create that type of clone only of their own verified voice. It describes a separate route for the voice owner to share it. This is a product-specific rule, not a universal statement about every voice tool.</p>
+<p>Resolve uncertainties with the people responsible for contracts and rights before production use. Do not substitute “the performer said yes” for a clear agreement about what the project plans to do. Keep sensitive recordings and permission records in appropriately restricted storage, not a public article package.</p>
+<h2>Lock the text before generating a batch</h2>
+<p>Give each line a stable identifier and a script revision. Include context such as the speaker, listener, preceding event and whether the line is an interruption, warning or optional remark. A sentence fragment without context can be read with the wrong intention even when every word is audible.</p>
+<p>Mark variables and other text that should not be spoken literally. If a line includes a player name or dynamic quantity, decide how the delivery system handles it before treating the sentence as ready. The exact implementation depends on the game and tool; this article does not assume one dynamic-dialogue architecture.</p>
+<p>Keep the subtitle text and spoken script connected. They may need different presentation, but a change to the meaning should trigger review of both. Our <a href="https://qorpo.world/ai-game-localization-quality-checks">AI localization checklist</a> explores the wider issue of preserving context instead of approving text in isolation.</p>
+<h2>Build a pronunciation list that a reviewer can hear</h2>
+<p>Collect character names, places, abbreviations and deliberately unusual terms. Record the intended reading with an approved spoken reference or another representation the team can interpret consistently. Do not rely on an invented phonetic spelling that different reviewers read differently.</p>
+<p><a href="https://learn.microsoft.com/en-ca/azure/ai-services/speech-service/speech-synthesis-markup-pronunciation">Microsoft&#x27;s SSML pronunciation documentation</a> describes phoneme, substitution and lexicon tools for supported speech synthesis scenarios. Their availability and limitations depend on the service and locale. Verify the actual tool rather than assuming the same markup works everywhere.</p>
+<p><strong>Original model example: a settlement name.</strong> A fictional game uses the name “Luma Vale”. A reviewer notices that one line joins the two words while another stresses the wrong syllable. The team updates its pronunciation reference, regenerates the affected candidates and rechecks every line using that name. This is an illustrative review decision, not a report of QORPO dialogue production.</p>
+<h2>Review performance in a sequence</h2>
+<p>Listen to connected lines in order. A response can be expressive yet wrong for the preceding question. Review whether the speaker appears to understand the scene, whether pauses support the meaning and whether emotional intensity stays consistent with the brief.</p>
+<p>Give reviewers the approved context and language expertise needed for the decision. An English-speaking producer cannot establish natural delivery in every language from a waveform and a translated summary. Mark missing language review as pending rather than using a technical export check as a substitute.</p>
+<p>Keep a small comparison set when revising a voice. If settings or models change, replay the same representative lines before regenerating the entire script. That helps reveal a character drift early and gives the team an understandable reason for accepting or rejecting a revision.</p>
+<h2>Keep source audio and engine assets distinct</h2>
+<p>Preserve the approved audio export and identify which engine asset was built from it. <a href="https://dev.epicgames.com/documentation/unreal-engine/importing-audio-files?lang=en-US">Epic&#x27;s audio import documentation</a> explains Sound Wave import and platform-specific compression choices. The source export is therefore not the only object that needs listening review.</p>
+<p><a href="https://dev.epicgames.com/documentation/unreal-engine/sound-cue-editor-in-unreal-engine">Epic&#x27;s Sound Cue Editor overview</a> describes Sound Waves as imported audio assets with properties and Sound Cues as graphs that can reference or manipulate them. Changes to a referenced asset can affect its use elsewhere. Review a shared change with that dependency in mind.</p>
+<p>Check the packaged result on the intended output setups. Listen for clipped beginnings, distracting ends, unintelligible quiet passages and unexpected differences from the approved source. Do not infer acceptable loudness or clarity from a screenshot of an audio editor. Define the project&#x27;s delivery requirements with its audio specialists.</p>
+<h2>Test the line where the player hears it</h2>
+<p>Create a repeatable interaction route. Trigger the dialogue, interrupt only where interruption is supported, move through the relevant interface and revisit the action. Observe whether the correct line plays, whether repetitions make sense and whether subtitles correspond to the audible event.</p>
+<p><strong>Original model example: a warning at a gate.</strong> A fictional warning finishes after the player has moved into the next interface. The report names the line, trigger and timing rather than simply requesting a faster voice. The design owner decides whether to shorten the text, change the interaction timing or revise playback behaviour, then the team retests the whole sequence.</p>
+<p>The appropriate fix depends on the experience. Increasing playback speed is not a universal solution, especially when understanding the instruction is the purpose of the line.</p>
+<h2>Make approval and replacement manageable</h2>
+<p>An approval entry should identify the line revision, audio candidate, voice version where available, language reviewer, rights status and engine asset. Distinguish approved, rejected and pending candidates. A filename containing “final” is not a review state.</p>
+<p>For a replacement, preserve the reason and the previous approved revision. This makes it possible to investigate a reported pronunciation regression without guessing which export shipped. The same traceability principle appears in our <a href="https://qorpo.world/ai-animation-retargeting-unreal-review">AI animation review</a> and <a href="https://qorpo.world/ai-game-texture-import-checklist">texture import checklist</a>.</p>
+<h2>Frequently asked questions</h2>
+<h3>Is consent alone enough to use any cloning feature?</h3>
+<p>Not necessarily. Check the provider&#x27;s rules and the actual agreement for the intended use. A particular product may require its own verification and sharing route.</p>
+<h3>Can subtitles be checked separately at the end?</h3>
+<p>They need their own review, but keeping them disconnected from dialogue revisions makes mismatches easier to miss. Test their relationship in the game as well as the text itself.</p>
+<h3>Does generating dialogue quickly prove a production saving?</h3>
+<p>No. Compare the complete accepted workflow, including permissions, direction, review, integration and rework. This guide contains no measured efficiency claim.</p>
+<h2>Continue inside QORPO</h2>
+<p>Explore <a href="https://qorpo.world/blog">QORPO&#x27;s development blog</a> for evidence-driven production guides. Use this workflow to make the next dialogue review specific enough that a writer, audio specialist and engineer can act on the same finding.</p>
+<p>Sources checked on 24 October 2026 and linked beside technical and provider-specific statements. The scenarios and workflow are editorial proposals, not a certification or announcement of a released game system.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/aneemate-graphics-defaults-fresh-profile">AneeMate graphics defaults: a fresh profile is only a starting point</a></p><p><a href="/unreal-pso-shader-stutter-testing">Unreal shader stutter: a PSO playtest evidence plan</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
