@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Game input accessibility: review one action end to end</title>
+<meta name="description" content="Trace one game action through menus, prompts, rebinding and play. A practical input-accessibility review without claiming certification.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/game-input-accessibility-one-action-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Input accessibility: review one action across the whole game">
+<meta property="og:description" content="Trace one game action through menus, prompts, rebinding and play. A practical input-accessibility review without claiming certification.">
+<meta property="og:url" content="https://qorpo.world/game-input-accessibility-one-action-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/game-input-accessibility-one-action-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Input accessibility: review one action across the whole game">
+<meta name="twitter:description" content="Trace one game action through menus, prompts, rebinding and play. A practical input-accessibility review without claiming certification.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/game-input-accessibility-one-action-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A keyboard, controller and large switch connected to the same action symbol">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A keyboard, controller and large switch connected to the same action symbol"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/game-input-accessibility-one-action-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Input accessibility: review one action across the whole game", "description": "Trace one game action through menus, prompts, rebinding and play. A practical input-accessibility review without claiming certification.", "datePublished": "2026-10-28", "dateModified": "2026-10-28", "inLanguage": "en", "wordCount": 1233, "mainEntityOfPage": "https://qorpo.world/game-input-accessibility-one-action-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/game-input-accessibility-one-action-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Input accessibility: review one action across the whole game", "item": "https://qorpo.world/game-input-accessibility-one-action-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Input accessibility: review one action across the whole game</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>28 October 2026 · 6 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/game-input-accessibility-one-action-review/hero-1280.webp" srcset="/assets/blog/game-input-accessibility-one-action-review/hero-640.webp 640w, /assets/blog/game-input-accessibility-one-action-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A keyboard, controller and large switch connected to the same action symbol" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>To review input accessibility, follow one player action through the entire journey: reaching its setting, changing its binding, understanding the prompt, using it in play and recovering when something goes wrong. A remapping option is useful only when the player can reach it and the rest of the game respects the choice.</p>
+<p>This article proposes a practical review for a small development team. It does not certify any QORPO product, claim that every accessibility option is implemented or replace testing with players who use different input methods. The worked example is hypothetical.</p>
+<h2>Start with an action that matters</h2>
+<p>Choose an action that blocks progress if it fails. Interact is a good example because it may open a door, collect an object or begin a conversation. Start by listing where the action is used rather than immediately changing its key.</p>
+<p>For our example, a player needs to interact with a gate after configuring a comfortable binding. Success means more than seeing the new key in a settings row. The player must reach that row, understand the change, return to play and open the gate with the expected input.</p>
+<p>Keep the review small enough to finish. One carefully traced action gives the team a concrete result and a pattern for the next action. A spreadsheet claiming that every control is accessible without performing those journeys gives less useful evidence.</p>
+<h2>Use established guidance as a baseline</h2>
+<p>Microsoft&#x27;s <a href="https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/107">Xbox Accessibility Guideline 107</a> treats input as more than remapping. It asks teams to consider demands such as speed, simultaneous inputs and prolonged activation, as well as alternative ways to operate the interface.</p>
+<p>That is an important boundary: moving a difficult action to another button does not necessarily reduce its physical demand. A toggle or another interaction design may be worth considering, depending on the game.</p>
+<p>Treat those as design questions to evaluate. The existence of a guideline does not prove that a particular option suits your game, that it has been implemented or that a player can complete every sequence.</p>
+<h2>Reach the setting without the missing capability</h2>
+<p>Imagine a player who can use a few digital inputs but cannot comfortably position a pointer. If the settings screen requires a precise mouse click before keyboard navigation becomes available, the remapping feature is behind the barrier it was meant to address.</p>
+<p>For this model review, begin at a fresh launch with the chosen input method. Reach the options screen, move focus to the interaction binding and open its editing state. Note any step that unexpectedly demands a second device.</p>
+<p>Do not silently help the test succeed by using your normal mouse. Record the point of failure. If a supported alternative path exists, test it explicitly and make sure the interface communicates it.</p>
+<h2>Change the binding and read the result</h2>
+<p>Assign a comfortable input, confirm the choice and return to the settings list. Does the row show the new binding? Can the player cancel an accidental edit? If another action already uses the input, is the conflict understandable?</p>
+<p>The review should distinguish a deliberate conflict rule from a broken control. Some contexts can reasonably share an input. Two mutually exclusive menus may not need separate bindings. Two actions required at the same instant deserve closer attention.</p>
+<p>Keep a simple record: original mapping, requested mapping, confirmation behavior and the displayed result. Avoid interpreting a successful screen update as proof that gameplay has also changed.</p>
+<h2>Carry the choice into the world</h2>
+<p>Return to the gate. Read the interaction prompt before pressing anything. It should describe the active configuration in a way the player can recognize, rather than displaying a hard-coded default.</p>
+<p>Now perform the action. If the gate opens with the old key but not the new one, the settings interface and gameplay disagree. If the new key works but the prompt remains old, the player receives misleading guidance even though the binding itself succeeded.</p>
+<p>These are different defects. A useful report names the mismatch precisely and includes the relevant context. The <a href="https://qorpo.world/prototype-vs-production-ready-game">production evidence guide</a> explains why passing one part of a journey does not establish the whole feature.</p>
+<h2>Look at duration and timing separately</h2>
+<p>Suppose opening the gate requires holding Interact. Changing the button may solve reach but leave fatigue unchanged. A separate model test can compare the supported hold behavior with an alternative, if the game offers one.</p>
+<p>Similarly, a quick-time prompt can make the right binding unusable if the response window is too short for the player&#x27;s input method. Do not assume that remapping resolves timing. Record what the action requires and which alternatives the current build actually provides.</p>
+<p>This is where design and engineering need to meet. The answer might be a different interaction, a configurable option or a clearer prompt. A reviewer should describe the barrier without inventing a feature promise.</p>
+<h2>Check persistence and recovery</h2>
+<p>Save the setting through the supported interface, close the game normally and launch again. Verify the visible mapping, prompt and gate interaction in the same conditions. A setting that disappears on restart creates repeated work for the player.</p>
+<p>Then check a recoverable mistake. Can the player restore one binding without resetting every preference? Can they exit an editing state after assigning an awkward key? A control screen should not trap someone inside the configuration they are trying to repair.</p>
+<p>The <a href="https://qorpo.world/save-game-migration-recovery-testing">save and recovery article</a> covers persistence more broadly. For this review, the claim should stay narrow: the tested action retained its chosen mapping in the tested build.</p>
+<h2>Report what happened</h2>
+<p>A useful result names the device, build, action, contexts and actual observations. “Interaction can be rebound and used at the gate, but the tutorial still displays the default” tells a team what to fix.</p>
+<p>Do not label that result full accessibility approval. A single action does not cover every menu, combat requirement, language, device or player need. It establishes a bounded test and identifies the next gap.</p>
+<p>If AI helps draft the report or generate test cases, have a human compare the text with the observation. The <a href="https://qorpo.world/review-ai-generated-game-code">AI code review workflow</a> applies the same principle: persuasive output is not execution evidence.</p>
+<h2>Preserve the review context</h2>
+<p>Attach the selected binding, input device and settings profile to each recorded failure. Include whether the action followed a menu transition or a fresh launch. These details let another reviewer reproduce a confusing prompt without guessing which setup produced it. Retest the same sequence after a fix before closing the issue.</p>
+<h2>Common questions</h2>
+<h3>Is system-level remapping enough?</h3>
+<p>It can help a player, but a game&#x27;s own prompts and navigation can still create barriers. Test the actual route rather than assuming an external mapping makes every context coherent.</p>
+<h3>Should every game offer the same options?</h3>
+<p>Start with the demands of the game and the needs of its players. Established guidance helps frame the questions; product decisions and validation still require specific evidence.</p>
+<h3>Can a team claim certification after this review?</h3>
+<p>No. This is a practical test method, not a certification process or a statement about compliance.</p>
+<h2>Make one action work consistently</h2>
+<p>Choose a meaningful action, follow it without shortcuts and keep the evidence attached to the exact build. Then repeat for another action. That creates a review process a team can trust, while leaving room for player feedback to challenge assumptions.</p>
+<p>Explore the <a href="https://qorpo.world/blog">QORPO blog</a> for related development workflows and the <a href="https://qorpo.world/live">studio live page</a> for product progress.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-family-photo-migration-recovery">TAMITOS update: restoring the original family photographs</a></p><p><a href="/ai-quest-writing-objective-contract">AI-assisted quest writing: define the objective before the dialogue</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

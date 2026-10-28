@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI quest writing: define a testable objective first</title>
+<meta name="description" content="A practical review for one AI-assisted fetch quest: define state, item identity, completion and recovery before approving dialogue.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-quest-writing-objective-contract">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-assisted quest writing: define the objective before the dialogue">
+<meta property="og:description" content="A practical review for one AI-assisted fetch quest: define state, item identity, completion and recovery before approving dialogue.">
+<meta property="og:url" content="https://qorpo.world/ai-quest-writing-objective-contract">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-quest-writing-objective-contract/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-assisted quest writing: define the objective before the dialogue">
+<meta name="twitter:description" content="A practical review for one AI-assisted fetch quest: define state, item identity, completion and recovery before approving dialogue.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-quest-writing-objective-contract/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A miniature branching quest path, a closed chest and a writer&#x27;s desk">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A miniature branching quest path, a closed chest and a writer&#x27;s desk"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-quest-writing-objective-contract/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-assisted quest writing: define the objective before the dialogue", "description": "A practical review for one AI-assisted fetch quest: define state, item identity, completion and recovery before approving dialogue.", "datePublished": "2026-10-28", "dateModified": "2026-10-28", "inLanguage": "en", "wordCount": 1229, "mainEntityOfPage": "https://qorpo.world/ai-quest-writing-objective-contract", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-quest-writing-objective-contract/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-assisted quest writing: define the objective before the dialogue", "item": "https://qorpo.world/ai-quest-writing-objective-contract"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI-assisted quest writing: define the objective before the dialogue</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>28 October 2026 · 6 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-quest-writing-objective-contract/hero-1280.webp" srcset="/assets/blog/ai-quest-writing-objective-contract/hero-640.webp 640w, /assets/blog/ai-quest-writing-objective-contract/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A miniature branching quest path, a closed chest and a writer&#x27;s desk" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>For an AI-assisted quest, write the completion rule before asking for polished dialogue. Decide what the player must do, which state changes prove it and what happens if the sequence is interrupted. Then use the model to draft language that describes those rules accurately. A convincing conversation cannot repair an objective the game cannot evaluate.</p>
+<p>This article proposes a review process for one small fetch quest. It is not a claim that QORPO has released an autonomous quest generator, uses a particular model in production or has measured a development saving. The examples are invented to make the decisions concrete.</p>
+<h2>Start with the player promise</h2>
+<p>Consider a quest giver who asks for a missing brass compass. Before writing a memorable speech, answer a simpler question: what does the game owe the player after they agree?</p>
+<p>For this example, the promise is that the player can locate one specific compass, return it to the quest giver and receive a defined acknowledgement. The objective should not quietly change into collecting any metal item, killing a nearby creature or paying an unexpected fee.</p>
+<p>Write that promise in one plain sentence. If the design cannot be explained without several exceptions, simplify the first implementation. A small objective with clear boundaries gives a writer more useful context than a broad instruction to “make a fun adventure.”</p>
+<h2>Give the object an identity</h2>
+<p>“Compass” is a readable name, but the game needs to distinguish the requested object from other items. Specify which item identity qualifies, whether the player can obtain it before accepting the quest and what should happen to a duplicate.</p>
+<p>These are design decisions, not details for the language model to improvise. A draft that says “bring me any compass” changes the rules if the implementation accepts only one item. A draft that promises the compass can be purchased changes the world if there is no such shop.</p>
+<p>A useful prompt includes the approved item identity in a structured brief while asking the model to use the readable name in dialogue. Keep internal identifiers out of the public prose unless they are intentionally part of the interface.</p>
+<h2>Describe the states in ordinary language</h2>
+<p>For a first pass, define states such as not offered, available, accepted, item obtained and completed. Also decide whether the quest can be declined, paused or abandoned. The names matter less than the transitions between them.</p>
+<p>Epic&#x27;s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/overview-of-state-tree-in-unreal-engine">StateTree overview</a> provides one official example of organizing behavior around states, conditions and transitions. It is a reference for the concept, not a requirement that every quest use that Unreal system.</p>
+<p>For our example, obtaining the item should not automatically grant the return reward if the design requires a handover. Likewise, talking to the character twice should not create two rewards. Write those expectations before the dialogue makes assumptions about them.</p>
+<h2>Give AI a bounded writing brief</h2>
+<p>A useful brief tells the model the character&#x27;s goal, the player&#x27;s current state, the accepted item, the available locations and the outcome it is allowed to describe. Ask for one opening, one reminder and one completion response, rather than an unlimited branching conversation.</p>
+<p>Keep tone and constraints separate. “Warm, slightly distracted cartographer” describes voice. “Do not promise another island or an additional reward” describes a production boundary. Both help, but one should not replace the other.</p>
+<p>Request alternatives only where the game can actually use them. Ten endings are not a benefit when the quest has one completion state and the localization budget covers a single response. A human writer should select the final lines and reconcile them with the approved objective.</p>
+<h2>Review the verbs</h2>
+<p>The most important words in a quest are often ordinary verbs: find, carry, deliver, equip, use and return. Each suggests a different player action.</p>
+<p>If the objective says “use the compass at the lighthouse,” returning it to the quest giver is insufficient. If the interface says “deliver,” the item may need to be removed from the inventory. A model can make these lines sound interchangeable even when their gameplay consequences differ.</p>
+<p>Read every instruction beside the state it describes. Ask whether a player could follow the sentence exactly and still fail the hidden condition. If so, either the sentence or the condition needs correction before the quest is ready.</p>
+<h2>Test the interruption, not just the happy path</h2>
+<p>Our model player accepts the quest, finds the compass and returns. That is one path. It does not cover leaving the area mid-conversation, saving before handover, losing access to the item or returning after the character&#x27;s dialogue state changes.</p>
+<p>Choose a few high-value interruptions and state the expected result. A saved objective should return in a recognizable state. A reward should not duplicate after reopening a conversation. An already-completed quest should not ask the player to find the same unique object again.</p>
+<p>The <a href="https://qorpo.world/save-game-migration-recovery-testing">save migration guide</a> explains a broader persistence concern. Here, the narrow question is whether the quest&#x27;s own state and the item state still agree after an interruption.</p>
+<h2>Build a small review packet</h2>
+<p>Keep the objective contract, selected lines, item rules and test cases together. A reviewer should be able to trace a sentence to the behavior it promises without searching through several chat sessions.</p>
+<p>Mark what has been approved, implemented and actually tested. A script review can establish that the instructions are coherent. A playtest can establish that a particular build follows them. Neither automatically proves all possible paths or every language version.</p>
+<p>This is the same evidence discipline used in <a href="https://qorpo.world/review-ai-generated-game-code">reviewing AI-generated game code</a>. The output is a candidate contribution until its role in the product has been checked.</p>
+<h2>A concrete handoff check</h2>
+<p>In the hypothetical compass quest, give a reviewer three small save files: one before acceptance, one after collecting the compass and one after receiving the reward. Each file should include an expected objective label and a short explanation of the next valid action. Ask a teammate who did not write the dialogue to load each state and follow only the displayed instructions.</p>
+<p>Record the first mismatch between the instruction and the available action. If the reward state still invites collection, changing the character’s tone will not repair it. Correct the state or the instruction, repeat that case and keep the evidence with the approved writing brief.</p>
+<h2>Common questions</h2>
+<h3>Should the model decide the quest reward?</h3>
+<p>Only if the design task explicitly gives it that responsibility and a human reviews the result. For a production writing brief, supply the approved reward and prohibit unsupported additions.</p>
+<h3>Does a state diagram make the quest good?</h3>
+<p>It makes the rules easier to inspect. Enjoyment still depends on the objective, pacing, character and play experience. A coherent implementation is necessary, not sufficient.</p>
+<h3>Can I translate the dialogue immediately?</h3>
+<p>First stabilize the objective language and provide context. The <a href="https://qorpo.world/ai-game-localization-quality-checks">localization review guide</a> covers placeholders, terminology and interface fit. Translating an incorrect instruction simply spreads the mistake.</p>
+<h2>Approve the promise and the words together</h2>
+<p>For a small quest, the goal is a reliable relationship between what the character says and what the player can do. Use AI to explore wording within that relationship. Keep the completion rule, recovery behavior and final editorial decision under explicit review.</p>
+<p>Follow <a href="https://qorpo.world/live">QORPO Studio</a> for product work, and use the <a href="https://qorpo.world/blog">studio blog</a> for practical development explanations. This workflow is an engineering proposal, not a release announcement.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-family-photo-migration-recovery">TAMITOS update: restoring the original family photographs</a></p><p><a href="/game-input-accessibility-one-action-review">Input accessibility: review one action across the whole game</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
