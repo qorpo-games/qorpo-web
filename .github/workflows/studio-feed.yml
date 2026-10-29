@@ -9,15 +9,10 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: write
-  pages: write
-  id-token: write
 jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 40
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,12 +33,29 @@ jobs:
           git commit -m 'Refresh verified studio live feed'
           git pull --rebase origin master
           git push origin HEAD:master
-      # GITHUB_TOKEN commits do not trigger branch-based Pages builds, so deploy explicitly.
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-      - name: Publish refreshed feed and the site
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # The repository's branch-based Pages workflow publishes this push.
+      # A second explicit Pages deployment races it and produces conflict errors.
+      - name: Verify the feed published by GitHub Pages
+        run: |
+          python3 - <<'PY'
+          import json, time, urllib.request
+          from pathlib import Path
+          expected = json.loads(Path('feed.json').read_text())['updated']
+          for attempt in range(36):
+              try:
+                  request = urllib.request.Request(
+                      'https://qorpo.world/feed.json?verify=' + expected,
+                      headers={'Cache-Control': 'no-cache', 'User-Agent': 'studio-feed-release-check'})
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      live = json.load(response)
+                  if live.get('updated') == expected:
+                      coverage = live.get('coverage', {})
+                      print('Public feed verified:', expected, coverage)
+                      break
+              except Exception:
+                  pass
+              time.sleep(10)
+          else:
+              raise SystemExit('Feed committed but public Pages publication was not verified.')
+          PY
 

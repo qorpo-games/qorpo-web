@@ -8,7 +8,9 @@ release feed at help.tamitos.com/v1/releases is a separate source, not a commit 
 Keep the existing two scoped read credentials in GitHub Actions secrets:
 STUDIO_FEED_READ_TOKEN for QORPO-WORLD source repositories and
 TAMITOS_SITE_READ_TOKEN for qorpo-games/tamitos-site-deploy. The workflow's
-GITHUB_TOKEN writes only the destination and publishes Pages. Never copy keys into
+GITHUB_TOKEN writes only the destination; the existing branch-based Pages workflow
+publishes the push, and the feed workflow checks the actual public timestamp.
+There is no second explicit Pages deployment to race that publisher. Never copy keys into
 public files or logs. No source repository write access is needed.
 
 Each source is a transaction: all branch pages and new commit statistics must
