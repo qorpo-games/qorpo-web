@@ -88,11 +88,22 @@ class FeedTests(unittest.TestCase):
         headers['X-RateLimit-Reset'] = '1793240000'
         error = urllib.error.HTTPError('https://api.github.com/repos/QORPO-WORLD/test',403,'Forbidden',headers,io.BytesIO(b'{"message":"API rate limit exceeded"}'))
         output = io.StringIO()
-        with patch.object(feed, 'TOKENS', {'QORPO-WORLD':'private-fixture-key'}), patch.object(feed,'EXHAUSTED_READERS',{}), patch.object(feed.urllib.request,'urlopen',side_effect=error) as request, contextlib.redirect_stdout(output):
+        with patch.object(feed.time, 'time',return_value=1793238000), patch.object(feed, 'TOKENS', {'QORPO-WORLD':'private-fixture-key'}), patch.object(feed,'EXHAUSTED_READERS',{}), patch.object(feed.urllib.request,'urlopen',side_effect=error) as request, contextlib.redirect_stdout(output):
             with self.assertRaises(RuntimeError): feed.get('repos/QORPO-WORLD/test/branches')
             with self.assertRaises(RuntimeError): feed.get('repos/QORPO-WORLD/other/branches')
             self.assertEqual(request.call_count, 1)
         self.assertIn('resets', output.getvalue())
         self.assertNotIn('private-fixture-key', output.getvalue())
+
+    def test_imminent_primary_quota_reset_is_waited_then_retried(self):
+        headers = Message()
+        headers['X-RateLimit-Remaining'] = '0'
+        headers['X-RateLimit-Reset'] = '1793240000'
+        error = urllib.error.HTTPError('https://api.github.com/repos/QORPO-WORLD/test',403,'Forbidden',headers,io.BytesIO(b'{"message":"API rate limit exceeded"}'))
+        response = unittest.mock.MagicMock()
+        response.__enter__.return_value = io.StringIO('{"ok": true}')
+        with patch.object(feed.time,'time',return_value=1793239940), patch.object(feed.time,'sleep') as sleep, patch.object(feed,'TOKENS',{'QORPO-WORLD':'fixture'}), patch.object(feed,'EXHAUSTED_READERS',{}), patch.object(feed.urllib.request,'urlopen',side_effect=[error,response]), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(feed.get('repos/QORPO-WORLD/test/branches'),{'ok':True})
+            sleep.assert_called_once_with(62)
 
 if __name__ == '__main__': unittest.main()

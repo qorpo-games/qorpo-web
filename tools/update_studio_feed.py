@@ -34,7 +34,8 @@ TOKENS = {
 }
 
 # GitHub primary quotas are shared by requests using the same reader. Stop
-# repeating requests after exhaustion; the next scheduled run retries after reset.
+# repeating requests after exhaustion. Wait once for an imminent reset (up to
+# 20 minutes); otherwise the next scheduled run retries.
 EXHAUSTED_READERS = {}
 
 def get(path):
@@ -64,6 +65,11 @@ def get(path):
                 reset = exc.headers.get('X-RateLimit-Reset', '')
                 reset_at = (dt.datetime.fromtimestamp(int(reset), dt.timezone.utc).isoformat()
                             if reset.isdigit() else 'the next scheduled refresh')
+                delay = int(reset) - int(time.time()) + 2 if reset.isdigit() else 0
+                if 0 < delay <= 1200 and attempt < 2:
+                    print(f'GitHub read quota for {path.split("/")[1]} resets {reset_at}; waiting {delay}s before retry.', flush=True)
+                    time.sleep(delay)
+                    continue
                 EXHAUSTED_READERS[token] = reset_at
                 print(f'::warning::GitHub read quota exhausted for {path.split("/")[1]}; resets {reset_at}. Previous entries retained.', flush=True)
                 raise RuntimeError('GitHub primary read quota exhausted') from None
