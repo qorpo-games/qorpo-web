@@ -1,6 +1,6 @@
 name: Refresh studio live feed
 on:
-  # Enable only after both scoped read credentials have been configured and a manual run passes.
+  # Existing hourly schedule; each source reports independent refresh coverage.
   schedule:
     - cron: '17 * * * *'
   workflow_dispatch:
@@ -22,6 +22,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: master
+      - name: Test feed recovery and source isolation
+        run: python3 -B tools/test_studio_feed.py
       - name: Read all studio repositories and rebuild the verified feed
         env:
           STUDIO_FEED_READ_TOKEN: ${{ secrets.STUDIO_FEED_READ_TOKEN }}
@@ -43,3 +45,4 @@ jobs:
       - name: Publish refreshed feed and the site
         id: deployment
         uses: actions/deploy-pages@v4
+

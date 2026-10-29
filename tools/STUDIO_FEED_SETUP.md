@@ -1,31 +1,31 @@
-# Independent hourly studio feed
+# Studio live feed
 
-The live feed and both websites are refreshed. AneeMate /dev, AneeMate homepage,
-QORPO /live and the QORPO on-page update popup all read qorpo.world/feed.json.
-The clients now refresh every five minutes while visible and on returning to the tab.
+The existing hourly workflow refreshes qorpo.world/feed.json. QORPO /live,
+the QORPO update popup, AneeMate /dev and its home band consume that source.
+TAMITOS commits are included in the shared studio log. TAMITOS Move's editorial
+release feed at help.tamitos.com/v1/releases is a separate source, not a commit feed.
 
-There was no GitHub update workflow or repository secret in qorpo-games/qorpo-web.
-The hourly producer cannot authenticate to nine private source repositories yet.
-The updater is committed as tools/update_studio_feed.py. The manual-only workflow is committed at .github/workflows/studio-feed.yml.
-Its hourly schedule is commented out until access is configured and a manual run passes.
+Keep the existing two scoped read credentials in GitHub Actions secrets:
+STUDIO_FEED_READ_TOKEN for QORPO-WORLD source repositories and
+TAMITOS_SITE_READ_TOKEN for qorpo-games/tamitos-site-deploy. The workflow's
+GITHUB_TOKEN writes only the destination and publishes Pages. Never copy keys into
+public files or logs. No source repository write access is needed.
 
-The account owner must create two fine-grained GitHub tokens with Contents: Read-only:
+Each source is a transaction: all branch pages and new commit statistics must
+succeed, or that source retains its prior entries. An unavailable source does not
+stop healthy sources. The feed reports coverage.complete/partial, source checked
+time and last successful scan; partial totals are explicitly labelled by clients.
+If all sources fail, the previous feed remains byte-for-byte unchanged and CI fails.
 
-1. Resource owner QORPO-WORLD, selected repositories:
-   aneemate-web, aneemate-competitions, AneeMateV2, Aneemate_Source,
-   tamitos-webapp, tamitos-mobileapp, TaleOfUnderstanding, OneLife.
-   Save in qorpo-games/qorpo-web Actions secrets as STUDIO_FEED_READ_TOKEN.
-2. Resource owner qorpo-games, only tamitos-site-deploy.
-   Save in the same repository as TAMITOS_SITE_READ_TOKEN.
+On 29 October, Aneemate_Source returned404 and had frozen the whole feed since
+23 October. A404 can mean missing repository or missing read access; do not infer
+which without owner confirmation. Restore its existing read access or confirm its
+retirement. Do not silently substitute another repository or broaden permissions.
 
-Do not paste credentials into chat. No private source repository write permission is needed.
-The workflow's automatic GITHUB_TOKEN writes only the public destination feed and deploys Pages.
-After secrets are saved, run the workflow manually, verify the result and enable
-the commented schedule. It then repeats at minute 17 each hour without Claude or Codex credits.
-The owner must ensure organization approval for the QORPO-WORLD read token if required.
+Run python3 -B tools/test_studio_feed.py for recovery, rollback, deduplication,
+rerun and total-failure fixtures. Trigger the existing workflow after a repair,
+verify its coverage summary, then verify the public feed timestamp and the real
+Today filters. A green partial run means healthy sources refreshed, not full coverage.
 
-All branches are paginated; duplicate SHAs from multiple branches count once per repository.
-Each addition/deletion count is taken from the GitHub commit endpoint. Errors leave the
-previous feed intact. No emails, author names, source diffs or tokens are published.
-All-time statistics remain explicitly labelled as the historical snapshot; this task
-updates the rolling activity feed, not the 280-repository historical census.
+Clients refresh every five minutes while visible and on tab return. All-time
+numbers remain the labelled historical snapshot, separate from rolling activity.

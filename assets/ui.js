@@ -132,7 +132,7 @@
       var h='<div class="lt-head"><span><i></i><b>LIVE</b> from the studio</span><button class="lt-close" type="button" aria-label="Collapse live updates"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div><div class="lt-scroll">';
       var n=list.length;for(var k=n-1;k>=0;k--){var it=list[k],p=P[it.k],href=it.u||p[2];var tag=href?'a':'div';
         h+='<'+tag+' class="lt-card in" style="--lc:'+p[1]+';--ld:'+((n-1-k)*55)+'ms"'+(href?' href="'+esc(href)+'"'+(it.u?' target="_blank" rel="noopener"':''):'')+'>'+body(it,k===0)+'</'+tag+'>'}
-      panel.innerHTML=h.replace('<div class="lt-scroll">',statsHtml()+'<div class="lt-scroll">')+'</div>';box.insertBefore(panel,pill);
+      panel.innerHTML=h.replace('<div class="lt-scroll">',(S.health?'<p class="lt-t" role="status">'+esc(S.health)+'</p>':'')+statsHtml()+'<div class="lt-scroll">')+'</div>';box.insertBefore(panel,pill);
       var sc=panel.querySelector('.lt-scroll');sc.scrollTop=sc.scrollHeight;
       panel.querySelector('.lt-close').addEventListener('click',collapse);
       [].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(b){b.addEventListener('click',function(){[].forEach.call(panel.querySelectorAll('.lt-tabs button'),function(x){x.classList.toggle('on',x===b)});var t=b.dataset.t;panel.querySelector('.lt-stats').classList.toggle('alltime',t==='a');[].forEach.call(panel.querySelectorAll('.lt-pp'),function(x){x.hidden=x.dataset.pp!==t})})});
@@ -154,7 +154,7 @@
     pill.addEventListener('click',expand);
     timer=setTimeout(show,3500);return function(){clearTimeout(timer);box.remove()}}
   var stop=null,version=null;
-  function go(d){d=d||{};if(version===d.updated)return;version=d.updated;if(stop)stop();stop=start(items(d),stats(d))}
+  function go(d){d=d||{};if(version===d.updated)return;version=d.updated;if(stop)stop();var S=stats(d),c=d.coverage;S.health=c&&c.status==='partial'?'Partial coverage: '+c.refreshed_repos+'/'+c.tracked_repos+' sources. Totals may be incomplete.':'';if(Date.now()-new Date(d.updated).getTime()>3*3600e3)S.health='Feed delayed; daily totals may be incomplete.';stop=start(items(d),S)}
   if(!window.fetch){return}
   function refresh(){return fetch('/feed.json?t='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(go).catch(function(){if(!version&&window.SNAP)go(window.SNAP)})}
   refresh();setInterval(function(){if(!document.hidden)refresh()},300000);document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
@@ -163,3 +163,4 @@
 
 /* Measurement (GA4 with consent mode): assets/qtrack.js, shared with aneemate.com */
 (function(){if(document.querySelector('script[src*="qtrack.js"]'))return;var s=document.createElement('script');s.src='/assets/qtrack.js?v=2';s.defer=true;document.head.appendChild(s)})();
+

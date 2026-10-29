@@ -87,19 +87,27 @@ def main():
     # Always rescan the whole 30-day window, so commits missed by an earlier run
     # (outage, rate limit, no credits, a 300-commit page cap) are filled in. Only unseen commits cost a stats call.
     since = (now - dt.timedelta(days=30)).isoformat()
-    commits = {}
-    jobs = []
-    for repo in REPOS:
+    # A source is one transaction: publish all of its branches and stats, or keep
+    # its previous entries. One unavailable repository must not freeze the studio.
+    source_status = {}
+    def scan_repo(repo):
+        found = {}
         for branch in pages(f'repos/{repo}/branches'):
-            jobs.append((repo, branch['name']))
-    def branch_commits(job):
-        repo, branch = job
-        query = urllib.parse.urlencode({'sha': branch, 'since': since})
-        return repo, pages(f'repos/{repo}/commits?{query}')
+            query = urllib.parse.urlencode({'sha': branch['name'], 'since': since})
+            for commit in pages(f'repos/{repo}/commits?{query}'):
+                found[commit['sha']] = commit
+        return found
+    commits = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-        for repo, batch in pool.map(branch_commits, jobs):
-            for commit in batch:
-                commits[(repo, commit['sha'])] = commit
+        jobs = {repo: pool.submit(scan_repo, repo) for repo in REPOS}
+        for repo, job in jobs.items():
+            try:
+                for sha, commit in job.result().items():
+                    commits[(repo, sha)] = commit
+                source_status[repo.split('/')[1]] = {'status': 'ok'}
+            except (RuntimeError, urllib.error.URLError, TimeoutError):
+                source_status[repo.split('/')[1]] = {'status': 'unavailable'}
+                print(f'::warning::Studio feed source unavailable: {repo}. Previous entries retained.', flush=True)
     old_log = old.get('log', [])
     keys = {(entry['r'], entry['s']): entry for entry in old_log}
     def previous(repo, sha):
@@ -120,8 +128,22 @@ def main():
             'u': identities.get(identity(commit), identity(commit)[:16]),
             'm': commit['commit']['message'].splitlines()[0],
         }
+    added = []
+    # A stats error also rolls back that source, never silently publishing a
+    # subset of its newly discovered commits as a complete refresh.
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-        added = list(pool.map(enrich, unseen))
+        for repo in REPOS:
+            if source_status[repo.split('/')[1]]['status'] != 'ok':
+                continue
+            try:
+                batch = list(pool.map(enrich, [item for item in unseen if item[0] == repo]))
+                added.extend(batch)
+            except (RuntimeError, urllib.error.URLError, TimeoutError):
+                source_status[repo.split('/')[1]] = {'status': 'unavailable'}
+                print(f'::warning::Studio feed source stats unavailable: {repo}. Previous entries retained.', flush=True)
+    successful = sum(s['status'] == 'ok' for s in source_status.values())
+    if not successful:
+        raise SystemExit('No studio source could be refreshed. Existing feed remains untouched.')
     for (repo, sha), commit in commits.items():
         entry = previous(repo, sha)
         if entry is not None and 'm' not in entry:
@@ -129,7 +151,18 @@ def main():
     cutoff = (now - dt.timedelta(days=31)).isoformat().replace('+00:00', 'Z')
     log = sorted((entry for entry in old_log + added if entry['t'] >= cutoff), key=lambda entry: entry['t'], reverse=True)
     # Commit messages are already public in this feed. Never publish emails, author names, tokens, or diffs.
-    result = {**old, 'updated': now.isoformat(timespec='seconds').replace('+00:00', 'Z'), 'log': log, 'builder_ids': identities}
+    refreshed = now.isoformat(timespec='seconds').replace('+00:00', 'Z')
+    previous_sources = old.get('sources', {})
+    for repo, status in source_status.items():
+        status['checked'] = refreshed
+        if status['status'] == 'ok':
+            status['last_success'] = refreshed
+        else:
+            status['last_success'] = previous_sources.get(repo, {}).get('last_success', old.get('updated'))
+    result = {**old, 'updated': refreshed, 'log': log, 'builder_ids': identities,
+              'coverage': {'status': 'complete' if successful == len(REPOS) else 'partial',
+                           'refreshed_repos': successful, 'tracked_repos': len(REPOS)},
+              'sources': source_status}
     for project in ('aneemate', 'tamitos', 'onelife'):
         originals = {(e['r'], e['t']): e.get('m') for e in old.get(project, [])}
         result[project] = [{**entry, 'm': entry.get('m') or originals.get((entry['r'], entry['t'])) or 'Studio repository update'} for entry in log if entry['p'] == project][:24]
@@ -138,8 +171,9 @@ def main():
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     temporary.replace(path)
-    print(f'Verified {len(commits)} commits; added {len(added)}; kept {len(log)} in the rolling feed')
+    print(f'Refreshed {successful}/{len(REPOS)} sources; added {len(added)} verified commits; kept {len(log)} in the rolling feed')
 
 if __name__ == '__main__':
     main()
+
 

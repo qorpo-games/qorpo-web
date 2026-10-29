@@ -265,7 +265,10 @@
     else{sp.style.display='none';$('lvA').parentNode.style.display='none'}
     var tot=s.prod.reduce(function(a,p){return a+p[1]},0)||1;
     $('lvPer').innerHTML=s.prod.map(function(p){return '<div style="--lc:'+P[p[0]][1]+'"><span>'+P[p[0]][0]+'</span><i><em style="width:'+Math.max(1.5,p[1]/tot*100).toFixed(1)+'%"></em></i><b>'+k(p[1])+'</b></div>'}).join('');
-    $('lvNote').textContent=s.note||'';
+    var coverage=FEED&&FEED.coverage,age=FEED&&Date.now()-new Date(FEED.updated).getTime();
+    var health=coverage&&coverage.status==='partial'?'Partial coverage: '+coverage.refreshed_repos+' of '+coverage.tracked_repos+' sources refreshed. Totals may be incomplete.':'';
+    if(age>3*3600e3)health='Feed delayed: daily totals may be incomplete. Last refresh '+ago(FEED.updated)+'.';
+    $('lvNote').textContent=[s.note,health].filter(Boolean).join(' ');
   }
   document.querySelectorAll('.lv-tabs button').forEach(function(b){b.addEventListener('click',function(){PER=b.dataset.p;render()})});
 
@@ -309,7 +312,8 @@
     /* stats block */
     var by=port?stY+(FMT==='story'?90:56):300,maxW=port?W-2*L:860;
     var d=new Date(),ds=d.getDate()+' '+d.toLocaleString('en-US',{month:'short'}).toUpperCase()+' '+d.getFullYear();
-    c.font='700 '+Math.round(20*u)+'px "JetBrains Mono"';c.fillStyle='rgba(233,238,247,.6)';c.fillText((s.label+'  ·  '+ds).toUpperCase(),L,by-(port?20:0));
+    var partial=FEED&&FEED.coverage&&FEED.coverage.status==='partial';
+    c.font='700 '+Math.round(20*u)+'px "JetBrains Mono"';c.fillStyle='rgba(233,238,247,.6)';c.fillText((s.label+'  ·  '+ds+(partial&&s.per!=='all'?'  ·  PARTIAL':'')).toUpperCase(),L,by-(port?20:0));
     var big=s.big,fs=fitText(c,big,'900 #px Unbounded',maxW*.9,FMT==='story'?230:(FMT==='ig'?168:176));
     c.font='900 '+fs+'px Unbounded';var bg=c.createLinearGradient(L,0,L+c.measureText(big).width,0);bg.addColorStop(0,'#7df7c4');bg.addColorStop(1,'#5ef0b0');c.fillStyle=bg;c.fillText(big,L-4,by+fs*.98);
     var y2=by+fs*.98+(port?62:66)*u;c.font='700 '+Math.round(34*u)+'px Outfit';c.fillStyle='#fff';c.fillText(s.per==='all'?'commits shipped since 2021':(s.per==='today'?'commits shipped today':'commits shipped'),L,y2);
@@ -365,4 +369,5 @@
 </script>
 <script src="/assets/blog-discovery.js?v=1" defer></script></body>
 </html>
+
 
