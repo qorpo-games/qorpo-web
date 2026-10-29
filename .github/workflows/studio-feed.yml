@@ -28,6 +28,7 @@ jobs:
         env:
           STUDIO_FEED_READ_TOKEN: ${{ secrets.STUDIO_FEED_READ_TOKEN }}
           TAMITOS_SITE_READ_TOKEN: ${{ secrets.TAMITOS_SITE_READ_TOKEN }}
+          TAMITOS_SOURCE_READ_TOKEN: ${{ secrets.TAMITOS_SOURCE_READ_TOKEN }}
         run: python3 tools/update_studio_feed.py
       - name: Save the feed without modifying other files
         run: |

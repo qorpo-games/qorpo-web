@@ -17,10 +17,15 @@ stop healthy sources. The feed reports coverage.complete/partial, source checked
 time and last successful scan; partial totals are explicitly labelled by clients.
 If all sources fail, the previous feed remains byte-for-byte unchanged and CI fails.
 
-On 29 October, Aneemate_Source returned404 and had frozen the whole feed since
-23 October. A404 can mean missing repository or missing read access; do not infer
-which without owner confirmation. Restore its existing read access or confirm its
-retirement. Do not silently substitute another repository or broaden permissions.
+On 29 October, the old QORPO-WORLD/Aneemate_Source path returned404 and had
+frozen the whole feed since23October. Authenticated GitHub navigation verified that
+both Aneemate_Source and OneLife moved to owner TAMITOS. The canonical source
+paths are now TAMITOS/Aneemate_Source and TAMITOS/OneLife, preserving their history.
+For these two repositories the collector uses TAMITOS_SOURCE_READ_TOKEN when
+configured, otherwise tries the existing STUDIO_FEED_READ_TOKEN. If the existing
+reader cannot access the new owner, the owner must configure a scoped Contents:
+Read-only credential for only these two repositories. Never create or expand access
+automatically. Do not replace this with a source write credential.
 
 Run python3 -B tools/test_studio_feed.py for recovery, rollback, deduplication,
 rerun and total-failure fixtures. Trigger the existing workflow after a repair,

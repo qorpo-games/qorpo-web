@@ -18,15 +18,18 @@ REPOS = {
     'QORPO-WORLD/aneemate-web': 'aneemate',
     'QORPO-WORLD/aneemate-competitions': 'aneemate',
     'QORPO-WORLD/AneeMateV2': 'aneemate',
-    'QORPO-WORLD/Aneemate_Source': 'aneemate',
+    'TAMITOS/Aneemate_Source': 'aneemate',
     'QORPO-WORLD/tamitos-webapp': 'tamitos',
     'QORPO-WORLD/tamitos-mobileapp': 'tamitos',
     'QORPO-WORLD/TaleOfUnderstanding': 'tamitos',
-    'QORPO-WORLD/OneLife': 'onelife',
+    'TAMITOS/OneLife': 'onelife',
     'qorpo-games/tamitos-site-deploy': 'tamitos',
 }
 TOKENS = {
     'QORPO-WORLD': os.environ.get('STUDIO_FEED_READ_TOKEN'),
+    # The source repository moved owners. An existing reader may still have
+    # access; a dedicated read-only token can override it without code changes.
+    'TAMITOS': os.environ.get('TAMITOS_SOURCE_READ_TOKEN') or os.environ.get('STUDIO_FEED_READ_TOKEN'),
     'qorpo-games': os.environ.get('TAMITOS_SITE_READ_TOKEN'),
 }
 
