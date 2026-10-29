@@ -14,16 +14,18 @@ feed = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(feed)
 
 class FeedTests(unittest.TestCase):
-    def run_feed(self, fail=None, stats_fail=False, all_fail=False):
+    def run_feed(self, fail=None, stats_fail=False, all_fail=False, cached=False):
         now = dt.datetime.now(dt.timezone.utc).isoformat().replace('+00:00', 'Z')
         old = {'updated': '2026-10-23T13:26:41Z', 'log': [
             {'r': 'old', 's': 'oldsha', 'p': 'aneemate', 't': now, 'u': 'old', 'a': 1, 'd': 0, 'm': 'Retained'}]}
         repos = {'QORPO-WORLD/good': 'tamitos', 'QORPO-WORLD/old': 'aneemate'}
+        if cached: old['sources'] = {'old': {'status': 'ok'}}
         def pages(path):
             repo = path.split('/')[2]
             if all_fail or (repo == fail and not stats_fail):
                 raise RuntimeError('GitHub HTTP404')
-            if '/branches' in path: return [{'name': 'main'}, {'name': 'other'}]
+            if '/branches' in path: return [{'name': 'main', 'commit': {'sha':repo+'sha'}}, {'name': 'other', 'commit': {'sha':repo+'sha'}}]
+            if cached and repo == 'old': raise AssertionError('Unchanged complete ancestry fetched again')
             batch = [{'sha': repo + 'sha', 'author': {'login': repo}, 'commit': {
                 'author': {'email': 'fixture@example.invalid'}, 'committer': {'date': now},
                 'message': 'Fixture update'}}]
@@ -71,5 +73,11 @@ class FeedTests(unittest.TestCase):
         self.assertNotIn('goodsha', [e['s'] for e in d['log']])
 
     def test_total_failure_does_not_replace_feed(self): self.run_feed(all_fail=True)
+
+    def test_known_complete_head_reused_but_new_head_scanned(self):
+        d = self.run_feed(cached=True)
+        self.assertEqual(d['coverage']['status'], 'complete')
+        self.assertIn('goodsha', [e['s'] for e in d['log']])
+        self.assertIn('oldsha', [e['s'] for e in d['log']])
 
 if __name__ == '__main__': unittest.main()

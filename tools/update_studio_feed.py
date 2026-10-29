@@ -90,12 +90,22 @@ def main():
     # Always rescan the whole 30-day window, so commits missed by an earlier run
     # (outage, rate limit, no credits, a 300-commit page cap) are filled in. Only unseen commits cost a stats call.
     since = (now - dt.timedelta(days=30)).isoformat()
+    old_log = old.get('log', [])
+    keys = {(entry['r'], entry['s']): entry for entry in old_log}
     # A source is one transaction: publish all of its branches and stats, or keep
     # its previous entries. One unavailable repository must not freeze the studio.
     source_status = {}
     def scan_repo(repo):
         found = {}
+        name = repo.split('/')[1]
+        prior_complete = old.get('sources', {}).get(name, {}).get('status') == 'ok'
         for branch in pages(f'repos/{repo}/branches'):
+            head = (branch.get('commit') or {}).get('sha')
+            # An unchanged head already in a successfully scanned source has
+            # the same ancestry, so its recent commits are already in old_log.
+            # Failed/unknown sources must still get a full recovery scan.
+            if prior_complete and head and any(r == name and head.startswith(s) for r, s in keys):
+                continue
             query = urllib.parse.urlencode({'sha': branch['name'], 'since': since})
             for commit in pages(f'repos/{repo}/commits?{query}'):
                 found[commit['sha']] = commit
@@ -111,8 +121,6 @@ def main():
             except (RuntimeError, urllib.error.URLError, TimeoutError):
                 source_status[repo.split('/')[1]] = {'status': 'unavailable'}
                 print(f'::warning::Studio feed source unavailable: {repo}. Previous entries retained.', flush=True)
-    old_log = old.get('log', [])
-    keys = {(entry['r'], entry['s']): entry for entry in old_log}
     def previous(repo, sha):
         return next((entry for (r, s), entry in keys.items() if r == repo.split('/')[1] and sha.startswith(s)), None)
     identities = old.get('builder_ids', {})

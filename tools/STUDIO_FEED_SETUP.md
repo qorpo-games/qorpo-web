@@ -17,6 +17,11 @@ stop healthy sources. The feed reports coverage.complete/partial, source checked
 time and last successful scan; partial totals are explicitly labelled by clients.
 If all sources fail, the previous feed remains byte-for-byte unchanged and CI fails.
 
+After a successful source scan, a branch head already present in that source's
+verified log reuses its unchanged ancestry. New heads are scanned; unavailable or
+unknown sources always receive a recovery scan. This avoids repeatedly paging
+the same branch history every hour while preserving outage backfill.
+
 On 29 October, the old QORPO-WORLD/Aneemate_Source path returned404 and had
 frozen the whole feed since23October. Authenticated GitHub navigation verified that
 both Aneemate_Source and OneLife moved to owner TAMITOS. The canonical source
