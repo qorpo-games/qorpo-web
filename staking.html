@@ -25,6 +25,10 @@
 {"@type":"Question","name":"What are Community Points?","acceptedAnswer":{"@type":"Answer","text":"A loyalty score that ranks you on the leaderboard. Your stake earns points every day, and the daily amount grows with your QORPO Power level. They are off-chain rewards, not a financial return."}},
 {"@type":"Question","name":"What is the QORPO daily Spin?","acceptedAnswer":{"@type":"Answer","text":"A free, provably-fair daily reward for wallets staking at least 10,000 $QORPO. Higher QORPO Power levels unlock more spins per day. Rewards are Community Points, not money."}},
 {"@type":"Question","name":"What APY does QORPO staking pay?","acceptedAnswer":{"@type":"Answer","text":"APY tiers pay additional $QORPO, roughly 15% (Low) to 30% (High), set on-chain by the staking contract and subject to change."}},
+{"@type": "Question", "name": "How and when is the APY paid?", "acceptedAnswer": {"@type": "Answer", "text": "Holder APY is not paid daily or monthly. The full reward (15% or 30% of that stake) is paid in one transfer, together with your principal, when you unstake after the 365 day lock ends. Until then your wallet balance stays the same. What grows every day is your Community Points score. Your stake card above shows the unlock date and the exact $QORPO you will receive."}},
+{"@type": "Question", "name": "Can I withdraw the APY reward and keep my stake?", "acceptedAnswer": {"@type": "Answer", "text": "Not separately. Each Holder stake pays its principal and its APY together when you unstake it after the lock. If you want to keep earning, unstake after the unlock date and stake again; the new stake starts a new 365 day lock."}},
+{"@type": "Question", "name": "What happens if I unstake a Holder stake early?", "acceptedAnswer": {"@type": "Answer", "text": "You get your principal back, minus the fee below, but no APY. In the first 30 days an early-exit fee of 30% applies, from day 31 to 60 it is 15%, from day 61 to 90 it is 10%, and after day 90 there is no fee. These rules are set in the staking contract on both chains."}},
+{"@type": "Question", "name": "Does the Trader pool pay APY?", "acceptedAnswer": {"@type": "Answer", "text": "No. Trader is the flexible pool: no minimum, no lock, unstake any time. It earns daily Community Points by your QORPO Power level, but no extra $QORPO."}},
 {"@type":"Question","name":"Is QORPO staking custodial?","acceptedAnswer":{"@type":"Answer","text":"No. Staking is non-custodial through your own wallet; QORPO never holds your private keys or funds."}}
 ]}
 ]}
@@ -617,11 +621,15 @@ main{position:relative;z-index:1}
       <details class="rv"><summary>How does QORPO staking work?</summary><p>Stake $QORPO here, flexible or locked. Every staked token earns Community Points, and you can earn APY paid in more $QORPO straight from the on-chain contract.</p></details>
       <details class="rv"><summary>What are Community Points?</summary><p>A loyalty score that ranks you on the <a href="/leaderboard">leaderboard</a>. Your stake earns points every day, and the daily amount grows with your QORPO Power level. They are off-chain rewards, not a financial return.</p></details>
       <details class="rv"><summary>What is the daily Spin?</summary><p>A free, provably-fair daily reward for wallets staking at least 10,000 $QORPO. Higher QORPO Power levels unlock more <a href="/spin">spins</a> per day. Rewards are Community Points, not money.</p></details>
-      <details class="rv"><summary>What APY does QORPO staking pay?</summary><p>APY tiers pay additional $QORPO, roughly 15% (Low) to 30% (High), set on-chain by the staking contract and subject to change.</p></details>
+      <details class="rv"><summary>What APY does QORPO staking pay?</summary><p>The Holder pool pays 15% (stakes from 15,001 $QORPO) or 30% (from 50,001 $QORPO) for a 365 day lock, in $QORPO, set on-chain by the staking contract and subject to change.</p></details>
+      <details class="rv"><summary>How and when is the APY paid?</summary><p>Holder APY is not paid daily or monthly. The full reward (15% or 30% of that stake) is paid in one transfer, together with your principal, when you unstake after the 365 day lock ends. Until then your wallet balance stays the same. What grows every day is your Community Points score. Your stake card above shows the unlock date and the exact $QORPO you will receive.</p></details>
+      <details class="rv"><summary>Can I withdraw the APY reward and keep my stake?</summary><p>Not separately. Each Holder stake pays its principal and its APY together when you unstake it after the lock. If you want to keep earning, unstake after the unlock date and stake again; the new stake starts a new 365 day lock.</p></details>
+      <details class="rv"><summary>What happens if I unstake a Holder stake early?</summary><p>You get your principal back, minus the fee below, but no APY. In the first 30 days an early-exit fee of 30% applies, from day 31 to 60 it is 15%, from day 61 to 90 it is 10%, and after day 90 there is no fee. These rules are set in the staking contract on both chains.</p></details>
+      <details class="rv"><summary>Does the Trader pool pay APY?</summary><p>No. Trader is the flexible pool: no minimum, no lock, unstake any time. It earns daily Community Points by your QORPO Power level, but no extra $QORPO.</p></details>
       <details class="rv"><summary>Is QORPO staking custodial?</summary><p>No. Staking is non-custodial through your own wallet; QORPO never holds your private keys or funds.</p></details>
     </div>
     <div class="social"><span>Community</span><div class="fsoc" id="fsoc"></div></div>
-    <p class="disclaimer">Staking uses real smart contracts and real tokens. Locked Holder stakes cannot be withdrawn early without forfeiting the APY bonus and paying an on-chain early-exit penalty. APY rates are set by the staking contract and can change; nothing on this page is a promise of returns or financial advice. Community Points are off-chain loyalty rewards, not a financial return.</p>
+    <p class="disclaimer">Staking uses real smart contracts and real tokens. Holder APY is paid in full at the end of the 365 day lock, together with the principal. Unstaking a Holder stake early forfeits the APY, and in the first 90 days an on-chain early-exit fee also applies (30%, 15% or 10%). APY rates are set by the staking contract and can change; nothing on this page is a promise of returns or financial advice. Community Points are off-chain loyalty rewards, not a financial return.</p>
   </div></section>
 </main>
 
@@ -845,13 +853,25 @@ main{position:relative;z-index:1}
     }catch(e){}
   }
 
+  // Holder stake: show when it unlocks, what it pays at unlock, and the early-exit fee today.
+  function holderInfo(p){
+    var t=null; tierList.forEach(function(x){if(x.idx===p.type)t=x;});
+    var apy=t?t.apy:(p.type===2?30:15), dur=t?t.duration:31556926;
+    var unlock=p.start+dur, now=Date.now()/1000, days=(now-p.start)/86400;
+    var reward=p.amount*BigInt(Math.round(apy*100))/10000n;
+    var d=new Date(unlock*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+    if(now>=unlock) return '<span class="mono mid" style="color:var(--faint)">'+apy+'% APY<br><b style="color:#4ade80">Unlocked: +'+fmt(reward)+' $QORPO ready</b></span>';
+    var fee=days<=30?30:days<=60?15:days<=90?10:0;
+    return '<span class="mono mid" style="color:var(--faint);font-size:13px;line-height:1.45">'+apy+'% APY, unlocks '+d+'<br>Pays +'+fmt(reward)+' $QORPO at unlock<br>Exit now: no APY'+(fee?', '+fee+'% fee':', no fee')+'</span>';
+  }
+
   function renderPositions(noApy,active){
     var box=$('positions');var html='';
     if(noApy>0n){
       html+='<div class="prow"><span><b>Trader</b> <span class="mono" style="color:var(--faint)">flexible</span></span><span class="mono mid">'+fmt(noApy)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">no lock</span><button class="btn btn-glass un" data-un="noapy" type="button">Unstake</button></div>';
     }
     active.forEach(function(p){
-      html+='<div class="prow"><span><b>Holder stake</b> <span class="mono" style="color:var(--faint)">#'+p.i+'</span></span><span class="mono mid">'+fmt(p.amount)+' $QORPO</span><span class="mono mid" style="color:var(--faint)">type '+p.type+'</span><button class="btn btn-glass un" data-un="apy" data-i="'+p.i+'" type="button">Unstake</button></div>';
+      html+='<div class="prow"><span><b>Holder stake</b> <span class="mono" style="color:var(--faint)">#'+p.i+'</span></span><span class="mono mid">'+fmt(p.amount)+' $QORPO</span>'+holderInfo(p)+'<button class="btn btn-glass un" data-un="apy" data-i="'+p.i+'" type="button">Unstake</button></div>';
     });
     box.innerHTML=html||'<div class="empty">No active stakes on '+CHAINS[chainId].name+' yet.</div>';
     [].forEach.call(box.querySelectorAll('[data-un]'),function(b){b.addEventListener('click',function(){unstake(b.dataset.un,b.dataset.i);});});
