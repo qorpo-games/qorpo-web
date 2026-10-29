@@ -33,9 +33,16 @@ TOKENS = {
     'qorpo-games': os.environ.get('TAMITOS_SITE_READ_TOKEN'),
 }
 
+# GitHub primary quotas are shared by requests using the same reader. Stop
+# repeating requests after exhaustion; the next scheduled run retries after reset.
+EXHAUSTED_READERS = {}
+
 def get(path):
+    token = TOKENS[path.split('/')[1]]
+    if token in EXHAUSTED_READERS:
+        raise RuntimeError('GitHub read quota exhausted; retry after ' + EXHAUSTED_READERS[token])
     req = urllib.request.Request('https://api.github.com/' + path, headers={
-        'Authorization': 'Bearer ' + TOKENS[path.split('/')[1]],
+        'Authorization': 'Bearer ' + token,
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
         'User-Agent': 'qorpo-studio-feed',
@@ -53,6 +60,13 @@ def get(path):
             rate_limited = exc.code == 429 or (
                 exc.code == 403 and ('rate limit' in str(message).lower()
                                     or exc.headers.get('Retry-After')))
+            if rate_limited and exc.headers.get('X-RateLimit-Remaining') == '0':
+                reset = exc.headers.get('X-RateLimit-Reset', '')
+                reset_at = (dt.datetime.fromtimestamp(int(reset), dt.timezone.utc).isoformat()
+                            if reset.isdigit() else 'the next scheduled refresh')
+                EXHAUSTED_READERS[token] = reset_at
+                print(f'::warning::GitHub read quota exhausted for {path.split("/")[1]}; resets {reset_at}. Previous entries retained.', flush=True)
+                raise RuntimeError('GitHub primary read quota exhausted') from None
             transient = exc.code >= 500 or rate_limited
             if not transient or attempt == 2:
                 raise RuntimeError(f'GitHub HTTP {exc.code} for {path}: {message}') from None

@@ -1,3 +1,5 @@
+import urllib.error
+from email.message import Message
 import contextlib
 import datetime as dt
 import importlib.util
@@ -79,5 +81,18 @@ class FeedTests(unittest.TestCase):
         self.assertEqual(d['coverage']['status'], 'complete')
         self.assertIn('goodsha', [e['s'] for e in d['log']])
         self.assertIn('oldsha', [e['s'] for e in d['log']])
+
+    def test_primary_rate_limit_stops_repeated_requests_without_exposing_token(self):
+        headers = Message()
+        headers['X-RateLimit-Remaining'] = '0'
+        headers['X-RateLimit-Reset'] = '1793240000'
+        error = urllib.error.HTTPError('https://api.github.com/repos/QORPO-WORLD/test',403,'Forbidden',headers,io.BytesIO(b'{"message":"API rate limit exceeded"}'))
+        output = io.StringIO()
+        with patch.object(feed, 'TOKENS', {'QORPO-WORLD':'private-fixture-key'}), patch.object(feed,'EXHAUSTED_READERS',{}), patch.object(feed.urllib.request,'urlopen',side_effect=error) as request, contextlib.redirect_stdout(output):
+            with self.assertRaises(RuntimeError): feed.get('repos/QORPO-WORLD/test/branches')
+            with self.assertRaises(RuntimeError): feed.get('repos/QORPO-WORLD/other/branches')
+            self.assertEqual(request.call_count, 1)
+        self.assertIn('resets', output.getvalue())
+        self.assertNotIn('private-fixture-key', output.getvalue())
 
 if __name__ == '__main__': unittest.main()
