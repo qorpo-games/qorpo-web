@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Visual game bug reports: capture the trigger</title>
+<meta name="description" content="Build a useful visual bug report with context, reproduction steps and the moments before the failure, using a clearly labelled model example.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/visual-game-bug-reproduction-capture">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="A visual game bug needs the moments before the screenshot">
+<meta property="og:description" content="Build a useful visual bug report with context, reproduction steps and the moments before the failure, using a clearly labelled model example.">
+<meta property="og:url" content="https://qorpo.world/visual-game-bug-reproduction-capture">
+<meta property="og:image" content="https://qorpo.world/assets/blog/visual-game-bug-reproduction-capture/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="A visual game bug needs the moments before the screenshot">
+<meta name="twitter:description" content="Build a useful visual bug report with context, reproduction steps and the moments before the failure, using a clearly labelled model example.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/visual-game-bug-reproduction-capture/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Three sequential bridge views and a notebook illustrate reproducible visual bug evidence">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Three sequential bridge views and a notebook illustrate reproducible visual bug evidence"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/visual-game-bug-reproduction-capture/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "A visual game bug needs the moments before the screenshot", "description": "Build a useful visual bug report with context, reproduction steps and the moments before the failure, using a clearly labelled model example.", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "inLanguage": "en", "wordCount": 899, "mainEntityOfPage": "https://qorpo.world/visual-game-bug-reproduction-capture", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/visual-game-bug-reproduction-capture/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "A visual game bug needs the moments before the screenshot", "item": "https://qorpo.world/visual-game-bug-reproduction-capture"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>A visual game bug needs the moments before the screenshot</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>30 October 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/visual-game-bug-reproduction-capture/hero-1280.webp" srcset="/assets/blog/visual-game-bug-reproduction-capture/hero-640.webp 640w, /assets/blog/visual-game-bug-reproduction-capture/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Three sequential bridge views and a notebook illustrate reproducible visual bug evidence" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>A useful visual bug report captures how the scene reached the broken state, not only the final image. Include the build, location, settings, short reproduction steps and the difference between expected and observed behaviour. When possible, add a brief recording that begins before the problem appears and preserves the relevant interface context.</p>
+<p>This guide proposes a small evidence packet for a rendering or layout problem. It is not a diagnosis of a current QORPO game defect. Engine problems and problems in a particular game also have different owners. Epic&#x27;s current <a href="https://www.unrealengine.com/en-US/support/report-a-bug">Unreal Engine issue-reporting destination</a> is a starting point for engine issues; use the game&#x27;s own support route for a packaged game&#x27;s behaviour.</p>
+<h2>Keep the first useful observation</h2>
+<p>Before changing settings, write down what you were doing. A missing object after loading a save is different from an object disappearing when the camera crosses a doorway. The final frame might look identical. The action immediately before it often gives the next investigator a better starting point than a long list of suspected causes.</p>
+<p>Take one image with enough context to identify the location and state. If a UI panel is cropped, keep its surrounding frame and nearby controls visible. If a character looks wrong, include the environment and camera angle. An additional close-up can show detail, but it should accompany the contextual image rather than replace it.</p>
+<h2>Describe the visible failure without guessing the cause</h2>
+<p>Write “the lower half of the item image is outside its card” before writing “the texture streaming system is broken.” The first statement can be checked from evidence. The second requires investigation. A clear report gives the developer permission to discover a different cause without first undoing the reporter&#x27;s assumption.</p>
+<p>For the same reason, distinguish a temporary loading transition from a persistent failure. Record whether the image appeared later, whether a scene reload changed it and whether it happened on a second attempt. If repeating the action could lose progress, stop and describe the first occurrence instead. Reproducibility is useful, but a destructive experiment is not required from a player.</p>
+<h2>Model example: an inventory card after resizing</h2>
+<p>Imagine a prototype inventory in which an item portrait becomes a narrow vertical strip after the window is resized. The original image is still present, but the layout gives it the wrong space. This is a fictional example designed to show report structure, not an account of a tested QORPO build.</p>
+<p>The report might say: open inventory, choose the first category, reduce the window width, then reopen the same category. Expected: the full card remains readable. Observed: the portrait occupies a thin strip and the action label wraps across several lines. Add the original and resized window dimensions, plus one recording of that sequence.</p>
+<p>This report makes the trigger inspectable. A screenshot of only the portrait would not show that resizing was involved. A claim that “all images are corrupted” would be broader than the evidence. Start with the smallest accurate statement, then expand it if later checks demonstrate a wider problem.</p>
+<h2>Record settings that can change the result</h2>
+<p>For a UI failure, useful context can include display resolution, interface scale, input device and language. For a world-rendering issue, record the graphics preset and any setting changed immediately before the failure. Do not paste every possible hardware detail into the headline. Put the short description first, with relevant configuration in a separate note.</p>
+<p>The <a href="/early-access-patch-notes-build-check">build-check guide</a> explains why the installed version matters. A developer cannot reliably compare a report with a fix if the platform or build is unknown. Where a build identifier is unavailable, say that directly and provide the platform and approximate update time instead of inventing one.</p>
+<h2>Give the next person a starting state</h2>
+<p>List the minimum steps you actually performed, in order. Mark any step you only suspect matters. State whether you started from a fresh session, an existing save or a previous activity. If the issue involves another player, describe the relevant roles without posting private account details or an active invitation code publicly.</p>
+<p>Attach logs or saves only through the appropriate support route when requested. Review files for personal information before sharing them. A public screenshot can unintentionally expose chat, account identifiers or desktop notifications. Keep the evidence needed for diagnosis, while removing unrelated personal material from a copy.</p>
+<p>For deeper investigation methods, see <a href="/multiplayer-network-emulation-testing">network-emulation testing</a> and <a href="/save-game-migration-recovery-testing">save migration and recovery testing</a>. Those articles cover specific test contexts. The report format here is the common handoff before choosing a technical investigation.</p>
+<h2>Quick reporting questions</h2>
+<h3>What if the bug happened only once?</h3>
+<p>Report it as a single occurrence. Give the exact observed sequence and any available evidence. Do not turn one occurrence into a claimed frequency or keep repeating an unsafe action merely to produce a number.</p>
+<h3>Is a recording always better than a screenshot?</h3>
+<p>A recording helps when timing or a transition matters. A clear screenshot can be enough to demonstrate a static layout problem. Use the smallest useful evidence packet and describe what it establishes.</p>
+<h3>Where should the report go?</h3>
+<p>Use the relevant game&#x27;s support channel for game behaviour. Use official engine reporting for a suspected engine issue after checking that distinction. Follow <a href="/live">QORPO&#x27;s studio coverage</a> for development context, while remembering that a repository change alone does not prove a player&#x27;s installed build contains a fix.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-games-three-ways-to-play">TAMITOS Games: choose the adventure, the upcoming app or a browser game</a></p><p><a href="/ai-game-subtitles-timing-review">AI-assisted game subtitles: review one exchange in motion</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

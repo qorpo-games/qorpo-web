@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI game subtitles: review one exchange in motion</title>
+<meta name="description" content="Review one AI-assisted subtitle exchange in the game: check meaning, speaker changes, timing and competing interface messages.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-game-subtitles-timing-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-assisted game subtitles: review one exchange in motion">
+<meta property="og:description" content="Review one AI-assisted subtitle exchange in the game: check meaning, speaker changes, timing and competing interface messages.">
+<meta property="og:url" content="https://qorpo.world/ai-game-subtitles-timing-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-game-subtitles-timing-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-assisted game subtitles: review one exchange in motion">
+<meta name="twitter:description" content="Review one AI-assisted subtitle exchange in the game: check meaning, speaker changes, timing and competing interface messages.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-game-subtitles-timing-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A reviewer adjusts subtitle timing strips at a dark studio workstation">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A reviewer adjusts subtitle timing strips at a dark studio workstation"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-game-subtitles-timing-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-assisted game subtitles: review one exchange in motion", "description": "Review one AI-assisted subtitle exchange in the game: check meaning, speaker changes, timing and competing interface messages.", "datePublished": "2026-10-30", "dateModified": "2026-10-30", "inLanguage": "en", "wordCount": 898, "mainEntityOfPage": "https://qorpo.world/ai-game-subtitles-timing-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-game-subtitles-timing-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-assisted game subtitles: review one exchange in motion", "item": "https://qorpo.world/ai-game-subtitles-timing-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI-assisted game subtitles: review one exchange in motion</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>30 October 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-game-subtitles-timing-review/hero-1280.webp" srcset="/assets/blog/ai-game-subtitles-timing-review/hero-640.webp 640w, /assets/blog/ai-game-subtitles-timing-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A reviewer adjusts subtitle timing strips at a dark studio workstation" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Review AI-assisted subtitles against the actual spoken exchange inside the game, including speaker changes, display timing and the player&#x27;s other tasks. A clean transcript is only an input. A useful review asks whether someone can follow the exchange while playing, with the sound unavailable and the intended subtitle settings enabled.</p>
+<p>This is a proposed review method for one short dialogue exchange. It is not a claim that a QORPO game has passed an accessibility assessment. Microsoft’s <a href="https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/104">Xbox Accessibility Guideline 104</a> distinguishes speech subtitles from captions for other audio and discusses speaker identification. The exercise below applies those concerns to a small, repeatable production decision.</p>
+<h2>Start with a fixed exchange</h2>
+<p>Choose a short scene with a clear beginning and end. Record the content revision, language, build, subtitle setting and the action the player is expected to perform. Keep the same exchange during the first comparison. Otherwise a rewritten scene, a different camera and a new font can all change at once, leaving the reviewer unsure what improved.</p>
+<p>For an AI-generated draft, retain a reference to the approved spoken script. Compare names, negatives and objective-bearing words directly. A fluent substitution can reverse an instruction without looking obviously wrong. The human reviewer should resolve the meaning against the approved scene, rather than accepting the model&#x27;s confidence or adding imagined dialogue to fill a silence.</p>
+<h2>Separate words from presentation</h2>
+<p>First check whether the text represents the intended speech. Then review how the game presents it. These are separate decisions: a correct sentence can still appear too late, disappear during an important action or attribute the line to the wrong speaker. Keeping separate findings helps the writer and interface owner understand what each must change.</p>
+<p>Use the actual target layout, not a transcript in a document editor. Include the player&#x27;s HUD and any temporary objective message. A subtitle block that looks comfortable over a blank background may compete with an inventory prompt or cover the object the player needs to inspect. Review the combination before deciding the text alone needs shortening.</p>
+<p>Our <a href="/ai-game-localization-quality-checks">AI localisation review</a> covers broader language checks. This exercise is narrower: it follows one exchange through time. The <a href="/ai-game-icon-small-size-review">small-size icon review</a> offers a similar principle for static assets: inspect the thing where the player actually encounters it.</p>
+<h2>Run an audio-off pass</h2>
+<p>Play the exchange with its dialogue inaudible to the reviewer. Check whether the speaker can be identified and whether the reason for the next action remains understandable. This does not reproduce every person&#x27;s experience. It is a practical way to expose dependence on information that the text has omitted.</p>
+<p>Do not invent missing sound descriptions automatically. If a non-speech cue changes the decision, record it for a captioning decision with the scene owner. Subtitles and captions have different coverage. A successful transcript check should not be reported as complete coverage of all meaningful audio in the game.</p>
+<h2>Model example: two speakers and a closing door</h2>
+<p>Imagine a prototype exchange: one character says the door is safe to approach; a second warns that the switch must be held. The player is walking towards the door while both lines appear. This is a fictional test scene, not a description of an announced QORPO mission.</p>
+<p>Capture three observations. Can the reviewer tell that the warning comes from someone else? Does the instruction remain available long enough to understand before the relevant action? Does another interface message occupy the same space? These observations describe visible behaviour and meaning. They avoid vague findings such as “the subtitles feel bad.”</p>
+<p>If the reviewer misses the warning, change one cause at a time. Correct a missing speaker label before comparing alternative timing. Check the revised exchange again with the same movement and settings. Do not declare a timing solution merely because the subtitle was made longer; it might now overlap the next speaker or remain after the scene changes.</p>
+<h2>Keep the handoff small and reproducible</h2>
+<p>A useful issue contains the exchange identifier, the exact line, the observed problem, the expected meaning and a short recording. Include the settings that affect presentation. If the failure occurs only when an objective notification appears, say so. The fix owner should not need to reconstruct the scene from a single cropped image.</p>
+<p>When using AI to suggest line breaks or revisions, return each candidate to the same review. Preserve approved terminology and speaker intent. The model can offer alternatives; the production check decides whether an alternative works. Keep the original and selected revision so later localisation or voice changes do not silently restore the earlier problem.</p>
+<h2>Questions from a subtitle review</h2>
+<h3>Is there one timing value that makes every line accessible?</h3>
+<p>This article does not prescribe a universal duration. Reading demands, line length, player activity and presentation settings vary. Record the actual scene and use relevant accessibility guidance alongside review with people who use those features.</p>
+<h3>Does passing this exercise establish accessibility compliance?</h3>
+<p>No. It is one bounded review of one exchange. Coverage across the game, settings, languages and user needs requires wider evaluation. Save the result as a scene-level finding with its limitations.</p>
+<h3>What is the next useful action?</h3>
+<p>Choose one exchange and write a clear review record before generating more alternatives. Follow <a href="/blog">QORPO development coverage</a> for related production methods, and read the primary <a href="https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/104">subtitle and caption guidance</a> when defining the wider quality bar.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-games-three-ways-to-play">TAMITOS Games: choose the adventure, the upcoming app or a browser game</a></p><p><a href="/visual-game-bug-reproduction-capture">A visual game bug needs the moments before the screenshot</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
