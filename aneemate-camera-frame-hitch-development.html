@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AneeMate development: camera motion or frame hitch?</title>
+<meta name="description" content="Understand AneeMate’s camera review: separate motion, intentional timing and frame hitches, then verify the same encounter in the relevant build.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/aneemate-camera-frame-hitch-development">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AneeMate development: separate camera motion from frame hitches">
+<meta property="og:description" content="Understand AneeMate’s camera review: separate motion, intentional timing and frame hitches, then verify the same encounter in the relevant build.">
+<meta property="og:url" content="https://qorpo.world/aneemate-camera-frame-hitch-development">
+<meta property="og:image" content="https://qorpo.world/assets/blog/aneemate-camera-frame-hitch-development/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AneeMate development: separate camera motion from frame hitches">
+<meta name="twitter:description" content="Understand AneeMate’s camera review: separate motion, intentional timing and frame hitches, then verify the same encounter in the relevant build.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/aneemate-camera-frame-hitch-development/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A miniature camera rig and separate timing bars illustrate a studio combat review">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A miniature camera rig and separate timing bars illustrate a studio combat review"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/aneemate-camera-frame-hitch-development/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AneeMate development: separate camera motion from frame hitches", "description": "Understand AneeMate’s camera review: separate motion, intentional timing and frame hitches, then verify the same encounter in the relevant build.", "datePublished": "2026-10-31", "dateModified": "2026-10-31", "inLanguage": "en", "wordCount": 895, "mainEntityOfPage": "https://qorpo.world/aneemate-camera-frame-hitch-development", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/aneemate-camera-frame-hitch-development/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AneeMate development: separate camera motion from frame hitches", "item": "https://qorpo.world/aneemate-camera-frame-hitch-development"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>AneeMate development: separate camera motion from frame hitches</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>31 October 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/aneemate-camera-frame-hitch-development/hero-1280.webp" srcset="/assets/blog/aneemate-camera-frame-hitch-development/hero-640.webp 640w, /assets/blog/aneemate-camera-frame-hitch-development/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A miniature camera rig and separate timing bars illustrate a studio combat review" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>A combat sequence can look as if the camera is jumping even when its position is stable. AneeMate&#x27;s late-October development review separates camera movement, intentional timing effects and frame hitches before choosing a fix. The useful production lesson is to identify which part changed, then repeat the same encounter in the relevant build.</p>
+<p>This article draws on the team&#x27;s camera and combat review dated 29 October 2026, inspected on 31 October. It describes development evidence and a proposed verification method. It does not announce that every related change has reached the public game, or turn observations from a development session into a performance promise for players.</p>
+<h2>Why the first explanation can be misleading</h2>
+<p>The review records several separate investigations: camera shake, camera collision, changes between camera behaviours, intentional slow motion and frame timing. Its central distinction is useful beyond one game. A visible interruption tells the reviewer that the experience changed; it does not, on its own, identify the system responsible.</p>
+<p>Consider the same approach to an enemy with the same attack input. If an image is held longer because a frame takes more time, the resulting interruption can resemble a movement problem. If the world deliberately slows during a feedback effect, that is another cause again. Editing the camera without distinguishing these cases risks changing a composition that was already working.</p>
+<p>The <a href="/visual-game-bug-reproduction-capture">visual bug evidence guide</a> explains how to capture the moments before a failure. Here the next step is more specific: align that recording with observations of camera behaviour and frame timing. A useful investigation follows a shared moment rather than comparing unrelated clips.</p>
+<h2>Keep one encounter as the reference</h2>
+<p>Choose a repeatable scene, input sequence and starting state. Record the build, graphics settings, frame limit and whether the session is running in an editor or packaged application. These details are part of the comparison. A report from a different configuration may still be valuable, but it should not silently replace the reference.</p>
+<p>Start with a clear question: did the camera move unexpectedly at this moment, or did the displayed sequence stop advancing smoothly? Record the observation before proposing a cause. Keep intentional combat feedback identified separately so the team can judge whether it communicates the action without confusing it with a technical interruption.</p>
+<h2>Model example: the first attack and the repeated attack</h2>
+<p>Imagine a prototype encounter where the first attack appears uneven but later attacks look smoother. This is a fictional review example, not a new AneeMate test result. Capture the first attempt and a repeated attempt from the same starting position. Compare the frame-time trace, the camera&#x27;s behaviour and the event that plays on impact.</p>
+<p>The difference might lead the reviewer towards work associated with first use, but it is still a hypothesis. A later attempt may also have a different target position or fewer simultaneous effects. Keep those differences in the notes. Do not call the issue solved merely because it failed to appear in one later clip.</p>
+<p>Our <a href="/unreal-async-loading-player-experience">asynchronous-loading article</a> discusses the wider player experience around loading. A camera investigation should link to that kind of evidence when appropriate, while retaining the distinction between a measured cause and an attractive explanation.</p>
+<h2>Why packaged verification belongs in the handoff</h2>
+<p>The AneeMate review explicitly calls for a packaged Development check. That is a verification requirement, not proof that the check has passed. Editor conditions can differ from the application a tester launches separately. The report should identify which environment produced each observation rather than joining them into one unqualified statement.</p>
+<p>A useful handoff names the change, its intended effect and the conditions still needing verification. For example, a reviewer might need to confirm the same combat moment in a packaged session after checking it in the editor. That is more actionable than a broad claim that the camera or performance has been fixed everywhere.</p>
+<h2>Keep local tuning distinct from shared changes</h2>
+<p>Development often includes temporary settings and local experiments. A successful local adjustment needs to be represented in the relevant shared implementation before another tester can reproduce it. The late-October review makes that distinction in its handoff. We are not publishing internal tuning values or assuming that a repository update includes every experiment mentioned in a session.</p>
+<p>This is also why <a href="/live">QORPO Live</a> remains development context rather than a player release certificate. A commit can identify work worth investigating. The <a href="/early-access-patch-notes-build-check">installed-build check</a> supplies the separate question a player needs answered: does this version contain the change being discussed?</p>
+<h2>Questions about the development review</h2>
+<h3>Does a camera-related commit prove the camera caused the hitch?</h3>
+<p>No. A commit describes a change. The investigation needs evidence connecting a specific visible interruption to the system responsible. A misleading symptom can lead a team through several hypotheses before that connection becomes clear.</p>
+<h3>Does this article provide a new frame-rate result?</h3>
+<p>No. We have not run a game performance benchmark for this article. The method is to preserve a reproducible encounter and compare relevant observations, not publish an unsupported improvement percentage.</p>
+<h3>What should players take from this?</h3>
+<p>When reporting an uneven combat moment, describe the action, build and conditions, and include a short clip if possible. Leave the technical cause open. Follow <a href="/blog">QORPO&#x27;s development coverage</a> and the <a href="https://aneemate.com/gameplay">official AneeMate guide</a> for their respective purposes: studio work and the game&#x27;s published player information.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/ai-game-sound-effects-in-mix-review">AI-assisted sound effects: review the repeat inside the game mix</a></p><p><a href="/unreal-physics-prop-frame-rate-check">Unreal physics props: compare the same action at different frame rates</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
