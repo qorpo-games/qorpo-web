@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AneeMate leaderboards: game records on the web</title>
+<meta name="description" content="Inside AneeMate’s website integration for game records, standings and points. What the connection changes and how a useful result keeps its context.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/aneemate-game-records-web-leaderboard">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AneeMate leaderboards: linking game results to the web">
+<meta property="og:description" content="Inside AneeMate’s website integration for game records, standings and points. What the connection changes and how a useful result keeps its context.">
+<meta property="og:url" content="https://qorpo.world/aneemate-game-records-web-leaderboard">
+<meta property="og:image" content="https://qorpo.world/assets/blog/aneemate-game-records-web-leaderboard/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AneeMate leaderboards: linking game results to the web">
+<meta name="twitter:description" content="Inside AneeMate’s website integration for game records, standings and points. What the connection changes and how a useful result keeps its context.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/aneemate-game-records-web-leaderboard/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A trophy-shaped glass data frame connects an island model to three blank result cards">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A trophy-shaped glass data frame connects an island model to three blank result cards"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/aneemate-game-records-web-leaderboard/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AneeMate leaderboards: linking game results to the web", "description": "Inside AneeMate’s website integration for game records, standings and points. What the connection changes and how a useful result keeps its context.", "datePublished": "2026-11-05", "dateModified": "2026-11-05", "inLanguage": "en", "wordCount": 1011, "mainEntityOfPage": "https://qorpo.world/aneemate-game-records-web-leaderboard", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/aneemate-game-records-web-leaderboard/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AneeMate leaderboards: linking game results to the web", "item": "https://qorpo.world/aneemate-game-records-web-leaderboard"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>AneeMate leaderboards: linking game results to the web</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>5 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/aneemate-game-records-web-leaderboard/hero-1280.webp" srcset="/assets/blog/aneemate-game-records-web-leaderboard/hero-640.webp 640w, /assets/blog/aneemate-game-records-web-leaderboard/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A trophy-shaped glass data frame connects an island model to three blank result cards" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>AneeMate&#x27;s latest website integration connects its leaderboard to the service used for game competitions, records and community points. The important development is a clearer route from a game result to its web view. A deployed interface, a submitted result and a settled competition are still separate steps, so this update explains what the connection does and how to read it.</p>
+<h2>From a game session to a web result</h2>
+<p>Players should not need to understand a server layout to look up a result. They need a recognisable competition, the right period and a clear explanation when information is unavailable. For the studio, providing that experience means making sure the website asks the service that actually receives the game&#x27;s records.</p>
+<p>The website change dated 3 November routes competition, player, record, game-point and badge reads through the game&#x27;s competition service. Other website services remain separate. This is a product integration change, not evidence that every session has already submitted a result or that every player has earned a reward.</p>
+<p>Our <a href="https://qorpo.world/live">studio live page</a> helps people discover development activity. A live feed item can point to this work, but the useful question comes afterwards: what does the player-facing page actually do with the connection?</p>
+<h2>One page, different questions</h2>
+<p>The current leaderboard interface separates daily, weekly and all-time points views. The competition route asks for standings associated with a selected competition. The points route asks for a different list. In the source, a selected competition can also be represented in the page URL.</p>
+<p>That distinction matters because a position in one event and an accumulated points total answer different questions. A player looking for yesterday&#x27;s result should not assume the all-time tab is another presentation of the same ranking. Likewise, a daily result should be read with its event context rather than copied as an unrestricted claim about the player.</p>
+<p>For the underlying play experience, start with <a href="https://aneemate.com/gameplay">AneeMate&#x27;s gameplay overview</a>. For the player-facing explanation of board context, the existing <a href="https://aneemate.com/aneemate-records-leaderboard-period-check">records and period guide</a> remains the right place. This article concerns the studio&#x27;s integration work rather than replacing that guide.</p>
+<h2>What an automatic refresh can tell you</h2>
+<p>The current page implementation schedules a refresh of the selected result view every 60 seconds. That is a request schedule, not a promise that new game data appears within a minute. A successful refresh can only display the information returned by the service at that point.</p>
+<p>This gives the team two different things to check. First, does the page continue requesting its selected view? Second, does the upstream result exist in the form that view expects? A timer alone cannot settle a competition, repair a rejected result or determine which event a player intended to enter.</p>
+<p>The same principle applies when an event ends while a page is open. The displayed state and the competition&#x27;s state need to agree. Refreshing should make the information clearer, rather than leaving a convincing old heading above unrelated new rows.</p>
+<h2>A concrete review example</h2>
+<p>Consider this invented review scenario. A tester opens a daily competition, leaves the tab open, then comes back after that event has ended. Another tester opens the all-time points view. They both report that their numbers differ.</p>
+<p>The first step is to compare their selected views and competition links. Their screenshots may be accurate while describing different things. Only after matching the event, period and relevant session should the team investigate whether one response is stale or incomplete.</p>
+<p>A useful report records the public page URL, selected tab, visible event name and approximate time of the check. If an account-specific investigation is needed, personal identifiers should go through the appropriate private support channel. A public blog or screenshot does not need to expose them.</p>
+<p>This scenario is an editorial example, not a claim that we reproduced a particular player&#x27;s problem. Its purpose is to show why an integration needs context around the result, not just a number that looks plausible.</p>
+<h2>Empty and unavailable are different outcomes</h2>
+<p>A board can have no entries. A page can also fail to load entries. These should lead to different wording because the next useful action differs. An empty competition can be a legitimate state; an unavailable response gives no reliable information about participation.</p>
+<p>The current source includes separate messages for those cases and a retry action for a failed load. These are interface states to validate, not an excuse to treat missing information as a zero. During release review, the page should be observed long enough to move past its initial placeholders.</p>
+<p>It is also worth checking the transition between views. A daily heading should not remain above a points table, and an earlier request should not overwrite a more recent selection. That is a general acceptance question for an asynchronous interface, not a report of an identified security issue in AneeMate.</p>
+<h2>What this means for studio progress</h2>
+<p>The value of this work is a more coherent journey between playing and looking up a result. Its actual effect needs observation: whether a player finds the intended competition, understands the period and can distinguish a loading failure from an empty board.</p>
+<p>We are not assigning a growth percentage or inferring player activity from the number of commits. The integration is one part of the product, alongside the game itself, its available builds and the way support reports reach the team. The <a href="https://qorpo.world/about">QORPO studio overview</a> provides the wider context.</p>
+<p>For another view of the game-to-web relationship, read our <a href="https://qorpo.world/aneemate-matebook-one-roster-several-views">MateBook reference-view explanation</a>.</p>
+<h2>Try the connected journey</h2>
+<p>Explore the <a href="https://aneemate.com/leaderboard">AneeMate leaderboard</a>, choose the view you mean and keep the event link with any report. If you want to return to the game, use the <a href="https://store.epicgames.com/p/aneemate-896b7e">official Epic Games Store listing</a>. Development becomes useful when the path is understandable from a player&#x27;s side, including the moments when a result is not ready to display.</p>
+<p>Sources: current AneeMate website implementation and public leaderboard, checked 5 November 2026; integration change dated 3 November. The implementation is live website code. No game session, reward settlement or account operation was executed for this article.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/ai-ui-code-stale-search-responses">AI-assisted UI code: stop old search responses taking over</a></p><p><a href="/unreal-dynamic-resolution-comparison">Unreal performance comparisons: record the render resolution</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
