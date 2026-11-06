@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TAMITOS Move: points and sponsored help</title>
+<meta name="description" content="Inside the development model that separates activity points from funded help. Why an unavailable conversion and a points deadline must tell the same story.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/tamitos-move-points-sponsored-help">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="TAMITOS Move: points and sponsored help need separate states">
+<meta property="og:description" content="Inside the development model that separates activity points from funded help. Why an unavailable conversion and a points deadline must tell the same story.">
+<meta property="og:url" content="https://qorpo.world/tamitos-move-points-sponsored-help">
+<meta property="og:image" content="https://qorpo.world/assets/blog/tamitos-move-points-sponsored-help/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="TAMITOS Move: points and sponsored help need separate states">
+<meta name="twitter:description" content="Inside the development model that separates activity points from funded help. Why an unavailable conversion and a points deadline must tell the same story.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/tamitos-move-points-sponsored-help/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A mint point ledger and a separate glass funding jar joined by a closed connector">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A mint point ledger and a separate glass funding jar joined by a closed connector"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/tamitos-move-points-sponsored-help/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "TAMITOS Move: points and sponsored help need separate states", "description": "Inside the development model that separates activity points from funded help. Why an unavailable conversion and a points deadline must tell the same story.", "datePublished": "2026-11-06", "dateModified": "2026-11-06", "inLanguage": "en", "wordCount": 886, "mainEntityOfPage": "https://qorpo.world/tamitos-move-points-sponsored-help", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/tamitos-move-points-sponsored-help/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "TAMITOS Move: points and sponsored help need separate states", "item": "https://qorpo.world/tamitos-move-points-sponsored-help"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>TAMITOS Move: points and sponsored help need separate states</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>6 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/tamitos-move-points-sponsored-help/hero-1280.webp" srcset="/assets/blog/tamitos-move-points-sponsored-help/hero-640.webp 640w, /assets/blog/tamitos-move-points-sponsored-help/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A mint point ledger and a separate glass funding jar joined by a closed connector" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>TAMITOS Move’s points balance and sponsored help answer different questions. A balance records activity credit; a funded contribution needs an active sponsorship arrangement and permission to convert points. Reviewing the current development implementation shows why those states must stay separate, including what should happen to points while conversion is unavailable. This is an implementation explanation, not an announcement of a new sponsor or a promise of future money.</p>
+<h2>A useful boundary for a movement app</h2>
+<p>A person can complete an outing when there is no funded campaign available. Treating those two events as the same thing would make the interface misleading: an accepted activity could look like a donation even though no money had been allocated. The product needs language for activity, points, an available contribution and a completed contribution.</p>
+<p>That distinction also matters beyond the screen. A family should not have to interpret an activity total as cash received. A participant should not have to guess whether a points balance is a withdrawal balance. For the public introduction, start with <a href="https://help.tamitos.com/">TAMITOS Move</a> and its explanation that <a href="https://tamitos.com/en/blog/tami-points-are-not-euros-how-tamitos-move-works-today">TAMI points are not euros</a>.</p>
+<h2>What the implementation separates</h2>
+<p>The development code we reviewed keeps a point ledger, asks whether a sponsored period is active and checks whether conversion is enabled. Its tests describe refusing a conversion without deducting points when the required state is unavailable. These are implementation and test-intent observations. Reading a test does not establish that a particular mobile release passed it or that a particular participant completed a contribution.</p>
+<p>This distinction is why a change log should avoid turning “the condition exists in code” into “every user has this today”. A public release statement needs evidence from the deployed service and the client build that actually presents the state. Our <a href="https://qorpo.world/prototype-vs-production-ready-game">guide to production evidence</a> explains that wider boundary.</p>
+<h2>The deadline should agree with the action</h2>
+<p>The same reviewed implementation links weekly point expiry to whether sponsored conversion can operate, with additional controls that can stop expiry. The accompanying tests cover no sponsored period, an active period and conversion being switched off. The intended result is coherent: a deadline should not urge someone to use points on an action that the product currently refuses.</p>
+<p>That is a bounded code observation, rather than an everlasting rule for every future campaign. Participants should read the current terms and the state shown in their installed app. We are not announcing a conversion rate, expiry date or campaign opening here. Those details need their own current product evidence.</p>
+<h2>An original example: activity accepted, contribution unavailable</h2>
+<p>Consider an invented review scenario. A participant finishes a short outing and the app accepts the activity. The points balance changes, while the contribution area says that sponsored conversion is unavailable. A useful explanation acknowledges the accepted activity and explains the unavailable action separately.</p>
+<p>In that scenario, a reviewer should ask three concrete questions. Is the updated points balance visible? Does the contribution area explain its current state? Does attempting the unavailable action leave the balance unchanged? These are proposed checks, not a report of a test session we performed.</p>
+<p>Avoid adding an invented euro amount beside the outing to make the screen more exciting. That would erase the funding boundary the interface is meant to communicate. Equally, a direct gift should retain its own receipt and status instead of being presented as another way of spending activity points.</p>
+<h2>Follow one contribution through its states</h2>
+<p>An original acceptance exercise can begin with a written state table. Record what the participant is allowed to do before a funded period, during an eligible period and after conversion is disabled. For each state, specify the action label, explanatory sentence and effect on the point ledger. Use fictional accounts and amounts in the exercise.</p>
+<p>Then review the same journey with interrupted connectivity and a return to the app. The goal is to establish what happened to the action, rather than infer it from a dismissing animation. A pending response, a refused action and a completed contribution need different language. Any financial test must use the project’s authorised test environment; this article performs no transfers.</p>
+<h2>A clearer studio progress report</h2>
+<p>For QORPO, this is a useful example of product work that cannot be described by counting commits. The meaningful questions concern understandable states and evidence: can someone distinguish movement from money, and can the team trace the result of an action? Neither a larger balance nor a faster animation proves beneficiary impact.</p>
+<p>The work also connects to <a href="https://qorpo.world/tamitos-move-one-outing-consistent-totals">consistent outing totals</a>. Accepted distance, credited points and funded support are related parts of a journey, but each needs its own meaning. Keeping that meaning clear gives users a better basis for deciding what to do next.</p>
+<h2>Common questions</h2>
+<h3>Are points a promise of euros later?</h3>
+<p>No promise is made here. Funding, campaign conditions and product availability must be verified at the time of the action. A points balance alone does not establish money owed to a participant or family.</p>
+<h3>Did this article confirm a new production release?</h3>
+<p>No. It reports the implementation and test intent reviewed on 6 November 2026. It does not claim a mobile test pass, a new sponsor, a conversion transaction or an observed donation outcome.</p>
+<p>Explore the <a href="https://tamitos.com/en">TAMITOS world</a> for the public product journey and follow <a href="https://qorpo.world/live">QORPO Live</a> for studio activity with release status kept in context.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/ai-ui-dialog-keyboard-focus-return">AI-assisted UI review: where does focus go when the dialog closes?</a></p><p><a href="/unreal-sound-concurrency-repeated-impacts">Unreal sound concurrency: keep repeated impacts readable</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
