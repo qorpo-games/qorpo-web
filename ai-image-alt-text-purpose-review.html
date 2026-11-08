@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI-drafted alt text: review the image’s purpose</title>
+<meta name="description" content="Review image alternatives by purpose: informative portrait, image-only link or decoration. An original game-website component exercise.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-image-alt-text-purpose-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI-drafted alt text: review the image’s job on the page">
+<meta property="og:description" content="Review image alternatives by purpose: informative portrait, image-only link or decoration. An original game-website component exercise.">
+<meta property="og:url" content="https://qorpo.world/ai-image-alt-text-purpose-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-image-alt-text-purpose-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI-drafted alt text: review the image’s job on the page">
+<meta name="twitter:description" content="Review image alternatives by purpose: informative portrait, image-only link or decoration. An original game-website component exercise.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-image-alt-text-purpose-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="An image tile, tactile action button and audio ribbon on a navy desk">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="An image tile, tactile action button and audio ribbon on a navy desk"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-image-alt-text-purpose-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI-drafted alt text: review the image’s job on the page", "description": "Review image alternatives by purpose: informative portrait, image-only link or decoration. An original game-website component exercise.", "datePublished": "2026-11-08", "dateModified": "2026-11-08", "inLanguage": "en", "wordCount": 976, "mainEntityOfPage": "https://qorpo.world/ai-image-alt-text-purpose-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-image-alt-text-purpose-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI-drafted alt text: review the image’s job on the page", "item": "https://qorpo.world/ai-image-alt-text-purpose-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI-drafted alt text: review the image’s job on the page</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>8 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-image-alt-text-purpose-review/hero-1280.webp" srcset="/assets/blog/ai-image-alt-text-purpose-review/hero-640.webp 640w, /assets/blog/ai-image-alt-text-purpose-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="An image tile, tactile action button and audio ribbon on a navy desk" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Review AI-drafted alt text by asking what an image does in its particular page. A creature portrait, an image-only action button and a decorative flourish need different treatment. A fluent description of visible pixels can still fail if it leaves the reader unsure what the control will do or repeats information already available beside it.</p>
+<h2>Begin with the page, not the picture file</h2>
+<p>An image generator can deliver an attractive asset without explaining its job in a product. The same exported image might appear as a large editorial illustration, a small linked card or a decoration beside an existing heading. Treat those placements as separate editorial decisions. Do not approve one description and automatically attach it to every use.</p>
+<p>W3C&#x27;s Images Tutorial distinguishes informative, decorative and functional images. The central practical point is purpose: useful text alternatives convey the information or function that matters in context. That supports a review process, rather than a demand to narrate every colour, reflection and background leaf in an image.</p>
+<p>This article concerns HTML images on game websites and companion web interfaces. It does not claim that writing an alt attribute makes an in-game interface accessible. Nor does an automated description establish accessibility certification. The <a href="/about">QORPO studio</a> publishes development exercises to make these distinctions concrete.</p>
+<h2>Give the AI the surrounding task</h2>
+<p>If you use AI to propose wording, provide the visible heading, nearby copy, destination and intended interaction. Ask for a short candidate and the reason for it. Then check the actual rendered result. A model that sees only the picture cannot know whether the image opens a creature profile or merely decorates a section already named in text.</p>
+<p>Keep uncertainty visible. If a generated illustration suggests a battle that never occurred, the description should not promote it into evidence of gameplay. Our article images carry concept-art captions for that reason. The text alternative and caption have related jobs, but the caption can explain provenance without forcing every use of the image to repeat a lengthy production note.</p>
+<h2>Original example: one creature, three placements</h2>
+<p>Imagine a fictional creature website with a teal animal portrait. This is a proposed review example, not a description of a shipped QORPO control. In a species article, the useful information might be the creature&#x27;s distinctive armoured shell. The nearby heading already supplies its name. Decide what the image adds to that paragraph before writing the alternative.</p>
+<p>Now imagine the portrait is the only content inside a link to the species profile. A description such as “teal animal on a pale background” does not tell the reader the destination. Review the link&#x27;s accessible name as a whole. The user needs enough information to choose the profile, not a guessing exercise about what clicking the picture might do.</p>
+<p>In a third placement, the same portrait appears beside an already complete linked species name inside one card. Repeating the name and every visual detail may make the card cumbersome. Inspect the resulting name and reading order before deciding what the image contributes. The correct decision comes from the complete component, not from a rule applied to the asset library in isolation.</p>
+<h2>Listen to one complete card</h2>
+<p>An original acceptance exercise starts with a small set: the article hero, one listing card and one image-based control. Use a browser and an available screen reader to reach each in its normal reading order. Record what is announced, what the user can activate and where activation leads. If that setup is unavailable, record the missing validation instead of saying the experience passed.</p>
+<p>Listen for repetition as well as omission. A card can announce a heading twice, read an unhelpful filename or describe a scene while never naming its destination. Those are different observations. Write the actual announcement in the report and include the relevant markup so a reviewer can locate the cause.</p>
+<p>Keep this check separate from the keyboard route. Our <a href="/ai-ui-dialog-keyboard-focus-return">dialog focus exercise</a> addresses where keyboard interaction continues after closing a panel. Both checks may belong in the same review, but success in one does not establish success in the other.</p>
+<h2>Review edits in their final context</h2>
+<p>A useful edit can be small: replace an ornamental description with the intended action, remove a redundant phrase or add the missing information that the illustration supplies. After the change, return to the same component and repeat the same observation. Do not compare the revised hero with a different listing card and call that a before-and-after test.</p>
+<p>Keep a simple editorial record linking the page, component, image and approved wording. Generated assets often receive descriptive working filenames, but filenames are not a substitute for a considered text alternative. If the image later changes, that record gives the next reviewer a reason to revisit the wording.</p>
+<h2>Frequently asked questions</h2>
+<h3>Should alt text contain every SEO keyword?</h3>
+<p>No. It should serve the image&#x27;s purpose for the reader. A keyword list can obscure that purpose and make a simple link much harder to understand. Our <a href="/blog">blog</a> uses clear headings and article copy to establish topics.</p>
+<h3>Can AI make the first draft?</h3>
+<p>Yes, as a proposal. Give it context, check for invented details and review the result in the rendered component. Do not treat confidence or grammatical polish as evidence that the alternative works.</p>
+<h3>What should happen to decorative images?</h3>
+<p>W3C describes an empty text alternative for purely decorative images. First establish that the image really adds no needed information or function in that placement. A functional control is a different case.</p>
+<p>Explore <a href="/live">QORPO&#x27;s live studio work</a> and apply this exercise to one real page before attempting a bulk rewrite. One understood component is a better starting point than hundreds of unreviewed descriptions.</p>
+<p>Sources: <a href="https://www.w3.org/WAI/tutorials/images/">W3C Images Tutorial</a> and <a href="https://www.w3.org/WAI/tutorials/images/decision-tree/">W3C alt decision tree</a>, checked 8 November 2026. All interface examples above are original proposed exercises; no screen-reader pass is claimed.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/aneemate-localization-menu-readability">AneeMate localization: follow the words into the menu</a></p><p><a href="/unreal-texture-streaming-pool-evidence">Unreal texture streaming: capture the budget before changing it</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+

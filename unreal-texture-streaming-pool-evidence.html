@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Unreal texture streaming: capture the budget first</title>
+<meta name="description" content="Build a repeatable texture-streaming report: scene, metrics, route and one change. Compare memory pressure with visible quality on target hardware.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/unreal-texture-streaming-pool-evidence">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Unreal texture streaming: capture the budget before changing it">
+<meta property="og:description" content="Build a repeatable texture-streaming report: scene, metrics, route and one change. Compare memory pressure with visible quality on target hardware.">
+<meta property="og:url" content="https://qorpo.world/unreal-texture-streaming-pool-evidence">
+<meta property="og:image" content="https://qorpo.world/assets/blog/unreal-texture-streaming-pool-evidence/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Unreal texture streaming: capture the budget before changing it">
+<meta name="twitter:description" content="Build a repeatable texture-streaming report: scene, metrics, route and one change. Compare memory pressure with visible quality on target hardware.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/unreal-texture-streaming-pool-evidence/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Texture tiles beside a finite translucent memory tray and a miniature doorway">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Texture tiles beside a finite translucent memory tray and a miniature doorway"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/unreal-texture-streaming-pool-evidence/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Unreal texture streaming: capture the budget before changing it", "description": "Build a repeatable texture-streaming report: scene, metrics, route and one change. Compare memory pressure with visible quality on target hardware.", "datePublished": "2026-11-08", "dateModified": "2026-11-08", "inLanguage": "en", "wordCount": 927, "mainEntityOfPage": "https://qorpo.world/unreal-texture-streaming-pool-evidence", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/unreal-texture-streaming-pool-evidence/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Unreal texture streaming: capture the budget before changing it", "item": "https://qorpo.world/unreal-texture-streaming-pool-evidence"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Unreal texture streaming: capture the budget before changing it</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>8 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/unreal-texture-streaming-pool-evidence/hero-1280.webp" srcset="/assets/blog/unreal-texture-streaming-pool-evidence/hero-640.webp 640w, /assets/blog/unreal-texture-streaming-pool-evidence/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Texture tiles beside a finite translucent memory tray and a miniature doorway" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>When Unreal reports that texture streaming is over budget, record the streaming metrics and the scene before changing the pool size. The useful question is which resources and viewpoints create the pressure on the target machine. Hiding a warning or increasing an allocation does not, by itself, show that the game fits its memory budget.</p>
+<h2>Keep the warning attached to a scene</h2>
+<p>A screenshot of a red warning can start a report, but it rarely contains enough context to choose a fix. Record the build, machine, graphics settings, render resolution and route that reached the scene. Note whether the game has just loaded, the camera has turned towards a new area or the same view has been held for a while.</p>
+<p>This is an evidence-gathering guide, not a claim that AneeMate or another QORPO game currently has a particular streaming defect. The <a href="/live">studio&#x27;s live page</a> identifies development activity; an optimization result needs a controlled observation of the relevant build. Our <a href="/unreal-dynamic-resolution-comparison">render-resolution comparison guide</a> covers another variable to keep stable.</p>
+<h2>Read more than the headline budget</h2>
+<p>Epic documents <code>STAT STREAMING</code> as the starting point for streamer performance and memory metrics. Its reference distinguishes Texture, Streaming and Wanted pools, and warns that pool terminology and currently used mips do not describe exactly the same thing. Keep the metric names in the capture rather than copying one unexplained number into a chat.</p>
+<p>The pool is not simply a counter of the visible ground texture. Epic&#x27;s configuration documentation includes other texture resources in the allocation, with platform-specific differences. That is a reason to inspect the project&#x27;s actual usage. It is not evidence that a particular resource is the cause of your warning.</p>
+<p>Capture the display after the scene settles and during the transition that triggered the concern. A steady view and an arrival can put different demands on the system. Preserve both moments so that a change which improves the still frame does not hide a worse transition.</p>
+<h2>An original route for a controlled comparison</h2>
+<p>Here is a proposed small test, not measured QORPO performance. Start outside a room, enter through a doorway, turn towards a detailed wall and stop at a marked location. Repeat with the same camera direction and settings. Save the metric capture and a normal scene image at the stop, plus a short recording of the approach.</p>
+<p>Write down what the player would notice. Is a surface visibly soft for several seconds? Does it sharpen once and remain stable, or appear to change repeatedly? Does a frame hitch coincide with the turn? These are observations to investigate, not interchangeable names for a single cause. A memory metric alone cannot tell you how readable that wall looked.</p>
+<p>Our <a href="/ai-game-textures-mip-review">mip review exercise</a> asks whether an individual texture still communicates its material at the mip the player sees. The present exercise asks about the scene&#x27;s resource demand over a repeatable route. Keep those questions connected without treating them as the same test.</p>
+<h2>Change one constraint at a time</h2>
+<p>Once the baseline is saved, choose one hypothesis. For example, investigate whether a particular group of oversized textures contributes more detail than the chosen viewpoint needs. Review their settings and visible contribution before changing several global controls. Record the affected assets, the reason for the change and how the same route will be repeated.</p>
+<p>A different investigation may concern the configured budget for a supported device class. Epic documents <code>r.Streaming.PoolSize</code> in megabytes, including the special unlimited setting. That setting is not a universal recommendation. A project still needs room for its other resources and evidence from the machines it intends to support.</p>
+<p>Do not present the disappearance of a warning as the entire result. Compare memory behaviour, visible quality and the route recording. A setting can trade one problem for another. Save the original configuration so the comparison can be reversed and another developer can reproduce the observation.</p>
+<h2>Finish with an actionable handover</h2>
+<p>A useful handover includes the exact build, route, settings, before-and-after captures and the single change. State which observation improved and which did not. If the team has not tested a lower-memory target, say so. Avoid extrapolating from a development workstation to every supported PC.</p>
+<p>If the evidence points elsewhere, keep that result too. Our <a href="/unreal-async-loading-player-experience">asset-loading guide</a> discusses planning around the moment content is needed. A texture-streaming investigation should not become a blanket explanation for every delay at that moment. The next experiment should follow the captured evidence.</p>
+<h2>Frequently asked questions</h2>
+<h3>Should I copy a pool size from someone else&#x27;s PC?</h3>
+<p>No single number establishes the right budget for your project and target hardware. Treat another configuration as context, then measure your own scene and the other resources competing for memory.</p>
+<h3>Does switching off streaming prove the issue is fixed?</h3>
+<p>No. Epic documents that disabling the streamer fully loads texture mips. That changes the memory behaviour being tested. It can be a diagnostic comparison, but needs a separate justification before becoming a shipping configuration.</p>
+<h3>What can I report without a profiler capture?</h3>
+<p>Provide the build, machine, settings, route and a recording of the visible issue. That is useful evidence, while leaving the cause unconfirmed. Do not invent a memory saving or frame-rate gain to fill the gap.</p>
+<p>Follow <a href="/blog">QORPO development</a> for more bounded production exercises. The objective is a repeatable decision about a real scene, with a change another developer can inspect.</p>
+<p>Sources: Epic&#x27;s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-streaming-metrics-in-unreal-engine">Texture Streaming Metrics</a> and <a href="https://dev.epicgames.com/documentation/unreal-engine/texture-streaming-configuration-in-unreal-engine">Texture Streaming Configuration</a>, checked 8 November 2026. This article proposes a review workflow; no game benchmark or optimization saving is claimed.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/aneemate-localization-menu-readability">AneeMate localization: follow the words into the menu</a></p><p><a href="/ai-image-alt-text-purpose-review">AI-drafted alt text: review the image’s job on the page</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
