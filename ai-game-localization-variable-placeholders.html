@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI game localization: preserve variable placeholders</title>
+<meta name="description" content="Review AI-translated game messages with a small variable contract, deliberate test values and a rendered screen. An original gathering-message exercise.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/ai-game-localization-variable-placeholders">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AI game localization: keep the variables inside the message">
+<meta property="og:description" content="Review AI-translated game messages with a small variable contract, deliberate test values and a rendered screen. An original gathering-message exercise.">
+<meta property="og:url" content="https://qorpo.world/ai-game-localization-variable-placeholders">
+<meta property="og:image" content="https://qorpo.world/assets/blog/ai-game-localization-variable-placeholders/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AI game localization: keep the variables inside the message">
+<meta name="twitter:description" content="Review AI-translated game messages with a small variable contract, deliberate test values and a rendered screen. An original gathering-message exercise.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/ai-game-localization-variable-placeholders/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="Blank message strips retain the same gold variable tokens in different positions">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="Blank message strips retain the same gold variable tokens in different positions"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/ai-game-localization-variable-placeholders/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AI game localization: keep the variables inside the message", "description": "Review AI-translated game messages with a small variable contract, deliberate test values and a rendered screen. An original gathering-message exercise.", "datePublished": "2026-11-09", "dateModified": "2026-11-09", "inLanguage": "en", "wordCount": 955, "mainEntityOfPage": "https://qorpo.world/ai-game-localization-variable-placeholders", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/ai-game-localization-variable-placeholders/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AI game localization: keep the variables inside the message", "item": "https://qorpo.world/ai-game-localization-variable-placeholders"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>AI game localization: keep the variables inside the message</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>9 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/ai-game-localization-variable-placeholders/hero-1280.webp" srcset="/assets/blog/ai-game-localization-variable-placeholders/hero-640.webp 640w, /assets/blog/ai-game-localization-variable-placeholders/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="Blank message strips retain the same gold variable tokens in different positions" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>When AI helps translate game text, review the variable placeholders as carefully as the sentence. A translated instruction must still accept the values the application supplies, in the places the target language needs them. Fluent wording is only one part of the check: the rendered message has to remain complete, meaningful and usable.</p>
+<h2>Give the message a small contract</h2>
+<p>Before requesting a translation, list the information that the application inserts. An item name, quantity, player name and time are different kinds of input. Give each variable a defined name and explain its role. Include the screen and the action the sentence supports, so the translation is not being judged as isolated prose.</p>
+<p>ICU&#x27;s message-formatting guidance describes translating a message as a complete unit with variable elements that can move according to the target language. It also provides mechanisms for choices such as plurals. This article draws on that principle; it does not assume that every game or QORPO product uses the same formatting library.</p>
+<p>Our <a href="/ai-game-localization-quality-checks">AI localization overview</a> covers the wider production process. The narrower question here is whether a translated message still receives and expresses the same application data. A successful review of this question does not establish the accuracy of the whole language pack.</p>
+<h2>An original example: a gathering instruction</h2>
+<p>Imagine a fictional quest interface whose draft message contains two variables: a required quantity and a creature&#x27;s name. The proposed English wording is “Collect {count} leaves for {creature}.” This is an illustrative message, not a shipped AneeMate quest, valid library-specific pattern or claim about a new gathering mechanic.</p>
+<p>Write down the variable names, their intended types and who supplies them. Give the translator context about the creature name, including whether it is a proper name that remains unchanged. An AI draft should preserve the agreed identifiers rather than invent a new one because another label sounds more natural.</p>
+<p>Now ask what happens when the quantity changes. A sentence that looks acceptable for several leaves may need a different form for one. The review should identify that requirement before the sentence is approved. Adding an English letter at runtime is not a general solution for other languages&#x27; grammar.</p>
+<h2>Compare identifiers before approving the prose</h2>
+<p>A simple first check compares the expected variable names with those in the candidate. Look for missing, renamed and unexpected identifiers. Keep the result tied to the formatting syntax your application actually accepts. Braces, percentage markers and named arguments are not interchangeable across every system.</p>
+<p>This mechanical check can catch a class of errors, but cannot approve the translation&#x27;s meaning. A sentence may contain the right identifiers while attaching the quantity to the wrong object. A variable may also be present in the wrong branch of a message. Preserve the distinction between a structural check and a language review.</p>
+<p>Ask the model to explain any requested change to an identifier rather than silently accepting it. If the application contract genuinely needs to change, that is implementation work with its own review. It should not enter the product accidentally through a translation file.</p>
+<h2>Render values that reveal the problem</h2>
+<p>An original acceptance exercise uses the same message with a small set of deliberately different test values. Try a single item, several items and a longer creature name. If zero is a meaningful state in that interface, include it as well. These are selected review cases, not a claim that these values cover every plural category in every language.</p>
+<p>Inspect the final sentence and surrounding panel. Does the instruction identify the task? Does the name fit without hiding the action? Does the quantity correspond to the selected state? Save the inputs alongside the screenshot. A picture of the final text is much easier to investigate when the reviewer knows which values produced it.</p>
+<p>Have a qualified language reviewer consider the message in context. A developer can check that a placeholder is filled while still missing an unnatural phrase. Conversely, an elegant translation can reveal that the original message contract did not supply enough context to express the instruction properly.</p>
+<h2>Keep the whole message together</h2>
+<p>Avoid reviewing a set of disconnected fragments as though they were independent sentences. The final instruction is what the player reads. ICU&#x27;s guidance is useful here because it keeps the variable elements inside the message being translated, instead of forcing every language to inherit the source language&#x27;s order.</p>
+<p>There is a related layout question after the wording is approved. Our <a href="/aneemate-localization-menu-readability">AneeMate localization article</a> follows a name into the actual menu. A structurally correct message still needs that final screen review. Keep both results in the handover so the next edit does not silently invalidate one of them.</p>
+<h2>Frequently asked questions</h2>
+<h3>Can an AI check its own translated placeholders?</h3>
+<p>It can offer a second proposal or explanation, but use a check against the actual expected identifiers as well. Confidence in a response is not evidence that the application will render it correctly.</p>
+<h3>Is a matching list of variables enough to ship?</h3>
+<p>No. You still need the message&#x27;s meaning, the formatter&#x27;s behaviour and the rendered interface to work together. Record which checks were actually performed and which review remains.</p>
+<h3>Should every project adopt ICU for this exercise?</h3>
+<p>This is a review method, not a migration recommendation. Identify your existing formatter and its syntax before changing the implementation. The source offers useful message-design principles without establishing one universal engine integration.</p>
+<p>Follow <a href="/blog">QORPO&#x27;s development articles</a> and <a href="/live">live studio work</a> for practical production questions. One fully understood message is a useful starting point before reviewing a large generated language batch.</p>
+<p>Sources: <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/">ICU Formatting Messages</a>, checked 9 November 2026. The gathering instruction and test-value exercise are original examples. No production translation, formatter migration or native-language test pass is claimed.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-move-gift-status-refresh-development">TAMITOS Move development: a gift status needs a bounded refresh</a></p><p><a href="/epic-ai-megajam-november-2026-preparation">Epic AI MegaJam starts this week: prepare for a playable result</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
+
