@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Unreal Hold Input: Test Release Timing and Cancellation</title>
+<meta name="description" content="Review an AI-assisted hold interaction in Unreal with early release, threshold crossing, cancellation and duplicate-action checks.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/unreal-ai-hold-input-release-boundary">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Testing AI-assisted Unreal hold input at the release boundary">
+<meta property="og:description" content="Review an AI-assisted hold interaction in Unreal with early release, threshold crossing, cancellation and duplicate-action checks.">
+<meta property="og:url" content="https://qorpo.world/unreal-ai-hold-input-release-boundary">
+<meta property="og:image" content="https://qorpo.world/assets/blog/unreal-ai-hold-input-release-boundary/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Testing AI-assisted Unreal hold input at the release boundary">
+<meta name="twitter:description" content="Review an AI-assisted hold interaction in Unreal with early release, threshold crossing, cancellation and duplicate-action checks.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/unreal-ai-hold-input-release-boundary/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A controller button beside a segmented duration arc on a dark testing bench">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A controller button beside a segmented duration arc on a dark testing bench"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/unreal-ai-hold-input-release-boundary/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Testing AI-assisted Unreal hold input at the release boundary", "description": "Review an AI-assisted hold interaction in Unreal with early release, threshold crossing, cancellation and duplicate-action checks.", "datePublished": "2026-11-18", "dateModified": "2026-11-18", "inLanguage": "en", "wordCount": 827, "mainEntityOfPage": "https://qorpo.world/unreal-ai-hold-input-release-boundary", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/unreal-ai-hold-input-release-boundary/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Testing AI-assisted Unreal hold input at the release boundary", "item": "https://qorpo.world/unreal-ai-hold-input-release-boundary"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Testing AI-assisted Unreal hold input at the release boundary</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>18 November 2026 · 4 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/unreal-ai-hold-input-release-boundary/hero-1280.webp" srcset="/assets/blog/unreal-ai-hold-input-release-boundary/hero-640.webp 640w, /assets/blog/unreal-ai-hold-input-release-boundary/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A controller button beside a segmented duration arc on a dark testing bench" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>Test a hold interaction on both sides of its duration threshold, then check cancellation and repeated activation. A normal long press alone cannot establish whether an AI-assisted Unreal input change behaves correctly when the player releases early, opens a menu or keeps holding after the first action.</p>
+<p>Epic distinguishes hold triggers from hold-and-release triggers. The former can reach their trigger condition while the input stays held; the latter waits for release after the required duration. Review the intended interaction before choosing the trigger or approving generated code.</p>
+<h2>Write the intended action in one sentence</h2>
+<p>Use a sentence a designer and tester can both evaluate. For example: “Holding the interact control long enough confirms this operation once; releasing early leaves it unchanged.” This is a model interaction, not a claim about an existing QORPO game.</p>
+<p>That sentence establishes three questions: what counts as long enough, what happens on early release and whether one physical hold can cause more than one operation. A progress ring is useful feedback, but it cannot answer those questions by itself.</p>
+<p>Our <a href="/game-input-accessibility-one-action-review">one-action accessibility review</a> covers the wider usability decision. Here the focus is the boundary behaviour of an interaction already chosen for review.</p>
+<h2>Inspect the trigger and the action handler together</h2>
+<p>Epic’s <a href="https://dev.epicgames.com/documentation/unreal-engine/enhanced-input-in-unreal-engine?lang=en-US">Enhanced Input overview</a> describes action states and input triggers. Check which event reaches the gameplay handler and what guards the resulting operation.</p>
+<p>A generated handler can look reasonable while listening to the wrong event for the intended design. A hold that should confirm before release and one that should confirm only after release are different interactions, even if both display the same animation.</p>
+<p>The <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/EnhancedInput/UInputTriggerHold">Hold API reference</a> and <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/EnhancedInput/UInputTriggerHoldAndRelease?lang=en-US">HoldAndRelease reference</a> establish that distinction. Use the documentation for the engine version under review and inspect the actual project configuration.</p>
+<h2>Build a small boundary matrix</h2>
+<p>For a model threshold of one second, try a clearly shorter press, a press near the boundary, a clearly longer hold and a hold maintained after completion. One second is an illustrative choice here, not a recommended universal duration.</p>
+<p>For each case, record the physical input sequence, visible feedback, action count and final game state. A failed confirmation and a duplicated confirmation are different failures. The recording should make both visible.</p>
+<p>Near the boundary, do not trust a person’s estimate of elapsed time as precision measurement. Use input logs or a controlled test harness where available. Manual play remains valuable for feel and feedback, but it cannot prove exact timing from an approximate thumb press.</p>
+<h2>Check what interrupts the hold</h2>
+<p>Choose interruptions that exist in the actual product. A pause menu, loss of interaction range or removal of the target might each cancel the operation. The expected result must come from the design rather than an assistant’s guess.</p>
+<p>In a model menu case, start holding, open the menu and release while it is open. After returning, check that the operation did not complete accidentally and that the next deliberate interaction works normally.</p>
+<p>Review progress feedback as well. A cancelled action that leaves a nearly complete ring on screen can mislead the player even when the underlying game state is correct. The visual state and the operation should be assessed together.</p>
+<h2>Look for duplicate operations</h2>
+<p>Keep holding beyond the first confirmation and count the actual state changes. Then release and press again. These cases distinguish repeated callbacks during one hold from a legitimate second interaction.</p>
+<p>For an irreversible action, use a harmless test fixture in an isolated environment. A counter or temporary object can establish whether the event fires once without repeatedly consuming meaningful player resources.</p>
+<p>Our <a href="/ai-game-test-fixtures-expected-results">test-fixture guide</a> explains how to make expected outcomes explicit. A readable fixture is especially helpful when an assistant proposes changes across input configuration and gameplay code.</p>
+<h2>Compare devices without changing the design silently</h2>
+<p>Test the supported keyboard and controller paths using the same intended action. Note the device, mapping and build. A controller’s physical feel may reveal a usability issue that a keyboard-only check missed.</p>
+<p>If users need an alternative to holding, treat that as a product decision with its own review. Changing a timing threshold while testing devices should not accidentally change the meaning of confirmation.</p>
+<p>A useful result separates functional correctness from comfort. “One operation occurred after the configured hold” and “the hold felt comfortable for this participant” are different observations and need different evidence.</p>
+<h2>What should block approval?</h2>
+<p>Block the change if early release performs the operation, cancellation leaves stale state or one hold creates unintended duplicates. Fix the specific failure and rerun the cases affected by that change.</p>
+<p>Keep the final review small enough to repeat. Record the project version, trigger choice, expected event, cases executed and unresolved device coverage. Our <a href="/review-ai-generated-game-code">generated-code review guide</a> provides the wider implementation checks.</p>
+<p>Explore <a href="/about">QORPO Studio</a> for the product context behind these practical development articles. An AI-assisted change earns approval through observable behaviour, including the awkward edges of an ordinary button press.</p>
+<h2>Sources</h2>
+<ul><li><a href="https://dev.epicgames.com/documentation/unreal-engine/enhanced-input-in-unreal-engine?lang=en-US">Epic Enhanced Input overview</a>.</li><li><a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/EnhancedInput/UInputTriggerHold">UInputTriggerHold</a>.</li><li><a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/EnhancedInput/UInputTriggerHoldAndRelease?lang=en-US">UInputTriggerHoldAndRelease</a>.</li></ul><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/aneemate-capture-slot-interruption-recovery">AneeMate capture slots: why interruption recovery matters</a></p><p><a href="/unreal-virtual-shadow-cache-moving-foliage">Unreal shadow performance: isolate moving foliage before changing quality</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>

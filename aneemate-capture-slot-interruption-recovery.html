@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AneeMate Capture Slots and Interrupted Attempts</title>
+<meta name="description" content="What AneeMate’s released capture-slot fix changes, and how to distinguish a failed catch from equipment that remains blocked.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/aneemate-capture-slot-interruption-recovery">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="AneeMate capture slots: why interruption recovery matters">
+<meta property="og:description" content="What AneeMate’s released capture-slot fix changes, and how to distinguish a failed catch from equipment that remains blocked.">
+<meta property="og:url" content="https://qorpo.world/aneemate-capture-slot-interruption-recovery">
+<meta property="og:image" content="https://qorpo.world/assets/blog/aneemate-capture-slot-interruption-recovery/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="AneeMate capture slots: why interruption recovery matters">
+<meta name="twitter:description" content="What AneeMate’s released capture-slot fix changes, and how to distinguish a failed catch from equipment that remains blocked.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/aneemate-capture-slot-interruption-recovery/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="A mint orb above three recessed sockets on a graphite capture tool">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="A mint orb above three recessed sockets on a graphite capture tool"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/aneemate-capture-slot-interruption-recovery/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "AneeMate capture slots: why interruption recovery matters", "description": "What AneeMate’s released capture-slot fix changes, and how to distinguish a failed catch from equipment that remains blocked.", "datePublished": "2026-11-18", "dateModified": "2026-11-18", "inLanguage": "en", "wordCount": 834, "mainEntityOfPage": "https://qorpo.world/aneemate-capture-slot-interruption-recovery", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/aneemate-capture-slot-interruption-recovery/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "AneeMate capture slots: why interruption recovery matters", "item": "https://qorpo.world/aneemate-capture-slot-interruption-recovery"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Studio</div><h1>AneeMate capture slots: why interruption recovery matters</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>18 November 2026 · 4 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/aneemate-capture-slot-interruption-recovery/hero-1280.webp" srcset="/assets/blog/aneemate-capture-slot-interruption-recovery/hero-640.webp 640w, /assets/blog/aneemate-capture-slot-interruption-recovery/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="A mint orb above three recessed sockets on a graphite capture tool" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>AneeMate’s 0.1.5-ce update frees capture slots when an attempt is interrupted by death, a body switch, opening a menu or the creature disappearing. The practical benefit is straightforward: a catch that does not finish should not leave the next attempt blocked by an occupied slot.</p>
+<p>The change is listed in the <a href="https://aneemate.com/aneemate-weekly-dev-report-6-november-2026">6 November development report</a>. It is a released correction described by that report. This article explains its player-facing purpose and proposes a focused review method. It does not claim a new game test or expose an internal implementation that has not been verified.</p>
+<h2>A failed catch and a blocked slot are different outcomes</h2>
+<p>A creature can escape an attempt without the equipment being broken. Conversely, an interrupted attempt can reveal a recovery problem even before the player has another chance to catch anything. Those outcomes need different descriptions.</p>
+<p>For the player, the useful question is whether the next valid attempt remains available after the interruption ends. Capture success itself depends on the relevant game conditions. Recovering a slot should not be interpreted as a free catch, an improved rarity roll or a refund of every resource involved.</p>
+<p>Our <a href="/early-access-patch-notes-build-check">build-check guide</a> explains why a report should name the installed version. A change documented for one release is difficult to assess from a clip that omits the version and the action immediately before the failure.</p>
+<h2>Review one interruption at a time</h2>
+<p>A useful acceptance check starts with a normal attempt in a known build. Record the visible slot state before starting, then create one interruption and inspect the state after returning to ordinary play.</p>
+<p>Opening a menu is a particularly clear first case because the reviewer can describe it without arranging a defeat. The question remains narrow: after closing the menu, does an old occupied state incorrectly prevent a subsequent valid capture attempt?</p>
+<p>Do not add a body switch, a menu transition and a disappearing creature to the same first reproduction. If the result is wrong, that sequence leaves several possible causes. Separate short cases are easier to compare and less likely to make an intermittent problem look universal.</p>
+<h2>A model example for a development review</h2>
+<p>Consider this hypothetical review, not a recorded studio playtest. An attempt begins, the player opens a menu, then returns to play. The original target is no longer available, but the interface still appears to show a busy slot. A second valid attempt cannot start.</p>
+<p>The reviewer records the last clear state before the menu, the first state after it and the blocked action. A useful expected result is that the interrupted attempt no longer reserves the slot. The expected result says nothing about granting the missing creature or changing the player’s inventory balance.</p>
+<p>Now repeat the case with a different interruption. If menu recovery works but a disappearing target remains blocked, the report should preserve that distinction. “Capture recovery fails after the target disappears” is a more useful finding than “catching is broken.”</p>
+<h2>Recovery should survive repeated use</h2>
+<p>A single successful recovery establishes one observed case. It does not show that repeated interruptions behave consistently. A short follow-up can alternate a normal attempt with the same interruption and check whether an old busy state returns.</p>
+<p>Keep the route and equipment stable while doing this. Changing the target species or capture setup at every repetition makes the observations harder to interpret. Record how many attempts were actually observed and avoid turning a small sample into a reliability percentage.</p>
+<p>The same discipline applies when using AI to help draft a test outline. The proposed cases still need human review and actual execution. Our <a href="/review-ai-generated-game-code">guide to reviewing generated game code</a> separates a plausible implementation from evidence that the behaviour works.</p>
+<h2>What a useful player report contains</h2>
+<p>Include the build, whether the session was solo or co-op, the interruption used and the next action that stayed unavailable. If the interface displayed a busy slot, show that state rather than describing only the final error.</p>
+<p>For a clip, begin before the interrupted attempt and continue until the next action. That context helps distinguish a stale visual indicator from a real restriction. Avoid assuming which subsystem caused it merely because the symptom appears in the interface.</p>
+<p>See <a href="/visual-game-bug-reproduction-capture">visual bug reproduction</a> for a concise recording approach. The goal is enough context to reproduce the problem without an unnecessarily long video.</p>
+<h2>Does this change capture strategy?</h2>
+<p>It improves recovery from interrupted attempts. Element choice and capture preparation remain separate subjects. The release report also describes the advantage of a correctly matched Yipee, but this slot correction does not establish a new capture formula.</p>
+<p>If the next attempt is available again, continue using the normal catching rules. If it remains blocked, report the interruption and observed state. That gives the team a concrete recovery case to investigate.</p>
+<p>Follow <a href="/live">QORPO’s studio updates</a> for product progress. The value of this correction is ordinary continuity: the player can return to exploring and catching after an interrupted moment.</p>
+<h2>Sources</h2>
+<ul><li><a href="https://aneemate.com/aneemate-weekly-dev-report-6-november-2026">AneeMate weekly development report, 6 November 2026</a>, released 0.1.5-ce capture recovery notes.</li></ul><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/unreal-ai-hold-input-release-boundary">Testing AI-assisted Unreal hold input at the release boundary</a></p><p><a href="/unreal-virtual-shadow-cache-moving-foliage">Unreal shadow performance: isolate moving foliage before changing quality</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
