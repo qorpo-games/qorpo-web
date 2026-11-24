@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Unreal asset redirectors: references after a move</title>
+<meta name="description" content="A focused asset-move review: inspect referencers, fix redirectors deliberately, review the saved packages and reopen the dependent content.">
+<meta name="theme-color" content="#10131a">
+<link rel="canonical" href="https://qorpo.world/unreal-asset-redirectors-reference-review">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.art{max-width:800px}
+.art .relx{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin-top:8px}
+.art .relx a{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);transition:box-shadow .2s}
+.art .relx a:hover{box-shadow:inset 0 0 0 1px var(--mint)}
+.art .relx b{font-size:15.5px;line-height:1.35}
+.art .relx span{font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mint)}
+.art .lead{font-size:19px;color:var(--text);line-height:1.6}
+.art h2{font-size:clamp(22px,2.6vw,30px);font-weight:900;margin:40px 0 12px;letter-spacing:-.02em}
+.art h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.art p,.art li{color:var(--muted);font-size:16.5px;line-height:1.72}
+.art ul,.art ol{padding-left:22px;display:grid;gap:8px}
+.art b{color:var(--text)}
+.art a{color:var(--mint);text-decoration:underline;text-underline-offset:3px}
+.art .ans{padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(94,240,176,.12),rgba(94,240,176,.03));box-shadow:inset 0 0 0 1px rgba(94,240,176,.3);margin:22px 0}
+.art .ans p{color:var(--text);margin:0;font-size:17px}
+.art .ans .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:8px}
+.art .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:22px 0}
+.art .facts div{padding:14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .facts b{display:block;font-family:var(--disp);font-size:22px;font-weight:900;letter-spacing:-.02em}
+.art .facts span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.art .by{display:flex;align-items:center;gap:12px;margin:18px 0 26px;padding:12px 14px;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+.art .by i{width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#fff,#c9cfdc);color:#0b0d13;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-family:var(--disp)}
+.art .by b{display:block;font-size:14.5px}.art .by span{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.art .by a{text-decoration:none;color:var(--mint);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.art .cta{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 10px}
+.art .faq details{padding:14px 18px;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.art .faq summary{cursor:pointer;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px}
+.art .faq summary::after{content:"+";color:var(--mint);font-family:var(--mono)}
+.art .faq details[open] summary::after{content:"\2212"}
+.art .faq p{margin:10px 0 0}
+.art .risk{margin-top:26px;padding:16px 18px;border-radius:18px;background:rgba(255,143,174,.08);box-shadow:inset 0 0 0 1px rgba(255,143,174,.25);color:#f3d2dc;font-size:14px;line-height:1.6}
+.art table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.art th,.art td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.art th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.art td{color:var(--muted)}.art td:first-child{color:var(--text);font-weight:600}
+</style>
+
+<script>if(location.protocol==="http:"&&!/^(localhost|127\.)/.test(location.hostname))location.replace(location.href.replace(/^http:/,"https:"));</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="QORPO">
+<meta property="og:title" content="Unreal asset redirectors: check the references after the move">
+<meta property="og:description" content="A focused asset-move review: inspect referencers, fix redirectors deliberately, review the saved packages and reopen the dependent content.">
+<meta property="og:url" content="https://qorpo.world/unreal-asset-redirectors-reference-review">
+<meta property="og:image" content="https://qorpo.world/assets/blog/unreal-asset-redirectors-reference-review/social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@QORPOworld">
+<meta name="twitter:title" content="Unreal asset redirectors: check the references after the move">
+<meta name="twitter:description" content="A focused asset-move review: inspect referencers, fix redirectors deliberately, review the saved packages and reopen the dependent content.">
+<meta name="twitter:image" content="https://qorpo.world/assets/blog/unreal-asset-redirectors-reference-review/social.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+
+<meta property="og:image:alt" content="The masked One Life character follows a mint reference path between two architectural alcoves">
+<meta name="keywords" content="AI gaming tokens, AI gaming token 2026, AI game development, web3 gaming AI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<style>.art p{margin:0 0 16px;line-height:1.65}.art h2{margin:30px 0 12px}.art h3{margin:24px 0 10px}.art>img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin:0 0 24px}</style><style>.editorial-hero{margin:0 0 24px}.editorial-hero img{display:block;width:100%;height:auto;border-radius:18px;margin:0}.editorial-hero figcaption{font:12px/1.5 system-ui;color:#a5aab7;margin-top:8px}</style><link rel="stylesheet" href="/assets/blog-discovery.css?v=1"><meta name="twitter:image:alt" content="The masked One Life character follows a mint reference path between two architectural alcoves"><meta property="og:image:secure_url" content="https://qorpo.world/assets/blog/unreal-asset-redirectors-reference-review/social.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Unreal asset redirectors: check the references after the move", "description": "A focused asset-move review: inspect referencers, fix redirectors deliberately, review the saved packages and reopen the dependent content.", "datePublished": "2026-11-24", "dateModified": "2026-11-24", "inLanguage": "en", "wordCount": 884, "mainEntityOfPage": "https://qorpo.world/unreal-asset-redirectors-reference-review", "image": {"@type": "ImageObject", "url": "https://qorpo.world/assets/blog/unreal-asset-redirectors-reference-review/social.jpg", "width": 1200, "height": 675, "caption": "Concept illustration, not gameplay footage"}, "author": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/about"}, "publisher": {"@type": "Organization", "name": "QORPO Studio", "url": "https://qorpo.world/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "QORPO", "item": "https://qorpo.world/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://qorpo.world/blog"}, {"@type": "ListItem", "position": 3, "name": "Unreal asset redirectors: check the references after the move", "item": "https://qorpo.world/unreal-asset-redirectors-reference-review"}]}]}</script><style>.editorial-hero{margin:24px 0}.editorial-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px}.editorial-hero figcaption{font-size:13px;line-height:1.5;color:#adb4c1;margin-top:8px}.art p,.journal p{margin:0 0 16px;line-height:1.65}</style></head>
+<body data-page="ai-gaming-tokens">
+<header class="nav"><div class="nav-wrap"><div class="nav-bar">
+  <a class="brand" href="/" aria-label="QORPO home"><img src="assets/img/logo.webp" alt="">QORPO</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="/#aneemate" data-nav="games">Games</a>
+    <a href="/live" data-nav="live"><span class="dot live-dot"></span>Live</a>
+    <a href="/token" data-nav="token"><span class="dot" style="background:var(--gold)"></span>$QORPO</a>
+    <a href="/staking" data-nav="staking">Staking</a>
+    <a href="/spin" data-nav="spin">Spin</a>
+    <a href="/leaderboard" data-nav="leaderboard">Leaderboard</a>
+  </nav>
+  <a class="btn btn-mint btn-sm nav-play" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <button class="hamb" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</div></div></header>
+
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true"><div class="mnav-in">
+  <div class="mnav-head"><a class="brand" href="/"><img src="assets/img/logo.webp" alt="">QORPO</a>
+    <button class="mclose" type="button" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="mnav-grp">Games</div>
+  <nav class="mnav-links" aria-label="Games">
+    <a href="/#aneemate" style="--c1:var(--am1);--c2:#145f72">AneeMate<small>Now we scale</small></a>
+    <a href="/#onelife" style="--c1:var(--ol1);--c2:#5c130e">One Life<small>AI experiment</small></a>
+    <a href="/#tamitos" style="--c1:var(--tm1);--c2:#5a3b8f">Tamitos<small>Our original IP</small></a>
+    <a href="/#citizen" style="--c1:var(--cc1);--c2:var(--cc2)">Citizen Conflict<small>Built before AI</small></a>
+  </nav>
+  <div class="mnav-grp">$QORPO</div>
+  <nav class="mnav-links eco" aria-label="$QORPO">
+    <a href="/token" style="--c1:#8a6312;--c2:#3b2a08">Token<small>Buyback &amp; burn</small></a>
+    <a href="/staking" style="--c1:#17a58c;--c2:#0c4d45">Staking<small>Stake, earn points</small></a>
+    <a href="/spin" style="--c1:#2f6fd8;--c2:#173a7a">Spin<small>Daily free spins</small></a>
+    <a href="/leaderboard" style="--c1:#9a6ae0;--c2:#45287a">Leaderboard<small>Live ranks</small></a>
+  </nav>
+  <div class="mnav-sub">
+    <a class="chip" href="/live">Studio live</a>
+    <a class="chip" href="/bridge">Bridge</a>
+    <a class="chip" href="/about">About</a>
+    <a class="chip" href="/blog">Blog</a>
+  </div>
+  <a class="btn btn-mint" href="/token#buy"><img class="btn-ic" src="assets/img/logo.webp" alt="">Buy $QORPO</a>
+  <div class="msoc"><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a></div>
+</div></div>
+
+<main class="page-hero legal"><article class="wrap art"><div class="crumb"><a href="/blog">QORPO Blog</a> / Development</div><h1>Unreal asset redirectors: check the references after the move</h1><div class="by"><i>Q</i><div><b>QORPO Studio</b><span>24 November 2026 · 5 min read</span></div></div><figure class="editorial-hero"><img src="/assets/blog/unreal-asset-redirectors-reference-review/hero-1280.webp" srcset="/assets/blog/unreal-asset-redirectors-reference-review/hero-640.webp 640w, /assets/blog/unreal-asset-redirectors-reference-review/hero-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 44px), 820px" width="1280" height="720" alt="The masked One Life character follows a mint reference path between two architectural alcoves" decoding="async" fetchpriority="high"><figcaption>Concept illustration created for this article, not a gameplay screenshot.</figcaption></figure><p>After moving or renaming an Unreal asset, check the content that refers to it before treating the old location as disposable. Unreal asset redirectors allow references at an old location to reach the new asset. Fixing them involves saving the referring packages, so a clean-looking folder is not the same thing as a verified move.</p>
+<p>The workflow here is an original review example for a small asset move. It is not a report that a particular QORPO project has lost references, nor a claim that a packaged build was tested.</p>
+<h2>Give the move a narrow scope</h2>
+<p>Choose one asset and list the known places that use it. In a model exercise, move a material used by a placed prop and a Blueprint. Record the old and new paths before changing anything.</p>
+<p>Use the editor&#x27;s asset operations rather than reorganising binary project files as if they were unrelated documents. Keep the move small enough that the resulting source-control changes can be reviewed.</p>
+<p>This preparation also defines the acceptance boundary. A reviewer can check those dependent objects deliberately instead of opening the project, seeing no obvious error and assuming every reference survived.</p>
+<h2>Understand the redirector&#x27;s purpose</h2>
+<p>Epic&#x27;s <a href="https://dev.epicgames.com/documentation/unreal-engine/asset-redirectors-in-unreal-engine?lang=en-US">asset redirector documentation</a> explains that an asset move or rename leaves a redirector at the old location. Packages that are not loaded can still find the asset through that route.</p>
+<p>The redirector is therefore evidence of a relationship being preserved. Its presence is not, by itself, proof that a move failed. Its disappearance is not, by itself, proof that every dependency now points directly to the new location.</p>
+<p>Keep the old and new names in the review record. When a warning refers to the old path, those details help identify whether the remaining work concerns a known move or an unrelated missing asset.</p>
+<h2>Inspect the referencers</h2>
+<p>Use the available reference tools to identify which assets point to the moved content. Epic&#x27;s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/reference-viewer-in-unreal-engine">Reference Viewer guide</a> describes a graph for viewing asset relationships.</p>
+<p>For the model material, inspect the known prop and Blueprint, then consider whether the graph reveals another dependency that belongs in the check. A folder-based assumption can miss content stored elsewhere in the project.</p>
+<p>Do not interpret a reference graph as proof that every runtime loading path has been exercised. A project may also use paths in configuration or other logic. Keep those project-specific uses in scope when they exist.</p>
+<h2>Fix deliberately, then review what was saved</h2>
+<p>The documented editor fixup operation attempts to resave packages that point to the redirector and removes it when the required referencers can be resaved. That means the operation can affect more files than the moved asset alone.</p>
+<p>Before accepting the change, inspect the source-control list. Confirm that the expected asset move and dependent package updates are present. Unexpectedly broad changes deserve investigation rather than automatic acceptance because the folder now looks tidy.</p>
+<p>If a package could not be saved, resolve that concrete obstacle. Do not replace the explanation with manual deletion of the old file. Removing a reference route is not a substitute for updating the content that relies on it.</p>
+<h2>Reopen the dependent content</h2>
+<p>Open the model prop&#x27;s level and the Blueprint that used the material. Inspect the intended material assignment and the visible result. Save, close and reopen the relevant content as separate steps if the review requires persistence.</p>
+<p>Then test the path that matters for the feature. If the asset is loaded on demand, exercise that moment instead of checking only an already-open editor preview. Our <a href="/unreal-async-loading-player-experience">asset-loading guide</a> explains why a resource being visible in one state does not validate every later loading path.</p>
+<p>Record actual outcomes. A proposed sequence is useful preparation, but it should not be described as passing until somebody runs it.</p>
+<h2>Keep asset and code redirects distinct</h2>
+<p>An asset redirector left by moving a content asset is not the same mechanism as a Core Redirect for a renamed class or property. Epic&#x27;s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/core-redirects?application_version=4.27">Core Redirects reference</a> describes remapping reflected names during loading.</p>
+<p>If the change also renames a code member, investigate that migration separately. Do not expect fixing content redirectors to solve every serialized-name change.</p>
+<p>The distinction matters in review descriptions. “Moved this material and fixed its asset referencers” is more precise than “fixed all redirects”, especially when an unrelated code refactor is happening nearby.</p>
+<h2>Use automation within an understood boundary</h2>
+<p>Epic also documents commandlet-based redirector cleanup. For a large project, that can be useful, but it does not remove the need to understand which files will change or how the result will be validated.</p>
+<p>Prove the small workflow first, then choose the scope of automation appropriate to the repository and source-control setup. Review logs and the changed packages. Avoid mixing a sweeping cleanup with unrelated art edits if that makes the move difficult to assess.</p>
+<p>Our <a href="/visual-game-bug-reproduction-capture">visual bug capture guide</a> can help document a wrong material or missing resource before and after the change.</p>
+<h2>What a useful completion claim looks like</h2>
+<p>State the moved asset, the dependent content checked, the saved-package review and any executed loading or build checks. List the remaining paths if they were not tested.</p>
+<p>Follow <a href="/live">QORPO development</a> for studio progress. The purpose of this workflow is to keep an asset move attached to the behavior it must preserve, rather than judging success by the disappearance of an old folder entry.</p><div class="cta"><a class="btn btn-mint" href="/live">Follow the studio</a><a class="btn btn-ghost" href="/token">Explore token utility</a></div><section class="related" aria-label="Related articles"><h2>Continue reading</h2><p><a href="/tamitos-reviewer-kit-independent-assessment">Inside the TAMITOS reviewer kit: facts, artwork and independent judgement</a></p><p><a href="/ai-unreal-construction-script-repeatability">AI-assisted Unreal Construction Scripts: review the second rebuild</a></p><p><a href="/blog">All QORPO articles</a></p></section></article></main>
+<footer><div class="wrap"><section class="bd-band" data-blog-discovery="qorpo" aria-label="QORPO blog and latest articles"><div class="bd-intro"><span class="bd-eyebrow">The QORPO blog</span><h2>Inside the studio. Beyond the headlines.</h2><p>AI game development, player economies and what we are building.</p><a class="bd-blog-link" href="/blog">Explore QORPO blog</a></div><div class="bd-posts"><a class="bd-card" href="/web3-gaming-ai-development-costs"><img src="/assets/blog/web3-gaming-ai-development-costs/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Web3 gaming gets another chance as AI changes development</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/epic-games-ai-first-tim-sweeney"><img src="/assets/blog/epic-games-ai-first-tim-sweeney/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Epic&#x27;s AI-first shift: what Tim Sweeney actually said</span><span class="bd-card-cta">Read article</span></a><a class="bd-card" href="/qorpo-ai-game-studio-token-utility"><img src="/assets/blog/qorpo-ai-game-studio-token-utility/hero-640.webp" width="640" height="360" alt="" loading="lazy" decoding="async"><span class="bd-card-title">Inside QORPO&#x27;s AI game studio and optional token economy</span><span class="bd-card-cta">Read article</span></a></div></section>
+  <div class="fgrid">
+    <div><a class="brand" href="/" style="margin-bottom:14px"><img src="assets/img/logo.webp" alt="">QORPO</a><p style="max-width:34ch;margin:0">An independent game studio. Every game we ship feeds one token: $QORPO.</p></div>
+    <div><h5>Games</h5><a href="/#aneemate">AneeMate</a><a href="/#onelife">One Life</a><a href="/#tamitos">Tamitos</a><a href="/#citizen">Citizen Conflict</a></div>
+    <div><h5>$QORPO</h5><a href="/token">Token</a><a href="/token#engine">Buyback &amp; burn</a><a href="/staking">Staking</a><a href="/spin">Spin</a><a href="/leaderboard">Leaderboard</a><a href="/claim">Investor claim</a><a href="/bridge">Bridge</a></div>
+    <div><h5>Markets</h5><a href="https://www.mexc.com/exchange/QORPO_USDT" target="_blank" rel="noopener">MEXC</a><a href="https://www.kucoin.com/trade/QORPO-USDT" target="_blank" rel="noopener">KuCoin</a><a href="https://www.gate.com/trade/QORPO_USDT" target="_blank" rel="noopener">Gate</a><a href="https://www.coingecko.com/en/coins/qorpo-world" target="_blank" rel="noopener">CoinGecko</a><a href="https://coinmarketcap.com/currencies/qorpo/" target="_blank" rel="noopener">CoinMarketCap</a><a href="https://etherscan.io/token/0x22514ffb0d7232a56f0c24090e7b68f179faa940" target="_blank" rel="noopener">Etherscan</a></div>
+    <div><h5>Follow</h5><a href="https://x.com/QORPOworld" target="_blank" rel="noopener">X @QORPOworld</a><a href="https://x.com/playaneemate" target="_blank" rel="noopener">X @playaneemate</a><a href="https://x.com/playOLLgame" target="_blank" rel="noopener">X @playOLLgame</a><a href="https://x.com/TamitosWorld" target="_blank" rel="noopener">X @TamitosWorld</a><a href="https://x.com/RastislavBakala" target="_blank" rel="noopener">X @RastislavBakala</a><a href="/live">Studio live</a><a href="/about">About</a><a href="/what-is-qorpo">What is QORPO</a><a href="/how-to-buy-qorpo">How to buy</a><a href="/blog">Blog</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 QORPO · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@qorpo.world">hello@qorpo.world</a></span><span>$QORPO · 0x22514ffb0d7232a56f0c24090e7b68f179faa940</span></div>
+</div></footer>
+
+<script src="assets/ui.js"></script>
+<script src="/assets/blog-discovery.js?v=1" defer></script></body>
+</html>
